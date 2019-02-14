@@ -22,7 +22,8 @@ namespace mview
 
         private void button1_Click(object sender, EventArgs e)
         {
-            label1.Text = ecl.ROOT;
+            propertyGrid1.SelectedObject = ecl;
         }
+
     }
 }
