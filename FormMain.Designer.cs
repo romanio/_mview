@@ -31,25 +31,26 @@
             this.menu = new System.Windows.Forms.MenuStrip();
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
             // 
+            this.menu.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.menu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openModelToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menu.Size = new System.Drawing.Size(669, 28);
+            this.menu.Size = new System.Drawing.Size(535, 24);
             this.menu.TabIndex = 0;
             this.menu.Text = "menuStrip1";
             // 
             // openModelToolStripMenuItem
             // 
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
-            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(104, 24);
+            this.openModelToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
             this.openModelToolStripMenuItem.Text = "Open model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
             // 
@@ -57,15 +58,25 @@
             // 
             this.FileDialog.Filter = "Eclipse file|*.SMSPEC";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(80, 232);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(162, 73);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Get Detailed";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(669, 566);
+            this.ClientSize = new System.Drawing.Size(535, 453);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.menu);
-            this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MainMenuStrip = this.menu;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Model View";
@@ -81,6 +92,7 @@
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem openModelToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog FileDialog;
+        private System.Windows.Forms.Button button1;
     }
 }
 

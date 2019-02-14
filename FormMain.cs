@@ -19,11 +19,15 @@ namespace mview
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FileDialog.ShowDialog() == DialogResult.OK)
-            {
-                EclipseProject ecl = new EclipseProject();
-                ecl.OpenData(FileDialog.FileName);
-            }
+            pm.OpenECLProject();
+        }
+
+        ProjectManager pm = new ProjectManager();
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FormDetails fm = new FormDetails(pm.ActiveProject);
+            fm.Show();
         }
     }
 }
