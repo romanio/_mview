@@ -31,7 +31,9 @@ namespace mview
                 DefaultFontSize = 10
             };
 
-            pm.Series.Add(new OxyPlot.Series.LineSeries { Title = "Oil" });
+            pm.Series.Add(new OxyPlot.Series.LineSeries { Title = "WOPRH", MarkerType = OxyPlot.MarkerType.Circle });
+            pm.Series.Add(new OxyPlot.Series.LineSeries { Title = "WOPR", MarkerType = OxyPlot.MarkerType.Circle });
+
 
             plotView1.Model = pm;
         }
@@ -40,7 +42,17 @@ namespace mview
         {
             button1.Text = name;
 
+            ((OxyPlot.Series.LineSeries)pm.Series[0]).Points.Clear();
             ((OxyPlot.Series.LineSeries)pm.Series[0]).Points.AddRange(model.GetData(name, "WOPRH"));
+
+            ((OxyPlot.Series.LineSeries)pm.Series[1]).Points.Clear();
+            ((OxyPlot.Series.LineSeries)pm.Series[1]).Points.AddRange(model.GetData(name, "WOPR"));
+
+
+            pm.Axes[0].Reset();
+            pm.Axes[1].Reset();
+
+            pm.InvalidatePlot(true);
 
             //
         }
