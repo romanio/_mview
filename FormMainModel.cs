@@ -21,6 +21,11 @@ namespace mview
             fm.Show();
         }
 
+        public EclipseProject GetActiveProject()
+        {
+            return pm.ActiveProject;
+        }
+
         public string[] GetNamesByType(NameOptions type)
         {
             return

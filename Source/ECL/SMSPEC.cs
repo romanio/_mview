@@ -145,6 +145,31 @@ namespace mview.ECL
             NTIME = DATA.Count;
             TINDEX = Array.IndexOf(KEYWORDS, "TIME");
         }
-    }
 
+        public void ReadSNNN(string[] filenames)
+        {
+            DATA = new List<float[]>();
+
+            for (int iw = 0; iw < filenames.Length; ++iw)
+            {
+                FileReader br = new FileReader();
+                br.OpenBinaryFile(filenames[iw]);
+
+                if (br.Length == 0) break;
+
+                while (br.Position < br.Length - 24)
+                {
+                    br.ReadHeader();
+                    if (br.header.keyword == "PARAMS" && br.header.count == NLIST)
+                    {
+                        DATA.Add(br.ReadFloatList(NLIST));
+                        continue;
+                    }
+                    br.SkipEclipseData();
+                }
+
+                br.CloseBinaryFile();
+            }
+        }
+    }
 }

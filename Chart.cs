@@ -12,26 +12,37 @@ namespace mview
 {
     public partial class Chart : UserControl
     {
-        public Chart()
+        ChartModel model = null;
+        OxyPlot.PlotModel pm = null;
+
+        public Chart(EclipseProject ecl)
         {
             InitializeComponent();
+            model = new ChartModel(ecl);
 
-            OxyPlot.WindowsForms.PlotView view = new OxyPlot.WindowsForms.PlotView();
-            view.Dock = DockStyle.Fill;
-
-            var pm = new OxyPlot.PlotModel
+            pm = new OxyPlot.PlotModel
             {
                 Title = "Example #1",
-                Subtitle = "oil cummulative ",
-                PlotType = OxyPlot.PlotType.Cartesian
+                PlotType = OxyPlot.PlotType.Cartesian,
+                DefaultFont = "Tahoma",
+                TitleFontWeight = 2,
+                TitleFontSize = 10,
+                LegendFontSize = 9,
+                DefaultFontSize = 10
             };
 
-            //pm.Series.Add(new Fun)
             pm.Series.Add(new OxyPlot.Series.LineSeries { Title = "Oil" });
 
-            view.Model = pm;
+            plotView1.Model = pm;
+        }
 
-            tableLayoutPanel1.Controls.Add(view);
+        public void UpdateSelectedName(string name)
+        {
+            button1.Text = name;
+
+            ((OxyPlot.Series.LineSeries)pm.Series[0]).Points.AddRange(model.GetData(name, "WOPRH"));
+
+            //
         }
     }
 }

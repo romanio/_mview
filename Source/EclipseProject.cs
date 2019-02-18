@@ -50,12 +50,12 @@ namespace mview
         public string ROOT;
         public string PATH;
         public Dictionary<string, string> FILES;
+        public List<string> SNNN = null;
         public List<Vector> VECTORS = null;
         public SMSPEC SUMMARY = null;
         public RSSPEC RESTART = null;
         public INSPEC INIT = null;
         public EGRID EGRID = null;
-
 
         public void OpenData(string filename)
         {
@@ -65,6 +65,7 @@ namespace mview
             ROOT = Path.GetFileNameWithoutExtension(FILENAME).ToUpper();
             PATH = Path.GetDirectoryName(FILENAME).ToUpper();
             FILES = new Dictionary<string, string>();
+            SNNN = new List<string>();
 
             var files = Directory.GetFiles(PATH).OrderBy(f => f).ToArray();
             string extension;
@@ -82,7 +83,13 @@ namespace mview
                     if (extension == ".INSPEC") FILES.Add("INSPEC", item);
                     if (extension == ".EGRID") FILES.Add("EGRID", item);
                     if (extension == ".INIT") FILES.Add("INIT", item);
-                    if (Regex.IsMatch(extension, "^.S+[0-9]{4}")) FILES.Add(extension, item);
+
+                    if (Regex.IsMatch(extension, "^.S+[0-9]{4}"))
+                    {
+                        FILES.Add(extension, item);
+                        SNNN.Add(item);
+                    }
+
                     if (Regex.IsMatch(extension, "^.X+[0-9]{4}")) FILES.Add(extension, item);
                     if (extension == ".UNSMRY") FILES.Add("UNSMRY", item);
                     if (extension == ".UNRST") FILES.Add("UNRST", item);
@@ -93,6 +100,15 @@ namespace mview
             {
                 SUMMARY = new SMSPEC(FILES["SMSPEC"]);
                 ProceedSUMMARY();
+
+                if (FILES.ContainsKey("UNSMRY"))
+                {
+                    SUMMARY.ReadUNSMRY(FILES["UNSMRY"]);
+                }
+                else
+                {
+                    SUMMARY.ReadSNNN(SNNN.ToArray());
+                }
             }
 
             if (FILES.ContainsKey("RSSPEC"))

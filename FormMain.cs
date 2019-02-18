@@ -41,9 +41,7 @@ namespace mview
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             model.OpenNewModel();
-
             // Update data
-
             Names = model.GetNamesByType(NameOptions.Well);
         }
 
@@ -51,37 +49,62 @@ namespace mview
         private void button1_Click(object sender, EventArgs e)
         {
             model.ShowDetailForm();
-    
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Text = comboBox1.SelectedIndex.ToString();
 
-        }
+            tableLayoutPanel1.Controls.Clear();
+            tableLayoutPanel1.RowStyles.Clear();
+            tableLayoutPanel1.ColumnStyles.Clear();
 
-        int row_count = 1;
-        int col_count = 1;
-        int item_count = 1;
-
-
-        private void button14_Click(object sender, EventArgs e)
-        {
-            OxyPlot.WindowsForms.PlotView view = new OxyPlot.WindowsForms.PlotView();
-            view.Dock = DockStyle.Fill;
- 
-            var pm = new OxyPlot.PlotModel
+            switch (comboBox1.SelectedIndex)
             {
-                Title = "Example #1",
-                Subtitle = "oil cummulative ",
-                PlotType = OxyPlot.PlotType.Cartesian
-            };
+                case 0:
+                    tableLayoutPanel1.RowCount = 1;
+                    tableLayoutPanel1.ColumnCount = 1;
+                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                    tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject()) { Dock = DockStyle.Fill });
 
-            //pm.Series.Add(new Fun)
-            pm.Series.Add(new OxyPlot.Series.LineSeries { Title = "Oil" });
+                    break;
+                case 1:
+                    tableLayoutPanel1.RowCount = 1;
+                    tableLayoutPanel1.ColumnCount = 2;
+                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                    tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                    tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject()) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject()) { Dock = DockStyle.Fill });
+                    break;
+                case 2:
+                    tableLayoutPanel1.RowCount = 2;
+                    tableLayoutPanel1.ColumnCount = 2;
+                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+                    tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                    tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
 
-            view.Model = pm;
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject()) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject()) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject()) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject()) { Dock = DockStyle.Fill });
 
-            tableLayoutPanel1.Controls.Add(view);
+                    break;
+                case 3:
+                    break;
+            }
+        }
+
+        private void listNames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach(Chart item in tableLayoutPanel1.Controls)
+            {
+                item.UpdateSelectedName(listNames.SelectedItem.ToString());
+            }
+
+
         }
     }
 }
