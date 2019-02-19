@@ -41,6 +41,8 @@ namespace mview
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             model.OpenNewModel();
+
+            if (model.GetActiveProject() == null) return;
             // Update data
             Names = model.GetNamesByType(NameOptions.Well);
         }
@@ -53,8 +55,6 @@ namespace mview
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Text = comboBox1.SelectedIndex.ToString();
-
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel1.RowStyles.Clear();
             tableLayoutPanel1.ColumnStyles.Clear();

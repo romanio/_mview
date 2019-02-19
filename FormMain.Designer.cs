@@ -33,7 +33,6 @@
             this.FileDialog = new System.Windows.Forms.OpenFileDialog();
             this.button1 = new System.Windows.Forms.Button();
             this.listNames = new System.Windows.Forms.ListBox();
-            this.button14 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -43,6 +42,7 @@
             // menu
             // 
             this.menu.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.menu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.menu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openModelToolStripMenuItem});
@@ -68,7 +68,7 @@
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.Location = new System.Drawing.Point(12, 538);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(149, 36);
+            this.button1.Size = new System.Drawing.Size(118, 27);
             this.button1.TabIndex = 1;
             this.button1.Text = "Get Detailed";
             this.button1.UseVisualStyleBackColor = true;
@@ -80,21 +80,11 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listNames.FormattingEnabled = true;
             this.listNames.IntegralHeight = false;
-            this.listNames.Location = new System.Drawing.Point(12, 44);
+            this.listNames.Location = new System.Drawing.Point(12, 63);
             this.listNames.Name = "listNames";
-            this.listNames.Size = new System.Drawing.Size(101, 459);
+            this.listNames.Size = new System.Drawing.Size(118, 459);
             this.listNames.TabIndex = 3;
             this.listNames.SelectedIndexChanged += new System.EventHandler(this.listNames_SelectedIndexChanged);
-            // 
-            // button14
-            // 
-            this.button14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button14.Location = new System.Drawing.Point(696, 538);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(125, 36);
-            this.button14.TabIndex = 4;
-            this.button14.Text = "button14";
-            this.button14.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -104,11 +94,11 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(136, 78);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(165, 78);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(677, 417);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(648, 541);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // label1
@@ -144,7 +134,6 @@
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.button14);
             this.Controls.Add(this.listNames);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menu);
@@ -168,7 +157,6 @@
         private System.Windows.Forms.OpenFileDialog FileDialog;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listNames;
-        private System.Windows.Forms.Button button14;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox1;

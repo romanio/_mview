@@ -15,33 +15,72 @@ namespace mview
         ChartModel model = null;
         OxyPlot.PlotModel pm = null;
 
+        bool edit_mode_keywords = false;
+
         public Chart(EclipseProject ecl)
         {
             InitializeComponent();
+
+
+
             model = new ChartModel(ecl);
+
+
+            listKeywords.Items.Clear();
+
 
             pm = new OxyPlot.PlotModel
             {
-                Title = "Example #1",
-                PlotType = OxyPlot.PlotType.Cartesian,
+                Title = "(No wells yet)",
                 DefaultFont = "Tahoma",
                 TitleFontWeight = 2,
                 TitleFontSize = 10,
-                LegendFontSize = 9,
+                LegendFontSize = 10,
                 DefaultFontSize = 10
             };
 
-            pm.Series.Add(new OxyPlot.Series.LineSeries { Title = "WOPRH", MarkerType = OxyPlot.MarkerType.Circle });
-            pm.Series.Add(new OxyPlot.Series.LineSeries { Title = "WOPR", MarkerType = OxyPlot.MarkerType.Circle });
+            pm.Axes.Add(new OxyPlot.Axes.DateTimeAxis {
+                Position = OxyPlot.Axes.AxisPosition.Bottom,
+                StringFormat = "dd.MM.yyyy"
+            });
 
-
+            pm.Axes.Add(new OxyPlot.Axes.LinearAxis {
+                Position = OxyPlot.Axes.AxisPosition.Left
+            });
+    
             plotView1.Model = pm;
         }
 
+        string selected_name = null;
+
         public void UpdateSelectedName(string name)
         {
-            button1.Text = name;
+            pm.Title = name;
+            selected_name = name;
 
+            edit_mode_keywords = true;
+
+            // Сохраним текущие выделенные слова
+            var tmp_keywords = new List<string>();
+            foreach(string item in listKeywords.SelectedItems)
+            {
+                tmp_keywords.Add(item);
+            }
+
+            listKeywords.Items.Clear();
+            listKeywords.Items.AddRange(model.GetKeywords(name));
+
+            // Восстановим выделенные слова
+            int index = -1;
+            foreach(string item in tmp_keywords)
+            {
+                index = listKeywords.Items.IndexOf(item);
+
+                if (index != -1) listKeywords.SetSelected(index, true);
+            }
+
+            edit_mode_keywords = false;
+            /*
             ((OxyPlot.Series.LineSeries)pm.Series[0]).Points.Clear();
             ((OxyPlot.Series.LineSeries)pm.Series[0]).Points.AddRange(model.GetData(name, "WOPRH"));
 
@@ -53,8 +92,24 @@ namespace mview
             pm.Axes[1].Reset();
 
             pm.InvalidatePlot(true);
-
+            */
             //
+        }
+
+        private void listKeywords_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            pm.Series.Clear();
+            for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
+            {
+                pm.Series.Add(new OxyPlot.Series.LineSeries { Title = listKeywords.SelectedItems[iw].ToString(), MarkerType = OxyPlot.MarkerType.Circle });
+                ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.Clear();
+                ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.AddRange(model.GetData(selected_name, listKeywords.SelectedItems[iw].ToString()));
+            }
+
+            pm.Axes[0].Reset();
+            pm.Axes[1].Reset();
+
+            pm.InvalidatePlot(true);
         }
     }
 }
