@@ -23,6 +23,8 @@ namespace mview
         {
             set
             {
+                System.Diagnostics.Debug.WriteLine("Names: Set");
+
                 edit_mode_names = true;
 
                 listNames.Items.Clear();
@@ -36,6 +38,8 @@ namespace mview
         public FormMain()
         {
             InitializeComponent();
+
+            boxSetChartCount.SelectedIndex = 0;
         }
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,8 +47,15 @@ namespace mview
             model.OpenNewModel();
 
             if (model.GetActiveProject() == null) return;
+
             // Update data
+
             Names = model.GetNamesByType(NameOptions.Well);
+
+            foreach (Chart item in tableLayoutPanel1.Controls)
+            {
+                item.SetEclipseProject(model.GetActiveProject());
+            }
         }
 
 
@@ -55,11 +66,14 @@ namespace mview
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Combo: Selected Index");
+
+
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel1.RowStyles.Clear();
             tableLayoutPanel1.ColumnStyles.Clear();
 
-            switch (comboBox1.SelectedIndex)
+            switch (boxSetChartCount.SelectedIndex)
             {
                 case 0:
                     tableLayoutPanel1.RowCount = 1;
@@ -99,12 +113,15 @@ namespace mview
 
         private void listNames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach(Chart item in tableLayoutPanel1.Controls)
+            System.Diagnostics.Debug.WriteLine("List Names: Selected Index");
+
+            foreach (Chart item in tableLayoutPanel1.Controls)
             {
                 item.UpdateSelectedName(listNames.SelectedItem.ToString());
             }
 
 
         }
+
     }
 }

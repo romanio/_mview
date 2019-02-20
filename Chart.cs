@@ -17,17 +17,17 @@ namespace mview
 
         bool edit_mode_keywords = false;
 
+        public void SetEclipseProject(EclipseProject ecl)
+        {
+            model = new ChartModel(ecl);
+        }
+
         public Chart(EclipseProject ecl)
         {
             InitializeComponent();
-
-
-
             model = new ChartModel(ecl);
 
-
             listKeywords.Items.Clear();
-
 
             pm = new OxyPlot.PlotModel
             {
@@ -57,47 +57,42 @@ namespace mview
         {
             pm.Title = name;
             selected_name = name;
-
-            edit_mode_keywords = true;
-
             // Сохраним текущие выделенные слова
+
             var tmp_keywords = new List<string>();
-            foreach(string item in listKeywords.SelectedItems)
+            foreach (string item in listKeywords.SelectedItems)
             {
                 tmp_keywords.Add(item);
             }
+
+            edit_mode_keywords = true;
 
             listKeywords.Items.Clear();
             listKeywords.Items.AddRange(model.GetKeywords(name));
 
             // Восстановим выделенные слова
             int index = -1;
-            foreach(string item in tmp_keywords)
+            foreach (string item in tmp_keywords)
             {
                 index = listKeywords.Items.IndexOf(item);
 
-                if (index != -1) listKeywords.SetSelected(index, true);
+                if (index != -1)
+                {
+                    listKeywords.SetSelected(index, true);
+                 }
             }
 
             edit_mode_keywords = false;
-            /*
-            ((OxyPlot.Series.LineSeries)pm.Series[0]).Points.Clear();
-            ((OxyPlot.Series.LineSeries)pm.Series[0]).Points.AddRange(model.GetData(name, "WOPRH"));
 
-            ((OxyPlot.Series.LineSeries)pm.Series[1]).Points.Clear();
-            ((OxyPlot.Series.LineSeries)pm.Series[1]).Points.AddRange(model.GetData(name, "WOPR"));
-
-
-            pm.Axes[0].Reset();
-            pm.Axes[1].Reset();
-
-            pm.InvalidatePlot(true);
-            */
-            //
+            listKeywords_SelectedIndexChanged(null, null);
         }
 
         private void listKeywords_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (edit_mode_keywords) return;
+
+            System.Diagnostics.Debug.WriteLine("LIST KEYWORDS");
+
             pm.Series.Clear();
             for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
             {

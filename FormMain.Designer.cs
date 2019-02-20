@@ -35,6 +35,9 @@
             this.listNames = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.boxSetChartCount = new System.Windows.Forms.ComboBox();
+            this.checkSorted = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +51,7 @@
             this.openModelToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(833, 24);
+            this.menu.Size = new System.Drawing.Size(819, 24);
             this.menu.TabIndex = 0;
             this.menu.Text = "menuStrip1";
             // 
@@ -66,7 +69,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(12, 538);
+            this.button1.Location = new System.Drawing.Point(672, 35);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(118, 27);
             this.button1.TabIndex = 1;
@@ -80,9 +83,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listNames.FormattingEnabled = true;
             this.listNames.IntegralHeight = false;
-            this.listNames.Location = new System.Drawing.Point(12, 63);
+            this.listNames.Location = new System.Drawing.Point(21, 56);
             this.listNames.Name = "listNames";
-            this.listNames.Size = new System.Drawing.Size(118, 459);
+            this.listNames.Size = new System.Drawing.Size(118, 410);
             this.listNames.TabIndex = 3;
             this.listNames.SelectedIndexChanged += new System.EventHandler(this.listNames_SelectedIndexChanged);
             // 
@@ -94,11 +97,11 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(165, 78);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(155, 78);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(648, 541);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 539);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // label1
@@ -110,28 +113,66 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Set charts count";
             // 
+            // boxSetChartCount
+            // 
+            this.boxSetChartCount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxSetChartCount.FormattingEnabled = true;
+            this.boxSetChartCount.IntegralHeight = false;
+            this.boxSetChartCount.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "4"});
+            this.boxSetChartCount.Location = new System.Drawing.Point(278, 41);
+            this.boxSetChartCount.Name = "boxSetChartCount";
+            this.boxSetChartCount.Size = new System.Drawing.Size(61, 21);
+            this.boxSetChartCount.TabIndex = 7;
+            this.boxSetChartCount.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // checkSorted
+            // 
+            this.checkSorted.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkSorted.AutoSize = true;
+            this.checkSorted.Location = new System.Drawing.Point(21, 483);
+            this.checkSorted.Name = "checkSorted";
+            this.checkSorted.Size = new System.Drawing.Size(92, 17);
+            this.checkSorted.TabIndex = 8;
+            this.checkSorted.Text = "Sorted names";
+            this.checkSorted.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(18, 521);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(31, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Type";
+            // 
             // comboBox1
             // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.IntegralHeight = false;
             this.comboBox1.Items.AddRange(new object[] {
             "1",
             "2",
-            "4",
-            "6"});
-            this.comboBox1.Location = new System.Drawing.Point(278, 41);
+            "4"});
+            this.comboBox1.Location = new System.Drawing.Point(21, 537);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(61, 21);
-            this.comboBox1.TabIndex = 7;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox1.Size = new System.Drawing.Size(118, 21);
+            this.comboBox1.TabIndex = 10;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(833, 631);
+            this.ClientSize = new System.Drawing.Size(819, 629);
             this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.checkSorted);
+            this.Controls.Add(this.boxSetChartCount);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.listNames);
@@ -159,6 +200,9 @@
         private System.Windows.Forms.ListBox listNames;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox boxSetChartCount;
+        private System.Windows.Forms.CheckBox checkSorted;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox1;
     }
 }
