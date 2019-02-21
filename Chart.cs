@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace mview
 {
@@ -25,6 +26,12 @@ namespace mview
         public Chart(EclipseProject ecl)
         {
             InitializeComponent();
+
+            typeof(Control).InvokeMember("DoubleBuffered",
+                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+                null, gridData, new object[] { true });
+
+
             model = new ChartModel(ecl);
 
             listKeywords.Items.Clear();
@@ -51,12 +58,12 @@ namespace mview
             plotView1.Model = pm;
         }
 
-        string selected_name = null;
+        string[] selected_names = null;
 
-        public void UpdateSelectedName(string name)
+        public void UpdateSelectedNames(string[] names)
         {
-            pm.Title = name;
-            selected_name = name;
+            //pm.Title = name;
+            selected_names = names;
 
             // Сохраним текущие выделенные слова
 
@@ -70,9 +77,10 @@ namespace mview
             listKeywords.BeginUpdate();
 
             listKeywords.Items.Clear();
-            listKeywords.Items.AddRange(model.GetKeywords(name));
+            listKeywords.Items.AddRange(model.GetKeywords(names[0]));
 
             // Восстановим выделенные слова
+
             int index = -1;
             foreach (string item in tmp_keywords)
             {
@@ -96,18 +104,37 @@ namespace mview
 
             System.Diagnostics.Debug.WriteLine("LIST KEYWORDS");
 
+            // Обновить график
+
             pm.Series.Clear();
-            for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
+
+            for (int it = 0; it < selected_names.Length; ++it)
             {
-                pm.Series.Add(new OxyPlot.Series.LineSeries { Title = listKeywords.SelectedItems[iw].ToString(), MarkerType = OxyPlot.MarkerType.Circle });
-                ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.Clear();
-                ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.AddRange(model.GetData(selected_name, listKeywords.SelectedItems[iw].ToString()));
+                for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
+                {
+                    var data = model.GetData(selected_names[it], listKeywords.SelectedItems[iw].ToString());
+
+                    pm.Series.Add(new OxyPlot.Series.LineSeries
+                    {
+                        Title = listKeywords.SelectedItems[iw].ToString(),
+                        MarkerType = OxyPlot.MarkerType.Circle
+                    });
+
+                    ((OxyPlot.Series.LineSeries)pm.Series[it * listKeywords.SelectedItems.Count +  iw]).Points.Clear();
+                    ((OxyPlot.Series.LineSeries)pm.Series[it * listKeywords.SelectedItems.Count + iw]).Points.AddRange(data);
+                }
             }
 
             pm.Axes[0].Reset();
             pm.Axes[1].Reset();
 
             pm.InvalidatePlot(true);
+
+            // А теперь и таблицу
+
+            gridData.ColumnCount = listKeywords.SelectedItems.Count + 1;
+            gridData.Columns[0].HeaderText = "Date";
+
         }
     }
 }

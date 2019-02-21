@@ -129,11 +129,19 @@ namespace mview
 
         private void listNames_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listNames.SelectedItem == null) return;
+
             System.Diagnostics.Debug.WriteLine("LIST NAMES");
 
+            var names = new List<string>(listNames.SelectedItems.Count);
+            foreach(object item in listNames.SelectedItems)
+            {
+                names.Add(item.ToString());
+            }
+            
             foreach (Chart item in tableLayoutPanel1.Controls)
             {
-                item.UpdateSelectedName(listNames.SelectedItem.ToString());
+                item.UpdateSelectedNames(names.ToArray());
             }
         }
 

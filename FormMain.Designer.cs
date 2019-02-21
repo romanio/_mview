@@ -83,8 +83,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listNames.FormattingEnabled = true;
             this.listNames.IntegralHeight = false;
-            this.listNames.Location = new System.Drawing.Point(21, 56);
+            this.listNames.Location = new System.Drawing.Point(12, 54);
             this.listNames.Name = "listNames";
+            this.listNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listNames.Size = new System.Drawing.Size(118, 410);
             this.listNames.TabIndex = 3;
             this.listNames.SelectedIndexChanged += new System.EventHandler(this.listNames_SelectedIndexChanged);
@@ -97,11 +98,11 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(155, 78);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(136, 78);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 539);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(663, 518);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // label1
@@ -132,7 +133,7 @@
             // 
             this.checkSorted.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkSorted.AutoSize = true;
-            this.checkSorted.Location = new System.Drawing.Point(21, 483);
+            this.checkSorted.Location = new System.Drawing.Point(12, 483);
             this.checkSorted.Name = "checkSorted";
             this.checkSorted.Size = new System.Drawing.Size(92, 17);
             this.checkSorted.TabIndex = 8;
@@ -144,7 +145,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 521);
+            this.label2.Location = new System.Drawing.Point(9, 521);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 9;
@@ -163,7 +164,7 @@
             "Aquifer",
             "Region",
             "Other"});
-            this.boxNamesType.Location = new System.Drawing.Point(21, 537);
+            this.boxNamesType.Location = new System.Drawing.Point(12, 537);
             this.boxNamesType.Name = "boxNamesType";
             this.boxNamesType.Size = new System.Drawing.Size(118, 21);
             this.boxNamesType.TabIndex = 10;

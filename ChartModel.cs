@@ -10,6 +10,7 @@ namespace mview
     {
         EclipseProject ecl = null;
 
+
         public string[] GetKeywords(string name)
         {
             var tmp_name = ecl.VECTORS.FirstOrDefault(c => c.Name == name);
