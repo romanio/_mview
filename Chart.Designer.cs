@@ -46,7 +46,7 @@
             this.plotView1.Location = new System.Drawing.Point(6, 6);
             this.plotView1.Name = "plotView1";
             this.plotView1.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView1.Size = new System.Drawing.Size(323, 367);
+            this.plotView1.Size = new System.Drawing.Size(343, 367);
             this.plotView1.TabIndex = 0;
             this.plotView1.Text = "plotView1";
             this.plotView1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
@@ -84,10 +84,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listKeywords.FormattingEnabled = true;
             this.listKeywords.IntegralHeight = false;
-            this.listKeywords.Location = new System.Drawing.Point(355, 23);
+            this.listKeywords.Location = new System.Drawing.Point(355, 34);
             this.listKeywords.Name = "listKeywords";
             this.listKeywords.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listKeywords.Size = new System.Drawing.Size(90, 316);
+            this.listKeywords.Size = new System.Drawing.Size(90, 305);
+            this.listKeywords.Sorted = true;
             this.listKeywords.TabIndex = 1;
             this.listKeywords.SelectedIndexChanged += new System.EventHandler(this.listKeywords_SelectedIndexChanged);
             // 

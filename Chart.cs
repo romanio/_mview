@@ -57,6 +57,7 @@ namespace mview
         {
             pm.Title = name;
             selected_name = name;
+
             // Сохраним текущие выделенные слова
 
             var tmp_keywords = new List<string>();
@@ -66,6 +67,7 @@ namespace mview
             }
 
             edit_mode_keywords = true;
+            listKeywords.BeginUpdate();
 
             listKeywords.Items.Clear();
             listKeywords.Items.AddRange(model.GetKeywords(name));
@@ -83,6 +85,7 @@ namespace mview
             }
 
             edit_mode_keywords = false;
+            listKeywords.EndUpdate();
 
             listKeywords_SelectedIndexChanged(null, null);
         }

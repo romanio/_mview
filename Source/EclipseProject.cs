@@ -161,7 +161,10 @@ namespace mview
 
             for (int iw = 0; iw < SUMMARY.KEYWORDS.Length; ++iw)
             {
+                if (SUMMARY.WGNAMES[iw] == ":+:+:+:+") continue;
+
                 if (SUMMARY.KEYWORDS[iw].StartsWith("F"))
+                {
                     temp.Add(new Vector
                     {
                         Type = NameOptions.Field,
@@ -177,8 +180,11 @@ namespace mview
                             }
                         }
                     });
+                    continue;
+                }
 
                 if (SUMMARY.KEYWORDS[iw].StartsWith("W"))
+                {
                     temp.Add(new Vector
                     {
                         Type = NameOptions.Well,
@@ -194,8 +200,11 @@ namespace mview
                             }
                         }
                     });
+                    continue;
+                }
 
                 if (SUMMARY.KEYWORDS[iw].StartsWith("G"))
+                {
                     temp.Add(new Vector
                     {
                         Type = NameOptions.Group,
@@ -211,8 +220,11 @@ namespace mview
                             }
                         }
                     });
+                    continue;
+                }
 
                 if (SUMMARY.KEYWORDS[iw].StartsWith("A"))
+                {
                     temp.Add(new Vector
                     {
                         Type = NameOptions.Aquifer,
@@ -228,8 +240,11 @@ namespace mview
                             }
                         }
                     });
+                    continue;
+                }
 
                 if (SUMMARY.KEYWORDS[iw].StartsWith("R"))
+                {
                     temp.Add(new Vector
                     {
                         Type = NameOptions.Region,
@@ -245,6 +260,24 @@ namespace mview
                             }
                         }
                     });
+                    continue;
+                }
+
+                temp.Add(new Vector
+                {
+                    Type = NameOptions.Other,
+                    Name = SUMMARY.WGNAMES[iw],
+                    Data = new List<VectorData>()
+                        {
+                            new VectorData
+                            {
+                                index = iw,
+                                keyword = SUMMARY.KEYWORDS[iw],
+                                unit = SUMMARY.WGUNITS[iw]??"",
+                                measurement = SUMMARY.MEASRMNT[iw]??""
+                            }
+                        }
+                });
             }
 
             VECTORS = new List<Vector>();

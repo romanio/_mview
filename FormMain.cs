@@ -13,25 +13,43 @@ namespace mview
     public partial class FormMain : Form
     {
         FormMainModel model = new FormMainModel();
+        NameOptions namesType = NameOptions.Well;
 
         // Свойства управляемые из модели
-
-        bool edit_mode_names = false;
-
-
+        
         public string[] Names
         {
             set
             {
-                System.Diagnostics.Debug.WriteLine("Names: Set");
+                listNames.BeginUpdate();
 
-                edit_mode_names = true;
+                // Сохраним текущие выделенные имена
+
+                var tmp_names = new List<string>();
+                foreach (string item in listNames.SelectedItems)
+                {
+                    tmp_names.Add(item);
+                }
 
                 listNames.Items.Clear();
+                listNames.Sorted = checkSorted.Checked;
+
                 if (value != null)
                     listNames.Items.AddRange(value);
 
-                edit_mode_names = false;
+                // Восстановим выделенные слова
+                int index = -1;
+                foreach (string item in tmp_names)
+                {
+                    index = listNames.Items.IndexOf(item);
+
+                    if (index != -1)
+                    {
+                        listNames.SetSelected(index, true);
+                    }
+                }
+
+                listNames.EndUpdate();
             }
         }
 
@@ -40,6 +58,7 @@ namespace mview
             InitializeComponent();
 
             boxSetChartCount.SelectedIndex = 0;
+            boxNamesType.SelectedIndex = 2;
         }
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -50,7 +69,7 @@ namespace mview
 
             // Update data
 
-            Names = model.GetNamesByType(NameOptions.Well);
+            boxNamesType_SelectedIndexChanged(null, null);
 
             foreach (Chart item in tableLayoutPanel1.Controls)
             {
@@ -66,9 +85,6 @@ namespace mview
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Combo: Selected Index");
-
-
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel1.RowStyles.Clear();
             tableLayoutPanel1.ColumnStyles.Clear();
@@ -113,15 +129,50 @@ namespace mview
 
         private void listNames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("List Names: Selected Index");
+            System.Diagnostics.Debug.WriteLine("LIST NAMES");
 
             foreach (Chart item in tableLayoutPanel1.Controls)
             {
                 item.UpdateSelectedName(listNames.SelectedItem.ToString());
             }
-
-
         }
 
+        private void boxNamesType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (boxNamesType.SelectedIndex)
+            {
+                case 0:
+                    namesType = NameOptions.Field;
+                    break;
+                case 1:
+                    namesType = NameOptions.Group;
+                    break;
+                case 2:
+                    namesType = NameOptions.Well;
+                    break;
+                case 3:
+                    namesType = NameOptions.Aquifer;
+                    break;
+                case 4:
+                    namesType = NameOptions.Region;
+                    break;
+                case 5:
+                    namesType = NameOptions.Other;
+                    break;
+            }
+
+            if (model.GetActiveProject() == null) return;
+
+            Names = model.GetNamesByType(namesType);
+        }
+
+        private void checkSorted_CheckedChanged(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("CHECKED SORTED");
+
+            if (model.GetActiveProject() == null) return;
+
+            Names = model.GetNamesByType(namesType);
+        }
     }
 }
