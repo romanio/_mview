@@ -62,11 +62,21 @@ namespace mview
 
         public void UpdateSelectedNames(string[] names)
         {
-            //pm.Title = name;
-            selected_names = names;
+            // Заглавие графика
+
+            StringBuilder title_name = new StringBuilder();
+
+            for (int iw = 0; iw < names.Length - 1; ++iw)
+                title_name.Append(names[iw] + ",");
+
+            title_name.Append(names.Last());
+
+            pm.Title = title_name.ToString();
 
             // Сохраним текущие выделенные слова
 
+            selected_names = names;
+ 
             var tmp_keywords = new List<string>();
             foreach (string item in listKeywords.SelectedItems)
             {
@@ -98,9 +108,12 @@ namespace mview
             listKeywords_SelectedIndexChanged(null, null);
         }
 
+        int[] selected_index = null;
+
         private void listKeywords_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (edit_mode_keywords) return;
+            if (listKeywords.SelectedItems.Count == 0) return;
 
             System.Diagnostics.Debug.WriteLine("LIST KEYWORDS");
 
@@ -132,9 +145,32 @@ namespace mview
 
             // А теперь и таблицу
 
-            gridData.ColumnCount = listKeywords.SelectedItems.Count + 1;
+            gridData.ColumnCount = selected_names.Length * listKeywords.SelectedItems.Count + 1;
             gridData.Columns[0].HeaderText = "Date";
+            gridData.RowCount = model.GetStepCount();
+            gridData.VirtualMode = true;
 
+            int index = 1;
+            selected_index = new int[selected_names.Length * listKeywords.SelectedItems.Count];
+
+            for (int it = 0; it < selected_names.Length; ++it)
+            {
+                var vector = model.GetDataVector(selected_names[it]);
+
+                for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
+                {
+                    var data = vector.Data.FirstOrDefault(c => c.keyword == listKeywords.SelectedItems[iw].ToString());
+                    selected_index[index - 1] = data.index;
+                    gridData.Columns[index++].HeaderText = vector.Name + "\n" + data.keyword + "\n" + data.unit;
+                }
+            }
+        }
+
+        private void gridData_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            if (e.ColumnIndex == 0) e.Value = model.GetDateByStep(e.RowIndex).ToShortDateString();
+            else
+                e.Value = model.GetParamAtIndex(selected_index[e.ColumnIndex - 1], e.RowIndex);
         }
     }
 }

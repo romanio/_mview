@@ -10,12 +10,31 @@ namespace mview
     {
         EclipseProject ecl = null;
 
-
         public string[] GetKeywords(string name)
         {
             var tmp_name = ecl.VECTORS.FirstOrDefault(c => c.Name == name);
             var tmp_data = tmp_name.Data.Select(c => c.keyword);
             return tmp_data.ToArray();
+        }
+
+        public DateTime GetDateByStep(int step)
+        {
+            return ecl.SUMMARY.STARTDATE.AddDays(ecl.SUMMARY.DATA[step][ecl.SUMMARY.TINDEX]);
+        }
+
+        public float GetParamAtIndex(int index, int step)
+        {
+            return ecl.SUMMARY.DATA[step][index];
+        }
+
+        public int GetStepCount()
+        {
+            return ecl.SUMMARY.NTIME;
+        }
+
+        public Vector GetDataVector(string name)
+        {
+            return ecl.VECTORS.FirstOrDefault(c => c.Name == name);
         }
 
         public List<OxyPlot.DataPoint> GetData(string name, string keyword)
@@ -33,7 +52,6 @@ namespace mview
             }
 
             return data;
-         
         }
 
         public ChartModel(EclipseProject ecl)

@@ -170,6 +170,9 @@ namespace mview.ECL
 
                 br.CloseBinaryFile();
             }
+
+            NTIME = DATA.Count;
+            TINDEX = Array.IndexOf(KEYWORDS, "TIME");
         }
     }
 }

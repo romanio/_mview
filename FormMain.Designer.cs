@@ -68,8 +68,8 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(672, 35);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(689, 37);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(118, 27);
             this.button1.TabIndex = 1;
@@ -86,7 +86,7 @@
             this.listNames.Location = new System.Drawing.Point(12, 54);
             this.listNames.Name = "listNames";
             this.listNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listNames.Size = new System.Drawing.Size(118, 410);
+            this.listNames.Size = new System.Drawing.Size(103, 410);
             this.listNames.TabIndex = 3;
             this.listNames.SelectedIndexChanged += new System.EventHandler(this.listNames_SelectedIndexChanged);
             // 
@@ -98,11 +98,11 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(136, 78);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(121, 78);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(663, 518);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(686, 518);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // label1
@@ -166,7 +166,7 @@
             "Other"});
             this.boxNamesType.Location = new System.Drawing.Point(12, 537);
             this.boxNamesType.Name = "boxNamesType";
-            this.boxNamesType.Size = new System.Drawing.Size(118, 21);
+            this.boxNamesType.Size = new System.Drawing.Size(103, 21);
             this.boxNamesType.TabIndex = 10;
             this.boxNamesType.SelectedIndexChanged += new System.EventHandler(this.boxNamesType_SelectedIndexChanged);
             // 

@@ -120,9 +120,11 @@
             this.gridData.Name = "gridData";
             this.gridData.ReadOnly = true;
             this.gridData.RowHeadersVisible = false;
-            this.gridData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridData.RowTemplate.Height = 18;
+            this.gridData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.gridData.Size = new System.Drawing.Size(439, 367);
             this.gridData.TabIndex = 1;
+            this.gridData.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridData_CellValueNeeded);
             // 
             // Chart
             // 
