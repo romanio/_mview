@@ -165,6 +165,8 @@ namespace mview
 
                 if (SUMMARY.KEYWORDS[iw].StartsWith("F"))
                 {
+                    var t = SUMMARY.MEASRMNT?[iw] ?? "";
+
                     temp.Add(new Vector
                     {
                         Type = NameOptions.Field,
@@ -175,8 +177,8 @@ namespace mview
                             {
                                 index = iw,
                                 keyword = SUMMARY.KEYWORDS[iw],
-                                unit = SUMMARY.WGUNITS[iw]??"",
-                                measurement = SUMMARY.MEASRMNT[iw]??""
+                                unit = SUMMARY.WGUNITS?[iw]??"",
+                                measurement = SUMMARY.MEASRMNT?[iw]??""
                             }
                         }
                     });
@@ -195,8 +197,8 @@ namespace mview
                             {
                                 index = iw,
                                 keyword = SUMMARY.KEYWORDS[iw],
-                                unit = SUMMARY.WGUNITS[iw]??"",
-                                measurement = SUMMARY.MEASRMNT[iw]??""
+                                unit = SUMMARY.WGUNITS?[iw]??"",
+                                measurement = SUMMARY.MEASRMNT?[iw]??""
                             }
                         }
                     });
@@ -215,8 +217,8 @@ namespace mview
                             {
                                 index = iw,
                                 keyword = SUMMARY.KEYWORDS[iw],
-                                unit = SUMMARY.WGUNITS[iw]??"",
-                                measurement = SUMMARY.MEASRMNT[iw]??""
+                                unit = SUMMARY.WGUNITS?[iw]??"",
+                                measurement = SUMMARY.MEASRMNT?[iw]??""
                             }
                         }
                     });
@@ -235,8 +237,8 @@ namespace mview
                             {
                                 index = iw,
                                 keyword = SUMMARY.KEYWORDS[iw],
-                                unit = SUMMARY.WGUNITS[iw]??"",
-                                measurement = SUMMARY.MEASRMNT[iw]??""
+                                unit = SUMMARY.WGUNITS?[iw]??"",
+                                measurement = SUMMARY.MEASRMNT?[iw]??""
                             }
                         }
                     });
@@ -255,8 +257,8 @@ namespace mview
                             {
                                 index = iw,
                                 keyword = SUMMARY.KEYWORDS[iw],
-                                unit = SUMMARY.WGUNITS[iw]??"",
-                                measurement = SUMMARY.MEASRMNT[iw]??""
+                                unit = SUMMARY.WGUNITS?[iw]??"",
+                                measurement = SUMMARY.MEASRMNT?[iw]??""
                             }
                         }
                     });
@@ -273,8 +275,8 @@ namespace mview
                             {
                                 index = iw,
                                 keyword = SUMMARY.KEYWORDS[iw],
-                                unit = SUMMARY.WGUNITS[iw]??"",
-                                measurement = SUMMARY.MEASRMNT[iw]??""
+                                unit = SUMMARY.WGUNITS?[iw]??"",
+                                measurement = SUMMARY.MEASRMNT?[iw]??""
                             }
                         }
                 });

@@ -125,7 +125,7 @@ namespace mview
             {
                 for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
                 {
-                    var data = model.GetData(selected_names[it], listKeywords.SelectedItems[iw].ToString());
+                    var data = model.GetDataTime(selected_names[it], listKeywords.SelectedItems[iw].ToString());
 
                     pm.Series.Add(new OxyPlot.Series.LineSeries
                     {
@@ -171,6 +171,31 @@ namespace mview
             if (e.ColumnIndex == 0) e.Value = model.GetDateByStep(e.RowIndex).ToShortDateString();
             else
                 e.Value = model.GetParamAtIndex(selected_index[e.ColumnIndex - 1], e.RowIndex);
+        }
+
+        // Хранит настройки графика
+
+        ChartController chartController = new ChartController();
+
+        private void buttonOptions_Click(object sender, EventArgs e)
+        {
+            ChartOptions tmp = new ChartOptions(chartController);
+
+            tmp.Left = buttonOptions.PointToScreen(Point.Empty).X;
+            tmp.Top = buttonOptions.PointToScreen(Point.Empty).Y;
+            tmp.ApplyStyle += OnApplyStyle;
+            tmp.Keywords = model.GetKeywords(selected_names[0]);
+
+            if (tmp.ShowDialog() == DialogResult.OK)
+            {
+                
+            }
+        }
+
+        private void OnApplyStyle()
+        {
+            pm.Title = chartController.AxisX;
+            pm.InvalidatePlot(true);
         }
     }
 }

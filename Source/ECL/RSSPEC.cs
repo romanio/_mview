@@ -74,14 +74,26 @@ namespace mview.ECL
 
                     if (br.header.keyword == "ITIME")
                     {
-                        int[] ITIME = br.ReadIntList();
-                        REPORT.Add(ITIME[0]);
-                        TYPE_RESTART.Add(ITIME[5]);
-                        if (ITIME.Length > 10)
-                            DATE.Add(new DateTime(ITIME[3], ITIME[2], ITIME[1], ITIME[10], ITIME[11], (int)(ITIME[12] * 1e6)));
-                        else
-                            DATE.Add(new DateTime(ITIME[3], ITIME[2], ITIME[1]));
+                        // Eclipse должен содержать 11 элементов ITIME, 
+                        // но Navi игнорирует выгрузку этих элементов, параметры рестарт файла считываются
+                        // из самих рестартов
 
+                        int[] ITIME = br.ReadIntList();
+                        if (ITIME.Length == 1)
+                        {
+                            REPORT.Add(ITIME[0]);
+                         //   TYPE_RESTART.Add(-1);
+                        //    DATE.Add(new DateTime(1900, 0, 0));
+                        }
+                        else
+                        {
+                            REPORT.Add(ITIME[0]);
+                            TYPE_RESTART.Add(ITIME[5]);
+                            if (ITIME.Length > 10)
+                                DATE.Add(new DateTime(ITIME[3], ITIME[2], ITIME[1], ITIME[10], ITIME[11], (int)(ITIME[12] * 1e6)));
+                            else
+                                DATE.Add(new DateTime(ITIME[3], ITIME[2], ITIME[1]));
+                        }
                         continue;
                     }
 

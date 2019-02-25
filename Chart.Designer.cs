@@ -34,6 +34,7 @@
             this.listKeywords = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.gridData = new System.Windows.Forms.DataGridView();
+            this.buttonOptions = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -71,6 +72,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.buttonOptions);
             this.tabPage1.Controls.Add(this.listKeywords);
             this.tabPage1.Controls.Add(this.plotView1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -126,6 +128,17 @@
             this.gridData.TabIndex = 1;
             this.gridData.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridData_CellValueNeeded);
             // 
+            // buttonOptions
+            // 
+            this.buttonOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOptions.Location = new System.Drawing.Point(355, 6);
+            this.buttonOptions.Name = "buttonOptions";
+            this.buttonOptions.Size = new System.Drawing.Size(90, 23);
+            this.buttonOptions.TabIndex = 2;
+            this.buttonOptions.Text = "Options";
+            this.buttonOptions.UseVisualStyleBackColor = true;
+            this.buttonOptions.Click += new System.EventHandler(this.buttonOptions_Click);
+            // 
             // Chart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -150,5 +163,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ListBox listKeywords;
         private System.Windows.Forms.DataGridView gridData;
+        private System.Windows.Forms.Button buttonOptions;
     }
 }
