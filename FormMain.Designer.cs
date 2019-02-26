@@ -83,10 +83,10 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listNames.FormattingEnabled = true;
             this.listNames.IntegralHeight = false;
-            this.listNames.Location = new System.Drawing.Point(12, 54);
+            this.listNames.Location = new System.Drawing.Point(12, 78);
             this.listNames.Name = "listNames";
             this.listNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listNames.Size = new System.Drawing.Size(103, 410);
+            this.listNames.Size = new System.Drawing.Size(103, 386);
             this.listNames.TabIndex = 3;
             this.listNames.SelectedIndexChanged += new System.EventHandler(this.listNames_SelectedIndexChanged);
             // 

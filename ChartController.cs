@@ -9,5 +9,6 @@ namespace mview
     public class ChartController
     {
         public string AxisX = "TIME";
+        public string AxisY = "Normal";
     }
 }

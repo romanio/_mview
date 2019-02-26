@@ -23,7 +23,13 @@ namespace mview
                 boxKeywords.Items.Clear();
                 boxKeywords.Items.Add("TIME");
                 boxKeywords.Items.AddRange(value);
-                boxKeywords.SelectedIndex = 0;
+
+                int index = boxKeywords.Items.IndexOf(chartController.AxisX);
+                if (index != -1) boxKeywords.SelectedIndex = index;
+
+                index = boxAxisYMode.Items.IndexOf(chartController.AxisY);
+                if (index != -1) boxAxisYMode.SelectedIndex = index;
+                
             }
         }
 
@@ -31,19 +37,31 @@ namespace mview
         public ChartOptions(ChartController chartController)
         {
             InitializeComponent();
-
             this.chartController = chartController;
         }
 
         
         private void button1_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
+            ApplyStyle();
+            Close();
         }
 
         private void boxKeywords_SelectedIndexChanged(object sender, EventArgs e)
         {
             chartController.AxisX = boxKeywords.SelectedItem.ToString();
+            ApplyStyle();
+        }
+
+        private void ChartOptions_Deactivate(object sender, EventArgs e)
+        {
+            ApplyStyle();
+            Close();
+        }
+
+        private void boxAxisYMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chartController.AxisY = boxAxisYMode.SelectedItem.ToString();
             ApplyStyle();
         }
     }

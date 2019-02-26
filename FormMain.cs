@@ -176,10 +176,7 @@ namespace mview
 
         private void checkSorted_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("CHECKED SORTED");
-
             if (model.GetActiveProject() == null) return;
-
             Names = model.GetNamesByType(namesType);
         }
     }

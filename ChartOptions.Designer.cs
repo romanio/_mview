@@ -31,6 +31,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.boxKeywords = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.boxAxisYMode = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // button1
@@ -45,17 +47,9 @@
             // 
             // boxKeywords
             // 
-            this.boxKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.boxKeywords.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxKeywords.FormattingEnabled = true;
             this.boxKeywords.IntegralHeight = false;
-            this.boxKeywords.Items.AddRange(new object[] {
-            "Field",
-            "Group",
-            "Well",
-            "Aquifer",
-            "Region",
-            "Other"});
             this.boxKeywords.Location = new System.Drawing.Point(70, 56);
             this.boxKeywords.Name = "boxKeywords";
             this.boxKeywords.Size = new System.Drawing.Size(103, 21);
@@ -71,11 +65,37 @@
             this.label1.TabIndex = 12;
             this.label1.Text = "Axis X";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 101);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Axis Y";
+            // 
+            // boxAxisYMode
+            // 
+            this.boxAxisYMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxAxisYMode.FormattingEnabled = true;
+            this.boxAxisYMode.IntegralHeight = false;
+            this.boxAxisYMode.Items.AddRange(new object[] {
+            "Normal",
+            "Average",
+            "Sum"});
+            this.boxAxisYMode.Location = new System.Drawing.Point(70, 98);
+            this.boxAxisYMode.Name = "boxAxisYMode";
+            this.boxAxisYMode.Size = new System.Drawing.Size(103, 21);
+            this.boxAxisYMode.TabIndex = 15;
+            this.boxAxisYMode.SelectedIndexChanged += new System.EventHandler(this.boxAxisYMode_SelectedIndexChanged);
+            // 
             // ChartOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(196, 292);
+            this.ClientSize = new System.Drawing.Size(196, 176);
+            this.Controls.Add(this.boxAxisYMode);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.boxKeywords);
             this.Controls.Add(this.button1);
@@ -84,6 +104,7 @@
             this.Name = "ChartOptions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Options";
+            this.Deactivate += new System.EventHandler(this.ChartOptions_Deactivate);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -94,5 +115,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox boxKeywords;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox boxAxisYMode;
     }
 }
