@@ -90,7 +90,7 @@ namespace mview.ECL
                             REPORT.Add(ITIME[0]);
                             TYPE_RESTART.Add(ITIME[5]);
                             if (ITIME.Length > 10)
-                                DATE.Add(new DateTime(ITIME[3], ITIME[2], ITIME[1], ITIME[10], ITIME[11], (int)(ITIME[12] * 1e6)));
+                                DATE.Add(new DateTime(ITIME[3], ITIME[2], ITIME[1], ITIME[10], ITIME[11], (int)(ITIME[12] * 1e-6)));
                             else
                                 DATE.Add(new DateTime(ITIME[3], ITIME[2], ITIME[1]));
                         }
