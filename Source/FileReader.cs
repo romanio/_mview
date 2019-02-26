@@ -114,6 +114,42 @@ namespace mview
             return new string(br.ReadChars(count));
         }
 
+        public string[] ReadC0StringList() // IX Support
+        {
+            string[] list = new string[header.count];
+            int index = 0;
+            int block = header.count / 105;
+            int mod = header.count - block * 105;
+            int count = 0;
+
+            int str_len = 8;
+
+            if (header.type.StartsWith("C0"))
+            {
+                str_len = Convert.ToInt32(header.type.Substring(2, header.type.Length - 2));
+            }
+
+            while (block > 0)
+            {
+                count = ReadInt32();
+                for (int iw = 0; iw < 105; ++iw)
+                    list[index++] = ReadString(str_len).Trim();
+                count = ReadInt32();
+                block--;
+            }
+            if (mod > 0)
+            {
+                count = ReadInt32();
+                while (mod > 0)
+                {
+                    list[index++] = ReadString(str_len).Trim();
+                    mod--;
+                }
+                count = ReadInt32();
+            }
+            return list;
+        }
+
         public string[] ReadStringList()
         {
             string[] list = new string[header.count];

@@ -86,6 +86,12 @@ namespace mview.ECL
                     continue;
                 }
 
+                if (br.header.keyword == "NAMES")
+                {
+                    WGNAMES = br.ReadC0StringList();
+                    continue;
+                }
+
                 if (br.header.keyword == "NUMS")
                 {
                     NUMS = br.ReadIntList();
