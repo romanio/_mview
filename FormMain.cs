@@ -77,12 +77,6 @@ namespace mview
             }
         }
 
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            model.ShowDetailForm();
-        }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             tableLayoutPanel1.Controls.Clear();
@@ -185,6 +179,12 @@ namespace mview
             model.ShowModelsForm(
                 buttonModels.PointToScreen(Point.Empty).X,
                 buttonModels.PointToScreen(Point.Empty).Y);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            model.ShowDetailForm();
+
         }
     }
 }

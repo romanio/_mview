@@ -34,5 +34,6 @@ namespace mview
                     ActiveProject = _projectList[0].ecl;
             }
         }
+
     }
 }

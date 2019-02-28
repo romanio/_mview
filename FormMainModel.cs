@@ -21,16 +21,14 @@ namespace mview
 
             tmp.Left = X;
             tmp.Top = Y;
-            /*
-            tmp.ApplyStyle += OnApplyStyle;
-            tmp.Keywords = model.GetKeywords(selected_names[0]);
-            */
             tmp.Show();
         }
+
+
         public void ShowDetailForm()
         {
             FormDetails fm = new FormDetails(pm.ActiveProject);
-            fm.Show();
+            fm.ShowDialog();
         }
 
         public EclipseProject GetActiveProject()
