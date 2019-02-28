@@ -39,6 +39,7 @@
             this.checkSorted = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.boxNamesType = new System.Windows.Forms.ComboBox();
+            this.buttonModels = new System.Windows.Forms.Button();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,9 +70,9 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(689, 37);
+            this.button1.Location = new System.Drawing.Point(704, 40);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(118, 27);
+            this.button1.Size = new System.Drawing.Size(103, 21);
             this.button1.TabIndex = 1;
             this.button1.Text = "Get Detailed";
             this.button1.UseVisualStyleBackColor = true;
@@ -170,11 +171,22 @@
             this.boxNamesType.TabIndex = 10;
             this.boxNamesType.SelectedIndexChanged += new System.EventHandler(this.boxNamesType_SelectedIndexChanged);
             // 
+            // buttonModels
+            // 
+            this.buttonModels.Location = new System.Drawing.Point(12, 38);
+            this.buttonModels.Name = "buttonModels";
+            this.buttonModels.Size = new System.Drawing.Size(103, 23);
+            this.buttonModels.TabIndex = 11;
+            this.buttonModels.Text = "Models";
+            this.buttonModels.UseVisualStyleBackColor = true;
+            this.buttonModels.Click += new System.EventHandler(this.buttonOptions_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(819, 629);
+            this.Controls.Add(this.buttonModels);
             this.Controls.Add(this.boxNamesType);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.checkSorted);
@@ -210,6 +222,7 @@
         private System.Windows.Forms.CheckBox checkSorted;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox boxNamesType;
+        private System.Windows.Forms.Button buttonModels;
     }
 }
 

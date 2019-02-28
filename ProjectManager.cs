@@ -7,13 +7,13 @@ using System.Windows.Forms;
 
 namespace mview
 {
-    class ProjectManagerItem
+    public class ProjectManagerItem
     {
         public EclipseProject ecl = new EclipseProject();
         public string name = null;
     }
 
-    class ProjectManager
+    public class ProjectManager
     {
         public List<ProjectManagerItem> _projectList = new List<ProjectManagerItem>();
         public EclipseProject ActiveProject;

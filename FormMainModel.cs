@@ -15,6 +15,18 @@ namespace mview
             pm.OpenECLProject();
         }
 
+        public void ShowModelsForm(int X, int Y)
+        {
+            FormModels tmp = new FormModels(pm);
+
+            tmp.Left = X;
+            tmp.Top = Y;
+            /*
+            tmp.ApplyStyle += OnApplyStyle;
+            tmp.Keywords = model.GetKeywords(selected_names[0]);
+            */
+            tmp.Show();
+        }
         public void ShowDetailForm()
         {
             FormDetails fm = new FormDetails(pm.ActiveProject);

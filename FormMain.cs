@@ -16,7 +16,7 @@ namespace mview
         NameOptions namesType = NameOptions.Well;
 
         // Свойства управляемые из модели
-        
+
         public string[] Names
         {
             set
@@ -134,11 +134,11 @@ namespace mview
             System.Diagnostics.Debug.WriteLine("LIST NAMES");
 
             var names = new List<string>(listNames.SelectedItems.Count);
-            foreach(object item in listNames.SelectedItems)
+            foreach (object item in listNames.SelectedItems)
             {
                 names.Add(item.ToString());
             }
-            
+
             foreach (Chart item in tableLayoutPanel1.Controls)
             {
                 item.UpdateSelectedNames(names.ToArray());
@@ -178,6 +178,13 @@ namespace mview
         {
             if (model.GetActiveProject() == null) return;
             Names = model.GetNamesByType(namesType);
+        }
+
+        private void buttonOptions_Click(object sender, EventArgs e)
+        {
+            model.ShowModelsForm(
+                buttonModels.PointToScreen(Point.Empty).X,
+                buttonModels.PointToScreen(Point.Empty).Y);
         }
     }
 }
