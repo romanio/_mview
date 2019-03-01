@@ -27,7 +27,6 @@ namespace mview
             }
 
         }
-
         private void FormModels_Deactivate(object sender, EventArgs e)
         {
             Close();
@@ -45,7 +44,15 @@ namespace mview
 
         private void checkedModelList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textPath.Text = pm._projectList[checkedModelList.SelectedIndex].ecl.PATH;
+            gridGeneral.Rows.Clear();
+            gridGeneral.Rows.Add("FILENAME", pm._projectList[checkedModelList.SelectedIndex].ecl.FILENAME);
+            gridGeneral.Rows.Add("ROOT", pm._projectList[checkedModelList.SelectedIndex].ecl.ROOT);
+            gridGeneral.Rows.Add("PATH", pm._projectList[checkedModelList.SelectedIndex].ecl.PATH);
+
+            foreach (KeyValuePair<string, string> item in pm._projectList[checkedModelList.SelectedIndex].ecl.FILES)
+            {
+                gridGeneral.Rows.Add(item.Key, item.Value);
+            }
         }
     }
 }

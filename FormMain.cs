@@ -69,7 +69,10 @@ namespace mview
 
             // Update data
 
+            buttonModels.Text = model.GetActiveProject().ROOT; 
+
             boxNamesType_SelectedIndexChanged(null, null);
+
 
             foreach (Chart item in tableLayoutPanel1.Controls)
             {

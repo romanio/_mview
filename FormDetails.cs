@@ -23,7 +23,6 @@ namespace mview
 
         private void bGetDataOnClick(object sender, EventArgs e)
         {
-
             gridGeneral.Rows.Clear();
             gridGeneral.Rows.Add("FILENAME", ecl.FILENAME);
             gridGeneral.Rows.Add("ROOT", ecl.ROOT);

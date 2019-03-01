@@ -24,7 +24,6 @@ namespace mview
             tmp.Show();
         }
 
-
         public void ShowDetailForm()
         {
             FormDetails fm = new FormDetails(pm.ActiveProject);
