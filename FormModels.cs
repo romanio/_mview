@@ -14,19 +14,30 @@ namespace mview
     {
         ProjectManager pm = null;
 
+        void UpdateData()
+        {
+
+            boxActiveProject.Items.Clear();
+            boxActiveProject.BeginUpdate();
+
+            foreach (ProjectManagerItem item in pm.projectList)
+            {
+                boxActiveProject.Items.Add(item.name);
+            };
+
+            boxActiveProject.SelectedIndex = pm.ActiveProjectIndex;
+            boxActiveProject.EndUpdate();
+        }
+
         public FormModels(ProjectManager pm)
         {
             InitializeComponent();
 
             this.pm = pm;
 
-            checkedModelList.Items.Clear();
-            foreach (ProjectManagerItem item in pm._projectList)
-            {
-                checkedModelList.Items.Add(item.name);
-            }
-
+            UpdateData();
         }
+
         private void FormModels_Deactivate(object sender, EventArgs e)
         {
             Close();
@@ -42,16 +53,35 @@ namespace mview
             pm.OpenECLProject();
         }
 
-        private void checkedModelList_SelectedIndexChanged(object sender, EventArgs e)
+        private void boxActiveProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            gridGeneral.Rows.Clear();
-            gridGeneral.Rows.Add("FILENAME", pm._projectList[checkedModelList.SelectedIndex].ecl.FILENAME);
-            gridGeneral.Rows.Add("ROOT", pm._projectList[checkedModelList.SelectedIndex].ecl.ROOT);
-            gridGeneral.Rows.Add("PATH", pm._projectList[checkedModelList.SelectedIndex].ecl.PATH);
+            int index = boxActiveProject.SelectedIndex;
 
-            foreach (KeyValuePair<string, string> item in pm._projectList[checkedModelList.SelectedIndex].ecl.FILES)
+            gridGeneral.Rows.Clear();
+            gridGeneral.Rows.Add("FILENAME", pm.projectList[index].ecl.FILENAME);
+            gridGeneral.Rows.Add("ROOT", pm.projectList[index].ecl.ROOT);
+            gridGeneral.Rows.Add("PATH", pm.projectList[index].ecl.PATH);
+
+            foreach (KeyValuePair<string, string> item in pm.projectList[index].ecl.FILES)
             {
                 gridGeneral.Rows.Add(item.Key, item.Value);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (boxNewName.Visible == false)
+            {
+                boxNewName.Visible = true;
+                buttonRename.Text = "Finish";
+                boxNewName.Text = pm.projectList[boxActiveProject.SelectedIndex].name;
+            }
+            else
+            {
+                boxNewName.Visible = false;
+                buttonRename.Text = "Rename";
+                pm.projectList[boxActiveProject.SelectedIndex].name = boxNewName.Text;
+                UpdateData();
             }
         }
     }

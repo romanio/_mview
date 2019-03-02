@@ -30,6 +30,12 @@ namespace mview
             fm.ShowDialog();
         }
 
+        public string GetActiveProjectName()
+        {
+            return pm.projectList[pm.ActiveProjectIndex].name;
+        }
+
+
         public EclipseProject GetActiveProject()
         {
             return pm.ActiveProject;

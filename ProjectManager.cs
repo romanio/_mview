@@ -15,8 +15,9 @@ namespace mview
 
     public class ProjectManager
     {
-        public List<ProjectManagerItem> _projectList = new List<ProjectManagerItem>();
+        public List<ProjectManagerItem> projectList = new List<ProjectManagerItem>();
         public EclipseProject ActiveProject;
+        public int ActiveProjectIndex = -1;
 
         public void OpenECLProject()
         {
@@ -28,14 +29,26 @@ namespace mview
                 item.ecl.OpenData(fd.FileName);
                 item.name = item.ecl.ROOT;
 
-                _projectList.Add(item);
+                projectList.Add(item);
 
-                if (_projectList.Count == 1)
-                    ActiveProject = _projectList[0].ecl;
+                if (projectList.Count == 1)
+                {
+                    ActiveProject = projectList[0].ecl;
+                    ActiveProjectIndex = 0;
+                }
             }
         }
 
-        
+        public void SetActiveProject(int index)
+        {
+            ActiveProjectIndex = index;
+            ActiveProject = projectList[index].ecl;
+        }
+
+        public void UpdateActiveProject()
+        {
+            ActiveProject.OpenData(ActiveProject.FILENAME);
+        }
 
     }
 }

@@ -182,12 +182,13 @@ namespace mview
             model.ShowModelsForm(
                 buttonModels.PointToScreen(Point.Empty).X,
                 buttonModels.PointToScreen(Point.Empty).Y);
+
+            buttonModels.Text = model.GetActiveProjectName();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             model.ShowDetailForm();
-
         }
     }
 }
