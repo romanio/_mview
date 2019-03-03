@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace mview
 {
-    public delegate void ApplyStyleDelegate();
+    public delegate void UpdateDataDelegate();
 
     public partial class ChartOptions : Form
     {
-        public event ApplyStyleDelegate ApplyStyle;
+        public event UpdateDataDelegate ApplyStyle;
 
         public string[] Keywords
         {

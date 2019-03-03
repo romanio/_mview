@@ -15,6 +15,11 @@ namespace mview
             pm.OpenECLProject();
         }
 
+        public ProjectManager GetProjectManager()
+        {
+            return pm;
+        }
+
         public void ShowModelsForm(int X, int Y)
         {
             FormModels tmp = new FormModels(pm);

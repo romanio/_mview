@@ -10,13 +10,16 @@ using System.Windows.Forms;
 
 namespace mview
 {
+    public delegate void ApplyStyleDelegate();
+
     public partial class FormModels : Form
     {
+        public event UpdateDataDelegate ApplyStyle;
+
         ProjectManager pm = null;
 
         void UpdateData()
         {
-
             boxActiveProject.Items.Clear();
             boxActiveProject.BeginUpdate();
 
@@ -40,11 +43,13 @@ namespace mview
 
         private void FormModels_Deactivate(object sender, EventArgs e)
         {
+            ApplyStyle();
             Close();
         }
 
         private void buttonModels_Click(object sender, EventArgs e)
         {
+            ApplyStyle();
             Close();
         }
 
@@ -66,6 +71,9 @@ namespace mview
             {
                 gridGeneral.Rows.Add(item.Key, item.Value);
             }
+            pm.SetActiveProject(index);
+
+            if (ApplyStyle != null) ApplyStyle();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -75,6 +83,7 @@ namespace mview
                 boxNewName.Visible = true;
                 buttonRename.Text = "Finish";
                 boxNewName.Text = pm.projectList[boxActiveProject.SelectedIndex].name;
+                boxNewName.Focus();
             }
             else
             {
@@ -83,6 +92,13 @@ namespace mview
                 pm.projectList[boxActiveProject.SelectedIndex].name = boxNewName.Text;
                 UpdateData();
             }
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            pm.DeleteActiveProject();
+            UpdateData();
+            Close();
         }
     }
 }

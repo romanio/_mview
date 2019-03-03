@@ -34,7 +34,7 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.boxActiveProject = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonRename = new System.Windows.Forms.Button();
             this.boxNewName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).BeginInit();
@@ -44,7 +44,7 @@
             // 
             this.buttonModels.Location = new System.Drawing.Point(0, 0);
             this.buttonModels.Name = "buttonModels";
-            this.buttonModels.Size = new System.Drawing.Size(103, 23);
+            this.buttonModels.Size = new System.Drawing.Size(100, 24);
             this.buttonModels.TabIndex = 12;
             this.buttonModels.Text = "Close";
             this.buttonModels.UseVisualStyleBackColor = true;
@@ -83,6 +83,7 @@
             // 
             this.Column2.HeaderText = "Value";
             this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
             this.Column2.Width = 300;
             // 
             // label1
@@ -100,24 +101,25 @@
             this.boxActiveProject.FormattingEnabled = true;
             this.boxActiveProject.Location = new System.Drawing.Point(204, 2);
             this.boxActiveProject.Name = "boxActiveProject";
-            this.boxActiveProject.Size = new System.Drawing.Size(83, 21);
+            this.boxActiveProject.Size = new System.Drawing.Size(82, 21);
             this.boxActiveProject.TabIndex = 18;
             this.boxActiveProject.SelectedIndexChanged += new System.EventHandler(this.boxActiveProject_SelectedIndexChanged);
             // 
-            // button2
+            // buttonDelete
             // 
-            this.button2.Location = new System.Drawing.Point(293, 242);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 23);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "Delete";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonDelete.Location = new System.Drawing.Point(293, 255);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(103, 24);
+            this.buttonDelete.TabIndex = 20;
+            this.buttonDelete.Text = "Delete";
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
             // buttonRename
             // 
             this.buttonRename.Location = new System.Drawing.Point(293, 0);
             this.buttonRename.Name = "buttonRename";
-            this.buttonRename.Size = new System.Drawing.Size(103, 23);
+            this.buttonRename.Size = new System.Drawing.Size(100, 24);
             this.buttonRename.TabIndex = 21;
             this.buttonRename.Text = "Rename";
             this.buttonRename.UseVisualStyleBackColor = true;
@@ -138,7 +140,7 @@
             this.ClientSize = new System.Drawing.Size(408, 288);
             this.Controls.Add(this.boxNewName);
             this.Controls.Add(this.buttonRename);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.boxActiveProject);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gridGeneral);
@@ -162,7 +164,7 @@
         private System.Windows.Forms.DataGridView gridGeneral;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox boxActiveProject;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button buttonRename;

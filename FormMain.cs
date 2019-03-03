@@ -67,17 +67,7 @@ namespace mview
 
             if (model.GetActiveProject() == null) return;
 
-            // Update data
-
-            buttonModels.Text = model.GetActiveProject().ROOT; 
-
-            boxNamesType_SelectedIndexChanged(null, null);
-
-
-            foreach (Chart item in tableLayoutPanel1.Controls)
-            {
-                item.SetEclipseProject(model.GetActiveProject());
-            }
+            UpdateData();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -122,6 +112,8 @@ namespace mview
                 case 3:
                     break;
             }
+
+            UpdateData();
         }
 
         private void listNames_SelectedIndexChanged(object sender, EventArgs e)
@@ -179,12 +171,48 @@ namespace mview
 
         private void buttonOptions_Click(object sender, EventArgs e)
         {
-            model.ShowModelsForm(
-                buttonModels.PointToScreen(Point.Empty).X,
-                buttonModels.PointToScreen(Point.Empty).Y);
+            FormModels tmp = new FormModels(model.GetProjectManager());
 
-            buttonModels.Text = model.GetActiveProjectName();
+            tmp.Left = buttonModels.PointToScreen(Point.Empty).X;
+            tmp.Top = buttonModels.PointToScreen(Point.Empty).Y;
+            tmp.ApplyStyle += OnApplyStyle;
+            
+            tmp.Show();
         }
+
+        void UpdateData()
+        {
+            if (model.GetActiveProject() == null)
+            {
+                buttonModels.Text = @"\\\";
+
+                foreach (Chart item in tableLayoutPanel1.Controls)
+                {
+                    item.SetEclipseProject(model.GetActiveProject());
+                }
+
+                listNames.Items.Clear();
+            }
+            else
+            {
+
+                buttonModels.Text = model.GetActiveProjectName();
+
+                foreach (Chart item in tableLayoutPanel1.Controls)
+                {
+                    item.SetEclipseProject(model.GetActiveProject());
+                }
+
+                boxNamesType_SelectedIndexChanged(null, null);
+            }
+        }
+
+
+        private void OnApplyStyle()
+        {
+            UpdateData();
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {

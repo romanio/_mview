@@ -75,7 +75,7 @@
             this.listNames.Location = new System.Drawing.Point(12, 68);
             this.listNames.Name = "listNames";
             this.listNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listNames.Size = new System.Drawing.Size(103, 396);
+            this.listNames.Size = new System.Drawing.Size(100, 396);
             this.listNames.TabIndex = 3;
             this.listNames.SelectedIndexChanged += new System.EventHandler(this.listNames_SelectedIndexChanged);
             // 
@@ -157,7 +157,7 @@
             "Other"});
             this.boxNamesType.Location = new System.Drawing.Point(12, 537);
             this.boxNamesType.Name = "boxNamesType";
-            this.boxNamesType.Size = new System.Drawing.Size(103, 21);
+            this.boxNamesType.Size = new System.Drawing.Size(100, 21);
             this.boxNamesType.TabIndex = 10;
             this.boxNamesType.SelectedIndexChanged += new System.EventHandler(this.boxNamesType_SelectedIndexChanged);
             // 
@@ -165,9 +165,10 @@
             // 
             this.buttonModels.Location = new System.Drawing.Point(12, 35);
             this.buttonModels.Name = "buttonModels";
-            this.buttonModels.Size = new System.Drawing.Size(103, 24);
+            this.buttonModels.Size = new System.Drawing.Size(100, 24);
             this.buttonModels.TabIndex = 11;
-            this.buttonModels.Text = "(empty)";
+            this.buttonModels.Text = "///";
+            this.buttonModels.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonModels.UseVisualStyleBackColor = true;
             this.buttonModels.Click += new System.EventHandler(this.buttonOptions_Click);
             // 

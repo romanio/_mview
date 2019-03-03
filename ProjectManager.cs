@@ -31,13 +31,29 @@ namespace mview
 
                 projectList.Add(item);
 
-                if (projectList.Count == 1)
-                {
-                    ActiveProject = projectList[0].ecl;
-                    ActiveProjectIndex = 0;
-                }
+                // Set last project as active
+
+                ActiveProject = projectList.Last().ecl;
+                ActiveProjectIndex = projectList.Count - 1;
             }
         }
+
+        public void DeleteActiveProject()
+        {
+            projectList.RemoveAt(ActiveProjectIndex);
+
+            if (projectList.Count > 0)
+            {
+                ActiveProject = projectList.Last().ecl;
+                ActiveProjectIndex = projectList.Count - 1;
+            }
+            else // полное удаление
+            {
+                ActiveProjectIndex = -1;
+                ActiveProject = null;
+            }
+        }
+
 
         public void SetActiveProject(int index)
         {
