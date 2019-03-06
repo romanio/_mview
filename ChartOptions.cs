@@ -20,27 +20,37 @@ namespace mview
         {
             set
             {
-                boxKeywords.Items.Clear();
-                boxKeywords.Items.Add("TIME");
-                boxKeywords.Items.AddRange(value);
+                boxAxisXMode.Items.Clear();
+                boxAxisXMode.Items.Add("TIME");
+                boxAxisXMode.Items.AddRange(value);
 
-                int index = boxKeywords.Items.IndexOf(chartController.AxisX);
-                if (index != -1) boxKeywords.SelectedIndex = index;
+                int index = boxAxisXMode.Items.IndexOf(chartController.AxisX);
+                if (index != -1) boxAxisXMode.SelectedIndex = index;
 
                 index = boxAxisYMode.Items.IndexOf(chartController.AxisY);
                 if (index != -1) boxAxisYMode.SelectedIndex = index;
+
+                listBoxKeywords.Items.Clear();
+                listBoxKeywords.Items.AddRange(value);
                 
             }
         }
 
         ChartController chartController;
+
         public ChartOptions(ChartController chartController)
         {
             InitializeComponent();
             this.chartController = chartController;
+
+            boxLineStyle.Items.AddRange(Enum.GetNames(typeof(OxyPlot.LineStyle)));
+            boxLineStyle.SelectedIndex = 0;
+
+            boxMarkerStyle.Items.AddRange(Enum.GetNames(typeof(OxyPlot.MarkerType)));
+            boxMarkerStyle.SelectedIndex = 0;
         }
 
-        
+
         private void button1_Click(object sender, EventArgs e)
         {
             ApplyStyle();
@@ -49,20 +59,62 @@ namespace mview
 
         private void boxKeywords_SelectedIndexChanged(object sender, EventArgs e)
         {
-            chartController.AxisX = boxKeywords.SelectedItem.ToString();
+            chartController.AxisX = boxAxisXMode.SelectedItem.ToString();
             ApplyStyle();
         }
 
         private void ChartOptions_Deactivate(object sender, EventArgs e)
         {
-            ApplyStyle();
-            Close();
+            if (IsColorDialog)
+            {
+
+            }
+            else
+            {
+                ApplyStyle();
+                Close();
+            }
         }
 
         private void boxAxisYMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             chartController.AxisY = boxAxisYMode.SelectedItem.ToString();
             ApplyStyle();
+        }
+
+        bool IsColorDialog = false;
+
+        private void buttonLineColor_Click(object sender, EventArgs e)
+        {
+            IsColorDialog = true;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                buttonLineColor.BackColor = colorDialog.Color;
+                buttonLineColor.Text = "";
+                IsColorDialog = false;
+            }
+        }
+
+        private void buttonMarkerBorderColor_Click(object sender, EventArgs e)
+        {
+            IsColorDialog = true;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                buttonMarkerBorderColor.BackColor = colorDialog.Color;
+                buttonMarkerBorderColor.Text = "";
+                IsColorDialog = false;
+            }
+        }
+
+        private void buttonMarkerFill_Click(object sender, EventArgs e)
+        {
+            IsColorDialog = true;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                buttonMarkerFill.BackColor = colorDialog.Color;
+                buttonMarkerFill.Text = "";
+                IsColorDialog = false;
+            }
         }
     }
 }

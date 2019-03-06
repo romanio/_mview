@@ -39,6 +39,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.boxNamesType = new System.Windows.Forms.ComboBox();
             this.buttonModels = new System.Windows.Forms.Button();
+            this.optionalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +50,8 @@
             this.menu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.menu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openModelToolStripMenuItem});
+            this.openModelToolStripMenuItem,
+            this.optionalToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(819, 24);
@@ -172,6 +175,21 @@
             this.buttonModels.UseVisualStyleBackColor = true;
             this.buttonModels.Click += new System.EventHandler(this.buttonOptions_Click);
             // 
+            // optionalToolStripMenuItem
+            // 
+            this.optionalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportToExcelToolStripMenuItem});
+            this.optionalToolStripMenuItem.Name = "optionalToolStripMenuItem";
+            this.optionalToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.optionalToolStripMenuItem.Text = "Optional";
+            // 
+            // exportToExcelToolStripMenuItem
+            // 
+            this.exportToExcelToolStripMenuItem.Name = "exportToExcelToolStripMenuItem";
+            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToExcelToolStripMenuItem.Text = "Export to Excel";
+            this.exportToExcelToolStripMenuItem.Click += new System.EventHandler(this.exportToExcelToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -212,6 +230,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox boxNamesType;
         private System.Windows.Forms.Button buttonModels;
+        private System.Windows.Forms.ToolStripMenuItem optionalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToExcelToolStripMenuItem;
     }
 }
 

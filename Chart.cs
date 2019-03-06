@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
+using OxyPlot;
+using OxyPlot.Series;
+using OxyPlot.WindowsForms;
+using OxyPlot.Axes;
 
 namespace mview
 {
@@ -26,7 +30,7 @@ namespace mview
 
         void InitChart()
         {
-            pm = new OxyPlot.PlotModel
+            pm = new PlotModel
             {
                 Title = "(No wells yet)",
                 DefaultFont = "Tahoma",
@@ -48,7 +52,7 @@ namespace mview
             {
                 pm.Axes.Add(new OxyPlot.Axes.LinearAxis
                 {
-                    Position = OxyPlot.Axes.AxisPosition.Bottom,
+                    Position = AxisPosition.Bottom,
                     Title = chartController.AxisX
                 });
             }
@@ -182,7 +186,7 @@ namespace mview
                 {
                     for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
                     {
-                        List<OxyPlot.DataPoint> data = null;
+                        List<DataPoint> data = null;
 
                         if (chartController.AxisX == "TIME") // Временные ряды
                         {
@@ -193,10 +197,17 @@ namespace mview
                             data = model.GetData(selected_names[it], chartController.AxisX, listKeywords.SelectedItems[iw].ToString());
                         }
 
-                        pm.Series.Add(new OxyPlot.Series.LineSeries
+                        pm.Series.Add(new LineSeries
                         {
+                            Color = OxyColors.Brown,
+                            MarkerStroke = OxyColors.Red,
+                            MarkerSize = 8,
+                            MarkerFill = OxyColors.Yellow,
+                            StrokeThickness = 2,
+                            Smooth = true,
                             Title = listKeywords.SelectedItems[iw].ToString(),
-                            MarkerType = OxyPlot.MarkerType.Circle
+                            MarkerType = OxyPlot.MarkerType.Star,
+                            LineStyle = LineStyle.Dash
                         });
 
                         ((OxyPlot.Series.LineSeries)pm.Series[it * listKeywords.SelectedItems.Count + iw]).Points.Clear();
@@ -205,7 +216,7 @@ namespace mview
                 }
             }
 
-
+           
             if (chartController.AxisY == "Average")
             {
                 for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
@@ -246,11 +257,11 @@ namespace mview
                                 count++;
                             }
                         }
-                        ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.Add(new OxyPlot.DataPoint(datas[0][it].X, count>0?value / count:0));
+                        ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.Add(new DataPoint(datas[0][it].X, count > 0 ? value / count : 0));
                        }
                 }
             }
-
+           
             if (chartController.AxisY == "Sum")
             {
                 for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
@@ -288,7 +299,7 @@ namespace mview
                                 value = value + datas[ic][it].Y;
                             }
                         }
-                        ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.Add(new OxyPlot.DataPoint(datas[0][it].X, value));
+                        ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.Add(new DataPoint(datas[0][it].X, value));
                     }
                 }
             }

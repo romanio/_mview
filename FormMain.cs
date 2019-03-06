@@ -218,5 +218,10 @@ namespace mview
         {
             model.ShowDetailForm();
         }
+
+        private void exportToExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            model.ExportToExcel();
+        }
     }
 }
