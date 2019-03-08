@@ -65,7 +65,7 @@ namespace mview
             plotView1.Model = pm;
         }
 
-        public Chart(EclipseProject ecl)
+        public Chart(EclipseProject ecl, ChartController chartController)
         {
             InitializeComponent();
 
@@ -74,6 +74,7 @@ namespace mview
                 null, gridData, new object[] { true });
 
             model = new ChartModel(ecl);
+            this.chartController = chartController;
 
             listKeywords.Items.Clear();
             InitChart();
@@ -197,18 +198,39 @@ namespace mview
                             data = model.GetData(selected_names[it], chartController.AxisX, listKeywords.SelectedItems[iw].ToString());
                         }
 
-                        pm.Series.Add(new LineSeries
+                        //
+
+                        var tmp_style = chartController.GetStyle(listKeywords.SelectedItems[iw].ToString());
+
+                        var tmp_ls = new LineSeries
                         {
-                            Color = OxyColors.Brown,
-                            MarkerStroke = OxyColors.Red,
-                            MarkerSize = 8,
-                            MarkerFill = OxyColors.Yellow,
-                            StrokeThickness = 2,
-                            Smooth = true,
                             Title = listKeywords.SelectedItems[iw].ToString(),
-                            MarkerType = OxyPlot.MarkerType.Star,
-                            LineStyle = LineStyle.Dash
-                        });
+                            LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
+                            StrokeThickness = tmp_style?.LineWidth ?? 1,
+                            Smooth = tmp_style?.LineSmooth ?? false,
+                            MarkerType = tmp_style?.MarkerType ?? OxyPlot.MarkerType.Circle,
+                            MarkerSize = tmp_style?.MarkerSize ?? 5
+                        };
+
+                        if (tmp_style != null)
+                        {
+                            if (tmp_style.LineColor.Name != "0") // Default value
+                            {
+                                tmp_ls.Color = tmp_style.LineColor.ToOxyColor();
+                            }
+
+                            if (tmp_style.MarkerFillColor.Name != "0")
+                            {
+                                tmp_ls.MarkerFill = tmp_style.MarkerFillColor.ToOxyColor();
+                            }
+
+                            if (tmp_style.MarkerColor.Name != "0")
+                            {
+                                tmp_ls.MarkerStroke = tmp_style.MarkerColor.ToOxyColor();
+                            }
+                        }
+
+                        pm.Series.Add(tmp_ls);
 
                         ((OxyPlot.Series.LineSeries)pm.Series[it * listKeywords.SelectedItems.Count + iw]).Points.Clear();
                         ((OxyPlot.Series.LineSeries)pm.Series[it * listKeywords.SelectedItems.Count + iw]).Points.AddRange(data);

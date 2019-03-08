@@ -30,6 +30,8 @@
         {
             this.menu = new System.Windows.Forms.MenuStrip();
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileDialog = new System.Windows.Forms.OpenFileDialog();
             this.listNames = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -39,8 +41,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.boxNamesType = new System.Windows.Forms.ComboBox();
             this.buttonModels = new System.Windows.Forms.Button();
-            this.optionalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,6 +64,21 @@
             this.openModelToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
             this.openModelToolStripMenuItem.Text = "Open model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
+            // 
+            // optionalToolStripMenuItem
+            // 
+            this.optionalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportToExcelToolStripMenuItem});
+            this.optionalToolStripMenuItem.Name = "optionalToolStripMenuItem";
+            this.optionalToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.optionalToolStripMenuItem.Text = "Optional";
+            // 
+            // exportToExcelToolStripMenuItem
+            // 
+            this.exportToExcelToolStripMenuItem.Name = "exportToExcelToolStripMenuItem";
+            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.exportToExcelToolStripMenuItem.Text = "Export to Excel";
+            this.exportToExcelToolStripMenuItem.Click += new System.EventHandler(this.exportToExcelToolStripMenuItem_Click);
             // 
             // FileDialog
             // 
@@ -175,21 +190,6 @@
             this.buttonModels.UseVisualStyleBackColor = true;
             this.buttonModels.Click += new System.EventHandler(this.buttonOptions_Click);
             // 
-            // optionalToolStripMenuItem
-            // 
-            this.optionalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportToExcelToolStripMenuItem});
-            this.optionalToolStripMenuItem.Name = "optionalToolStripMenuItem";
-            this.optionalToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-            this.optionalToolStripMenuItem.Text = "Optional";
-            // 
-            // exportToExcelToolStripMenuItem
-            // 
-            this.exportToExcelToolStripMenuItem.Name = "exportToExcelToolStripMenuItem";
-            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exportToExcelToolStripMenuItem.Text = "Export to Excel";
-            this.exportToExcelToolStripMenuItem.Click += new System.EventHandler(this.exportToExcelToolStripMenuItem_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -210,6 +210,7 @@
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Model View";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
             this.ResumeLayout(false);

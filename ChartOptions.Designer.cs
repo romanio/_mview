@@ -37,29 +37,32 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.boxLineStyle = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.boxMarkerStyle = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.buttonLineColor = new System.Windows.Forms.Button();
-            this.colorDialog = new System.Windows.Forms.ColorDialog();
-            this.label6 = new System.Windows.Forms.Label();
-            this.buttonMarkerBorderColor = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.buttonMarkerFill = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.numericLineWidth = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.numericMarkerSize = new System.Windows.Forms.NumericUpDown();
-            this.checkSmooth = new System.Windows.Forms.CheckBox();
+            this.buttonApplySeries = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.checkSmooth = new System.Windows.Forms.CheckBox();
+            this.numericMarkerSize = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.numericLineWidth = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.buttonMarkerFill = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.buttonMarkerBorderColor = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.buttonLineColor = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.boxMarkerStyle = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.boxLineStyle = new System.Windows.Forms.ComboBox();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.buttonLineColorDefault = new System.Windows.Forms.Button();
+            this.buttonMarkerBorderDefault = new System.Windows.Forms.Button();
+            this.buttonMarkerFillDefault = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericLineWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMarkerSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericLineWidth)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -122,8 +125,9 @@
             this.listBoxKeywords.IntegralHeight = false;
             this.listBoxKeywords.Location = new System.Drawing.Point(6, 6);
             this.listBoxKeywords.Name = "listBoxKeywords";
-            this.listBoxKeywords.Size = new System.Drawing.Size(100, 337);
+            this.listBoxKeywords.Size = new System.Drawing.Size(80, 337);
             this.listBoxKeywords.TabIndex = 0;
+            this.listBoxKeywords.SelectedIndexChanged += new System.EventHandler(this.listBoxKeywords_SelectedIndexChanged);
             // 
             // tabControl1
             // 
@@ -133,7 +137,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 40);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(349, 394);
+            this.tabControl1.Size = new System.Drawing.Size(304, 394);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -145,14 +149,17 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(341, 322);
+            this.tabPage1.Size = new System.Drawing.Size(286, 365);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Axes";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.buttonMarkerFillDefault);
+            this.tabPage2.Controls.Add(this.buttonMarkerBorderDefault);
+            this.tabPage2.Controls.Add(this.buttonLineColorDefault);
+            this.tabPage2.Controls.Add(this.buttonApplySeries);
             this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.checkSmooth);
             this.tabPage2.Controls.Add(this.numericMarkerSize);
@@ -173,167 +180,35 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(341, 365);
+            this.tabPage2.Size = new System.Drawing.Size(296, 365);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Series";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // boxLineStyle
+            // buttonApplySeries
             // 
-            this.boxLineStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.boxLineStyle.FormattingEnabled = true;
-            this.boxLineStyle.IntegralHeight = false;
-            this.boxLineStyle.Location = new System.Drawing.Point(214, 3);
-            this.boxLineStyle.Name = "boxLineStyle";
-            this.boxLineStyle.Size = new System.Drawing.Size(103, 21);
-            this.boxLineStyle.TabIndex = 12;
+            this.buttonApplySeries.Location = new System.Drawing.Point(187, 320);
+            this.buttonApplySeries.Name = "buttonApplySeries";
+            this.buttonApplySeries.Size = new System.Drawing.Size(103, 23);
+            this.buttonApplySeries.TabIndex = 28;
+            this.buttonApplySeries.Text = "Apply style";
+            this.buttonApplySeries.UseVisualStyleBackColor = true;
+            this.buttonApplySeries.Click += new System.EventHandler(this.buttonApplySeries_Click);
             // 
-            // label3
+            // label10
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(128, 6);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Line style";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(128, 144);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(66, 13);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Marker style";
-            // 
-            // boxMarkerStyle
-            // 
-            this.boxMarkerStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.boxMarkerStyle.FormattingEnabled = true;
-            this.boxMarkerStyle.IntegralHeight = false;
-            this.boxMarkerStyle.Location = new System.Drawing.Point(214, 141);
-            this.boxMarkerStyle.Name = "boxMarkerStyle";
-            this.boxMarkerStyle.Size = new System.Drawing.Size(103, 21);
-            this.boxMarkerStyle.TabIndex = 15;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(127, 35);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 13);
-            this.label5.TabIndex = 16;
-            this.label5.Text = "Line color";
-            // 
-            // buttonLineColor
-            // 
-            this.buttonLineColor.Location = new System.Drawing.Point(214, 30);
-            this.buttonLineColor.Name = "buttonLineColor";
-            this.buttonLineColor.Size = new System.Drawing.Size(103, 23);
-            this.buttonLineColor.TabIndex = 17;
-            this.buttonLineColor.Text = "(default)";
-            this.buttonLineColor.UseVisualStyleBackColor = true;
-            this.buttonLineColor.Click += new System.EventHandler(this.buttonLineColor_Click);
-            // 
-            // colorDialog
-            // 
-            this.colorDialog.AnyColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(128, 216);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(75, 13);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "Marker border";
-            // 
-            // buttonMarkerBorderColor
-            // 
-            this.buttonMarkerBorderColor.Location = new System.Drawing.Point(214, 211);
-            this.buttonMarkerBorderColor.Name = "buttonMarkerBorderColor";
-            this.buttonMarkerBorderColor.Size = new System.Drawing.Size(103, 23);
-            this.buttonMarkerBorderColor.TabIndex = 19;
-            this.buttonMarkerBorderColor.Text = "(default)";
-            this.buttonMarkerBorderColor.UseVisualStyleBackColor = true;
-            this.buttonMarkerBorderColor.Click += new System.EventHandler(this.buttonMarkerBorderColor_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(128, 245);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 13);
-            this.label7.TabIndex = 20;
-            this.label7.Text = "Marker fill";
-            // 
-            // buttonMarkerFill
-            // 
-            this.buttonMarkerFill.Location = new System.Drawing.Point(214, 240);
-            this.buttonMarkerFill.Name = "buttonMarkerFill";
-            this.buttonMarkerFill.Size = new System.Drawing.Size(103, 23);
-            this.buttonMarkerFill.TabIndex = 21;
-            this.buttonMarkerFill.Text = "(default)";
-            this.buttonMarkerFill.UseVisualStyleBackColor = true;
-            this.buttonMarkerFill.Click += new System.EventHandler(this.buttonMarkerFill_Click);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(127, 63);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(55, 13);
-            this.label8.TabIndex = 22;
-            this.label8.Text = "Line width";
-            // 
-            // numericLineWidth
-            // 
-            this.numericLineWidth.Location = new System.Drawing.Point(236, 61);
-            this.numericLineWidth.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericLineWidth.Name = "numericLineWidth";
-            this.numericLineWidth.Size = new System.Drawing.Size(81, 21);
-            this.numericLineWidth.TabIndex = 23;
-            this.numericLineWidth.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(128, 170);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(61, 13);
-            this.label9.TabIndex = 24;
-            this.label9.Text = "Marker size";
-            // 
-            // numericMarkerSize
-            // 
-            this.numericMarkerSize.Location = new System.Drawing.Point(236, 168);
-            this.numericMarkerSize.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericMarkerSize.Name = "numericMarkerSize";
-            this.numericMarkerSize.Size = new System.Drawing.Size(81, 21);
-            this.numericMarkerSize.TabIndex = 25;
-            this.numericMarkerSize.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(100, 98);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(62, 13);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "Smooth line";
             // 
             // checkSmooth
             // 
             this.checkSmooth.AutoSize = true;
             this.checkSmooth.CheckAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.checkSmooth.Location = new System.Drawing.Point(236, 92);
+            this.checkSmooth.Location = new System.Drawing.Point(187, 98);
             this.checkSmooth.Name = "checkSmooth";
             this.checkSmooth.Size = new System.Drawing.Size(81, 17);
             this.checkSmooth.TabIndex = 26;
@@ -341,31 +216,199 @@
             this.checkSmooth.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.checkSmooth.UseVisualStyleBackColor = true;
             // 
-            // label10
+            // numericMarkerSize
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(127, 92);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(62, 13);
-            this.label10.TabIndex = 27;
-            this.label10.Text = "Smooth line";
+            this.numericMarkerSize.Location = new System.Drawing.Point(187, 174);
+            this.numericMarkerSize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericMarkerSize.Name = "numericMarkerSize";
+            this.numericMarkerSize.Size = new System.Drawing.Size(103, 21);
+            this.numericMarkerSize.TabIndex = 25;
+            this.numericMarkerSize.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             // 
-            // button2
+            // label9
             // 
-            this.button2.Location = new System.Drawing.Point(214, 320);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 23);
-            this.button2.TabIndex = 28;
-            this.button2.Text = "Apply style";
-            this.button2.UseVisualStyleBackColor = true;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(101, 176);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(61, 13);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "Marker size";
+            // 
+            // numericLineWidth
+            // 
+            this.numericLineWidth.Location = new System.Drawing.Point(187, 67);
+            this.numericLineWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericLineWidth.Name = "numericLineWidth";
+            this.numericLineWidth.Size = new System.Drawing.Size(103, 21);
+            this.numericLineWidth.TabIndex = 23;
+            this.numericLineWidth.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(100, 69);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(55, 13);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Line width";
+            // 
+            // buttonMarkerFill
+            // 
+            this.buttonMarkerFill.Location = new System.Drawing.Point(187, 246);
+            this.buttonMarkerFill.Name = "buttonMarkerFill";
+            this.buttonMarkerFill.Size = new System.Drawing.Size(81, 23);
+            this.buttonMarkerFill.TabIndex = 21;
+            this.buttonMarkerFill.Text = "(default)";
+            this.buttonMarkerFill.UseVisualStyleBackColor = true;
+            this.buttonMarkerFill.Click += new System.EventHandler(this.buttonMarkerFill_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(101, 251);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.TabIndex = 20;
+            this.label7.Text = "Marker fill";
+            // 
+            // buttonMarkerBorderColor
+            // 
+            this.buttonMarkerBorderColor.Location = new System.Drawing.Point(187, 217);
+            this.buttonMarkerBorderColor.Name = "buttonMarkerBorderColor";
+            this.buttonMarkerBorderColor.Size = new System.Drawing.Size(81, 23);
+            this.buttonMarkerBorderColor.TabIndex = 19;
+            this.buttonMarkerBorderColor.Text = "(default)";
+            this.buttonMarkerBorderColor.UseVisualStyleBackColor = true;
+            this.buttonMarkerBorderColor.Click += new System.EventHandler(this.buttonMarkerBorderColor_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(101, 222);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Marker border";
+            // 
+            // buttonLineColor
+            // 
+            this.buttonLineColor.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonLineColor.Location = new System.Drawing.Point(187, 36);
+            this.buttonLineColor.Name = "buttonLineColor";
+            this.buttonLineColor.Size = new System.Drawing.Size(81, 23);
+            this.buttonLineColor.TabIndex = 17;
+            this.buttonLineColor.Text = "(default)";
+            this.buttonLineColor.UseVisualStyleBackColor = true;
+            this.buttonLineColor.Click += new System.EventHandler(this.buttonLineColor_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(100, 41);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 13);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "Line color";
+            // 
+            // boxMarkerStyle
+            // 
+            this.boxMarkerStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxMarkerStyle.FormattingEnabled = true;
+            this.boxMarkerStyle.IntegralHeight = false;
+            this.boxMarkerStyle.Location = new System.Drawing.Point(187, 147);
+            this.boxMarkerStyle.Name = "boxMarkerStyle";
+            this.boxMarkerStyle.Size = new System.Drawing.Size(103, 21);
+            this.boxMarkerStyle.TabIndex = 15;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(101, 150);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 13);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Marker style";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(101, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Line style";
+            // 
+            // boxLineStyle
+            // 
+            this.boxLineStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxLineStyle.FormattingEnabled = true;
+            this.boxLineStyle.IntegralHeight = false;
+            this.boxLineStyle.Location = new System.Drawing.Point(187, 9);
+            this.boxLineStyle.Name = "boxLineStyle";
+            this.boxLineStyle.Size = new System.Drawing.Size(103, 21);
+            this.boxLineStyle.TabIndex = 12;
+            // 
+            // colorDialog
+            // 
+            this.colorDialog.AnyColor = true;
+            // 
+            // buttonLineColorDefault
+            // 
+            this.buttonLineColorDefault.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonLineColorDefault.Location = new System.Drawing.Point(269, 36);
+            this.buttonLineColorDefault.Name = "buttonLineColorDefault";
+            this.buttonLineColorDefault.Size = new System.Drawing.Size(24, 23);
+            this.buttonLineColorDefault.TabIndex = 29;
+            this.buttonLineColorDefault.Text = "D";
+            this.buttonLineColorDefault.UseVisualStyleBackColor = true;
+            this.buttonLineColorDefault.Click += new System.EventHandler(this.buttonLineColorDefault_Click);
+            // 
+            // buttonMarkerBorderDefault
+            // 
+            this.buttonMarkerBorderDefault.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonMarkerBorderDefault.Location = new System.Drawing.Point(269, 217);
+            this.buttonMarkerBorderDefault.Name = "buttonMarkerBorderDefault";
+            this.buttonMarkerBorderDefault.Size = new System.Drawing.Size(24, 23);
+            this.buttonMarkerBorderDefault.TabIndex = 30;
+            this.buttonMarkerBorderDefault.Text = "D";
+            this.buttonMarkerBorderDefault.UseVisualStyleBackColor = true;
+            this.buttonMarkerBorderDefault.Click += new System.EventHandler(this.buttonMarkerBorderDefault_Click);
+            // 
+            // buttonMarkerFillDefault
+            // 
+            this.buttonMarkerFillDefault.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonMarkerFillDefault.Location = new System.Drawing.Point(269, 246);
+            this.buttonMarkerFillDefault.Name = "buttonMarkerFillDefault";
+            this.buttonMarkerFillDefault.Size = new System.Drawing.Size(24, 23);
+            this.buttonMarkerFillDefault.TabIndex = 31;
+            this.buttonMarkerFillDefault.Text = "D";
+            this.buttonMarkerFillDefault.UseVisualStyleBackColor = true;
+            this.buttonMarkerFillDefault.Click += new System.EventHandler(this.buttonMarkerFillDefault_Click);
             // 
             // ChartOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(353, 440);
+            this.ClientSize = new System.Drawing.Size(316, 440);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button1);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ChartOptions";
@@ -377,8 +420,8 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericLineWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMarkerSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericLineWidth)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -411,6 +454,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox checkSmooth;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonApplySeries;
+        private System.Windows.Forms.Button buttonLineColorDefault;
+        private System.Windows.Forms.Button buttonMarkerFillDefault;
+        private System.Windows.Forms.Button buttonMarkerBorderDefault;
     }
 }

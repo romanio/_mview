@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OxyPlot;
+using System.IO;
 
 namespace mview
 {
@@ -11,9 +12,9 @@ namespace mview
     {
         public string Name;
         //
-        public OxyColor LineColor;
-        public OxyColor MarkerColor;
-        public OxyColor MarkerFillColor;
+        public System.Drawing.Color LineColor;
+        public System.Drawing.Color MarkerColor;
+        public System.Drawing.Color MarkerFillColor;
         //
         public int MarkerSize;
         public int LineWidth;
@@ -29,5 +30,93 @@ namespace mview
 
         public string AxisX = "TIME";
         public string AxisY = "Normal";
+
+        public void UpdateStyle(SeriesStyle style)
+        {
+            int index = GetIndex(style.Name);
+            if (index == -1)
+                listSeriesStyle.Add(style);
+            else
+            {
+                listSeriesStyle[index] = style;
+            }
+        }
+
+        public void SaveSettings()
+        {
+            using (TextWriter text = new StreamWriter(System.Windows.Forms.Application.StartupPath + "/mview.ini", false))
+            {
+                text.WriteLine(listSeriesStyle.Count);
+
+                for (int iw = 0; iw < listSeriesStyle.Count; ++iw)
+                {
+                    text.WriteLine(listSeriesStyle[iw].Name);
+
+                    text.WriteLine(listSeriesStyle[iw].LineColor.ToArgb());
+                    text.WriteLine(listSeriesStyle[iw].MarkerColor.ToArgb());
+                    text.WriteLine(listSeriesStyle[iw].MarkerFillColor.ToArgb());
+
+                    text.WriteLine(listSeriesStyle[iw].MarkerSize);
+                    text.WriteLine(listSeriesStyle[iw].LineWidth);
+                    text.WriteLine(listSeriesStyle[iw].LineSmooth);
+
+                    text.WriteLine(listSeriesStyle[iw].MarkerType);
+                    text.WriteLine(listSeriesStyle[iw].LineStyle);
+                }
+                text.Close();
+            }
+        }
+
+        public void LoadSettings()
+        {
+            string filename = System.Windows.Forms.Application.StartupPath + "/mview.ini";
+            if (System.IO.File.Exists(filename))
+            {
+                using (TextReader text = new StreamReader(filename))
+                {
+                    int count = Int32.Parse(text.ReadLine());
+
+                    for (int iw = 0; iw < count; ++iw)
+                    {
+                        var tmp_style = new SeriesStyle();
+                        tmp_style.Name = text.ReadLine();
+                        tmp_style.LineColor = System.Drawing.Color.FromArgb(Int32.Parse(text.ReadLine()));
+                        tmp_style.MarkerColor = System.Drawing.Color.FromArgb(Int32.Parse(text.ReadLine()));
+                        tmp_style.MarkerFillColor = System.Drawing.Color.FromArgb(Int32.Parse(text.ReadLine()));
+                        tmp_style.MarkerSize = Int32.Parse(text.ReadLine());
+                        tmp_style.LineWidth = Int32.Parse(text.ReadLine());
+                        tmp_style.LineSmooth = Boolean.Parse(text.ReadLine());
+                        tmp_style.MarkerType = (MarkerType)Enum.Parse(typeof(MarkerType), text.ReadLine(), true);
+                        tmp_style.LineStyle = (LineStyle)Enum.Parse(typeof(LineStyle), text.ReadLine(), true);
+
+                        listSeriesStyle.Add(tmp_style);
+                    }
+                    text.Close();
+                }
+            }
+
+        }
+
+        public SeriesStyle GetStyle(string name)
+        {
+            int index = GetIndex(name);
+            if (index != -1) return GetStyle(index);
+            return null;
+        }
+
+        public SeriesStyle GetStyle(int index)
+        {
+            return listSeriesStyle[index];
+        }
+
+        public int GetIndex(string name)
+        {
+            for (int iw = 0; iw < listSeriesStyle.Count; ++iw)
+            {
+                if (listSeriesStyle[iw].Name == name)
+                    return iw;
+            }
+            return -1;
+        }
     }
 }
