@@ -41,6 +41,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.boxNamesType = new System.Windows.Forms.ComboBox();
             this.buttonModels = new System.Windows.Forms.Button();
+            this.buttonChartOptions = new System.Windows.Forms.Button();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -190,11 +191,24 @@
             this.buttonModels.UseVisualStyleBackColor = true;
             this.buttonModels.Click += new System.EventHandler(this.buttonOptions_Click);
             // 
+            // buttonChartOptions
+            // 
+            this.buttonChartOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonChartOptions.Location = new System.Drawing.Point(415, 35);
+            this.buttonChartOptions.Name = "buttonChartOptions";
+            this.buttonChartOptions.Size = new System.Drawing.Size(100, 24);
+            this.buttonChartOptions.TabIndex = 12;
+            this.buttonChartOptions.Text = "Chart Options";
+            this.buttonChartOptions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonChartOptions.UseVisualStyleBackColor = true;
+            this.buttonChartOptions.Click += new System.EventHandler(this.buttonChartOptions_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(819, 629);
+            this.Controls.Add(this.buttonChartOptions);
             this.Controls.Add(this.buttonModels);
             this.Controls.Add(this.boxNamesType);
             this.Controls.Add(this.label2);
@@ -233,6 +247,7 @@
         private System.Windows.Forms.Button buttonModels;
         private System.Windows.Forms.ToolStripMenuItem optionalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToExcelToolStripMenuItem;
+        private System.Windows.Forms.Button buttonChartOptions;
     }
 }
 

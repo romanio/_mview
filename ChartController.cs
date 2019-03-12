@@ -8,25 +8,40 @@ using System.IO;
 
 namespace mview
 {
+    public enum GroupMode
+    {
+        Normal,
+        Average,
+        Sum
+    }
+
     public class SeriesStyle
     {
         public string Name;
-        //
         public System.Drawing.Color LineColor;
         public System.Drawing.Color MarkerColor;
         public System.Drawing.Color MarkerFillColor;
-        //
         public int MarkerSize;
         public int LineWidth;
-
         public bool LineSmooth;
         public MarkerType MarkerType;
         public LineStyle LineStyle;
+        public GroupMode GroupMode;
     }
 
     public class ChartController
     {
         List<SeriesStyle> listSeriesStyle = new List<SeriesStyle>();
+
+        public LineStyle AxisXStyle = LineStyle.None;
+        public int AxisXWidth = 1;
+        public System.Drawing.Color AxisXColor;
+
+        public LineStyle AxisYStyle = LineStyle.None;
+        public int AxisYWidth = 1;
+        public System.Drawing.Color AxisYColor;
+
+        public OxyPlot.LegendPosition LegendPosition = LegendPosition.TopRight;
 
         public string AxisX = "TIME";
         public string AxisY = "Normal";
@@ -46,6 +61,20 @@ namespace mview
         {
             using (TextWriter text = new StreamWriter(System.Windows.Forms.Application.StartupPath + "/mview.ini", false))
             {
+                // Сохраним настройки графика
+
+                text.WriteLine(AxisXStyle);
+                text.WriteLine(AxisXWidth);
+                text.WriteLine(AxisXColor.ToArgb());
+
+                text.WriteLine(AxisYStyle);
+                text.WriteLine(AxisYWidth);
+                text.WriteLine(AxisYColor.ToArgb());
+
+                text.WriteLine(LegendPosition);
+
+                // Сохраним настройки линий графика
+
                 text.WriteLine(listSeriesStyle.Count);
 
                 for (int iw = 0; iw < listSeriesStyle.Count; ++iw)
@@ -62,6 +91,7 @@ namespace mview
 
                     text.WriteLine(listSeriesStyle[iw].MarkerType);
                     text.WriteLine(listSeriesStyle[iw].LineStyle);
+                    text.WriteLine(listSeriesStyle[iw].GroupMode);
                 }
                 text.Close();
             }
@@ -74,6 +104,16 @@ namespace mview
             {
                 using (TextReader text = new StreamReader(filename))
                 {
+                    AxisXStyle = (LineStyle)Enum.Parse(typeof(LineStyle), text.ReadLine(), true);
+                    AxisXWidth = Int32.Parse(text.ReadLine());
+                    AxisXColor = System.Drawing.Color.FromArgb(Int32.Parse(text.ReadLine()));
+
+                    AxisYStyle = (LineStyle)Enum.Parse(typeof(LineStyle), text.ReadLine(), true);
+                    AxisYWidth = Int32.Parse(text.ReadLine());
+                    AxisYColor = System.Drawing.Color.FromArgb(Int32.Parse(text.ReadLine()));
+
+                    LegendPosition = (LegendPosition)Enum.Parse(typeof(LegendPosition), text.ReadLine(), true);
+
                     int count = Int32.Parse(text.ReadLine());
 
                     for (int iw = 0; iw < count; ++iw)
@@ -88,6 +128,7 @@ namespace mview
                         tmp_style.LineSmooth = Boolean.Parse(text.ReadLine());
                         tmp_style.MarkerType = (MarkerType)Enum.Parse(typeof(MarkerType), text.ReadLine(), true);
                         tmp_style.LineStyle = (LineStyle)Enum.Parse(typeof(LineStyle), text.ReadLine(), true);
+                        tmp_style.GroupMode = (GroupMode)Enum.Parse(typeof(GroupMode), text.ReadLine(), true);
 
                         listSeriesStyle.Add(tmp_style);
                     }

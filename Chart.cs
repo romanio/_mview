@@ -18,54 +18,79 @@ namespace mview
     public partial class Chart : UserControl
     {
         ChartModel model = null;
-        OxyPlot.PlotModel pm = null;
-        ChartController chartController = new ChartController();
+        PlotModel plotModel = null;
+        ChartController chartController = null;
 
         bool edit_mode_keywords = false;
 
-        public void SetEclipseProject(EclipseProject ecl)
+        // При изменении количества проектов
+
+        public void SetEclipseProject(ProjectManager pm)
         {
-            model = new ChartModel(ecl);
+            model = new ChartModel(pm);
+
+            checkedProjectList.Items.Clear();
+
+            
+            foreach (ProjectManagerItem item in pm.projectList)
+            {
+                checkedProjectList.Items.Add(item.name);
+            }
+
+            if (pm.ActiveProjectIndex != -1)
+            {
+                checkedProjectList.Items[pm.ActiveProjectIndex] = checkedProjectList.Items[pm.ActiveProjectIndex] + " (ACTIVE)";
+                checkedProjectList.SetItemChecked(pm.ActiveProjectIndex, true);
+                selected_pm = new int[] { pm.ActiveProjectIndex };
+            }
         }
 
-        void InitChart()
+        public void InitChart()
         {
-            pm = new PlotModel
+            plotModel = new PlotModel
             {
                 Title = "(No wells yet)",
                 DefaultFont = "Tahoma",
                 TitleFontWeight = 2,
                 TitleFontSize = 10,
                 LegendFontSize = 10,
+                LegendPosition = chartController.LegendPosition,
+               
                 DefaultFontSize = 10
             };
 
             if (chartController.AxisX == "TIME")
             {
-                pm.Axes.Add(new OxyPlot.Axes.DateTimeAxis
+                plotModel.Axes.Add(new OxyPlot.Axes.DateTimeAxis
                 {
                     Position = OxyPlot.Axes.AxisPosition.Bottom,
-                    StringFormat = "dd.MM.yyyy"
+                    StringFormat = "dd.MM.yyyy",
+                    MajorGridlineStyle = chartController.AxisXStyle,
+                    MajorGridlineThickness = chartController.AxisXWidth,
+                    MajorGridlineColor = chartController.AxisXColor.ToOxyColor()
                 });
             }
             else
             {
-                pm.Axes.Add(new OxyPlot.Axes.LinearAxis
+                plotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
                 {
                     Position = AxisPosition.Bottom,
-                    Title = chartController.AxisX
+                    Title = chartController.AxisX,
                 });
             }
 
-            pm.Axes.Add(new OxyPlot.Axes.LinearAxis
+            plotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
             {
-                Position = OxyPlot.Axes.AxisPosition.Left
+                Position = OxyPlot.Axes.AxisPosition.Left,
+                MajorGridlineStyle = chartController.AxisYStyle,
+                MajorGridlineThickness = chartController.AxisYWidth,
+                MajorGridlineColor = chartController.AxisYColor.ToOxyColor()
             });
 
-            plotView1.Model = pm;
+            plotView1.Model = plotModel;
         }
 
-        public Chart(EclipseProject ecl, ChartController chartController)
+        public Chart(ProjectManager pm, ChartController chartController)
         {
             InitializeComponent();
 
@@ -73,7 +98,7 @@ namespace mview
                 BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                 null, gridData, new object[] { true });
 
-            model = new ChartModel(ecl);
+            model = new ChartModel(pm);
             this.chartController = chartController;
 
             listKeywords.Items.Clear();
@@ -116,11 +141,11 @@ namespace mview
             edit_mode_keywords = false;
             listKeywords.EndUpdate();
 
-            UpdateVisibleElements();
             listKeywords_SelectedIndexChanged(null, null);
         }
 
         int[] selected_index = null;
+        int[] selected_pm = null;
 
         void UpdateVisibleElements()
         {
@@ -153,11 +178,11 @@ namespace mview
             StringBuilder title_name = new StringBuilder();
 
             for (int iw = 0; iw < selected_names.Length - 1; ++iw)
-                title_name.Append(selected_names[iw] + ",");
+                title_name.Append(selected_names[iw] + ", ");
 
             title_name.Append(selected_names.Last());
 
-            pm.Title = title_name.ToString();
+            plotModel.Title = title_name.ToString();
 
             // Размерность оси Y
 
@@ -168,43 +193,81 @@ namespace mview
                 StringBuilder axis_y_name = new StringBuilder();
 
                 for (int iw = 0; iw < selected_units.Count - 1; ++iw)
-                    axis_y_name.Append(selected_units[iw] + ",");
+                    axis_y_name.Append(selected_units[iw] + ", ");
 
                 axis_y_name.Append(selected_units.Last());
 
-                pm.Axes[1].Title = axis_y_name.ToString();
+                plotModel.Axes[1].Title = axis_y_name.ToString();
             }
 
             // Обновить график
 
-            pm.Series.Clear();
+            plotModel.Series.Clear();
 
-            // Обычный режим для графиков, отличия только в оси X
+            int series_index = -1;
 
-            if (chartController.AxisY == "Normal")
+            for (int ip = 0; ip < selected_pm.Length; ++ip) // Цикл по всем выбранным проектам
             {
-                for (int it = 0; it < selected_names.Length; ++it)
+                for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
                 {
-                    for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
+                    List<List<OxyPlot.DataPoint>> datas = new List<List<OxyPlot.DataPoint>>();
+
+                    for (int it = 0; it < selected_names.Length; ++it) // Считывание данных
                     {
-                        List<DataPoint> data = null;
+                        datas.Add(model.GetDataTime(selected_names[it], listKeywords.SelectedItems[iw].ToString()));
+                    }
 
-                        if (chartController.AxisX == "TIME") // Временные ряды
+                    // Определение стиля линии графика
+
+                    var tmp_style = chartController.GetStyle(listKeywords.SelectedItems[iw].ToString());
+
+                    //
+
+                    if (tmp_style?.GroupMode == GroupMode.Normal || tmp_style == null) // Обычный режим отображения
+                    {
+                        for (int it = 0; it < selected_names.Length; ++it)
                         {
-                            data = model.GetDataTime(selected_names[it], listKeywords.SelectedItems[iw].ToString());
+                            var tmp_ls = new LineSeries
+                            {
+                                Title = listKeywords.SelectedItems[iw].ToString(),
+                                LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
+                                StrokeThickness = tmp_style?.LineWidth ?? 1,
+                                Smooth = tmp_style?.LineSmooth ?? false,
+                                MarkerType = tmp_style?.MarkerType ?? OxyPlot.MarkerType.Circle,
+                                MarkerSize = tmp_style?.MarkerSize ?? 4,
+                            };
+
+                            if (tmp_style != null)
+                            {
+                                if (tmp_style.LineColor.Name != "0") // Default value
+                                {
+                                    tmp_ls.Color = tmp_style.LineColor.ToOxyColor();
+                                }
+
+                                if (tmp_style.MarkerFillColor.Name != "0")
+                                {
+                                    tmp_ls.MarkerFill = tmp_style.MarkerFillColor.ToOxyColor();
+                                }
+
+                                if (tmp_style.MarkerColor.Name != "0")
+                                {
+                                    tmp_ls.MarkerStroke = tmp_style.MarkerColor.ToOxyColor();
+                                }
+                            }
+
+                            plotModel.Series.Add(tmp_ls);
+                            series_index++;
+
+                            ((OxyPlot.Series.LineSeries)plotModel.Series[series_index]).Points.Clear();
+                            ((OxyPlot.Series.LineSeries)plotModel.Series[series_index]).Points.AddRange(datas[it]);
                         }
-                        else // произвольная ось X
-                        {
-                            data = model.GetData(selected_names[it], chartController.AxisX, listKeywords.SelectedItems[iw].ToString());
-                        }
+                    }
 
-                        //
-
-                        var tmp_style = chartController.GetStyle(listKeywords.SelectedItems[iw].ToString());
-
+                    if (tmp_style?.GroupMode == GroupMode.Average)
+                    {
                         var tmp_ls = new LineSeries
                         {
-                            Title = listKeywords.SelectedItems[iw].ToString(),
+                            Title = listKeywords.SelectedItems[iw].ToString() + ".av",
                             LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
                             StrokeThickness = tmp_style?.LineWidth ?? 1,
                             Smooth = tmp_style?.LineSmooth ?? false,
@@ -230,106 +293,82 @@ namespace mview
                             }
                         }
 
-                        pm.Series.Add(tmp_ls);
+                        plotModel.Series.Add(tmp_ls);
+                        series_index++;
 
-                        ((OxyPlot.Series.LineSeries)pm.Series[it * listKeywords.SelectedItems.Count + iw]).Points.Clear();
-                        ((OxyPlot.Series.LineSeries)pm.Series[it * listKeywords.SelectedItems.Count + iw]).Points.AddRange(data);
-                    }
-                }
-            }
+                        // Осреднение для значений не равных нулю
 
-           
-            if (chartController.AxisY == "Average")
-            {
-                for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
-                {
-                    List<List<OxyPlot.DataPoint>> datas = new List<List<OxyPlot.DataPoint>>();
-
-                    for (int it = 0; it < selected_names.Length; ++it)
-                    {
-
-                        if (chartController.AxisX == "TIME")
+                        for (int it = 0; it < model.GetStepCount(); ++it)
                         {
-                            datas.Add(model.GetDataTime(selected_names[it], listKeywords.SelectedItems[iw].ToString()));
-                        }
-                        else
-                        {
-                            datas.Add(model.GetData(selected_names[it], chartController.AxisX, listKeywords.SelectedItems[iw].ToString()));
-                        }
-                    }
+                            double value = 0;
+                            double count = 0;
 
-                    pm.Series.Add(new OxyPlot.Series.LineSeries
-                    {
-                        Title = listKeywords.SelectedItems[iw].ToString() + ".av",
-                        MarkerType = OxyPlot.MarkerType.Circle
-                    });
-
-                    // Осреднение для значений не равных нулю
-
-                    for (int it = 0; it < model.GetStepCount(); ++it)
-                    {
-                        double value = 0;
-                        double count = 0;
-
-                        for (int ic = 0; ic < datas.Count; ++ic)
-                        {
-                            if (datas[ic][it].Y != 0)
+                            for (int ic = 0; ic < datas.Count; ++ic)
                             {
-                                value = value + datas[ic][it].Y;
-                                count++;
+                                if (datas[ic][it].Y != 0)
+                                {
+                                    value = value + datas[ic][it].Y;
+                                    count++;
+                                }
+                            }
+                            ((OxyPlot.Series.LineSeries)plotModel.Series[series_index]).Points.Add(new DataPoint(datas[0][it].X, count > 0 ? value / count : 0));
+                        }
+                    }
+
+                    if (tmp_style?.GroupMode == GroupMode.Sum)
+                    {
+                        var tmp_ls = new LineSeries
+                        {
+                            Title = listKeywords.SelectedItems[iw].ToString() + ".sum",
+                            LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
+                            StrokeThickness = tmp_style?.LineWidth ?? 1,
+                            Smooth = tmp_style?.LineSmooth ?? false,
+                            MarkerType = tmp_style?.MarkerType ?? OxyPlot.MarkerType.Circle,
+                            MarkerSize = tmp_style?.MarkerSize ?? 5
+                        };
+
+                        if (tmp_style != null)
+                        {
+                            if (tmp_style.LineColor.Name != "0") // Default value
+                            {
+                                tmp_ls.Color = tmp_style.LineColor.ToOxyColor();
+                            }
+
+                            if (tmp_style.MarkerFillColor.Name != "0")
+                            {
+                                tmp_ls.MarkerFill = tmp_style.MarkerFillColor.ToOxyColor();
+                            }
+
+                            if (tmp_style.MarkerColor.Name != "0")
+                            {
+                                tmp_ls.MarkerStroke = tmp_style.MarkerColor.ToOxyColor();
                             }
                         }
-                        ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.Add(new DataPoint(datas[0][it].X, count > 0 ? value / count : 0));
-                       }
-                }
-            }
-           
-            if (chartController.AxisY == "Sum")
-            {
-                for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
-                {
-                    List<List<OxyPlot.DataPoint>> datas = new List<List<OxyPlot.DataPoint>>();
 
-                    for (int it = 0; it < selected_names.Length; ++it)
-                    {
-                        if (chartController.AxisX == "TIME")
+                        plotModel.Series.Add(tmp_ls);
+                        series_index++;
+
+                        for (int it = 0; it < model.GetStepCount(); ++it)
                         {
-                            datas.Add(model.GetDataTime(selected_names[it], listKeywords.SelectedItems[iw].ToString()));
-                        }
-                        else
-                        {
-                            datas.Add(model.GetData(selected_names[it], chartController.AxisX, listKeywords.SelectedItems[iw].ToString()));
-                        }
-                    }
+                            double value = 0;
 
-                    pm.Series.Add(new OxyPlot.Series.LineSeries
-                    {
-                        Title = listKeywords.SelectedItems[iw].ToString() + ".sum",
-                        MarkerType = OxyPlot.MarkerType.Circle
-                    });
-
-                    // Осреднение для значений не равных нулю
-
-                    for (int it = 0; it < model.GetStepCount(); ++it)
-                    {
-                        double value = 0;
-
-                        for (int ic = 0; ic < datas.Count; ++ic)
-                        {
-                            if (datas[ic][it].Y != 0)
+                            for (int ic = 0; ic < datas.Count; ++ic)
                             {
-                                value = value + datas[ic][it].Y;
+                                if (datas[ic][it].Y != 0)
+                                {
+                                    value = value + datas[ic][it].Y;
+                                }
                             }
+                            ((OxyPlot.Series.LineSeries)plotModel.Series[series_index]).Points.Add(new DataPoint(datas[0][it].X, value));
                         }
-                        ((OxyPlot.Series.LineSeries)pm.Series[iw]).Points.Add(new DataPoint(datas[0][it].X, value));
                     }
                 }
             }
 
-            pm.Axes[0].Reset();
-            pm.Axes[1].Reset();
+            plotModel.Axes[0].Reset();
+            plotModel.Axes[1].Reset();
 
-            pm.InvalidatePlot(true);
+            plotModel.InvalidatePlot(true);
         }
 
         private void listKeywords_SelectedIndexChanged(object sender, EventArgs e)
@@ -351,20 +390,23 @@ namespace mview
 
         private void buttonOptions_Click(object sender, EventArgs e)
         {
-            ChartOptions tmp = new ChartOptions(chartController);
-
-            tmp.Left = buttonOptions.PointToScreen(Point.Empty).X;
-            tmp.Top = buttonOptions.PointToScreen(Point.Empty).Y;
-            tmp.ApplyStyle += OnApplyStyle;
-            tmp.Keywords = model.GetKeywords(selected_names[0]);
-            tmp.Show();
+            panel1.Visible = true;
         }
 
-        private void OnApplyStyle()
+        private void buttonClose_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("CHART OPTIONS : APPLY STYLE");
+            panel1.Visible = false;
+        }
 
-            InitChart();
+        private void checkedProjectList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selected_pm = new int[checkedProjectList.CheckedIndices.Count];
+
+            for (int iw = 0; iw < checkedProjectList.CheckedIndices.Count; ++iw)
+            {
+                selected_pm[iw] = checkedProjectList.CheckedIndices[iw];
+            }
+
             UpdateVisibleElements();
         }
     }

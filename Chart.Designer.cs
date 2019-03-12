@@ -31,12 +31,16 @@
             this.plotView1 = new OxyPlot.WindowsForms.PlotView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonClose = new System.Windows.Forms.Button();
+            this.checkedProjectList = new System.Windows.Forms.CheckedListBox();
+            this.buttonOptions = new System.Windows.Forms.Button();
             this.listKeywords = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.gridData = new System.Windows.Forms.DataGridView();
-            this.buttonOptions = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridData)).BeginInit();
             this.SuspendLayout();
@@ -72,6 +76,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.panel1);
             this.tabPage1.Controls.Add(this.buttonOptions);
             this.tabPage1.Controls.Add(this.listKeywords);
             this.tabPage1.Controls.Add(this.plotView1);
@@ -82,6 +87,56 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Chart";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.buttonClose);
+            this.panel1.Controls.Add(this.checkedProjectList);
+            this.panel1.Location = new System.Drawing.Point(211, 7);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(234, 223);
+            this.panel1.TabIndex = 4;
+            this.panel1.Visible = false;
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonClose.Location = new System.Drawing.Point(145, -1);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(90, 23);
+            this.buttonClose.TabIndex = 4;
+            this.buttonClose.Text = "Close";
+            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+            // 
+            // checkedProjectList
+            // 
+            this.checkedProjectList.CheckOnClick = true;
+            this.checkedProjectList.FormattingEnabled = true;
+            this.checkedProjectList.IntegralHeight = false;
+            this.checkedProjectList.Items.AddRange(new object[] {
+            "OLD MODEL",
+            "NEW MODEL (ACTIVE)",
+            "TEST MODEL",
+            "BRV"});
+            this.checkedProjectList.Location = new System.Drawing.Point(9, 28);
+            this.checkedProjectList.Name = "checkedProjectList";
+            this.checkedProjectList.Size = new System.Drawing.Size(222, 160);
+            this.checkedProjectList.TabIndex = 3;
+            this.checkedProjectList.SelectedIndexChanged += new System.EventHandler(this.checkedProjectList_SelectedIndexChanged);
+            // 
+            // buttonOptions
+            // 
+            this.buttonOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOptions.Location = new System.Drawing.Point(355, 6);
+            this.buttonOptions.Name = "buttonOptions";
+            this.buttonOptions.Size = new System.Drawing.Size(90, 23);
+            this.buttonOptions.TabIndex = 2;
+            this.buttonOptions.Text = "Options";
+            this.buttonOptions.UseVisualStyleBackColor = true;
+            this.buttonOptions.Click += new System.EventHandler(this.buttonOptions_Click);
             // 
             // listKeywords
             // 
@@ -128,17 +183,6 @@
             this.gridData.TabIndex = 1;
             this.gridData.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridData_CellValueNeeded);
             // 
-            // buttonOptions
-            // 
-            this.buttonOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOptions.Location = new System.Drawing.Point(355, 6);
-            this.buttonOptions.Name = "buttonOptions";
-            this.buttonOptions.Size = new System.Drawing.Size(90, 23);
-            this.buttonOptions.TabIndex = 2;
-            this.buttonOptions.Text = "Options";
-            this.buttonOptions.UseVisualStyleBackColor = true;
-            this.buttonOptions.Click += new System.EventHandler(this.buttonOptions_Click);
-            // 
             // Chart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -149,6 +193,7 @@
             this.Size = new System.Drawing.Size(465, 411);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridData)).EndInit();
             this.ResumeLayout(false);
@@ -164,5 +209,8 @@
         private System.Windows.Forms.ListBox listKeywords;
         private System.Windows.Forms.DataGridView gridData;
         private System.Windows.Forms.Button buttonOptions;
+        private System.Windows.Forms.CheckedListBox checkedProjectList;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonClose;
     }
 }

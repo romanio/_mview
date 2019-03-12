@@ -97,6 +97,11 @@ namespace mview
             return pm.ActiveProject;
         }
 
+        public string[] GetAllKeywords()
+        {
+            return pm.ActiveProject.SUMMARY.KEYWORDS.Distinct().ToArray();
+        }
+
         public string[] GetNamesByType(NameOptions type)
         {
             return

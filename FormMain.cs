@@ -59,10 +59,12 @@ namespace mview
         {
             InitializeComponent();
 
+            chartController.LoadSettings();
+
             boxSetChartCount.SelectedIndex = 0;
             boxNamesType.SelectedIndex = 2;
 
-            chartController.LoadSettings();
+
         }
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -87,7 +89,7 @@ namespace mview
                     tableLayoutPanel1.ColumnCount = 1;
                     tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
                     tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject(), chartController) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetProjectManager(), chartController) { Dock = DockStyle.Fill });
 
                     break;
                 case 1:
@@ -96,8 +98,8 @@ namespace mview
                     tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
                     tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
                     tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject(), chartController) { Dock = DockStyle.Fill });
-                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject(), chartController) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetProjectManager(), chartController) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetProjectManager(), chartController) { Dock = DockStyle.Fill });
                     break;
                 case 2:
                     tableLayoutPanel1.RowCount = 2;
@@ -107,10 +109,10 @@ namespace mview
                     tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
                     tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
 
-                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject(), chartController) { Dock = DockStyle.Fill });
-                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject(), chartController) { Dock = DockStyle.Fill });
-                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject(), chartController) { Dock = DockStyle.Fill });
-                    tableLayoutPanel1.Controls.Add(new Chart(model.GetActiveProject(), chartController) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetProjectManager(), chartController) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetProjectManager(), chartController) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetProjectManager(), chartController) { Dock = DockStyle.Fill });
+                    tableLayoutPanel1.Controls.Add(new Chart(model.GetProjectManager(), chartController) { Dock = DockStyle.Fill });
 
                     break;
                 case 3:
@@ -180,7 +182,7 @@ namespace mview
             tmp.Left = buttonModels.PointToScreen(Point.Empty).X;
             tmp.Top = buttonModels.PointToScreen(Point.Empty).Y;
             tmp.ApplyStyle += OnApplyStyle;
-            
+
             tmp.Show();
         }
 
@@ -192,7 +194,7 @@ namespace mview
 
                 foreach (Chart item in tableLayoutPanel1.Controls)
                 {
-                    item.SetEclipseProject(model.GetActiveProject());
+                    item.SetEclipseProject(model.GetProjectManager());
                 }
 
                 listNames.Items.Clear();
@@ -204,7 +206,7 @@ namespace mview
 
                 foreach (Chart item in tableLayoutPanel1.Controls)
                 {
-                    item.SetEclipseProject(model.GetActiveProject());
+                    item.SetEclipseProject(model.GetProjectManager());
                 }
 
                 boxNamesType_SelectedIndexChanged(null, null);
@@ -231,6 +233,23 @@ namespace mview
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             chartController.SaveSettings();
+        }
+
+        private void buttonChartOptions_Click(object sender, EventArgs e)
+        {
+            ChartOptions tmp = new ChartOptions(chartController);
+
+            tmp.Left = buttonChartOptions.PointToScreen(Point.Empty).X;
+            tmp.Top = buttonChartOptions.PointToScreen(Point.Empty).Y;
+            tmp.ApplyStyle += OnChartApplyStyle;
+            tmp.Keywords = model.GetAllKeywords().OrderBy(c => c).ToArray();
+            tmp.Show();
+        }
+
+        private void OnChartApplyStyle()
+        {
+            System.Diagnostics.Debug.WriteLine("CHART OPTIONS : CHART APPLY STYLE");
+            listNames_SelectedIndexChanged(null, null);
         }
     }
 }

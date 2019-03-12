@@ -20,21 +20,11 @@ namespace mview
         {
             set
             {
-                boxAxisXMode.Items.Clear();
-                boxAxisXMode.Items.Add("TIME");
-                boxAxisXMode.Items.AddRange(value);
+                listKeywords.Items.Clear();
+                listKeywords.Items.AddRange(value);
 
-                int index = boxAxisXMode.Items.IndexOf(chartController.AxisX);
-                if (index != -1) boxAxisXMode.SelectedIndex = index;
-
-                index = boxAxisYMode.Items.IndexOf(chartController.AxisY);
-                if (index != -1) boxAxisYMode.SelectedIndex = index;
-
-                listBoxKeywords.Items.Clear();
-                listBoxKeywords.Items.AddRange(value);
-
-                if (listBoxKeywords.Items.Count > 0)
-                    listBoxKeywords.SelectedIndex = 0;
+                if (listKeywords.Items.Count > 0)
+                    listKeywords.SelectedIndex = 0;
             }
         }
 
@@ -50,8 +40,45 @@ namespace mview
 
             boxMarkerStyle.Items.AddRange(Enum.GetNames(typeof(OxyPlot.MarkerType)));
             boxMarkerStyle.Items.Remove("Custom");
-
             boxMarkerStyle.SelectedIndex = 0;
+
+            boxGroupMode.Items.AddRange(Enum.GetNames(typeof(GroupMode)));
+            boxGroupMode.SelectedIndex = 0;
+
+            //
+            boxAxisXStyle.Items.AddRange(Enum.GetNames(typeof(OxyPlot.LineStyle)));
+            boxAxisXStyle.SelectedIndex = boxAxisXStyle.FindString(chartController.AxisXStyle.ToString());
+
+            numericAxisXWidth.Value = chartController.AxisXWidth;
+            numericAxisYWidth.Value = chartController.AxisYWidth;
+
+            boxAxisYStyle.Items.AddRange(Enum.GetNames(typeof(OxyPlot.LineStyle)));
+            boxAxisYStyle.SelectedIndex = boxAxisYStyle.FindString(chartController.AxisYStyle.ToString());
+
+            boxLegendPosition.Items.AddRange(Enum.GetNames(typeof(OxyPlot.LegendPosition)));
+            boxLegendPosition.SelectedIndex = boxLegendPosition.FindString(chartController.LegendPosition.ToString());
+
+            //
+            if (chartController.AxisXColor.Name == "0")
+            {
+                buttonAxisXColorDefault_Click(null, null);
+            }
+            else
+            {
+                buttonAxisXColor.BackColor = chartController.AxisXColor;
+                buttonAxisXColor.Text = "";
+            }
+
+            if (chartController.AxisYColor.Name == "0")
+            {
+                buttonAxisYColorDefault_Click(null, null);
+            }
+            else
+            {
+                buttonAxisYColor.BackColor = chartController.AxisYColor;
+                buttonAxisYColor.Text = "";
+            }
+            //
         }
 
 
@@ -61,76 +88,69 @@ namespace mview
             Close();
         }
 
-        private void boxKeywords_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            chartController.AxisX = boxAxisXMode.SelectedItem.ToString();
-            ApplyStyle();
-        }
-
-        private void ChartOptions_Deactivate(object sender, EventArgs e)
-        {
-            if (IsColorDialog)
-            {
-
-            }
-            else
-            {
-                ApplyStyle();
-                Close();
-            }
-        }
-
-        private void boxAxisYMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            chartController.AxisY = boxAxisYMode.SelectedItem.ToString();
-            ApplyStyle();
-        }
-
-        bool IsColorDialog = false;
-
         private void buttonLineColor_Click(object sender, EventArgs e)
         {
-            IsColorDialog = true;
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 buttonLineColor.BackColor = colorDialog.Color;
                 buttonLineColor.Text = "";
-                IsColorDialog = false;
             }
         }
 
         private void buttonMarkerBorderColor_Click(object sender, EventArgs e)
         {
-            IsColorDialog = true;
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 buttonMarkerBorderColor.BackColor = colorDialog.Color;
                 buttonMarkerBorderColor.Text = "";
-                IsColorDialog = false;
             }
         }
 
         private void buttonMarkerFill_Click(object sender, EventArgs e)
         {
-            IsColorDialog = true;
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 buttonMarkerFill.BackColor = colorDialog.Color;
                 buttonMarkerFill.Text = "";
-                IsColorDialog = false;
             }
         }
 
         private void buttonApplySeries_Click(object sender, EventArgs e)
         {
+            chartController.LegendPosition = (OxyPlot.LegendPosition)Enum.Parse(typeof(OxyPlot.LegendPosition), boxLegendPosition.Text, true);
+
+            chartController.AxisXStyle = (OxyPlot.LineStyle)Enum.Parse(typeof(OxyPlot.LineStyle), boxAxisXStyle.Text, true);
+            chartController.AxisXWidth = Convert.ToInt32(numericAxisXWidth.Value);
+            chartController.AxisYStyle = (OxyPlot.LineStyle)Enum.Parse(typeof(OxyPlot.LineStyle), boxAxisYStyle.Text, true);
+            chartController.AxisYWidth = Convert.ToInt32(numericAxisXWidth.Value);
+
+            if (buttonAxisXColor.Text != "(default)")
+            {
+                chartController.AxisXColor = buttonAxisXColor.BackColor;
+            }
+            else
+            {
+                chartController.AxisXColor = Color.FromName("0");
+            }
+
+            if (buttonAxisYColor.Text != "(default)")
+            {
+                chartController.AxisYColor = buttonAxisYColor.BackColor;
+            }
+            else
+            {
+                chartController.AxisYColor = Color.FromName("0");
+            }
+
             var seriesStyle = new SeriesStyle()
             {
-                Name = listBoxKeywords.SelectedItem.ToString(),
+                Name = listKeywords.SelectedItem.ToString(),
                 LineStyle = (OxyPlot.LineStyle)Enum.Parse(typeof(OxyPlot.LineStyle), boxLineStyle.Text, true),
                 LineWidth = Convert.ToInt32(numericLineWidth.Value),
                 LineSmooth = checkSmooth.Checked,
                 MarkerType = (OxyPlot.MarkerType)Enum.Parse(typeof(OxyPlot.MarkerType), boxMarkerStyle.Text, true),
                 MarkerSize = Convert.ToInt32(numericMarkerSize.Value),
+                GroupMode = (GroupMode)Enum.Parse(typeof(GroupMode), boxGroupMode.Text, true)
             };
 
             if (buttonLineColor.Text != "(default)")
@@ -153,11 +173,11 @@ namespace mview
             ApplyStyle();
         }
 
-        private void listBoxKeywords_SelectedIndexChanged(object sender, EventArgs e)
+        private void listKeywordsOnSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBoxKeywords.SelectedIndex == -1) return;
+            if (listKeywords.SelectedIndex == -1) return;
 
-            int index = chartController.GetIndex(listBoxKeywords.SelectedItem.ToString());
+            int index = chartController.GetIndex(listKeywords.SelectedItem.ToString());
 
             if (index == -1) // Default style
             {
@@ -168,6 +188,8 @@ namespace mview
                 checkSmooth.Checked = false;
                 boxMarkerStyle.SelectedIndex = boxMarkerStyle.FindString("Circle");
                 numericMarkerSize.Value = 5;
+                boxGroupMode.SelectedIndex = boxGroupMode.FindString("Normal");
+
                 buttonMarkerBorderDefault_Click(null, null);
                 buttonMarkerFillDefault_Click(null, null);
             }
@@ -211,6 +233,7 @@ namespace mview
                 numericLineWidth.Value = tmp.LineWidth;
                 checkSmooth.Checked = tmp.LineSmooth;
                 boxMarkerStyle.SelectedIndex = boxMarkerStyle.FindString(tmp.MarkerType.ToString());
+                boxGroupMode.SelectedIndex = boxGroupMode.FindString(tmp.GroupMode.ToString());
             }
         }
 
@@ -233,6 +256,38 @@ namespace mview
             buttonMarkerFill.Text = "(default)";
             buttonMarkerFill.BackColor = SystemColors.Control;
             buttonMarkerFill.UseVisualStyleBackColor = true;
+        }
+
+        private void buttonAxisXColorDefault_Click(object sender, EventArgs e)
+        {
+            buttonAxisXColor.Text = "(default)";
+            buttonAxisXColor.BackColor = SystemColors.Control;
+            buttonAxisXColor.UseVisualStyleBackColor = true;
+        }
+
+        private void buttonAxisYColorDefault_Click(object sender, EventArgs e)
+        {
+            buttonAxisYColor.Text = "(default)";
+            buttonAxisYColor.BackColor = SystemColors.Control;
+            buttonAxisYColor.UseVisualStyleBackColor = true;
+        }
+
+        private void buttonAxisXColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                buttonAxisXColor.BackColor = colorDialog.Color;
+                buttonAxisXColor.Text = "";
+            }
+        }
+
+        private void buttonAxisYColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                buttonAxisYColor.BackColor = colorDialog.Color;
+                buttonAxisYColor.Text = "";
+            }
         }
     }
 }
