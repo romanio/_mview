@@ -27,9 +27,19 @@ namespace mview
             return pm.ActiveProject.SUMMARY.DATA[step][index];
         }
 
-        public int GetStepCount()
+        public string GetName(int index)
+        {
+            return pm.projectList[index].name;
+        }
+
+        public int GetStepCountActive()
         {
             return pm.ActiveProject.SUMMARY.NTIME;
+        }
+
+        public int GetStepCount(int index)
+        {
+            return pm.projectList[index].ecl.SUMMARY.NTIME;
         }
 
         public Vector GetDataVector(string name)
@@ -54,23 +64,37 @@ namespace mview
                 return data;
         }
 
-        public List<OxyPlot.DataPoint> GetDataTime(string name, string keyword)
+        public List<OxyPlot.DataPoint> GetDataTime(int index, string name, string keyword)
         {
-            var tmp_name = pm.ActiveProject.VECTORS.FirstOrDefault(c => c.Name == name);
-            var tmp_data = tmp_name.Data.FirstOrDefault(c => c.keyword == keyword);
+            var tmp_name = pm.projectList[index].ecl.VECTORS.FirstOrDefault(c => c.Name == name);
 
             List<OxyPlot.DataPoint> data = new List<OxyPlot.DataPoint>();
-            
-            for (int iw = 0; iw < pm.ActiveProject.SUMMARY.DATA.Count; ++iw)
+
+            if (tmp_name != null)
             {
-                double value = pm.ActiveProject.SUMMARY.DATA[iw][tmp_data.index];
+                var tmp_data = tmp_name.Data.FirstOrDefault(c => c.keyword == keyword);
 
-               // if (value == 0) value = double.NaN;
+                for (int iw = 0; iw < pm.projectList[index].ecl.SUMMARY.DATA.Count; ++iw)
+                {
+                    double value = pm.projectList[index].ecl.SUMMARY.DATA[iw][tmp_data.index];
 
-                data.Add(new OxyPlot.DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(
-                    pm.ActiveProject.SUMMARY.STARTDATE.AddDays(
-                        pm.ActiveProject.SUMMARY.DATA[iw][pm.ActiveProject.SUMMARY.TINDEX])),
-                        value));
+                    data.Add(new OxyPlot.DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(
+                        pm.projectList[index].ecl.SUMMARY.STARTDATE.AddDays(
+                            pm.projectList[index].ecl.SUMMARY.DATA[iw][pm.projectList[index].ecl.SUMMARY.TINDEX])),
+                            value));
+                }
+            }
+            else // if not found, return zero vector
+            {
+                for (int iw = 0; iw < pm.projectList[index].ecl.SUMMARY.DATA.Count; ++iw)
+                {
+                    double value = 0;
+
+                    data.Add(new OxyPlot.DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(
+                        pm.projectList[index].ecl.SUMMARY.STARTDATE.AddDays(
+                            pm.projectList[index].ecl.SUMMARY.DATA[iw][pm.projectList[index].ecl.SUMMARY.TINDEX])),
+                            value));
+                }
             }
 
             return data;

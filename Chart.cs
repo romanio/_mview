@@ -141,6 +141,7 @@ namespace mview
             edit_mode_keywords = false;
             listKeywords.EndUpdate();
 
+            InitChart();
             listKeywords_SelectedIndexChanged(null, null);
         }
 
@@ -153,7 +154,7 @@ namespace mview
 
             gridData.ColumnCount = selected_names.Length * listKeywords.SelectedItems.Count + 1;
             gridData.Columns[0].HeaderText = "Date";
-            gridData.RowCount = model.GetStepCount();
+            gridData.RowCount = model.GetStepCountActive();
             gridData.VirtualMode = true;
 
             int index = 1;
@@ -214,7 +215,8 @@ namespace mview
 
                     for (int it = 0; it < selected_names.Length; ++it) // Считывание данных
                     {
-                        datas.Add(model.GetDataTime(selected_names[it], listKeywords.SelectedItems[iw].ToString()));
+                        var tmp_data = model.GetDataTime(selected_pm[ip], selected_names[it], listKeywords.SelectedItems[iw].ToString());
+                        datas.Add(tmp_data);
                     }
 
                     // Определение стиля линии графика
@@ -229,7 +231,7 @@ namespace mview
                         {
                             var tmp_ls = new LineSeries
                             {
-                                Title = listKeywords.SelectedItems[iw].ToString(),
+                                Title = listKeywords.SelectedItems[iw].ToString() + "." + model.GetName(selected_pm[ip]),
                                 LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
                                 StrokeThickness = tmp_style?.LineWidth ?? 1,
                                 Smooth = tmp_style?.LineSmooth ?? false,
@@ -267,7 +269,7 @@ namespace mview
                     {
                         var tmp_ls = new LineSeries
                         {
-                            Title = listKeywords.SelectedItems[iw].ToString() + ".av",
+                            Title = listKeywords.SelectedItems[iw].ToString() + ".av." +model.GetName(selected_pm[ip]),
                             LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
                             StrokeThickness = tmp_style?.LineWidth ?? 1,
                             Smooth = tmp_style?.LineSmooth ?? false,
@@ -298,19 +300,20 @@ namespace mview
 
                         // Осреднение для значений не равных нулю
 
-                        for (int it = 0; it < model.GetStepCount(); ++it)
+                        for (int it = 0; it < model.GetStepCount(selected_pm[ip]); ++it)
                         {
                             double value = 0;
                             double count = 0;
 
                             for (int ic = 0; ic < datas.Count; ++ic)
                             {
-                                if (datas[ic][it].Y != 0)
-                                {
-                                    value = value + datas[ic][it].Y;
-                                    count++;
-                                }
+                                   if (datas[ic][it].Y != 0)
+                                    {
+                                        value = value + datas[ic][it].Y;
+                                        count++;
+                                    }
                             }
+
                             ((OxyPlot.Series.LineSeries)plotModel.Series[series_index]).Points.Add(new DataPoint(datas[0][it].X, count > 0 ? value / count : 0));
                         }
                     }
@@ -319,7 +322,7 @@ namespace mview
                     {
                         var tmp_ls = new LineSeries
                         {
-                            Title = listKeywords.SelectedItems[iw].ToString() + ".sum",
+                            Title = listKeywords.SelectedItems[iw].ToString() + ".sum." + model.GetName(selected_pm[ip]),
                             LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
                             StrokeThickness = tmp_style?.LineWidth ?? 1,
                             Smooth = tmp_style?.LineSmooth ?? false,
@@ -348,7 +351,7 @@ namespace mview
                         plotModel.Series.Add(tmp_ls);
                         series_index++;
 
-                        for (int it = 0; it < model.GetStepCount(); ++it)
+                        for (int it = 0; it < model.GetStepCount(selected_pm[ip]); ++it)
                         {
                             double value = 0;
 
