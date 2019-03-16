@@ -368,6 +368,30 @@ namespace mview
                 }
             }
 
+            // Пользовательские вектора
+          
+            if (checkShowUserFunction.Checked)
+            {
+                for (int it = 0; it < selected_names.Length; ++it)
+                {
+                    var tmp_data = chartController.GetUserFunction(selected_names[it]);
+
+                    if (tmp_data != null)
+                    {
+                        plotModel.Series.Add(new LineSeries
+                        {
+                            Title = "User",
+                            LineStyle = LineStyle.None,
+                            MarkerType = MarkerType.Circle,
+                            MarkerSize = 4
+                        });
+
+                        ((OxyPlot.Series.LineSeries)plotModel.Series.Last()).Points.AddRange(tmp_data);
+                    }
+                }
+            }
+
+
             plotModel.Axes[0].Reset();
             plotModel.Axes[1].Reset();
 
@@ -386,7 +410,7 @@ namespace mview
         private void gridData_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
             if (e.ColumnIndex == 0)
-                e.Value = model.GetDateByStep(e.RowIndex).ToShortDateString();
+                e.Value = model.GetDateByStep(e.RowIndex).ToString(); //.ToShortDateString();
             else
                 e.Value = model.GetParamAtIndex(selected_index[e.ColumnIndex - 1], e.RowIndex);
         }
@@ -410,6 +434,16 @@ namespace mview
                 selected_pm[iw] = checkedProjectList.CheckedIndices[iw];
             }
 
+            UpdateVisibleElements();
+        }
+
+        private void buttonLoadUserFunction_Click(object sender, EventArgs e)
+        {
+            chartController.LoadUserFunctions();
+        }
+
+        private void checkShowUserFunction_CheckedChanged(object sender, EventArgs e)
+        {
             UpdateVisibleElements();
         }
     }

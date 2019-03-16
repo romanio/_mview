@@ -159,5 +159,57 @@ namespace mview
             }
             return -1;
         }
+
+        class UserFunctionItem
+        {
+            public string wellname;
+            public DateTime time;
+            public float value;
+        }
+
+        List<UserFunctionItem> UserFunction = null;
+
+        public void LoadUserFunctions()
+        {
+            var fd = new System.Windows.Forms.OpenFileDialog() { Filter = "User file|*.csv" };
+
+            if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                UserFunction = new List<UserFunctionItem>();
+                using (TextReader text = new StreamReader(fd.FileName))
+                {
+                    string line;
+
+                    while ((line = text.ReadLine()) != null)
+                    {
+                        string[] split = line.Split(new char[] { ';' });
+
+                        if (split.Length == 3)
+                        {
+                            UserFunction.Add(new UserFunctionItem
+                            {
+                                wellname = split[0].Trim(),
+                                time = Convert.ToDateTime(split[1]),
+                                value = Convert.ToSingle(split[2])
+                            });
+
+                        }
+
+                    }
+
+                    text.Close();
+                }
+            }
+        }
+
+        public List<OxyPlot.DataPoint> GetUserFunction(string name)
+        {
+            var tmp_name =
+                (from item in UserFunction
+                 where item.wellname == name
+                 select new OxyPlot.DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(item.time), item.value)).ToList();
+
+            return tmp_name;
+        }
     }
 }
