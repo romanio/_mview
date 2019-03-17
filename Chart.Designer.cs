@@ -32,16 +32,14 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonLoadUserFunction = new System.Windows.Forms.Button();
+            this.checkShowUserFunction = new System.Windows.Forms.CheckBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.checkedProjectList = new System.Windows.Forms.CheckedListBox();
             this.buttonOptions = new System.Windows.Forms.Button();
             this.listKeywords = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.gridData = new System.Windows.Forms.DataGridView();
-            this.checkShowUserFunction = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.buttonLoadUserFunction = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -96,9 +94,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.buttonLoadUserFunction);
-            this.panel1.Controls.Add(this.checkBox2);
             this.panel1.Controls.Add(this.checkShowUserFunction);
             this.panel1.Controls.Add(this.buttonClose);
             this.panel1.Controls.Add(this.checkedProjectList);
@@ -107,6 +103,28 @@
             this.panel1.Size = new System.Drawing.Size(234, 223);
             this.panel1.TabIndex = 4;
             this.panel1.Visible = false;
+            // 
+            // buttonLoadUserFunction
+            // 
+            this.buttonLoadUserFunction.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonLoadUserFunction.Location = new System.Drawing.Point(9, 149);
+            this.buttonLoadUserFunction.Name = "buttonLoadUserFunction";
+            this.buttonLoadUserFunction.Size = new System.Drawing.Size(84, 23);
+            this.buttonLoadUserFunction.TabIndex = 32;
+            this.buttonLoadUserFunction.Text = "Load";
+            this.buttonLoadUserFunction.UseVisualStyleBackColor = true;
+            this.buttonLoadUserFunction.Click += new System.EventHandler(this.buttonLoadUserFunction_Click);
+            // 
+            // checkShowUserFunction
+            // 
+            this.checkShowUserFunction.AutoSize = true;
+            this.checkShowUserFunction.Location = new System.Drawing.Point(113, 153);
+            this.checkShowUserFunction.Name = "checkShowUserFunction";
+            this.checkShowUserFunction.Size = new System.Drawing.Size(118, 17);
+            this.checkShowUserFunction.TabIndex = 5;
+            this.checkShowUserFunction.Text = "Show user function";
+            this.checkShowUserFunction.UseVisualStyleBackColor = true;
+            this.checkShowUserFunction.CheckedChanged += new System.EventHandler(this.checkShowUserFunction_CheckedChanged);
             // 
             // buttonClose
             // 
@@ -191,50 +209,6 @@
             this.gridData.TabIndex = 1;
             this.gridData.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridData_CellValueNeeded);
             // 
-            // checkShowUserFunction
-            // 
-            this.checkShowUserFunction.AutoSize = true;
-            this.checkShowUserFunction.Location = new System.Drawing.Point(84, 153);
-            this.checkShowUserFunction.Name = "checkShowUserFunction";
-            this.checkShowUserFunction.Size = new System.Drawing.Size(118, 17);
-            this.checkShowUserFunction.TabIndex = 5;
-            this.checkShowUserFunction.Text = "Show user function";
-            this.checkShowUserFunction.UseVisualStyleBackColor = true;
-            this.checkShowUserFunction.CheckedChanged += new System.EventHandler(this.checkShowUserFunction_CheckedChanged);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(84, 182);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(112, 17);
-            this.checkBox2.TabIndex = 8;
-            this.checkBox2.Text = "Show annotations";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // buttonLoadUserFunction
-            // 
-            this.buttonLoadUserFunction.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonLoadUserFunction.Location = new System.Drawing.Point(9, 149);
-            this.buttonLoadUserFunction.Name = "buttonLoadUserFunction";
-            this.buttonLoadUserFunction.Size = new System.Drawing.Size(55, 23);
-            this.buttonLoadUserFunction.TabIndex = 32;
-            this.buttonLoadUserFunction.Text = "...";
-            this.buttonLoadUserFunction.UseVisualStyleBackColor = true;
-            this.buttonLoadUserFunction.Click += new System.EventHandler(this.buttonLoadUserFunction_Click);
-            // 
-            // button1
-            // 
-            this.button1.Enabled = false;
-            this.button1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(9, 178);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(55, 23);
-            this.button1.TabIndex = 33;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // Chart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -265,9 +239,7 @@
         private System.Windows.Forms.CheckedListBox checkedProjectList;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkShowUserFunction;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonLoadUserFunction;
     }
 }

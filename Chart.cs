@@ -372,6 +372,8 @@ namespace mview
           
             if (checkShowUserFunction.Checked)
             {
+                plotModel.Annotations.Clear();
+
                 for (int it = 0; it < selected_names.Length; ++it)
                 {
                     var tmp_data = chartController.GetUserFunction(selected_names[it]);
@@ -387,6 +389,21 @@ namespace mview
                         });
 
                         ((OxyPlot.Series.LineSeries)plotModel.Series.Last()).Points.AddRange(tmp_data);
+
+                        // Добавление аннотаций
+
+                        var tmp_anno = chartController.GetAnnotation(selected_names[it]);
+                        
+                        foreach(ChartController.AnnotationItem item in tmp_anno)
+                        {
+                            plotModel.Annotations.Add(new OxyPlot.Annotations.TextAnnotation
+                            {
+                                TextPosition = new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(item.time), item.value),
+                                TextRotation = -90,
+                                TextHorizontalAlignment = OxyPlot.HorizontalAlignment.Left,
+                                Text = item.text
+                            });
+                        }                 
                     }
                 }
             }

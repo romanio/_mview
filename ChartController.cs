@@ -165,6 +165,14 @@ namespace mview
             public string wellname;
             public DateTime time;
             public float value;
+            public string annotation;
+        }
+
+        public class AnnotationItem
+        {
+            public DateTime time;
+            public float value;
+            public string text;
         }
 
         List<UserFunctionItem> UserFunction = null;
@@ -190,11 +198,21 @@ namespace mview
                             {
                                 wellname = split[0].Trim(),
                                 time = Convert.ToDateTime(split[1]),
-                                value = Convert.ToSingle(split[2])
+                                value = Convert.ToSingle(split[2]),
+                                annotation = ""
                             });
-
                         }
 
+                        if (split.Length == 4)
+                        {
+                            UserFunction.Add(new UserFunctionItem
+                            {
+                                wellname = split[0].Trim(),
+                                time = Convert.ToDateTime(split[1]),
+                                value = Convert.ToSingle(split[2]),
+                                annotation = split[3]
+                            });
+                        }
                     }
 
                     text.Close();
@@ -204,12 +222,18 @@ namespace mview
 
         public List<OxyPlot.DataPoint> GetUserFunction(string name)
         {
-            var tmp_name =
+            return
                 (from item in UserFunction
                  where item.wellname == name
                  select new OxyPlot.DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(item.time), item.value)).ToList();
+        }
 
-            return tmp_name;
+        public List<AnnotationItem> GetAnnotation(string name)
+        {
+           return
+                (from item in UserFunction
+                 where item.wellname == name && item.annotation != ""
+                 select new AnnotationItem { time = item.time, value = item.value, text = item.annotation }).ToList();
         }
     }
 }
