@@ -42,6 +42,7 @@
             this.boxNamesType = new System.Windows.Forms.ComboBox();
             this.buttonModels = new System.Windows.Forms.Button();
             this.buttonChartOptions = new System.Windows.Forms.Button();
+            this.dViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +53,8 @@
             this.menu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openModelToolStripMenuItem,
-            this.optionalToolStripMenuItem});
+            this.optionalToolStripMenuItem,
+            this.dViewToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(819, 24);
@@ -203,6 +205,13 @@
             this.buttonChartOptions.UseVisualStyleBackColor = true;
             this.buttonChartOptions.Click += new System.EventHandler(this.buttonChartOptions_Click);
             // 
+            // dViewToolStripMenuItem
+            // 
+            this.dViewToolStripMenuItem.Name = "dViewToolStripMenuItem";
+            this.dViewToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.dViewToolStripMenuItem.Text = "2D View";
+            this.dViewToolStripMenuItem.Click += new System.EventHandler(this.dViewToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -248,6 +257,7 @@
         private System.Windows.Forms.ToolStripMenuItem optionalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToExcelToolStripMenuItem;
         private System.Windows.Forms.Button buttonChartOptions;
+        private System.Windows.Forms.ToolStripMenuItem dViewToolStripMenuItem;
     }
 }
 

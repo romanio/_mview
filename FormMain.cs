@@ -63,8 +63,6 @@ namespace mview
 
             boxSetChartCount.SelectedIndex = 0;
             boxNamesType.SelectedIndex = 2;
-
-
         }
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -250,6 +248,11 @@ namespace mview
         {
             System.Diagnostics.Debug.WriteLine("CHART OPTIONS : CHART APPLY STYLE");
             listNames_SelectedIndexChanged(null, null);
+        }
+
+        private void dViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            model.Show2DView();
         }
     }
 }

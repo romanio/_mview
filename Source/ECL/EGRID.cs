@@ -150,6 +150,12 @@ namespace mview.ECL
                     continue;
                 }
 
+                /*
+                
+                Несмотря на то, что EGRID хранит в себе ACTNUM, иногда так происходит
+                что EGRID подается на вход в модель и фактическое количество активных ячеек будет расчитано после
+                начала расчёта. Настоящий массив ACTNUM поэтому, хранится в INIT и толку от его чтения здесь нет никакого.
+
                 if (br.header.keyword == "ACTNUM")
                 {
                     ACTNUM = br.ReadIntList();
@@ -168,6 +174,7 @@ namespace mview.ECL
                     // увеличенный на "1", так как надо сохранить нулевые значения в неактивных ячейках
                     continue;
                 }
+                */
 
                 System.Diagnostics.Debug.WriteLine(br.header.keyword);
                 br.SkipEclipseData();

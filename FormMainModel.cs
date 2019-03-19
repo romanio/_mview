@@ -22,6 +22,12 @@ namespace mview
             return pm;
         }
 
+        public void Show2DView()
+        {
+            Form2D tmp = new Form2D(pm.ActiveProject);
+            tmp.Show();
+        }
+
         public void ShowModelsForm(int X, int Y)
         {
             FormModels tmp = new FormModels(pm);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using mview.ECL;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace mview
 {
@@ -120,10 +121,22 @@ namespace mview
             {
                 INIT = new INSPEC(FILES["INSPEC"]);
             }
+        }
 
+        public void ReadEGRID()
+        {
             if (FILES.ContainsKey("EGRID"))
             {
                 EGRID = new EGRID(FILES["EGRID"]);
+            }
+            else
+            {
+                OpenFileDialog fd = new OpenFileDialog() { Filter = "Eclipse EGRID|*.EGRID", Title = "Select where your EGRID" };
+
+                if (fd.ShowDialog() == DialogResult.OK)
+                {
+                    EGRID = new EGRID(fd.FileName);
+                }
             }
         }
 

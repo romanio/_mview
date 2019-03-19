@@ -75,15 +75,12 @@ namespace mview.ECL
                     if (br.header.keyword == "ITIME")
                     {
                         // Eclipse должен содержать 11 элементов ITIME, 
-                        // но Navi игнорирует выгрузку этих элементов, параметры рестарт файла считываются
-                        // из самих рестартов
+                        // но tNavi игнорирует выгрузку этих элементов, параметры рестарт файла считываются из самих рестартов
 
                         int[] ITIME = br.ReadIntList();
                         if (ITIME.Length == 1)
                         {
                             REPORT.Add(ITIME[0]);
-                         //   TYPE_RESTART.Add(-1);
-                        //    DATE.Add(new DateTime(1900, 0, 0));
                         }
                         else
                         {
