@@ -11,10 +11,11 @@ namespace mview
         Engine2D engine = null;
         EclipseProject ecl = null;
 
-
         public Form2DModel(EclipseProject ecl)
         {
             this.ecl = ecl;
+            engine = new Engine2D();
+
             ecl.ReadEGRID();
             ecl.ReadInit();
         }
@@ -48,6 +49,41 @@ namespace mview
             return
                 (from item in ecl.RESTART.DATE
                  select item.ToString()).ToArray();
+        }
+
+        public void SetStaticProperty(string name)
+        {
+
+        }
+
+        public void SetDynamicProperty(string name)
+        {
+
+        }
+
+        public void OnLoad()
+        {
+            engine.OnLoad();
+        }
+
+        public void OnResize(int width, int height)
+        {
+            engine.OnResize(width, height);
+        }
+
+        public void OnUnload()
+        {
+            engine.OnUnload();
+        }
+
+        public void OnPaint()
+        {
+            engine.OnPaint();
+        }
+
+        public void OnGenerateGraphics()
+        {
+
         }
     }
 }

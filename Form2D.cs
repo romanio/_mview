@@ -45,8 +45,95 @@ namespace mview
 
             boxRestart.BeginUpdate();
             boxRestart.Items.AddRange(model.GetRestartDates());
+
+            if (boxRestart.Items.Count > 0)
+                boxRestart.SelectedIndex = 0;
+
             boxRestart.EndUpdate();
             
+        }
+
+        private void boxRestart_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Динамические свойства из выбранного RESTART файла
+
+            string selected_propery = null;
+
+            foreach(TreeNode node in treeProperties.Nodes[1].Nodes)
+            {
+                if (node.IsSelected) selected_propery = node.Text;
+            }
+
+            Text = selected_propery;
+
+            treeProperties.Nodes[1].Nodes.Clear();
+
+            var dynamic_properties = model.GetDinamicProperties(boxRestart.SelectedIndex);
+
+            treeProperties.BeginUpdate();
+
+
+            foreach (string item in dynamic_properties)
+            {
+                treeProperties.Nodes[1].Nodes.Add(item);
+
+                if (item == selected_propery) treeProperties.SelectedNode = treeProperties.Nodes[1].LastNode;
+            }
+
+            treeProperties.EndUpdate();
+
+            //
+        }
+
+        private void treeProperties_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (treeProperties.SelectedNode.Parent.Index == 0)
+            {
+                model.SetStaticProperty(e.Node.ToString());
+            }
+
+            if (treeProperties.SelectedNode.Parent.Index == 1)
+            {
+                model.SetDynamicProperty(e.Node.ToString());
+            }
+        }
+
+
+
+        // Всё что касается OpenGL
+
+        private void glControlOnLoad(object sender, EventArgs e)
+        {
+            model.OnLoad();
+            glControl.MouseWheel += new MouseEventHandler(glControlOnMouseWheel);
+
+        }
+
+        private void glControlOnMouseWheel(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void glControlOnPaint(object sender, PaintEventArgs e)
+        {
+            model.OnPaint();
+            glControl.SwapBuffers();
+        }
+
+        private void glControlOnMouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void glControlOnResize(object sender, EventArgs e)
+        {
+            model.OnResize(glControl.Width, glControl.Height);
+            glControl.SwapBuffers();
+        }
+
+        private void Form2DOnFormClosed(object sender, FormClosedEventArgs e)
+        {
+            model.OnUnload();
         }
     }
 }

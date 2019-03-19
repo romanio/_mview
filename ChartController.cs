@@ -184,7 +184,7 @@ namespace mview
             if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 UserFunction = new List<UserFunctionItem>();
-                using (TextReader text = new StreamReader(fd.FileName))
+                using (TextReader text = new StreamReader(fd.FileName, Encoding.GetEncoding("Windows-1251")))
                 {
                     string line;
 
@@ -199,7 +199,6 @@ namespace mview
                                 wellname = split[0].Trim(),
                                 time = Convert.ToDateTime(split[1]),
                                 value = Convert.ToSingle(split[2]),
-                                annotation = ""
                             });
                         }
 

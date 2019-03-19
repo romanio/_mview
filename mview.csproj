@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera2D.cs" />
     <Compile Include="Chart.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -104,6 +105,7 @@
     <Compile Include="FormModels.Designer.cs">
       <DependentUpon>FormModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Grid2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

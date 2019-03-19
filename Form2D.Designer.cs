@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Static ");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Dynamic");
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Static ");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Dynamic");
             this.label2 = new System.Windows.Forms.Label();
             this.boxRestart = new System.Windows.Forms.ComboBox();
             this.glControl = new OpenTK.GLControl();
@@ -64,7 +64,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(637, 114);
+            this.label2.Location = new System.Drawing.Point(732, 114);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 13);
             this.label2.TabIndex = 24;
@@ -75,10 +75,11 @@
             this.boxRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.boxRestart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxRestart.FormattingEnabled = true;
-            this.boxRestart.Location = new System.Drawing.Point(640, 130);
+            this.boxRestart.Location = new System.Drawing.Point(735, 130);
             this.boxRestart.Name = "boxRestart";
             this.boxRestart.Size = new System.Drawing.Size(119, 21);
             this.boxRestart.TabIndex = 25;
+            this.boxRestart.SelectedIndexChanged += new System.EventHandler(this.boxRestart_SelectedIndexChanged);
             // 
             // glControl
             // 
@@ -89,14 +90,18 @@
             this.glControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.glControl.Location = new System.Drawing.Point(148, 28);
             this.glControl.Name = "glControl";
-            this.glControl.Size = new System.Drawing.Size(476, 467);
+            this.glControl.Size = new System.Drawing.Size(571, 581);
             this.glControl.TabIndex = 0;
             this.glControl.VSync = true;
+            this.glControl.Load += new System.EventHandler(this.glControlOnLoad);
+            this.glControl.Paint += new System.Windows.Forms.PaintEventHandler(this.glControlOnPaint);
+            this.glControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glControlOnMouseMove);
+            this.glControl.Resize += new System.EventHandler(this.glControlOnResize);
             // 
             // boxMaximum
             // 
             this.boxMaximum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxMaximum.Location = new System.Drawing.Point(695, 223);
+            this.boxMaximum.Location = new System.Drawing.Point(790, 237);
             this.boxMaximum.Name = "boxMaximum";
             this.boxMaximum.Size = new System.Drawing.Size(64, 21);
             this.boxMaximum.TabIndex = 37;
@@ -110,20 +115,21 @@
             this.treeProperties.HideSelection = false;
             this.treeProperties.Location = new System.Drawing.Point(12, 28);
             this.treeProperties.Name = "treeProperties";
-            treeNode1.Name = "Узел0";
-            treeNode1.Text = "Static ";
-            treeNode2.Name = "Узел1";
-            treeNode2.Text = "Dynamic";
+            treeNode21.Name = "Узел0";
+            treeNode21.Text = "Static ";
+            treeNode22.Name = "Узел1";
+            treeNode22.Text = "Dynamic";
             this.treeProperties.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            this.treeProperties.Size = new System.Drawing.Size(130, 198);
+            treeNode21,
+            treeNode22});
+            this.treeProperties.Size = new System.Drawing.Size(130, 320);
             this.treeProperties.TabIndex = 0;
+            this.treeProperties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeProperties_AfterSelect);
             // 
             // boxMinimum
             // 
             this.boxMinimum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxMinimum.Location = new System.Drawing.Point(695, 196);
+            this.boxMinimum.Location = new System.Drawing.Point(790, 210);
             this.boxMinimum.Name = "boxMinimum";
             this.boxMinimum.Size = new System.Drawing.Size(64, 21);
             this.boxMinimum.TabIndex = 36;
@@ -133,7 +139,7 @@
             // 
             this.labelMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMax.AutoSize = true;
-            this.labelMax.Location = new System.Drawing.Point(637, 226);
+            this.labelMax.Location = new System.Drawing.Point(732, 240);
             this.labelMax.Name = "labelMax";
             this.labelMax.Size = new System.Drawing.Size(51, 13);
             this.labelMax.TabIndex = 35;
@@ -152,7 +158,7 @@
             // 
             this.labelMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMin.AutoSize = true;
-            this.labelMin.Location = new System.Drawing.Point(637, 199);
+            this.labelMin.Location = new System.Drawing.Point(732, 213);
             this.labelMin.Name = "labelMin";
             this.labelMin.Size = new System.Drawing.Size(47, 13);
             this.labelMin.TabIndex = 34;
@@ -174,7 +180,7 @@
             this.chkShowGridLines.AutoSize = true;
             this.chkShowGridLines.Checked = true;
             this.chkShowGridLines.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowGridLines.Location = new System.Drawing.Point(640, 370);
+            this.chkShowGridLines.Location = new System.Drawing.Point(735, 384);
             this.chkShowGridLines.Name = "chkShowGridLines";
             this.chkShowGridLines.Size = new System.Drawing.Size(97, 17);
             this.chkShowGridLines.TabIndex = 40;
@@ -187,7 +193,7 @@
             this.tabSliceControl.Controls.Add(this.tabPage1);
             this.tabSliceControl.Controls.Add(this.tabPage2);
             this.tabSliceControl.Controls.Add(this.tabPage3);
-            this.tabSliceControl.Location = new System.Drawing.Point(630, 12);
+            this.tabSliceControl.Location = new System.Drawing.Point(725, 12);
             this.tabSliceControl.Name = "tabSliceControl";
             this.tabSliceControl.SelectedIndex = 0;
             this.tabSliceControl.Size = new System.Drawing.Size(142, 89);
@@ -249,7 +255,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(637, 172);
+            this.label3.Location = new System.Drawing.Point(732, 186);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 13);
             this.label3.TabIndex = 42;
@@ -258,7 +264,7 @@
             // boxScaleZ
             // 
             this.boxScaleZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxScaleZ.Location = new System.Drawing.Point(695, 169);
+            this.boxScaleZ.Location = new System.Drawing.Point(790, 183);
             this.boxScaleZ.Name = "boxScaleZ";
             this.boxScaleZ.Size = new System.Drawing.Size(64, 21);
             this.boxScaleZ.TabIndex = 43;
@@ -277,7 +283,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(642, 303);
+            this.label4.Location = new System.Drawing.Point(737, 317);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(42, 13);
             this.label4.TabIndex = 45;
@@ -286,7 +292,7 @@
             // trackStretch
             // 
             this.trackStretch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackStretch.Location = new System.Drawing.Point(634, 319);
+            this.trackStretch.Location = new System.Drawing.Point(729, 333);
             this.trackStretch.Maximum = 100;
             this.trackStretch.Name = "trackStretch";
             this.trackStretch.Size = new System.Drawing.Size(138, 45);
@@ -296,7 +302,7 @@
             // bbColorReset
             // 
             this.bbColorReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbColorReset.Location = new System.Drawing.Point(640, 260);
+            this.bbColorReset.Location = new System.Drawing.Point(735, 274);
             this.bbColorReset.Name = "bbColorReset";
             this.bbColorReset.Size = new System.Drawing.Size(121, 23);
             this.bbColorReset.TabIndex = 48;
@@ -307,7 +313,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(773, 499);
+            this.ClientSize = new System.Drawing.Size(868, 621);
             this.Controls.Add(this.bbColorReset);
             this.Controls.Add(this.trackStretch);
             this.Controls.Add(this.label4);
@@ -330,6 +336,7 @@
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "2D View";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2DOnFormClosed);
             this.tabSliceControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
