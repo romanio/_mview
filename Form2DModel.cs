@@ -20,6 +20,11 @@ namespace mview
             ecl.ReadINIT();
         }
 
+        public void ReadRestart(int step)
+        {
+            ecl.ReadRestart(step);
+        }
+
         public List<string> GetStaticProperties()
         {
             var StaticProperties = new List<string>();

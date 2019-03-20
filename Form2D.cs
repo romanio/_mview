@@ -46,16 +46,18 @@ namespace mview
             boxRestart.BeginUpdate();
             boxRestart.Items.AddRange(model.GetRestartDates());
 
+            boxRestart.EndUpdate();
+
+
             if (boxRestart.Items.Count > 0)
                 boxRestart.SelectedIndex = 0;
-
-            boxRestart.EndUpdate();
-            
         }
 
         private void boxRestart_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Динамические свойства из выбранного RESTART файла
+
+            model.ReadRestart(boxRestart.SelectedIndex);
 
             string selected_propery = null;
 
@@ -80,6 +82,8 @@ namespace mview
 
             treeProperties.EndUpdate();
 
+          
+
             //
         }
 
@@ -87,12 +91,12 @@ namespace mview
         {
             if (treeProperties.SelectedNode.Parent.Index == 0)
             {
-                model.SetStaticProperty(e.Node.ToString());
+                model.SetStaticProperty(e.Node.Text);
             }
 
             if (treeProperties.SelectedNode.Parent.Index == 1)
             {
-                model.SetDynamicProperty(e.Node.ToString());
+                model.SetDynamicProperty(e.Node.Text);
             }
         }
 

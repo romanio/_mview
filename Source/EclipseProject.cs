@@ -152,9 +152,10 @@ namespace mview
         {
             // Открывает исходный файл в зависимости от унифицированного или нет формата записи
 
-            if (RESTART.TYPE_RESTART[step] == 0)
+            if (RESTART.TYPE_RESTART[step] != 1)
             {
                 // Случай, если расчет задан "рассыпухой"
+
                 string ext = ".X" + RESTART.REPORT[step].ToString().PadLeft(4, '0');
                 if (FILES.ContainsKey(ext))
                 {
