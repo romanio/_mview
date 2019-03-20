@@ -9,14 +9,14 @@ namespace mview.ECL
 {
     public struct Cell
     {
-        public Vector3d TNW;
-        public Vector3d TNE;
-        public Vector3d TSW;
-        public Vector3d TSE;
-        public Vector3d BNW;
-        public Vector3d BNE;
-        public Vector3d BSW;
-        public Vector3d BSE;
+        public Vector3 TNW;
+        public Vector3 TNE;
+        public Vector3 TSW;
+        public Vector3 TSE;
+        public Vector3 BNW;
+        public Vector3 BNE;
+        public Vector3 BSW;
+        public Vector3 BSE;
     }
 
     public class BigArray<T>
@@ -223,7 +223,7 @@ namespace mview.ECL
             BTM.Y = COORD[(X + (NX + 1) * Y) * 6 + 3 + 1];
             BTM.Z = COORD[(X + (NX + 1) * Y) * 6 + 3 + 2];
 
-            double FRAC = 0;
+            float FRAC = 0;
 
             if (BTM.Z == TOP.Z) // нет наклона направляющей линии, значит координаты равны
             {
@@ -235,7 +235,7 @@ namespace mview.ECL
             else
             {
                 FRAC = (CELL.TNW.Z - TOP.Z) / (BTM.Z - TOP.Z);
-                CELL.TNW.X = TOP.X + FRAC * (BTM.X - TOP.X);
+                CELL.TNW.X =    TOP.X + FRAC * (BTM.X - TOP.X);
                 CELL.TNW.Y = TOP.Y + FRAC * (BTM.Y - TOP.Y);
 
                 FRAC = (CELL.BNW.Z - TOP.Z) / (BTM.Z - TOP.Z);

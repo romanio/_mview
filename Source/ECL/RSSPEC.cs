@@ -270,7 +270,7 @@ namespace mview.ECL
             br.CloseBinaryFile();
         }
 
-        public void ReadRestartGrid(string property)
+        public void ReadGrid(string property)
         {
             FileReader br = new FileReader();
 
@@ -289,6 +289,12 @@ namespace mview.ECL
             //
             br.CloseBinaryFile();
         }
+
+        public float GetValue(int index)
+        {
+            return DATA[index];
+        }
+
     }
 
 }

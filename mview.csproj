@@ -77,6 +77,7 @@
     <Compile Include="ChartOptions.Designer.cs">
       <DependentUpon>ChartOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Colorizer.cs" />
     <Compile Include="Engine2D.cs" />
     <Compile Include="ExportToExcel.cs" />
     <Compile Include="Form2D.cs">

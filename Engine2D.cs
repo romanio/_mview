@@ -12,6 +12,7 @@ namespace mview
 {
     public class Engine2D
     {
+        public Grid2D grid = new Grid2D();
 
         int vboID;
         int eboID;

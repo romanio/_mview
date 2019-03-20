@@ -17,6 +17,8 @@ namespace mview.ECL
         public List<float[]> ARRAYMIN = new List<float[]>(); // Minimum values
         public List<string[]> UNITS = new List<string[]>(); // Единица измерения
 
+        public string FILENAME = null;
+
         public INSPEC(string filename)
         {
             FileReader br = new FileReader();
@@ -91,6 +93,8 @@ namespace mview.ECL
 
         public void ReadInit(string filename)
         {
+            FILENAME = filename;
+
             FileReader br = new FileReader();
             br.OpenBinaryFile(filename);
 
@@ -135,6 +139,54 @@ namespace mview.ECL
             }
             br.CloseBinaryFile();
         }
+
+        public int GetActive(int X, int Y, int Z)
+        {
+            return ACTNUM[X + NX * Y + Z * NX * NY];
+        }
+
+        public float[] DATA = null;
+
+        public void ReadGrid(string property)
+        {
+            FileReader br = new FileReader();
+
+            Action<string> SetPosition = (name) =>
+            {
+                int INIT_STEP = 0;
+                int index = -1;
+
+                for (int iw = 0; iw < NAME.Count; ++iw)
+                {
+                    index = Array.IndexOf(NAME[iw], name);
+                    if (index > -1)
+                    {
+                        INIT_STEP = iw;
+                        break;
+                    }
+                }
+
+                long pointer = POINTER[INIT_STEP][index];
+                long pointerb = POINTERB[INIT_STEP][index];
+                br.SetPosition(pointerb * 2147483648 + pointer);
+            };
+
+            br.OpenBinaryFile(FILENAME);
+            SetPosition(property);
+            br.ReadHeader();
+
+            DATA = br.ReadFloatList(br.header.count);
+            //
+            br.CloseBinaryFile();
+        }
+
+        public float GetValue(int index)
+        {
+            return DATA[index];
+        }
     }
+
+
+
 
 }

@@ -140,7 +140,7 @@ namespace mview
             }
         }
 
-        public void ReadInit()
+        public void ReadINIT()
         {
             if (FILES.ContainsKey("INIT"))
             {

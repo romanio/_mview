@@ -17,7 +17,7 @@ namespace mview
             engine = new Engine2D();
 
             ecl.ReadEGRID();
-            ecl.ReadInit();
+            ecl.ReadINIT();
         }
 
         public List<string> GetStaticProperties()
@@ -53,12 +53,14 @@ namespace mview
 
         public void SetStaticProperty(string name)
         {
-
+            ecl.INIT.ReadGrid(name);
+            engine.grid.GenerateGrid(ecl, ecl.INIT.GetValue);
         }
 
         public void SetDynamicProperty(string name)
         {
-
+            ecl.RESTART.ReadGrid(name);
+            engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
         }
 
         public void OnLoad()

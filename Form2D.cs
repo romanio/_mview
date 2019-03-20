@@ -19,12 +19,12 @@ namespace mview
             InitializeComponent();
             model = new Form2DModel(ecl);
 
-            UpdateData();
+            FillStaticProperties();
         }
 
-        void UpdateData()
+        void FillStaticProperties()
         {
-            // Статичные свойства из INIT файла
+            // Имена свойств из INIT файла
 
             treeProperties.Nodes[0].Nodes.Clear();
 
@@ -63,8 +63,6 @@ namespace mview
             {
                 if (node.IsSelected) selected_propery = node.Text;
             }
-
-            Text = selected_propery;
 
             treeProperties.Nodes[1].Nodes.Clear();
 
