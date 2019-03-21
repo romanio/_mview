@@ -87,10 +87,5 @@ namespace mview
         {
             engine.OnPaint();
         }
-
-        public void OnGenerateGraphics()
-        {
-
-        }
     }
 }

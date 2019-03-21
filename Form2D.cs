@@ -82,21 +82,22 @@ namespace mview
 
             treeProperties.EndUpdate();
 
-          
-
             //
         }
 
         private void treeProperties_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (treeProperties.SelectedNode.Parent.Index == 0)
+            if (treeProperties.SelectedNode?.Parent?.Index == 0)
             {
                 model.SetStaticProperty(e.Node.Text);
+                glControlOnPaint(null, null);
+
             }
 
-            if (treeProperties.SelectedNode.Parent.Index == 1)
+            if (treeProperties.SelectedNode?.Parent?.Index == 1)
             {
                 model.SetDynamicProperty(e.Node.Text);
+                glControlOnPaint(null, null);
             }
         }
 

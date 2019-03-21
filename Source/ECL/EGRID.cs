@@ -87,14 +87,6 @@ namespace mview.ECL
         public float[] COORD = null;
         public BigArray<float> ZCORN = null;
 
-        public float XMINCOORD;
-        public float YMINCOORD;
-        public float ZMINCOORD;
-        public float XMAXCOORD;
-        public float YMAXCOORD;
-        public float ZMAXCOORD;
-
-
         public EGRID(string filename)
         {
             FileReader br = new FileReader();
@@ -188,38 +180,7 @@ namespace mview.ECL
             br.CloseBinaryFile();
         }
 
-        public void CalcXYLimits()
-        {
-            // Определение максимальной и минимальной координаты Х и Y кажется простым,
-            // для этого рассмотрим координаты четырех углов модели.
-            // Более полный алгоритм должен рассматривать все 8 углов модели
 
-            // Координата X четырех углов сетки
-
-            List<float> X = new List<float>()
-            {
-                COORD[0],
-                COORD[6 * NX + 0],
-                COORD[6 * (NX + 1) * NY + 0],
-                COORD[6 * ((NX + 1) * (NY + 1) - 1) + 0]
-            };
-
-            XMINCOORD = X.Min();
-            XMAXCOORD = X.Max();
-
-            // Координата Y четырех углов сетки
-
-            List<float> Y = new List<float>()
-            {
-                COORD[1],
-                COORD[6 * NX + 1],
-                COORD[6 * (NX + 1) * NY + 1],
-                COORD[6 * ((NX + 1) * (NY + 1) - 1) + 1]
-            };
-
-            YMINCOORD = Y.Min();
-            YMAXCOORD = Y.Max();
-        }
 
 
         public Cell GetCell(int X, int Y, int Z)

@@ -15,8 +15,46 @@ namespace mview
     {
         public int element_count = 0;
 
+        public float XMINCOORD;
+        public float YMINCOORD;
+        public float ZMINCOORD;
+        public float XMAXCOORD;
+        public float YMAXCOORD;
+        public float ZMAXCOORD;
+
+
         public void GenerateGrid(EclipseProject ecl, Func<int, float> GetValue)
         {
+            // Определение максимальной и минимальной координаты Х и Y кажется простым,
+            // для этого рассмотрим координаты четырех углов модели.
+            // Более полный алгоритм должен рассматривать все 8 углов модели
+
+            // Координата X четырех углов сетки
+
+            List<float> XCORD = new List<float>()
+            {
+                ecl.EGRID.COORD[0],
+                ecl.EGRID. COORD[6 *  ecl.EGRID.NX + 0],
+                ecl.EGRID.COORD[6 * ( ecl.EGRID.NX + 1) *  ecl.EGRID.NY + 0],
+                ecl.EGRID.COORD[6 * (( ecl.EGRID.NX + 1) * ( ecl.EGRID.NY + 1) - 1) + 0]
+            };
+
+            XMINCOORD = XCORD.Min();
+            XMAXCOORD = XCORD.Max();
+
+            // Координата Y четырех углов сетки
+
+            List<float> YCORD = new List<float>()
+            {
+                 ecl.EGRID.COORD[1],
+                 ecl.EGRID.COORD[6 *  ecl.EGRID.NX + 1],
+                 ecl.EGRID.COORD[6 * (ecl.EGRID.NX + 1) *  ecl.EGRID.NY + 1],
+                 ecl.EGRID.COORD[6 * (( ecl.EGRID.NX + 1) * ( ecl.EGRID.NY + 1) - 1) + 1]
+            };
+
+            YMINCOORD = YCORD.Min();
+            YMAXCOORD = YCORD.Max();
+
             IntPtr vertex_ptr;
             IntPtr element_ptr;
 
