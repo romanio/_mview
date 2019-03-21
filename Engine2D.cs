@@ -65,10 +65,23 @@ namespace mview
 
         public void OnPaint()
         {
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+            // Масштабирование и перенос области отображения
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+            GL.Scale(1, 1, 1);
+
+            // Рамка
+
+           // GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.Begin(PrimitiveType.Lines);
+            GL.Color3(Color.Black);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(100, 100, 0);
+            GL.End();
+
+            
         }
-
     }
-
-
 }

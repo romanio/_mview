@@ -138,6 +138,27 @@ namespace mview
                     EGRID = new EGRID(fd.FileName);
                 }
             }
+
+            if (EGRID != null)
+            {
+                EGRID.CalcXYLimits();
+
+                // Минимум и максимум по кооординате Z, можно взять из расчета статических свойств
+
+                int index = -1;
+                int iw = 0;
+
+                for (iw = 0; iw < INIT.NAME.Count; ++iw)
+                {
+                    index = Array.IndexOf(INIT.NAME[iw], "DEPTH");
+                    if (index > -1)
+                    {
+                        break;
+                    }
+                }
+                EGRID.ZMAXCOORD = INIT.ARRAYMAX[iw][index];
+                EGRID.ZMINCOORD = INIT.ARRAYMIN[iw][index];
+            }
         }
 
         public void ReadINIT()
@@ -162,7 +183,9 @@ namespace mview
                     RESTART.ReadRestart(FILES[ext], step);
                 }
             }
+
             else
+
             if (FILES.ContainsKey("UNRST"))
             {
                 RESTART.ReadRestart(FILES["UNRST"], step);
