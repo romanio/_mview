@@ -7,13 +7,14 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace mview
 {
     public class Engine2D
     {
         public Grid2D grid = new Grid2D();
-
+        public Camera2D camera = new Camera2D();
 
         int vboID;
         int eboID;
@@ -58,14 +59,10 @@ namespace mview
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
 
-            // Центр координат устанавливается в центре окна. Можно было и сместить центр координат в левый верхний угол
-            // При использовании центральных точек отсчета, запись несколько тяжеловата
+            // Центр координат устанавливается в центре окна.
 
-            GL.Ortho(0,  width, 0, height, -1, +1);
+            GL.Ortho(-0.5 * width, +0.5 * width, +0.5 * height, -0.5 * height, -1, +1);
             GL.Viewport(0, 0, width, height);
-
-            //       if (render != null) render.Dispose(); // Удаляем старый рендер текста
-            //      render = new TextRender(Width, Height); // И объявляем новый
             GL.ClearColor(Color.White);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
@@ -86,24 +83,22 @@ namespace mview
             GL.End();
         }
 
-        float scale = 0.01f;
-
         public void OnPaint()
         {
-            System.Diagnostics.Debug.WriteLine("Engine2D : OnPaint");
-
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             if (grid.element_count == 0) return;
 
             // Масштабирование и перенос области отображения
+
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
-            GL.Scale(scale, scale, 1);
+            GL.Scale(camera.scale, camera.scale, 1);
 
             // Центрирование
+            GL.Translate(camera.shift_x + (camera.shift_end_x - camera.shift_start_x), -camera.shift_y  + camera.shift_end_y - camera.shift_start_y, 0); // Сдвиг за счет мышки
 
-            GL.Translate((grid.XMINCOORD + 0.5 * (grid.XMAXCOORD - grid.XMINCOORD)), (grid.YMINCOORD + 0.5 * (grid.YMAXCOORD - grid.YMINCOORD)), 0);
+            GL.Translate(-grid.XC, -grid.YC, 0);
 
 
             // Отрисовка ячеек
@@ -112,9 +107,35 @@ namespace mview
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
             GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
 
+            // Отрисовка границ ячеек
+            if (showGridLine == true)
+            {
+                GL.PolygonOffset(0, 0);
+                GL.DisableClientState(ArrayCap.ColorArray);
+                GL.Color3(Color.Black);
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
+            }
+
             DrawFrame();
+        }
 
+        bool showGridLine = false;
 
+        public void SetGridlineState(bool state)
+        {
+            showGridLine = state;
+            OnPaint();
+        }
+
+        public void MouseWheel(MouseEventArgs e)
+        {
+            camera.MouseWheel(e);
+        }
+
+        public void MouseMove(MouseEventArgs e)
+        {
+            camera.MouseMove(e);
         }
     }
 }

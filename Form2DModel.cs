@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace mview
 {
@@ -48,6 +49,10 @@ namespace mview
             return DynamicProperties;
         }
 
+        public int GetNZ()
+        {
+            return ecl.EGRID.NZ;
+        }
 
         public string[] GetRestartDates()
         {
@@ -65,6 +70,22 @@ namespace mview
         public void SetDynamicProperty(string name)
         {
             ecl.RESTART.ReadGrid(name);
+            engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
+        }
+
+        public void SetMinValue(float value)
+        {
+            engine.grid.colorizer.SetMinimum(value);
+        }
+
+        public void SetMaxValue(float value)
+        {
+            engine.grid.colorizer.SetMaximum(value);
+        }
+
+        public void SetZA(int Z)
+        {
+            engine.grid.ZA = Z;
             engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
         }
 
@@ -87,5 +108,22 @@ namespace mview
         {
             engine.OnPaint();
         }
+
+        public void SetGridlineStatus(bool state)
+        {
+            engine.SetGridlineState(state);
+        }
+
+        public void MouseMove(MouseEventArgs e)
+        {
+            engine.MouseMove(e);
+        }
+
+        public void MouseWheel(MouseEventArgs e)
+        {
+            engine.MouseWheel(e);
+        }
+
+
     }
 }

@@ -13,6 +13,8 @@ namespace mview
 {
     public class Grid2D
     {
+        public Colorizer colorizer = new Colorizer();
+
         public int element_count = 0;
 
         public float XMINCOORD;
@@ -21,7 +23,11 @@ namespace mview
         public float XMAXCOORD;
         public float YMAXCOORD;
         public float ZMAXCOORD;
+        public float XC;
+        public float YC;
+        public float ZC;
 
+        public int ZA = 0;
 
         public void GenerateGrid(EclipseProject ecl, Func<int, float> GetValue)
         {
@@ -55,6 +61,10 @@ namespace mview
             YMINCOORD = YCORD.Min();
             YMAXCOORD = YCORD.Max();
 
+            XC = (XMINCOORD + XMAXCOORD) * 0.5f;
+            YC = (YMINCOORD + YMAXCOORD) * 0.5f;
+        //    ZC = (ZMINCOORD + ZMAXCOORD) * 0.5f;
+
             IntPtr vertex_ptr;
             IntPtr element_ptr;
 
@@ -80,8 +90,7 @@ namespace mview
             System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
 
             int cell_index = 0;
-            int ZA = 1;
-            Colorizer colorizer = new Colorizer();
+
             Color color;
             float value;
             Cell CELL;
