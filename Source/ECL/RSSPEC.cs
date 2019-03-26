@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace mview.ECL
 {
+    public class COMPLDATA
+    {
+        public int I;
+        public int J;
+        public int K;
+        public float XC;
+        public float YC;
+        public float ZC;
+    }
+
+
     public class WELLDATA
     {
+        public int WINDEX;
         public string WELLNAME;
         public int I;
         public int J;
@@ -35,6 +47,7 @@ namespace mview.ECL
         public double WOPTH;
         public double WWPTH;
         public double WWITH;
+        public List<COMPLDATA> COMPLS = new List<COMPLDATA>();
     }
 
     public class RSSPEC
@@ -180,9 +193,9 @@ namespace mview.ECL
                 long pointerb = POINTERB[step][index];
                 br.SetPosition(pointerb * 2147483648 + pointer);
             };
-
-
+            
             WELLS = new List<WELLDATA>();
+
             br.OpenBinaryFile(filename);
             SetPosition("INTEHEAD");
             br.ReadHeader();
@@ -202,71 +215,98 @@ namespace mview.ECL
             NSCONZ = INTH[33];
             NXCONZ = INTH[34];
 
-            SetPosition("IWEL");
-            br.ReadHeader();
-            int[] IWEL = br.ReadIntList();
-
-            for (int iw = 0; iw < NWELLS; ++iw)
+            if (NWELLS != 0)
             {
-                WELLS.Add(new WELLDATA
+                SetPosition("IWEL");
+                br.ReadHeader();
+                int[] IWEL = br.ReadIntList();
+
+                for (int iw = 0; iw < NWELLS; ++iw)
                 {
-                    I = IWEL[iw * NIWELZ + 0],
-                    J = IWEL[iw * NIWELZ + 1],
-                    K = IWEL[iw * NIWELZ + 2],
-                    COMPLNUM = IWEL[iw * NIWELZ + 4],
-                    GROUPNUM = IWEL[iw * NIWELZ + 5],
-                    WELLTYPE = IWEL[iw * NIWELZ + 6],
-                    WELLSTATUS = IWEL[iw * NIWELZ + 10]
-                });
+                    WELLS.Add(new WELLDATA
+                    {
+                        WINDEX = iw,
+                        I = IWEL[iw * NIWELZ + 0],
+                        J = IWEL[iw * NIWELZ + 1],
+                        K = IWEL[iw * NIWELZ + 2],
+                        COMPLNUM = IWEL[iw * NIWELZ + 4],
+                        GROUPNUM = IWEL[iw * NIWELZ + 5],
+                        WELLTYPE = IWEL[iw * NIWELZ + 6],
+                        WELLSTATUS = IWEL[iw * NIWELZ + 10]
+                    });
+                }
+
+                SetPosition("SWEL");
+                br.ReadHeader();
+
+                float[] SWEL = br.ReadFloatList(br.header.count);
+
+                for (int iw = 0; iw < NWELLS; ++iw)
+                {
+                    WELLS[iw].WOPRH = SWEL[iw * NSWELZ + 0];
+                    WELLS[iw].WWPRH = SWEL[iw * NSWELZ + 1];
+                    WELLS[iw].WGPRH = SWEL[iw * NSWELZ + 2];
+                    WELLS[iw].WLPRH = SWEL[iw * NSWELZ + 3];
+                    WELLS[iw].REF_DEPTH = SWEL[iw * NSWELZ + 9];
+                    WELLS[iw].WEFA = SWEL[iw * NSWELZ + 24];
+                    WELLS[iw].BHPH = SWEL[iw * NSWELZ + 68];
+                }
+
+                SetPosition("XWEL");
+                br.ReadHeader();
+
+                double[] XWEL = br.ReadDoubleList();
+
+                for (int iw = 0; iw < NWELLS; ++iw)
+                {
+                    WELLS[iw].WOPR = XWEL[iw * NXWELZ + 0];
+                    WELLS[iw].WWPR = XWEL[iw * NXWELZ + 1];
+                    WELLS[iw].WLPR = XWEL[iw * NXWELZ + 3];
+                    WELLS[iw].WBHP = XWEL[iw * NXWELZ + 6];
+                    WELLS[iw].WWCT = XWEL[iw * NXWELZ + 7];
+                    WELLS[iw].WOPT = XWEL[iw * NXWELZ + 18];
+                    WELLS[iw].WWPT = XWEL[iw * NXWELZ + 19];
+                    WELLS[iw].WWIT = XWEL[iw * NXWELZ + 23];
+                    WELLS[iw].WPI = XWEL[iw * NXWELZ + 55];
+                    WELLS[iw].WOPTH = XWEL[iw * NXWELZ + 75];
+                    WELLS[iw].WWPTH = XWEL[iw * NXWELZ + 76];
+                    WELLS[iw].WWITH = XWEL[iw * NXWELZ + 81];
+                }
+
+                SetPosition("ZWEL");
+                br.ReadHeader();
+
+                string[] ZWEL = br.ReadStringList();
+
+                for (int iw = 0; iw < NWELLS; ++iw)
+                {
+                    for (int ic = 0; ic < NZWELZ; ++ic)
+                    {
+                        WELLS[iw].WELLNAME = WELLS[iw].WELLNAME + ZWEL[iw * NZWELZ + ic];
+                    }
+                    WELLS[iw].WELLNAME.Trim();
+                }
+                SetPosition("ICON");
+                br.ReadHeader();
+
+                int[] ICON = br.ReadIntList();
+
+
+                for (int iw = 0; iw < NWELLS; ++iw) // Для всех скважин и для всех перфораций
+                    for (int ic = 0; ic < NCWMAX; ++ic)
+                    {
+                        if (ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 0] != 0) // Если перфорация существует
+                        {
+                            WELLS[iw].COMPLS.Add(new COMPLDATA
+                            {
+                                I = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 1] - 1,
+                                J = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 2] - 1,
+                                K = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 3] - 1
+                            });
+                        }
+                    }
             }
-
-            SetPosition("SWEL");
-            br.ReadHeader();
-
-            float[] SWEL = br.ReadFloatList(br.header.count);
-
-            for (int iw = 0; iw < NWELLS; ++iw)
-            {
-                WELLS[iw].WOPRH = SWEL[0];
-                WELLS[iw].WWPRH = SWEL[1];
-                WELLS[iw].WGPRH = SWEL[2];
-                WELLS[iw].WLPRH = SWEL[3];
-                WELLS[iw].REF_DEPTH = SWEL[9];
-                WELLS[iw].WEFA = SWEL[24];
-                WELLS[iw].BHPH = SWEL[68];
-            }
-
-            SetPosition("XWEL");
-            br.ReadHeader();
-
-            double[] XWEL = br.ReadDoubleList();
-
-            for (int iw = 0; iw < NWELLS; ++iw)
-            {
-                WELLS[iw].WOPR = XWEL[0];
-                WELLS[iw].WWPR = XWEL[1];
-                WELLS[iw].WLPR = XWEL[3];
-                WELLS[iw].WBHP = XWEL[6];
-                WELLS[iw].WWCT = XWEL[7];
-                WELLS[iw].WOPT = XWEL[18];
-                WELLS[iw].WWPT = XWEL[19];
-                WELLS[iw].WWIT = XWEL[23];
-                WELLS[iw].WPI = XWEL[55];
-                WELLS[iw].WOPTH = XWEL[75];
-                WELLS[iw].WWPTH = XWEL[76];
-                WELLS[iw].WWITH = XWEL[81];
-                WELLS[iw].WOPTH = XWEL[75];
-            }
-
-            SetPosition("ZWEL");
-            br.ReadHeader();
-
-            string[] ZWEL = br.ReadStringList();
-
-            for (int iw = 0; iw < NWELLS; ++iw)
-            {
-                WELLS[iw].WELLNAME = ZWEL[iw * NZWELZ + 0];
-            }
+     
             br.CloseBinaryFile();
         }
 

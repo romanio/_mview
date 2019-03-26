@@ -21,9 +21,34 @@ namespace mview
             ecl.ReadINIT();
         }
 
+        void GenerateWellCoord() 
+        {
+            // Вспомогательный массив WCOORD содержит в себе
+            // перфорации скважин. Если скважина вскрывает ячейку, то в массив WCOORD
+            // записывается индекс скважины
+
+            engine.grid.WCOORD = new int[ecl.INIT.NACTIV];
+
+            foreach(ECL.WELLDATA well in ecl.RESTART.WELLS)
+            {
+                foreach (ECL.COMPLDATA compl in well.COMPLS)
+                {
+                    engine.grid.WCOORD[ecl.INIT.GetActive(compl.I, compl.J, compl.K) - 1] = well.WINDEX;
+                    compl.XC = 0.5f * (ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TNW.X + ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TSE.X);
+                    compl.YC = 0.5f * (ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TNW.Y + ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TSE.Y);
+                    compl.ZC = 0.5f * (ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TNW.Z + ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TSE.Z);
+                }
+            }
+
+            engine.grid.WELLS = ecl.RESTART.WELLS; // Опасное создание указателя на существующий набор данных
+
+            engine.grid.GenerateWellDrawList();
+        }
+
         public void ReadRestart(int step)
         {
             ecl.ReadRestart(step);
+            GenerateWellCoord();
         }
 
         public List<string> GetStaticProperties()
@@ -86,8 +111,7 @@ namespace mview
         public void SetZA(int Z)
         {
             engine.grid.ZA = Z;
-            engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
-        }
+          }
 
         public void OnLoad()
         {

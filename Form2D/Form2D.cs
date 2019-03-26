@@ -18,8 +18,6 @@ namespace mview
         {
             InitializeComponent();
             model = new Form2DModel(ecl);
-
-            FillStaticProperties();
         }
 
         void FillStaticProperties()
@@ -103,14 +101,14 @@ namespace mview
         {
             if (treeProperties.SelectedNode?.Parent?.Index == 0)
             {
-                model.SetStaticProperty(e.Node.Text);
+                model.SetStaticProperty(treeProperties.SelectedNode.Text);
                 glControlOnPaint(null, null);
 
             }
 
             if (treeProperties.SelectedNode?.Parent?.Index == 1)
             {
-                model.SetDynamicProperty(e.Node.Text);
+                model.SetDynamicProperty(treeProperties.SelectedNode.Text);
                 glControlOnPaint(null, null);
             }
         }
@@ -119,6 +117,8 @@ namespace mview
 
         private void glControlOnLoad(object sender, EventArgs e)
         {
+            FillStaticProperties();
+
             model.OnLoad();
             glControl.MouseWheel += new MouseEventHandler(glControlOnMouseWheel);
         }
@@ -161,7 +161,7 @@ namespace mview
         private void boxZSliceOnSelectedIndexChanged(object sender, EventArgs e)
         {
             model.SetZA(boxZSlice.SelectedIndex);
-            glControlOnPaint(null, null);
+            treeProperties_AfterSelect(null, null);
         }
 
         private void tabSliceControlOnSelectedIndexChanged(object sender, EventArgs e)

@@ -13,6 +13,8 @@ namespace mview
 {
     public class Grid2D
     {
+        public List<WELLDATA> WELLS; // Опасная копия данных с рестарт файла
+         
         public Colorizer colorizer = new Colorizer();
 
         public int element_count = 0;
@@ -26,8 +28,70 @@ namespace mview
         public float XC;
         public float YC;
         public float ZC;
-
         public int ZA = 0;
+
+        // Информация по перфорациям
+        public int[] WCOORD = null;
+        public int welsID;
+
+
+        public void GenerateWellDrawList()
+        {
+            System.Diagnostics.Debug.WriteLine("GRID : GenerateWellDrawList");
+
+            GL.NewList(welsID, ListMode.Compile);
+
+            // Отрисовываем точки
+            GL.PointSize(7);
+            GL.Color3(Color.Black);
+            GL.Begin(PrimitiveType.Points);
+
+            foreach (ECL.WELLDATA well in WELLS)
+            {
+                foreach (ECL.COMPLDATA compl in well.COMPLS)
+                {
+                    GL.Vertex3(compl.XC, compl.YC, 0.2);
+                }
+            }
+
+            GL.End();
+
+            // Затем линии
+            GL.Color3(Color.Black);
+            GL.LineWidth(3);
+            GL.Begin(PrimitiveType.Lines);
+
+            foreach (ECL.WELLDATA well in WELLS)
+            {
+                bool is_first_name = true;
+                float last_XC = 0;
+                float last_YC = 0;
+
+                foreach (ECL.COMPLDATA compl in well.COMPLS)
+                {
+                   
+                    if (is_first_name)
+                    {
+                        last_XC = compl.XC;
+                        last_YC = compl.YC;
+                    }
+                    else
+                    {
+                        GL.Vertex3(last_XC, last_YC, 0.2);
+                        GL.Vertex3(compl.XC, compl.YC, 0.2);
+
+                        last_XC = compl.XC;
+                        last_YC = compl.YC;
+                    }
+                    is_first_name = false;
+                }
+            }
+
+            GL.End();
+            GL.LineWidth(1);
+
+            GL.EndList();
+        }
 
         public void GenerateGrid(EclipseProject ecl, Func<int, float> GetValue)
         {
@@ -63,7 +127,7 @@ namespace mview
 
             XC = (XMINCOORD + XMAXCOORD) * 0.5f;
             YC = (YMINCOORD + YMAXCOORD) * 0.5f;
-        //    ZC = (ZMINCOORD + ZMAXCOORD) * 0.5f;
+            ZC = (ZMINCOORD + ZMAXCOORD) * 0.5f;
 
             IntPtr vertex_ptr;
             IntPtr element_ptr;

@@ -62,7 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera2D.cs" />
+    <Compile Include="Form2D\BitmapRender.cs" />
+    <Compile Include="Form2D\Camera2D.cs" />
     <Compile Include="Chart.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -77,16 +78,16 @@
     <Compile Include="ChartOptions.Designer.cs">
       <DependentUpon>ChartOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Colorizer.cs" />
-    <Compile Include="Engine2D.cs" />
+    <Compile Include="Form2D\Colorizer.cs" />
+    <Compile Include="Form2D\Engine2D.cs" />
     <Compile Include="ExportToExcel.cs" />
-    <Compile Include="Form2D.cs">
+    <Compile Include="Form2D\Form2D.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2D.Designer.cs">
+    <Compile Include="Form2D\Form2D.Designer.cs">
       <DependentUpon>Form2D.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2DModel.cs" />
+    <Compile Include="Form2D\Form2DModel.cs" />
     <Compile Include="FormDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,7 +107,7 @@
     <Compile Include="FormModels.Designer.cs">
       <DependentUpon>FormModels.cs</DependentUpon>
     </Compile>
-    <Compile Include="Grid2D.cs" />
+    <Compile Include="Form2D\Grid2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,7 +123,7 @@
     <EmbeddedResource Include="ChartOptions.resx">
       <DependentUpon>ChartOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2D.resx">
+    <EmbeddedResource Include="Form2D\Form2D.resx">
       <DependentUpon>Form2D.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormDetails.resx">
