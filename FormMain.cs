@@ -254,5 +254,10 @@ namespace mview
         {
             model.Show2DView();
         }
+
+        private void dViewToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            model.Show3DView();
+        }
     }
 }

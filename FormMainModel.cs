@@ -28,6 +28,12 @@ namespace mview
             tmp.Show();
         }
 
+        public void Show3DView()
+        {
+            Form3DInfo tmp = new Form3DInfo(pm.ActiveProject);
+            tmp.Show();
+        }
+
         public void ShowModelsForm(int X, int Y)
         {
             FormModels tmp = new FormModels(pm);

@@ -21,6 +21,12 @@ namespace mview
             ecl.ReadINIT();
         }
 
+        public void ShowOptions()
+        {
+            Form2DOptions tmp = new Form2DOptions();
+            tmp.Show();
+        }
+
         void GenerateWellCoord() 
         {
             // Вспомогательный массив WCOORD содержит в себе
@@ -63,6 +69,18 @@ namespace mview
             return StaticProperties;
         }
 
+        public List<string> GetAllDinamicProperties()
+        {
+            var DynamicProperties = new List<string>();
+
+            for (int it = 0; it < ecl.RESTART.NAME.Count; ++it)
+            {
+                DynamicProperties.AddRange(GetDinamicProperties(it));
+            }
+
+            return DynamicProperties.Distinct().ToList();
+        }
+
         public List<string> GetDinamicProperties(int istep) // Вектора могут быть разными на разных рестар файлах
         {
             var DynamicProperties = new List<string>();
@@ -94,8 +112,11 @@ namespace mview
 
         public void SetDynamicProperty(string name)
         {
-            ecl.RESTART.ReadGrid(name);
-            engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
+            if (Array.IndexOf(ecl.RESTART.NAME[ecl.RESTART.RESTART_STEP], name) != -1)
+            {
+                ecl.RESTART.ReadGrid(name);
+                engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
+            }
         }
 
         public void SetMinValue(float value)

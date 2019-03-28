@@ -64,18 +64,18 @@
   <ItemGroup>
     <Compile Include="Form2D\BitmapRender.cs" />
     <Compile Include="Form2D\Camera2D.cs" />
-    <Compile Include="Chart.cs">
+    <Compile Include="Charts\Chart.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Chart.Designer.cs">
+    <Compile Include="Charts\Chart.Designer.cs">
       <DependentUpon>Chart.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChartController.cs" />
-    <Compile Include="ChartModel.cs" />
-    <Compile Include="ChartOptions.cs">
+    <Compile Include="Charts\ChartController.cs" />
+    <Compile Include="Charts\ChartModel.cs" />
+    <Compile Include="Charts\ChartOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChartOptions.Designer.cs">
+    <Compile Include="Charts\ChartOptions.Designer.cs">
       <DependentUpon>ChartOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="Form2D\Colorizer.cs" />
@@ -88,6 +88,18 @@
       <DependentUpon>Form2D.cs</DependentUpon>
     </Compile>
     <Compile Include="Form2D\Form2DModel.cs" />
+    <Compile Include="Form2D\Form2DOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2D\Form2DOptions.Designer.cs">
+      <DependentUpon>Form2DOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form3DInfo\Form3DInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form3DInfo\Form3DInfo.Designer.cs">
+      <DependentUpon>Form3DInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,14 +129,20 @@
     <Compile Include="Source\ECL\RSSPEC.cs" />
     <Compile Include="Source\ECL\SMSPEC.cs" />
     <Compile Include="Source\FileReader.cs" />
-    <EmbeddedResource Include="Chart.resx">
+    <EmbeddedResource Include="Charts\Chart.resx">
       <DependentUpon>Chart.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChartOptions.resx">
+    <EmbeddedResource Include="Charts\ChartOptions.resx">
       <DependentUpon>ChartOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form2D\Form2D.resx">
       <DependentUpon>Form2D.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2D\Form2DOptions.resx">
+      <DependentUpon>Form2DOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form3DInfo\Form3DInfo.resx">
+      <DependentUpon>Form3DInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormDetails.resx">
       <DependentUpon>FormDetails.cs</DependentUpon>
@@ -144,7 +162,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="ClassDiagram.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

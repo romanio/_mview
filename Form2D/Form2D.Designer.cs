@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Static ");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Dynamic");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Static ");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Dynamic");
             this.label2 = new System.Windows.Forms.Label();
             this.boxRestart = new System.Windows.Forms.ComboBox();
             this.glControl = new OpenTK.GLControl();
@@ -53,6 +53,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.trackStretch = new System.Windows.Forms.TrackBar();
             this.bbColorReset = new System.Windows.Forms.Button();
+            this.buttonChartOptions = new System.Windows.Forms.Button();
             this.tabSliceControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -62,9 +63,8 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(796, 114);
+            this.label2.Location = new System.Drawing.Point(793, 130);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 13);
             this.label2.TabIndex = 24;
@@ -72,12 +72,11 @@
             // 
             // boxRestart
             // 
-            this.boxRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.boxRestart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxRestart.FormattingEnabled = true;
-            this.boxRestart.Location = new System.Drawing.Point(799, 130);
+            this.boxRestart.Location = new System.Drawing.Point(793, 146);
             this.boxRestart.Name = "boxRestart";
-            this.boxRestart.Size = new System.Drawing.Size(119, 21);
+            this.boxRestart.Size = new System.Drawing.Size(130, 21);
             this.boxRestart.TabIndex = 25;
             this.boxRestart.SelectedIndexChanged += new System.EventHandler(this.boxRestart_SelectedIndexChanged);
             // 
@@ -116,13 +115,13 @@
             this.treeProperties.HideSelection = false;
             this.treeProperties.Location = new System.Drawing.Point(12, 28);
             this.treeProperties.Name = "treeProperties";
-            treeNode21.Name = "Узел0";
-            treeNode21.Text = "Static ";
-            treeNode22.Name = "Узел1";
-            treeNode22.Text = "Dynamic";
+            treeNode7.Name = "Узел0";
+            treeNode7.Text = "Static ";
+            treeNode8.Name = "Узел1";
+            treeNode8.Text = "Dynamic";
             this.treeProperties.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode21,
-            treeNode22});
+            treeNode7,
+            treeNode8});
             this.treeProperties.Size = new System.Drawing.Size(130, 372);
             this.treeProperties.TabIndex = 0;
             this.treeProperties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeProperties_AfterSelect);
@@ -200,7 +199,6 @@
             this.tabSliceControl.SelectedIndex = 0;
             this.tabSliceControl.Size = new System.Drawing.Size(142, 89);
             this.tabSliceControl.TabIndex = 41;
-            this.tabSliceControl.SelectedIndexChanged += new System.EventHandler(this.tabSliceControlOnSelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -312,11 +310,24 @@
             this.bbColorReset.Text = "Reset";
             this.bbColorReset.UseVisualStyleBackColor = true;
             // 
+            // buttonChartOptions
+            // 
+            this.buttonChartOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonChartOptions.Location = new System.Drawing.Point(796, 487);
+            this.buttonChartOptions.Name = "buttonChartOptions";
+            this.buttonChartOptions.Size = new System.Drawing.Size(100, 24);
+            this.buttonChartOptions.TabIndex = 49;
+            this.buttonChartOptions.Text = "2D Options";
+            this.buttonChartOptions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonChartOptions.UseVisualStyleBackColor = true;
+            this.buttonChartOptions.Click += new System.EventHandler(this.buttonChartOptions_Click);
+            // 
             // Form2D
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(932, 673);
+            this.Controls.Add(this.buttonChartOptions);
             this.Controls.Add(this.bbColorReset);
             this.Controls.Add(this.trackStretch);
             this.Controls.Add(this.label4);
@@ -376,5 +387,7 @@
         private System.Windows.Forms.Button bbColorReset;
 
         #endregion
+
+        private System.Windows.Forms.Button buttonChartOptions;
     }
 }

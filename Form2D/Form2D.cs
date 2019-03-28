@@ -25,19 +25,23 @@ namespace mview
             // Имена свойств из INIT файла
 
             treeProperties.Nodes[0].Nodes.Clear();
+            treeProperties.Nodes[1].Nodes.Clear();
 
             var static_properties = model.GetStaticProperties();
+            var dynamic_properties = model.GetAllDinamicProperties();
 
             treeProperties.BeginUpdate();
-
             foreach (string item in static_properties)
             {
                 treeProperties.Nodes[0].Nodes.Add(item);
             }
-
+            foreach (string item in dynamic_properties)
+            {
+                treeProperties.Nodes[1].Nodes.Add(item);
+            }
             treeProperties.EndUpdate();
 
-            //
+            // Список из всех доступных рестартов
 
             boxRestart.Items.Clear();
 
@@ -46,55 +50,23 @@ namespace mview
 
             boxRestart.EndUpdate();
 
-            if (boxRestart.Items.Count > 0)
-                boxRestart.SelectedIndex = 0;
-
             boxZSlice.Items.Clear();
             boxZSlice.BeginUpdate();
 
             for (int it = 0; it < model.GetNZ(); ++it)
                 boxZSlice.Items.Add((it + 1).ToString());
 
-         //   boxZSlice.SelectedIndex = 0;
+            if (boxRestart.Items.Count > 0)
+                boxRestart.SelectedIndex = 0;
+
+            boxZSlice.SelectedIndex = 0;
             boxZSlice.EndUpdate();
-
-            tabSliceControlOnSelectedIndexChanged(null, null);
-
         }
 
         private void boxRestart_SelectedIndexChanged(object sender, EventArgs e)
         {
             model.ReadRestart(boxRestart.SelectedIndex);
-
-            // Рестарт файл может содержать разное количество динамических свойств, поэтому приходится
-            // обновлять список доступных, каждый раз при чтении другого рестарт-файла
-            // При перелистывании рестартов, удобно сохранять выбранное свойство
-
-            string selected_propery = null;
-
-            foreach(TreeNode node in treeProperties.Nodes[1].Nodes) // Найдем, кто же выбран
-            {
-                if (node.IsSelected) selected_propery = node.Text;
-            }
-
-            treeProperties.Nodes[1].Nodes.Clear();
-
-            var dynamic_properties = model.GetDinamicProperties(boxRestart.SelectedIndex);
-
-            treeProperties.BeginUpdate();
-            foreach (string item in dynamic_properties) // И вернем ктоже был выбран
-            {
-                treeProperties.Nodes[1].Nodes.Add(item);
-
-                if (item == selected_propery)
-                {
-                    treeProperties.SelectedNode = treeProperties.Nodes[1].LastNode;
-
-                    model.SetDynamicProperty(selected_propery);
-                    glControlOnPaint(null, null);
-                }
-            }
-            treeProperties.EndUpdate();
+            treeProperties_AfterSelect(null, null);
         }
 
         private void treeProperties_AfterSelect(object sender, TreeViewEventArgs e)
@@ -117,9 +89,8 @@ namespace mview
 
         private void glControlOnLoad(object sender, EventArgs e)
         {
-            FillStaticProperties();
-
             model.OnLoad();
+            FillStaticProperties();
             glControl.MouseWheel += new MouseEventHandler(glControlOnMouseWheel);
         }
 
@@ -164,11 +135,6 @@ namespace mview
             treeProperties_AfterSelect(null, null);
         }
 
-        private void tabSliceControlOnSelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void boxMinimumOnValidating(object sender, CancelEventArgs e)
         {
             float value;
@@ -189,6 +155,9 @@ namespace mview
             }
         }
 
-
+        private void buttonChartOptions_Click(object sender, EventArgs e)
+        {
+            model.ShowOptions();
+        }
     }
 }

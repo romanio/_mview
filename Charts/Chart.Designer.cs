@@ -118,6 +118,7 @@
             // checkShowUserFunction
             // 
             this.checkShowUserFunction.AutoSize = true;
+            this.checkShowUserFunction.Enabled = false;
             this.checkShowUserFunction.Location = new System.Drawing.Point(113, 153);
             this.checkShowUserFunction.Name = "checkShowUserFunction";
             this.checkShowUserFunction.Size = new System.Drawing.Size(118, 17);

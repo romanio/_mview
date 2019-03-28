@@ -155,7 +155,7 @@ namespace mview
             gridData.ColumnCount = selected_names.Length * listKeywords.SelectedItems.Count + 1;
             gridData.Columns[0].HeaderText = "Date";
             gridData.RowCount = model.GetStepCountActive();
-            gridData.VirtualMode = true;
+            gridData.VirtualMode = false;
 
             int index = 1;
             selected_index = new int[selected_names.Length * listKeywords.SelectedItems.Count];
@@ -173,6 +173,8 @@ namespace mview
                     gridData.Columns[index++].HeaderText = vector.Name + "\n" + data.keyword + "\n" + data.unit;
                 }
             }
+
+            gridData.VirtualMode = true;
 
             // Заглавие графика
 
@@ -457,6 +459,7 @@ namespace mview
         private void buttonLoadUserFunction_Click(object sender, EventArgs e)
         {
             chartController.LoadUserFunctions();
+            checkShowUserFunction.Enabled = true;
         }
 
         private void checkShowUserFunction_CheckedChanged(object sender, EventArgs e)

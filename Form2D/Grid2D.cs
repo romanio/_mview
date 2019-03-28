@@ -41,6 +41,8 @@ namespace mview
 
             GL.NewList(welsID, ListMode.Compile);
 
+            System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
+
             // Отрисовываем точки
             GL.PointSize(7);
             GL.Color3(Color.Black);
@@ -91,6 +93,8 @@ namespace mview
             GL.LineWidth(1);
 
             GL.EndList();
+
+            System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
         }
 
         public void GenerateGrid(EclipseProject ecl, Func<int, float> GetValue)
