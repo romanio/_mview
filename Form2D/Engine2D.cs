@@ -48,7 +48,7 @@ namespace mview
             GL.DeleteLists(grid.welsID, 1);
         }
 
-        int width, height; // Параметры окна вывода
+        public int width, height; // Параметры окна вывода
 
         public void OnResize(int width, int height)
         {
@@ -83,7 +83,7 @@ namespace mview
 
         public void DrawWells()
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+   //         var watch = System.Diagnostics.Stopwatch.StartNew();
 
             GL.CallList(grid.welsID);
 
@@ -97,8 +97,8 @@ namespace mview
                 }
             }
 
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
+    //        watch.Stop();
+   //         var elapsedMs = watch.ElapsedMilliseconds;
 
            // render.DrawString(elapsedMs.ToString(), WellsFont, Brushes.Black, new PointF(100, 100));
         }

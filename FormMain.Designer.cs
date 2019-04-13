@@ -33,6 +33,7 @@
             this.optionalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dViewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.FileDialog = new System.Windows.Forms.OpenFileDialog();
             this.listNames = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -43,7 +44,6 @@
             this.boxNamesType = new System.Windows.Forms.ComboBox();
             this.buttonModels = new System.Windows.Forms.Button();
             this.buttonChartOptions = new System.Windows.Forms.Button();
-            this.dViewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,6 +91,14 @@
             this.dViewToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.dViewToolStripMenuItem.Text = "2D View";
             this.dViewToolStripMenuItem.Click += new System.EventHandler(this.dViewToolStripMenuItem_Click);
+            // 
+            // dViewToolStripMenuItem1
+            // 
+            this.dViewToolStripMenuItem1.Enabled = false;
+            this.dViewToolStripMenuItem1.Name = "dViewToolStripMenuItem1";
+            this.dViewToolStripMenuItem1.Size = new System.Drawing.Size(57, 20);
+            this.dViewToolStripMenuItem1.Text = "3D View";
+            this.dViewToolStripMenuItem1.Click += new System.EventHandler(this.dViewToolStripMenuItem1_Click);
             // 
             // FileDialog
             // 
@@ -213,13 +221,6 @@
             this.buttonChartOptions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonChartOptions.UseVisualStyleBackColor = true;
             this.buttonChartOptions.Click += new System.EventHandler(this.buttonChartOptions_Click);
-            // 
-            // dViewToolStripMenuItem1
-            // 
-            this.dViewToolStripMenuItem1.Name = "dViewToolStripMenuItem1";
-            this.dViewToolStripMenuItem1.Size = new System.Drawing.Size(57, 20);
-            this.dViewToolStripMenuItem1.Text = "3D View";
-            this.dViewToolStripMenuItem1.Click += new System.EventHandler(this.dViewToolStripMenuItem1_Click);
             // 
             // FormMain
             // 

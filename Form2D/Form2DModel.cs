@@ -19,6 +19,7 @@ namespace mview
 
             ecl.ReadEGRID();
             ecl.ReadINIT();
+            SetMinMaxAndScaleFactor();
         }
 
         public void ShowOptions()
@@ -26,6 +27,45 @@ namespace mview
             Form2DOptions tmp = new Form2DOptions();
             tmp.Show();
         }
+
+        void SetMinMaxAndScaleFactor()
+        {
+            // Определение максимальной и минимальной координаты Х и Y кажется простым,
+            // для этого рассмотрим координаты четырех углов модели.
+            // Более полный алгоритм должен рассматривать все 8 углов модели
+
+            // Координата X четырех углов сетки
+
+            List<float> XCORD = new List<float>()
+            {
+                ecl.EGRID.COORD[0],
+                ecl.EGRID. COORD[6 *  ecl.EGRID.NX + 0],
+                ecl.EGRID.COORD[6 * ( ecl.EGRID.NX + 1) *  ecl.EGRID.NY + 0],
+                ecl.EGRID.COORD[6 * (( ecl.EGRID.NX + 1) * ( ecl.EGRID.NY + 1) - 1) + 0]
+            };
+
+            engine.grid.XMINCOORD = XCORD.Min();
+            engine.grid.XMAXCOORD = XCORD.Max();
+
+            // Координата Y четырех углов сетки
+
+            List<float> YCORD = new List<float>()
+            {
+                 ecl.EGRID.COORD[1],
+                 ecl.EGRID.COORD[6 *  ecl.EGRID.NX + 1],
+                 ecl.EGRID.COORD[6 * (ecl.EGRID.NX + 1) *  ecl.EGRID.NY + 1],
+                 ecl.EGRID.COORD[6 * (( ecl.EGRID.NX + 1) * ( ecl.EGRID.NY + 1) - 1) + 1]
+            };
+
+            engine.grid.YMINCOORD = YCORD.Min();
+            engine.grid.YMAXCOORD = YCORD.Max();
+
+            engine.grid.XC = (engine.grid.XMINCOORD + engine.grid.XMAXCOORD) * 0.5f;
+            engine.grid.YC = (engine.grid.YMINCOORD + engine.grid.YMAXCOORD) * 0.5f;
+            engine.grid.ZC = (engine.grid.ZMINCOORD + engine.grid.ZMAXCOORD) * 0.5f;
+        }
+
+
 
         void GenerateWellCoord() 
         {
@@ -139,8 +179,23 @@ namespace mview
             engine.OnLoad();
         }
 
+        bool resize_init = true;
+
         public void OnResize(int width, int height)
         {
+            if (resize_init) // Установить начальный масштабный фактор
+            {
+
+                float DX = engine.grid.XMAXCOORD - engine.grid.XMINCOORD;
+                float DY = engine.grid.YMAXCOORD - engine.grid.YMINCOORD;
+
+                float MC = Math.Max(DX, DY) * 1.1f;
+                float SC = Math.Min(width, height);
+
+                engine.camera.scale = SC / MC;
+                resize_init = false;
+            }
+
             engine.OnResize(width, height);
         }
 
@@ -168,7 +223,5 @@ namespace mview
         {
             engine.MouseWheel(e);
         }
-
-
     }
 }
