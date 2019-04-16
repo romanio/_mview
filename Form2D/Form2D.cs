@@ -125,7 +125,7 @@ namespace mview
 
         private void checkShowGridLinesOnCheckedChanged(object sender, EventArgs e)
         {
-            model.SetGridlineStatus(checkShowGridLines.Checked);
+         //   model.SetGridlineStatus(checkShowGridLines.Checked);
             glControl.SwapBuffers();
         }
 
@@ -135,29 +135,18 @@ namespace mview
             treeProperties_AfterSelect(null, null);
         }
 
-        private void boxMinimumOnValidating(object sender, CancelEventArgs e)
-        {
-            float value;
-            if (float.TryParse(boxMinimum.Text, out value))
-            {
-                model.SetMinValue(value);
-                glControlOnPaint(null, null);
-            }
-        }
-
-        private void boxMaximumOnValidating(object sender, CancelEventArgs e)
-        {
-            float value;
-            if (float.TryParse(boxMinimum.Text, out value))
-            {
-                model.SetMaxValue(value);
-                glControlOnPaint(null, null);
-            }
-        }
-
         private void buttonChartOptions_Click(object sender, EventArgs e)
         {
-            model.ShowOptions();
+            Form2DOptions tmp = new Form2DOptions(model.style);
+            tmp.ApplyStyle += OnApplyStyle;
+            tmp.Show();
+        }
+
+        private void OnApplyStyle()
+        {
+            System.Diagnostics.Debug.WriteLine("2D Options : ApplyStyle");
+            model.ApplyStyle();
+            glControlOnPaint(null, null);
         }
     }
 }

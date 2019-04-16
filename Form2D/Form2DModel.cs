@@ -7,10 +7,19 @@ using System.Windows.Forms;
 
 namespace mview
 {
+    public class Form2DModelStyle
+    {
+        public bool ShowGridLines = true;
+        public double min_value = 0;
+        public double max_value = 100;
+    }
+
+
     public class Form2DModel
     {
         Engine2D engine = null;
         EclipseProject ecl = null;
+        public Form2DModelStyle style = new Form2DModelStyle();
 
         public Form2DModel(EclipseProject ecl)
         {
@@ -22,10 +31,12 @@ namespace mview
             SetMinMaxAndScaleFactor();
         }
 
-        public void ShowOptions()
+        public void ApplyStyle()
         {
-            Form2DOptions tmp = new Form2DOptions();
-            tmp.Show();
+            engine.SetGridlineState(style.ShowGridLines);
+            engine.grid.colorizer.SetMinimum(style.min_value);
+            engine.grid.colorizer.SetMaximum(style.max_value);
+            engine.grid.RefreshGrid();
         }
 
         void SetMinMaxAndScaleFactor()
@@ -159,16 +170,6 @@ namespace mview
             }
         }
 
-        public void SetMinValue(float value)
-        {
-            engine.grid.colorizer.SetMinimum(value);
-        }
-
-        public void SetMaxValue(float value)
-        {
-            engine.grid.colorizer.SetMaximum(value);
-        }
-
         public void SetZA(int Z)
         {
             engine.grid.ZA = Z;
@@ -207,11 +208,6 @@ namespace mview
         public void OnPaint()
         {
             engine.OnPaint();
-        }
-
-        public void SetGridlineStatus(bool state)
-        {
-            engine.SetGridlineState(state);
         }
 
         public void MouseMove(MouseEventArgs e)

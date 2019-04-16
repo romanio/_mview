@@ -576,9 +576,9 @@
             // 
             // buttonApplySeries
             // 
-            this.buttonApplySeries.Location = new System.Drawing.Point(243, 446);
+            this.buttonApplySeries.Location = new System.Drawing.Point(243, 448);
             this.buttonApplySeries.Name = "buttonApplySeries";
-            this.buttonApplySeries.Size = new System.Drawing.Size(124, 25);
+            this.buttonApplySeries.Size = new System.Drawing.Size(124, 23);
             this.buttonApplySeries.TabIndex = 28;
             this.buttonApplySeries.Text = "Apply style";
             this.buttonApplySeries.UseVisualStyleBackColor = true;

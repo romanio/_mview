@@ -97,9 +97,18 @@ namespace mview
             System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
         }
 
+        public void RefreshGrid()
+        {
+            GenerateGrid(tmp_ecl, tmp_GetValue);
+        }
+
+        EclipseProject tmp_ecl;
+        Func<int, float> tmp_GetValue;
+
         public void GenerateGrid(EclipseProject ecl, Func<int, float> GetValue)
         {
-
+            this.tmp_ecl = ecl;
+            this.tmp_GetValue = GetValue;
 
             IntPtr vertex_ptr;
             IntPtr element_ptr;
