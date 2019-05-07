@@ -83,24 +83,20 @@ namespace mview
 
         public void DrawWells()
         {
-   //         var watch = System.Diagnostics.Stopwatch.StartNew();
-
             GL.CallList(grid.welsID);
 
             foreach (ECL.WELLDATA well in grid.WELLS)
             {
                 if (well.COMPLS.Count > 0)
                 {
-                    render.DrawString(well, WellsFont, Brushes.Black, new PointF(
+                    render.DrawWell(well, WellsFont, Brushes.Black, new PointF(
                         (well.COMPLS[0].XC - grid.XMINCOORD - 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) + camera.shift_x + camera.shift_end_x - camera.shift_start_x) * camera.scale + 0.5f * width,
-                        (well.COMPLS[0].YC - grid.YMINCOORD - 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_y + camera.shift_end_y - camera.shift_start_y) * camera.scale + 0.5f * height));
+                        (well.COMPLS[0].YC - grid.YMINCOORD - 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_y + camera.shift_end_y - camera.shift_start_y) * camera.scale + 0.5f * height), 
+                        showBubbles,
+                        bubbleMode
+                        );
                 }
             }
-
-    //        watch.Stop();
-   //         var elapsedMs = watch.ElapsedMilliseconds;
-
-           // render.DrawString(elapsedMs.ToString(), WellsFont, Brushes.Black, new PointF(100, 100));
         }
 
         public void DrawFrame() // Рамка вокруг модели
@@ -137,8 +133,7 @@ namespace mview
 
             render.Clear(Color.Transparent);
             DrawWells();
-
-
+            
             // Отрисовка ячеек
             GL.PolygonOffset(+1, +1);
             GL.EnableClientState(ArrayCap.ColorArray);
@@ -179,10 +174,23 @@ namespace mview
 
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.Texture2D);
-
         }
 
-        bool showGridLine = false;
+        bool showBubbles = true;
+        bool showGridLine = true;
+        BubbleMode bubbleMode = BubbleMode.Simulation;
+
+        public void SetBubbleMode(BubbleMode mode)
+        {
+            bubbleMode = mode;
+            OnPaint();
+        }
+
+        public void SetBubblesState(bool state)
+        {
+            showBubbles = state;
+            OnPaint();
+        }
 
         public void SetGridlineState(bool state)
         {

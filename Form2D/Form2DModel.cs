@@ -7,9 +7,18 @@ using System.Windows.Forms;
 
 namespace mview
 {
+    public enum BubbleMode
+    {
+        Simulation,
+        Historical,
+        SimVSHist
+    }
+
     public class Form2DModelStyle
     {
         public bool ShowGridLines = true;
+        public bool ShowBubbles = true;
+        public BubbleMode BubbleMode = BubbleMode.Simulation;
         public double min_value = 0;
         public double max_value = 100;
     }
@@ -34,8 +43,12 @@ namespace mview
         public void ApplyStyle()
         {
             engine.SetGridlineState(style.ShowGridLines);
+            engine.SetBubblesState(style.ShowBubbles);
+            engine.SetBubbleMode(style.BubbleMode);
             engine.grid.colorizer.SetMinimum(style.min_value);
             engine.grid.colorizer.SetMaximum(style.max_value);
+
+
             engine.grid.RefreshGrid();
         }
 

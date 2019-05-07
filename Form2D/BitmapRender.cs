@@ -53,36 +53,55 @@ namespace mview
 
         Font InfoFont = new Font("Segoe Pro Cond", 09, FontStyle.Regular);
 
-        public void DrawString(ECL.WELLDATA well, Font font, Brush brush, PointF point)
+        public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, PointF point, bool RenderBubble, BubbleMode bubbleMode)
         {
             // 100 m3 = 10 pt
 
-            int size = (int)(Math.Abs(well.WLPR) * 0.5);
-            if (size < 4) size = 4;
+            int size = 0; // Размер круга
+            float wcut = 1; // Обводненность
 
-            float wcut = well.WLPR == 0? 0 : (float)(well.WWPR / well.WLPR);
+            if (bubbleMode == BubbleMode.Simulation)
+            {
+                size = (int)(Math.Abs(well.WLPR) * 0.5);
+                if (size < 4) size = 4;
 
+                wcut = well.WLPR == 0 ? 0 : (float)(well.WWPR / well.WLPR);
+            }
+
+            if (bubbleMode == BubbleMode.Historical)
+            {
+                size = (int)(Math.Abs(well.WLPRH) * 0.5);
+                if (size < 4) size = 4;
+
+                wcut = well.WLPRH == 0 ? 0 : (float)(well.WWPRH / well.WLPRH);
+            }
 
             if (well.WLPR > 0)
             {
-                gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
-                gfx.FillPie(Brushes.BurlyWood, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, (float)Math.Round(360.0 * (1 - wcut)));
-                gfx.FillPie(Brushes.SteelBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, - (float)Math.Round(360.0 * wcut));
+                if (RenderBubble)
+                {
+                    gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
+                    gfx.FillPie(Brushes.BurlyWood, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, (float)Math.Round(360.0 * (1 - wcut)));
+                    gfx.FillPie(Brushes.SteelBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, -(float)Math.Round(360.0 * wcut));
+                }
                 gfx.DrawString(well.WLPR.ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
             }
 
             if (well.WLPR < 0) // Меньше нуля, это у нас закачка
             {
-                
-                gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
-                gfx.FillPie(Brushes.LightBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, 360);
+                if (RenderBubble)
+                {
+                    gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
+                    gfx.FillPie(Brushes.LightBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, 360);
+                }
+
                 gfx.DrawString((-well.WLPR).ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
             }
 
             gfx.FillEllipse(Brushes.White, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
             gfx.DrawEllipse(Pens.Black, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
 
-            gfx.DrawString(well.WELLNAME, font, brush, (int)(point.X) - 16, (int)(point.Y) - 32);
+            gfx.DrawString(well.WELLNAME, font, brush, (int)(point.X) - 8, (int)(point.Y) - 32);
         }
 
         public int Texture

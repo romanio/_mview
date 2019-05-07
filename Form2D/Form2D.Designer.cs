@@ -123,7 +123,7 @@
             this.boxZSlice.FormattingEnabled = true;
             this.boxZSlice.Location = new System.Drawing.Point(14, 20);
             this.boxZSlice.Name = "boxZSlice";
-            this.boxZSlice.Size = new System.Drawing.Size(121, 21);
+            this.boxZSlice.Size = new System.Drawing.Size(127, 21);
             this.boxZSlice.TabIndex = 38;
             this.boxZSlice.SelectedIndexChanged += new System.EventHandler(this.boxZSliceOnSelectedIndexChanged);
             // 

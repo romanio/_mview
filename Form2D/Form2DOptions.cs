@@ -23,6 +23,8 @@ namespace mview
             this.style = style;
 
             checkShowGridLines.Checked = true;
+            checkShowBubbles.Checked = true;
+            boxBubbleMode.SelectedIndex = 0;
 
             after_init = true;
         }
@@ -55,6 +57,31 @@ namespace mview
 
                 if (after_init) ApplyStyle();
             }
+        }
+
+        private void checkShowBubbles_CheckedChanged(object sender, EventArgs e)
+        {
+            style.ShowBubbles = checkShowBubbles.Checked;
+            if (after_init) ApplyStyle();
+        }
+
+        private void boxBubbleMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (boxBubbleMode.SelectedIndex)
+            {
+                case 0:
+                    style.BubbleMode = BubbleMode.Simulation;
+                    break;
+                case 1:
+                    style.BubbleMode = BubbleMode.Historical;
+                    break;
+                case 2:
+                    style.BubbleMode = BubbleMode.SimVSHist;
+                    break;
+            }
+
+            if (after_init) ApplyStyle();
+
         }
     }
 }

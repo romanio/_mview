@@ -73,17 +73,21 @@
             this.boxLineStyle = new System.Windows.Forms.ComboBox();
             this.listKeywords = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.boxScaleZ = new System.Windows.Forms.TextBox();
-            this.boxMaximum = new System.Windows.Forms.TextBox();
-            this.boxMinimum = new System.Windows.Forms.TextBox();
-            this.trackStretch = new System.Windows.Forms.TrackBar();
-            this.label19 = new System.Windows.Forms.Label();
-            this.labelMin = new System.Windows.Forms.Label();
+            this.labelMax = new System.Windows.Forms.Label();
             this.bbColorReset = new System.Windows.Forms.Button();
             this.labelPickValue = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.checkShowGridLines = new System.Windows.Forms.CheckBox();
-            this.labelMax = new System.Windows.Forms.Label();
+            this.trackStretch = new System.Windows.Forms.TrackBar();
+            this.label19 = new System.Windows.Forms.Label();
+            this.labelMin = new System.Windows.Forms.Label();
+            this.boxScaleZ = new System.Windows.Forms.TextBox();
+            this.boxMaximum = new System.Windows.Forms.TextBox();
+            this.boxMinimum = new System.Windows.Forms.TextBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkShowBubbles = new System.Windows.Forms.CheckBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.boxBubbleMode = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericAxisYWidth)).BeginInit();
@@ -93,6 +97,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericLineWidth)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackStretch)).BeginInit();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonApplySeries
@@ -109,6 +114,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -606,69 +612,20 @@
             this.tabPage3.Text = "General";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // boxScaleZ
+            // labelMax
             // 
-            this.boxScaleZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxScaleZ.Location = new System.Drawing.Point(249, 45);
-            this.boxScaleZ.Name = "boxScaleZ";
-            this.boxScaleZ.Size = new System.Drawing.Size(64, 21);
-            this.boxScaleZ.TabIndex = 46;
-            this.boxScaleZ.Text = "12";
-            // 
-            // boxMaximum
-            // 
-            this.boxMaximum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxMaximum.Location = new System.Drawing.Point(249, 99);
-            this.boxMaximum.Name = "boxMaximum";
-            this.boxMaximum.Size = new System.Drawing.Size(64, 21);
-            this.boxMaximum.TabIndex = 45;
-            this.boxMaximum.Text = "100.000";
-            this.boxMaximum.Validating += new System.ComponentModel.CancelEventHandler(this.boxMaximum_Validating);
-            // 
-            // boxMinimum
-            // 
-            this.boxMinimum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxMinimum.Location = new System.Drawing.Point(249, 72);
-            this.boxMinimum.Name = "boxMinimum";
-            this.boxMinimum.Size = new System.Drawing.Size(64, 21);
-            this.boxMinimum.TabIndex = 44;
-            this.boxMinimum.Text = "0.000";
-            this.boxMinimum.Validating += new System.ComponentModel.CancelEventHandler(this.boxMinimum_Validating);
-            // 
-            // trackStretch
-            // 
-            this.trackStretch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackStretch.Location = new System.Drawing.Point(75, 201);
-            this.trackStretch.Maximum = 100;
-            this.trackStretch.Name = "trackStretch";
-            this.trackStretch.Size = new System.Drawing.Size(138, 45);
-            this.trackStretch.TabIndex = 49;
-            this.trackStretch.TickStyle = System.Windows.Forms.TickStyle.None;
-            // 
-            // label19
-            // 
-            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(60, 146);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(42, 13);
-            this.label19.TabIndex = 48;
-            this.label19.Text = "Stretch";
-            // 
-            // labelMin
-            // 
-            this.labelMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelMin.AutoSize = true;
-            this.labelMin.Location = new System.Drawing.Point(244, 158);
-            this.labelMin.Name = "labelMin";
-            this.labelMin.Size = new System.Drawing.Size(47, 13);
-            this.labelMin.TabIndex = 47;
-            this.labelMin.Text = "Minimum";
+            this.labelMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelMax.AutoSize = true;
+            this.labelMax.Location = new System.Drawing.Point(150, 102);
+            this.labelMax.Name = "labelMax";
+            this.labelMax.Size = new System.Drawing.Size(51, 13);
+            this.labelMax.TabIndex = 54;
+            this.labelMax.Text = "Maximum";
             // 
             // bbColorReset
             // 
             this.bbColorReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbColorReset.Location = new System.Drawing.Point(195, 254);
+            this.bbColorReset.Location = new System.Drawing.Point(192, 136);
             this.bbColorReset.Name = "bbColorReset";
             this.bbColorReset.Size = new System.Drawing.Size(121, 23);
             this.bbColorReset.TabIndex = 53;
@@ -706,15 +663,118 @@
             this.checkShowGridLines.UseVisualStyleBackColor = true;
             this.checkShowGridLines.CheckedChanged += new System.EventHandler(this.checkShowGridLines_CheckedChanged);
             // 
-            // labelMax
+            // trackStretch
             // 
-            this.labelMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelMax.AutoSize = true;
-            this.labelMax.Location = new System.Drawing.Point(150, 190);
-            this.labelMax.Name = "labelMax";
-            this.labelMax.Size = new System.Drawing.Size(51, 13);
-            this.labelMax.TabIndex = 54;
-            this.labelMax.Text = "Maximum";
+            this.trackStretch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackStretch.Location = new System.Drawing.Point(75, 201);
+            this.trackStretch.Maximum = 100;
+            this.trackStretch.Name = "trackStretch";
+            this.trackStretch.Size = new System.Drawing.Size(138, 45);
+            this.trackStretch.TabIndex = 49;
+            this.trackStretch.TickStyle = System.Windows.Forms.TickStyle.None;
+            // 
+            // label19
+            // 
+            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(60, 146);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(42, 13);
+            this.label19.TabIndex = 48;
+            this.label19.Text = "Stretch";
+            // 
+            // labelMin
+            // 
+            this.labelMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelMin.AutoSize = true;
+            this.labelMin.Location = new System.Drawing.Point(150, 75);
+            this.labelMin.Name = "labelMin";
+            this.labelMin.Size = new System.Drawing.Size(47, 13);
+            this.labelMin.TabIndex = 47;
+            this.labelMin.Text = "Minimum";
+            // 
+            // boxScaleZ
+            // 
+            this.boxScaleZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.boxScaleZ.Location = new System.Drawing.Point(249, 45);
+            this.boxScaleZ.Name = "boxScaleZ";
+            this.boxScaleZ.Size = new System.Drawing.Size(64, 21);
+            this.boxScaleZ.TabIndex = 46;
+            this.boxScaleZ.Text = "12";
+            this.boxScaleZ.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // boxMaximum
+            // 
+            this.boxMaximum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.boxMaximum.Location = new System.Drawing.Point(249, 99);
+            this.boxMaximum.Name = "boxMaximum";
+            this.boxMaximum.Size = new System.Drawing.Size(64, 21);
+            this.boxMaximum.TabIndex = 45;
+            this.boxMaximum.Text = "1.0";
+            this.boxMaximum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.boxMaximum.Validating += new System.ComponentModel.CancelEventHandler(this.boxMaximum_Validating);
+            // 
+            // boxMinimum
+            // 
+            this.boxMinimum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.boxMinimum.Location = new System.Drawing.Point(249, 72);
+            this.boxMinimum.Name = "boxMinimum";
+            this.boxMinimum.Size = new System.Drawing.Size(64, 21);
+            this.boxMinimum.TabIndex = 44;
+            this.boxMinimum.Text = "0.0";
+            this.boxMinimum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.boxMinimum.Validating += new System.ComponentModel.CancelEventHandler(this.boxMinimum_Validating);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.boxBubbleMode);
+            this.tabPage4.Controls.Add(this.label21);
+            this.tabPage4.Controls.Add(this.checkShowBubbles);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(351, 392);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Bubble map";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // checkShowBubbles
+            // 
+            this.checkShowBubbles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkShowBubbles.AutoSize = true;
+            this.checkShowBubbles.Checked = true;
+            this.checkShowBubbles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkShowBubbles.Location = new System.Drawing.Point(30, 19);
+            this.checkShowBubbles.Name = "checkShowBubbles";
+            this.checkShowBubbles.Size = new System.Drawing.Size(92, 17);
+            this.checkShowBubbles.TabIndex = 51;
+            this.checkShowBubbles.Text = "Show bubbles";
+            this.checkShowBubbles.UseVisualStyleBackColor = true;
+            this.checkShowBubbles.CheckedChanged += new System.EventHandler(this.checkShowBubbles_CheckedChanged);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(27, 56);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(91, 13);
+            this.label21.TabIndex = 52;
+            this.label21.Text = "Bubble map mode";
+            // 
+            // boxBubbleMode
+            // 
+            this.boxBubbleMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxBubbleMode.FormattingEnabled = true;
+            this.boxBubbleMode.IntegralHeight = false;
+            this.boxBubbleMode.Items.AddRange(new object[] {
+            "Simulation",
+            "History",
+            "Sim vs Hist"});
+            this.boxBubbleMode.Location = new System.Drawing.Point(142, 53);
+            this.boxBubbleMode.Name = "boxBubbleMode";
+            this.boxBubbleMode.Size = new System.Drawing.Size(106, 21);
+            this.boxBubbleMode.TabIndex = 53;
+            this.boxBubbleMode.SelectedIndexChanged += new System.EventHandler(this.boxBubbleMode_SelectedIndexChanged);
             // 
             // Form2DOptions
             // 
@@ -743,6 +803,8 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackStretch)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -805,5 +867,9 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.CheckBox checkShowGridLines;
         private System.Windows.Forms.Label labelMax;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.CheckBox checkShowBubbles;
+        private System.Windows.Forms.ComboBox boxBubbleMode;
+        private System.Windows.Forms.Label label21;
     }
 }
