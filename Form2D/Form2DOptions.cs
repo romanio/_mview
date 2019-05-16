@@ -25,6 +25,7 @@ namespace mview
             checkShowGridLines.Checked = true;
             checkShowBubbles.Checked = true;
             boxBubbleMode.SelectedIndex = 0;
+            numericScaleFactor.Value = 100;
 
             after_init = true;
         }
@@ -82,6 +83,20 @@ namespace mview
 
             if (after_init) ApplyStyle();
 
+        }
+
+        private void numericScaleFactor_ValueChanged(object sender, EventArgs e)
+        {
+            style.scale_factor = (double)numericScaleFactor.Value;
+
+            if (after_init) ApplyStyle();
+        }
+
+        private void checkShowAllWell_CheckedChanged(object sender, EventArgs e)
+        {
+            style.ShowAllWelltrack = checkShowAllWell.Checked;
+
+            if (after_init) ApplyStyle();
         }
     }
 }

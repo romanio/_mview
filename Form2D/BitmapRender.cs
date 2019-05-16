@@ -53,7 +53,7 @@ namespace mview
 
         Font InfoFont = new Font("Segoe Pro Cond", 09, FontStyle.Regular);
 
-        public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, PointF point, bool RenderBubble, BubbleMode bubbleMode)
+        public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, PointF point, bool RenderBubble, BubbleMode bubbleMode, double scale)
         {
             // 100 m3 = 10 pt
 
@@ -62,7 +62,7 @@ namespace mview
 
             if (bubbleMode == BubbleMode.Simulation)
             {
-                size = (int)(Math.Abs(well.WLPR) * 0.5);
+                size = (int)(Math.Abs(well.WLPR) * scale * 0.01);
                 if (size < 4) size = 4;
 
                 wcut = well.WLPR == 0 ? 0 : (float)(well.WWPR / well.WLPR);
@@ -70,7 +70,7 @@ namespace mview
 
             if (bubbleMode == BubbleMode.Historical)
             {
-                size = (int)(Math.Abs(well.WLPRH) * 0.5);
+                size = (int)(Math.Abs(well.WLPRH) * scale * 0.01);
                 if (size < 4) size = 4;
 
                 wcut = well.WLPRH == 0 ? 0 : (float)(well.WWPRH / well.WLPRH);
@@ -82,7 +82,7 @@ namespace mview
                 {
                     gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
                     gfx.FillPie(Brushes.BurlyWood, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, (float)Math.Round(360.0 * (1 - wcut)));
-                    gfx.FillPie(Brushes.SteelBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, -(float)Math.Round(360.0 * wcut));
+                    gfx.FillPie(Brushes.SteelBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), (float)Math.Round(360.0 * (1 - wcut)), 360 - (float)Math.Round(360.0 * (1 - wcut)));
                 }
                 gfx.DrawString(well.WLPR.ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
             }

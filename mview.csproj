@@ -113,12 +113,6 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="FormMainModel.cs" />
-    <Compile Include="FormModels.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormModels.Designer.cs">
-      <DependentUpon>FormModels.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form2D\Grid2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectManager.cs" />
@@ -149,9 +143,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormModels.resx">
-      <DependentUpon>FormModels.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

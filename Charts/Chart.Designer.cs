@@ -98,9 +98,9 @@
             this.panel1.Controls.Add(this.checkShowUserFunction);
             this.panel1.Controls.Add(this.buttonClose);
             this.panel1.Controls.Add(this.checkedProjectList);
-            this.panel1.Location = new System.Drawing.Point(211, 7);
+            this.panel1.Location = new System.Drawing.Point(146, 7);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(234, 223);
+            this.panel1.Size = new System.Drawing.Size(299, 223);
             this.panel1.TabIndex = 4;
             this.panel1.Visible = false;
             // 
@@ -130,7 +130,7 @@
             // buttonClose
             // 
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClose.Location = new System.Drawing.Point(145, -1);
+            this.buttonClose.Location = new System.Drawing.Point(210, -1);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(90, 23);
             this.buttonClose.TabIndex = 4;
@@ -150,7 +150,7 @@
             "BRV"});
             this.checkedProjectList.Location = new System.Drawing.Point(9, 28);
             this.checkedProjectList.Name = "checkedProjectList";
-            this.checkedProjectList.Size = new System.Drawing.Size(222, 112);
+            this.checkedProjectList.Size = new System.Drawing.Size(287, 112);
             this.checkedProjectList.TabIndex = 3;
             this.checkedProjectList.SelectedIndexChanged += new System.EventHandler(this.checkedProjectList_SelectedIndexChanged);
             // 

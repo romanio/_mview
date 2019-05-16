@@ -34,15 +34,6 @@ namespace mview
             tmp.Show();
         }
 
-        public void ShowModelsForm(int X, int Y)
-        {
-            FormModels tmp = new FormModels(pm);
-
-            tmp.Left = X;
-            tmp.Top = Y;
-            tmp.Show();
-        }
-
         public void ShowDetailForm()
         {
             FormDetails fm = new FormDetails(pm.ActiveProject);

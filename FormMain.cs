@@ -72,6 +72,7 @@ namespace mview
             if (model.GetActiveProject() == null) return;
 
             UpdateData();
+            panel1.Visible = false;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -173,15 +174,25 @@ namespace mview
             Names = model.GetNamesByType(namesType);
         }
 
+        void UpdateDataModels()
+        {
+
+            boxActiveProject.Items.Clear();
+            boxActiveProject.BeginUpdate();
+
+            foreach (ProjectManagerItem item in model.GetProjectManager().projectList)
+            {
+                boxActiveProject.Items.Add(item.name);
+            };
+
+            boxActiveProject.SelectedIndex = model.GetProjectManager().ActiveProjectIndex;
+            boxActiveProject.EndUpdate();
+        }
+
         private void buttonOptions_Click(object sender, EventArgs e)
         {
-            FormModels tmp = new FormModels(model.GetProjectManager());
-
-            tmp.Left = buttonModels.PointToScreen(Point.Empty).X;
-            tmp.Top = buttonModels.PointToScreen(Point.Empty).Y;
-            tmp.ApplyStyle += OnApplyStyle;
-
-            tmp.Show();
+            panel1.Visible = true;
+            UpdateDataModels();
         }
 
         void UpdateData()
@@ -209,12 +220,6 @@ namespace mview
 
                 boxNamesType_SelectedIndexChanged(null, null);
             }
-        }
-
-
-        private void OnApplyStyle()
-        {
-            UpdateData();
         }
 
 
@@ -258,6 +263,51 @@ namespace mview
         private void dViewToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             model.Show3DView();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            panel1.Visible = false;
+        }
+
+        private void boxActiveProject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = boxActiveProject.SelectedIndex;
+            var pm = model.GetProjectManager();
+
+            gridGeneral.Rows.Clear();
+            gridGeneral.Rows.Add("FILENAME", pm.projectList[index].ecl.FILENAME);
+            gridGeneral.Rows.Add("ROOT", pm.projectList[index].ecl.ROOT);
+            gridGeneral.Rows.Add("PATH", pm.projectList[index].ecl.PATH);
+
+            foreach (KeyValuePair<string, string> item in pm.projectList[index].ecl.FILES)
+            {
+                gridGeneral.Rows.Add(item.Key, item.Value);
+            }
+            pm.SetActiveProject(index);
+
+            UpdateData();
+        }
+
+        private void buttonRename_Click(object sender, EventArgs e)
+        {
+            if (boxNewName.Visible == false)
+            {
+                boxNewName.Visible = true;
+                boxNewName.Text = model.GetProjectManager().projectList[boxActiveProject.SelectedIndex].name;
+                boxNewName.Focus();
+            }
+            else
+            {
+                boxNewName.Visible = false;
+                model.GetProjectManager().projectList[boxActiveProject.SelectedIndex].name = boxNewName.Text;
+                UpdateDataModels();
+            }
+        }
+
+        private void boxNewName_Leave(object sender, EventArgs e)
+        {
+            buttonRename_Click(null, null);
         }
     }
 }

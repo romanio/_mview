@@ -93,7 +93,8 @@ namespace mview
                         (well.COMPLS[0].XC - grid.XMINCOORD - 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) + camera.shift_x + camera.shift_end_x - camera.shift_start_x) * camera.scale + 0.5f * width,
                         (well.COMPLS[0].YC - grid.YMINCOORD - 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_y + camera.shift_end_y - camera.shift_start_y) * camera.scale + 0.5f * height), 
                         showBubbles,
-                        bubbleMode
+                        bubbleMode,
+                        scale_factor
                         );
                 }
             }
@@ -178,7 +179,21 @@ namespace mview
 
         bool showBubbles = true;
         bool showGridLine = true;
+        bool showWelltrack = true;
         BubbleMode bubbleMode = BubbleMode.Simulation;
+        double scale_factor = 100;
+
+        public void SetWelltrackState(bool state)
+        {
+            showWelltrack = state;
+            OnPaint();
+        }
+
+        public void SetScaleFactor(double value)
+        {
+            scale_factor = value;
+            OnPaint();
+        }
 
         public void SetBubbleMode(BubbleMode mode)
         {

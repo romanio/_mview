@@ -17,10 +17,12 @@ namespace mview
     public class Form2DModelStyle
     {
         public bool ShowGridLines = true;
+        public bool ShowAllWelltrack = true;
         public bool ShowBubbles = true;
         public BubbleMode BubbleMode = BubbleMode.Simulation;
         public double min_value = 0;
         public double max_value = 100;
+        public double scale_factor = 100;
     }
 
 
@@ -45,6 +47,9 @@ namespace mview
             engine.SetGridlineState(style.ShowGridLines);
             engine.SetBubblesState(style.ShowBubbles);
             engine.SetBubbleMode(style.BubbleMode);
+            engine.SetScaleFactor(style.scale_factor);
+            engine.SetWelltrackState(style.ShowAllWelltrack);
+
             engine.grid.colorizer.SetMinimum(style.min_value);
             engine.grid.colorizer.SetMaximum(style.max_value);
 
