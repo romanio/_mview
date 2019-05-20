@@ -85,7 +85,7 @@ namespace mview
         {
             GL.CallList(grid.welsID);
 
-            foreach (ECL.WELLDATA well in grid.WELLS)
+            foreach (ECL.WELLDATA well in grid.ACTIVE_WELLS)
             {
                 if (well.COMPLS.Count > 0)
                 {
@@ -182,34 +182,14 @@ namespace mview
         bool showWelltrack = true;
         BubbleMode bubbleMode = BubbleMode.Simulation;
         double scale_factor = 100;
-
-        public void SetWelltrackState(bool state)
+        
+        public void SetStyle(Form2DModelStyle style)
         {
-            showWelltrack = state;
-            OnPaint();
-        }
-
-        public void SetScaleFactor(double value)
-        {
-            scale_factor = value;
-            OnPaint();
-        }
-
-        public void SetBubbleMode(BubbleMode mode)
-        {
-            bubbleMode = mode;
-            OnPaint();
-        }
-
-        public void SetBubblesState(bool state)
-        {
-            showBubbles = state;
-            OnPaint();
-        }
-
-        public void SetGridlineState(bool state)
-        {
-            showGridLine = state;
+            showWelltrack = style.ShowAllWelltrack;
+            scale_factor = style.scale_factor;
+            bubbleMode = style.BubbleMode;
+            showBubbles = style.ShowBubbles;
+            showGridLine = style.ShowGridLines;
             OnPaint();
         }
 

@@ -123,12 +123,6 @@ namespace mview
             model.OnUnload();
         }
 
-        private void checkShowGridLinesOnCheckedChanged(object sender, EventArgs e)
-        {
-         //   model.SetGridlineStatus(checkShowGridLines.Checked);
-            glControl.SwapBuffers();
-        }
-
         private void boxZSliceOnSelectedIndexChanged(object sender, EventArgs e)
         {
             model.SetZA(boxZSlice.SelectedIndex);

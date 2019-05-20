@@ -44,16 +44,10 @@ namespace mview
 
         public void ApplyStyle()
         {
-            engine.SetGridlineState(style.ShowGridLines);
-            engine.SetBubblesState(style.ShowBubbles);
-            engine.SetBubbleMode(style.BubbleMode);
-            engine.SetScaleFactor(style.scale_factor);
-            engine.SetWelltrackState(style.ShowAllWelltrack);
-
+            engine.SetStyle(style);
             engine.grid.colorizer.SetMinimum(style.min_value);
             engine.grid.colorizer.SetMaximum(style.max_value);
-
-
+            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
             engine.grid.RefreshGrid();
         }
 
@@ -94,8 +88,6 @@ namespace mview
             engine.grid.ZC = (engine.grid.ZMINCOORD + engine.grid.ZMAXCOORD) * 0.5f;
         }
 
-
-
         void GenerateWellCoord() 
         {
             // Вспомогательный массив WCOORD содержит в себе
@@ -117,7 +109,7 @@ namespace mview
 
             engine.grid.WELLS = ecl.RESTART.WELLS; // Опасное создание указателя на существующий набор данных
 
-            engine.grid.GenerateWellDrawList();
+            engine.grid.GenerateWellDrawList(true);
         }
 
         public void ReadRestart(int step)
@@ -177,6 +169,7 @@ namespace mview
         {
             ecl.INIT.ReadGrid(name);
             engine.grid.GenerateGrid(ecl, ecl.INIT.GetValue);
+            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
         }
 
         public void SetDynamicProperty(string name)
@@ -185,6 +178,7 @@ namespace mview
             {
                 ecl.RESTART.ReadGrid(name);
                 engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
+                engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
             }
         }
 

@@ -14,7 +14,7 @@ namespace mview
     public class Grid2D
     {
         public List<WELLDATA> WELLS; // Опасная копия данных с рестарт файла
-         
+        public List<WELLDATA> ACTIVE_WELLS; // Только те скважины, которые следует отображать
         public Colorizer colorizer = new Colorizer();
 
         public int element_count = 0;
@@ -35,9 +35,11 @@ namespace mview
         public int welsID;
 
 
-        public void GenerateWellDrawList()
+        public void GenerateWellDrawList(bool ShowAll)
         {
             System.Diagnostics.Debug.WriteLine("GRID : GenerateWellDrawList");
+
+            ACTIVE_WELLS = new List<WELLDATA>();
 
             GL.NewList(welsID, ListMode.Compile);
 
@@ -52,7 +54,10 @@ namespace mview
             {
                 foreach (ECL.COMPLDATA compl in well.COMPLS)
                 {
-                    GL.Vertex3(compl.XC, compl.YC, 0.2);
+                    if (compl.K == ZA)
+                    {
+                        GL.Vertex3(compl.XC, compl.YC, 0.2);
+                    }
                 }
             }
 
@@ -71,21 +76,25 @@ namespace mview
 
                 foreach (ECL.COMPLDATA compl in well.COMPLS)
                 {
-                   
-                    if (is_first_name)
+                    if (compl.K == ZA)
                     {
-                        last_XC = compl.XC;
-                        last_YC = compl.YC;
-                    }
-                    else
-                    {
-                        GL.Vertex3(last_XC, last_YC, 0.2);
-                        GL.Vertex3(compl.XC, compl.YC, 0.2);
+                        if (is_first_name)
+                        {
+                            last_XC = compl.XC;
+                            last_YC = compl.YC;
+                           
+                            ACTIVE_WELLS.Add(well);
+                        }
+                        else
+                        {
+                            GL.Vertex3(last_XC, last_YC, 0.2);
+                            GL.Vertex3(compl.XC, compl.YC, 0.2);
 
-                        last_XC = compl.XC;
-                        last_YC = compl.YC;
+                            last_XC = compl.XC;
+                            last_YC = compl.YC;
+                        }
+                        is_first_name = false;
                     }
-                    is_first_name = false;
                 }
             }
 

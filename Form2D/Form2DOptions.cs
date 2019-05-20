@@ -20,12 +20,16 @@ namespace mview
         public Form2DOptions(Form2DModelStyle style)
         {
             InitializeComponent();
+
             this.style = style;
 
-            checkShowGridLines.Checked = true;
-            checkShowBubbles.Checked = true;
+            checkShowGridLines.Checked = style.ShowGridLines;
+            checkShowBubbles.Checked = style.ShowBubbles;
             boxBubbleMode.SelectedIndex = 0;
-            numericScaleFactor.Value = 100;
+            numericScaleFactor.Value = (decimal)style.scale_factor;
+
+            boxMinimum.Text = style.min_value.ToString();
+            boxMaximum.Text = style.max_value.ToString();
 
             after_init = true;
         }
@@ -50,6 +54,8 @@ namespace mview
 
         private void boxMinimum_Validating(object sender, CancelEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("BOX MINIMUM : VALIDATING");
+
             double value;
 
             if (double.TryParse(boxMinimum.Text, out value))
