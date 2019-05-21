@@ -82,7 +82,10 @@ namespace mview
                         {
                             last_XC = compl.XC;
                             last_YC = compl.YC;
-                           
+
+                            well.XC = compl.XC;
+                            well.YC = compl.YC;
+
                             ACTIVE_WELLS.Add(well);
                         }
                         else

@@ -47,6 +47,8 @@ namespace mview.ECL
         public double WOPTH;
         public double WWPTH;
         public double WWITH;
+        public float XC;
+        public float YC;
         public List<COMPLDATA> COMPLS = new List<COMPLDATA>();
     }
 

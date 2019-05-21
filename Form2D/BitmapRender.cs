@@ -53,24 +53,24 @@ namespace mview
 
         Font InfoFont = new Font("Segoe Pro Cond", 09, FontStyle.Regular);
 
-        public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, PointF point, bool RenderBubble, BubbleMode bubbleMode, double scale)
+        public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, PointF point, Form2DModelStyle style)
         {
             // 100 m3 = 10 pt
 
             int size = 0; // Размер круга
             float wcut = 1; // Обводненность
 
-            if (bubbleMode == BubbleMode.Simulation)
+            if (style.BubbleMode == BubbleMode.Simulation)
             {
-                size = (int)(Math.Abs(well.WLPR) * scale * 0.01);
+                size = (int)(Math.Abs(well.WLPR) * style.scale_factor * 0.01);
                 if (size < 4) size = 4;
 
                 wcut = well.WLPR == 0 ? 0 : (float)(well.WWPR / well.WLPR);
             }
 
-            if (bubbleMode == BubbleMode.Historical)
+            if (style.BubbleMode == BubbleMode.Historical)
             {
-                size = (int)(Math.Abs(well.WLPRH) * scale * 0.01);
+                size = (int)(Math.Abs(well.WLPRH) * style.scale_factor * 0.01);
                 if (size < 4) size = 4;
 
                 wcut = well.WLPRH == 0 ? 0 : (float)(well.WWPRH / well.WLPRH);
@@ -78,7 +78,7 @@ namespace mview
 
             if (well.WLPR > 0)
             {
-                if (RenderBubble)
+                if (style.ShowBubbles)
                 {
                     gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
                     gfx.FillPie(Brushes.BurlyWood, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, (float)Math.Round(360.0 * (1 - wcut)));
@@ -89,7 +89,7 @@ namespace mview
 
             if (well.WLPR < 0) // Меньше нуля, это у нас закачка
             {
-                if (RenderBubble)
+                if (style.ShowBubbles)
                 {
                     gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
                     gfx.FillPie(Brushes.LightBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, 360);

@@ -90,12 +90,9 @@ namespace mview
                 if (well.COMPLS.Count > 0)
                 {
                     render.DrawWell(well, WellsFont, Brushes.Black, new PointF(
-                        (well.COMPLS[0].XC - grid.XMINCOORD - 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) + camera.shift_x + camera.shift_end_x - camera.shift_start_x) * camera.scale + 0.5f * width,
-                        (well.COMPLS[0].YC - grid.YMINCOORD - 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_y + camera.shift_end_y - camera.shift_start_y) * camera.scale + 0.5f * height), 
-                        showBubbles,
-                        bubbleMode,
-                        scale_factor
-                        );
+                        (well.XC - grid.XMINCOORD - 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) + camera.shift_x + camera.shift_end_x - camera.shift_start_x) * camera.scale + 0.5f * width,
+                        (well.YC - grid.YMINCOORD - 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_y + camera.shift_end_y - camera.shift_start_y) * camera.scale + 0.5f * height),
+                        style);
                 }
             }
         }
@@ -142,7 +139,7 @@ namespace mview
             GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
 
             // Отрисовка границ ячеек
-            if (showGridLine == true)
+            if (style.ShowGridLines == true)
             {
                 GL.PolygonOffset(0, 0);
                 GL.DisableClientState(ArrayCap.ColorArray);
@@ -177,19 +174,18 @@ namespace mview
             GL.Disable(EnableCap.Texture2D);
         }
 
-        bool showBubbles = true;
-        bool showGridLine = true;
-        bool showWelltrack = true;
-        BubbleMode bubbleMode = BubbleMode.Simulation;
-        double scale_factor = 100;
+        Form2DModelStyle style = new Form2DModelStyle()
+        {
+            ShowBubbles = true,
+            ShowGridLines = true,
+            ShowAllWelltrack = true,
+            BubbleMode = BubbleMode.Simulation,
+            scale_factor = 100
+        };
         
         public void SetStyle(Form2DModelStyle style)
         {
-            showWelltrack = style.ShowAllWelltrack;
-            scale_factor = style.scale_factor;
-            bubbleMode = style.BubbleMode;
-            showBubbles = style.ShowBubbles;
-            showGridLine = style.ShowGridLines;
+            this.style = style;
             OnPaint();
         }
 
