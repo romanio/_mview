@@ -12,6 +12,11 @@ namespace mview
     {
         ProjectManager pm = new ProjectManager();
 
+        public void UpdateActiveProject()
+        {
+            pm.UpdateActiveProject();
+        }
+
         public void OpenNewModel()
         {
             pm.OpenECLProject();

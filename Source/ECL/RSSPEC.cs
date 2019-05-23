@@ -293,7 +293,6 @@ namespace mview.ECL
 
                 int[] ICON = br.ReadIntList();
 
-
                 for (int iw = 0; iw < NWELLS; ++iw) // Для всех скважин и для всех перфораций
                     for (int ic = 0; ic < NCWMAX; ++ic)
                     {

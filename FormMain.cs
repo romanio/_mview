@@ -309,5 +309,11 @@ namespace mview
         {
             buttonRename_Click(null, null);
         }
+
+        private void bbUpdate_Click(object sender, EventArgs e)
+        {
+            model.UpdateActiveProject();
+            UpdateData();
+        }
     }
 }

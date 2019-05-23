@@ -45,14 +45,15 @@
             this.buttonModels = new System.Windows.Forms.Button();
             this.buttonChartOptions = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.boxNewName = new System.Windows.Forms.TextBox();
+            this.buttonRename = new System.Windows.Forms.Button();
+            this.boxActiveProject = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.gridGeneral = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label3 = new System.Windows.Forms.Label();
-            this.boxActiveProject = new System.Windows.Forms.ComboBox();
-            this.buttonRename = new System.Windows.Forms.Button();
-            this.boxNewName = new System.Windows.Forms.TextBox();
+            this.bbUpdate = new System.Windows.Forms.Button();
             this.menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).BeginInit();
@@ -247,6 +248,44 @@
             this.panel1.TabIndex = 0;
             this.panel1.Visible = false;
             // 
+            // boxNewName
+            // 
+            this.boxNewName.Location = new System.Drawing.Point(204, 3);
+            this.boxNewName.Name = "boxNewName";
+            this.boxNewName.Size = new System.Drawing.Size(163, 21);
+            this.boxNewName.TabIndex = 23;
+            this.boxNewName.Visible = false;
+            this.boxNewName.Leave += new System.EventHandler(this.boxNewName_Leave);
+            // 
+            // buttonRename
+            // 
+            this.buttonRename.Location = new System.Drawing.Point(373, 1);
+            this.buttonRename.Name = "buttonRename";
+            this.buttonRename.Size = new System.Drawing.Size(27, 24);
+            this.buttonRename.TabIndex = 22;
+            this.buttonRename.Text = "...";
+            this.buttonRename.UseVisualStyleBackColor = true;
+            this.buttonRename.Click += new System.EventHandler(this.buttonRename_Click);
+            // 
+            // boxActiveProject
+            // 
+            this.boxActiveProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxActiveProject.FormattingEnabled = true;
+            this.boxActiveProject.Location = new System.Drawing.Point(204, 3);
+            this.boxActiveProject.Name = "boxActiveProject";
+            this.boxActiveProject.Size = new System.Drawing.Size(163, 21);
+            this.boxActiveProject.TabIndex = 19;
+            this.boxActiveProject.SelectedIndexChanged += new System.EventHandler(this.boxActiveProject_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(124, 6);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "Active project";
+            // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -295,49 +334,23 @@
             this.Column2.ReadOnly = true;
             this.Column2.Width = 300;
             // 
-            // label3
+            // bbUpdate
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(124, 6);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 13);
-            this.label3.TabIndex = 18;
-            this.label3.Text = "Active project";
-            // 
-            // boxActiveProject
-            // 
-            this.boxActiveProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.boxActiveProject.FormattingEnabled = true;
-            this.boxActiveProject.Location = new System.Drawing.Point(204, 3);
-            this.boxActiveProject.Name = "boxActiveProject";
-            this.boxActiveProject.Size = new System.Drawing.Size(163, 21);
-            this.boxActiveProject.TabIndex = 19;
-            this.boxActiveProject.SelectedIndexChanged += new System.EventHandler(this.boxActiveProject_SelectedIndexChanged);
-            // 
-            // buttonRename
-            // 
-            this.buttonRename.Location = new System.Drawing.Point(373, 1);
-            this.buttonRename.Name = "buttonRename";
-            this.buttonRename.Size = new System.Drawing.Size(27, 24);
-            this.buttonRename.TabIndex = 22;
-            this.buttonRename.Text = "...";
-            this.buttonRename.UseVisualStyleBackColor = true;
-            this.buttonRename.Click += new System.EventHandler(this.buttonRename_Click);
-            // 
-            // boxNewName
-            // 
-            this.boxNewName.Location = new System.Drawing.Point(204, 3);
-            this.boxNewName.Name = "boxNewName";
-            this.boxNewName.Size = new System.Drawing.Size(163, 21);
-            this.boxNewName.TabIndex = 23;
-            this.boxNewName.Visible = false;
-            this.boxNewName.Leave += new System.EventHandler(this.boxNewName_Leave);
+            this.bbUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bbUpdate.Location = new System.Drawing.Point(707, 36);
+            this.bbUpdate.Name = "bbUpdate";
+            this.bbUpdate.Size = new System.Drawing.Size(100, 24);
+            this.bbUpdate.TabIndex = 13;
+            this.bbUpdate.Text = "Update";
+            this.bbUpdate.UseVisualStyleBackColor = true;
+            this.bbUpdate.Click += new System.EventHandler(this.bbUpdate_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(819, 629);
+            this.Controls.Add(this.bbUpdate);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.buttonChartOptions);
             this.Controls.Add(this.buttonModels);
@@ -393,6 +406,7 @@
         private System.Windows.Forms.ComboBox boxActiveProject;
         private System.Windows.Forms.Button buttonRename;
         private System.Windows.Forms.TextBox boxNewName;
+        private System.Windows.Forms.Button bbUpdate;
     }
 }
 
