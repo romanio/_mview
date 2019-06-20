@@ -39,7 +39,8 @@ namespace mview
                 if (value != null)
                     listNames.Items.AddRange(value);
 
-                // Восстановим выделенные слова
+                // Востановим выделенные слова
+
                 int index = -1;
                 foreach (string item in tmp_names)
                 {

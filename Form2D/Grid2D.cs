@@ -35,7 +35,7 @@ namespace mview
         public int welsID;
 
 
-        public void GenerateWellDrawList(bool ShowAll)
+        public void GenerateWellDrawList(bool show_all)
         {
             System.Diagnostics.Debug.WriteLine("GRID : GenerateWellDrawList");
 
@@ -46,15 +46,30 @@ namespace mview
             System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
 
             // Отрисовываем точки
+
             GL.PointSize(7);
             GL.Color3(Color.Black);
             GL.Begin(PrimitiveType.Points);
+
+            bool show_well = false;
 
             foreach (ECL.WELLDATA well in WELLS)
             {
                 foreach (ECL.COMPLDATA compl in well.COMPLS)
                 {
-                    if (compl.K == ZA)
+                    // Решение о визуализации скважины
+                    show_well = false;
+
+                    if (show_all)
+                        show_well = true;
+
+                    if (!show_all && (compl.K == ZA))
+                    {
+                        show_well = true;
+                    }
+                    //
+                     
+                    if (show_well)
                     {
                         GL.Vertex3(compl.XC, compl.YC, 0.2);
                     }
@@ -63,7 +78,8 @@ namespace mview
 
             GL.End();
 
-            // Затем линии
+            // Затем отрисовывем ствол скважины линиями
+
             GL.Color3(Color.Black);
             GL.LineWidth(3);
             GL.Begin(PrimitiveType.Lines);
@@ -76,9 +92,21 @@ namespace mview
 
                 foreach (ECL.COMPLDATA compl in well.COMPLS)
                 {
-                    if (compl.K == ZA)
+                    // Решение о визуализации скважины
+                    show_well = false;
+
+                    if (show_all)
+                        show_well = true;
+
+                    if (!show_all && (compl.K == ZA))
                     {
-                        if (is_first_name)
+                        show_well = true;
+                    }
+                    //
+
+                    if (show_well)
+                    {
+                        if (is_first_name) // Отрабатывает только один раз, при первом появлении скважины
                         {
                             last_XC = compl.XC;
                             last_YC = compl.YC;
@@ -86,9 +114,9 @@ namespace mview
                             well.XC = compl.XC;
                             well.YC = compl.YC;
 
-                            ACTIVE_WELLS.Add(well);
+                            ACTIVE_WELLS.Add(well); // Сохраняется в списке активных скважин
                         }
-                        else
+                        else // если скважина уже существует, рисуем часть ствола
                         {
                             GL.Vertex3(last_XC, last_YC, 0.2);
                             GL.Vertex3(compl.XC, compl.YC, 0.2);
@@ -96,6 +124,7 @@ namespace mview
                             last_XC = compl.XC;
                             last_YC = compl.YC;
                         }
+
                         is_first_name = false;
                     }
                 }

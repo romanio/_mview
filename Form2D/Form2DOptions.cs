@@ -31,6 +31,19 @@ namespace mview
             boxMinimum.Text = style.min_value.ToString();
             boxMaximum.Text = style.max_value.ToString();
 
+            switch (style.BubbleMode)//boxBubbleMode.SelectedIndex)
+            {
+                case BubbleMode.Simulation:
+                    boxBubbleMode.SelectedIndex = 0;
+                    break;
+                case BubbleMode.Historical:
+                    boxBubbleMode.SelectedIndex = 1;
+                    break;
+
+                default:
+                    break;
+            }
+
             after_init = true;
         }
 

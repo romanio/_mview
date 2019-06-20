@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace mview.ECL
 {
+    public enum SIM_TYPE
+    {
+        ECL100 = 100,
+        ECL300 = 300,
+        ECL300T = 500,
+        IX = 700,
+        FrontSim = 800,
+        OtherSim
+    }
+
     public class COMPLDATA
     {
         public int I;
@@ -174,6 +184,7 @@ namespace mview.ECL
         public int NICONZ; // Количество элементов данных в ICON (int значения)
         public int NSCONZ; // Количество элементов данных в SCON (float значения)
         public int NXCONZ; // Количество элементов данных в XCON (double значения)
+        public SIM_TYPE SIMTYPE; // Тип симулятора
 
         // Разворачивание в человеческий вид содержимое рестарт файла
 
@@ -217,6 +228,15 @@ namespace mview.ECL
             NSCONZ = INTH[33];
             NXCONZ = INTH[34];
 
+            if (INTH[94] < 0) SIMTYPE = SIM_TYPE.OtherSim;
+            else
+            {
+                if (Enum.IsDefined(typeof(SIM_TYPE), INTH[94]))
+                {
+                    SIMTYPE = (SIM_TYPE)INTH[94];
+                }
+            }
+
             if (NWELLS != 0)
             {
                 SetPosition("IWEL");
@@ -238,41 +258,44 @@ namespace mview.ECL
                     });
                 }
 
-                SetPosition("SWEL");
-                br.ReadHeader();
-
-                float[] SWEL = br.ReadFloatList(br.header.count);
-
-                for (int iw = 0; iw < NWELLS; ++iw)
+                if (SIMTYPE != SIM_TYPE.IX) // Интерсект не выгружает данные по скважинам  и перфорациям
                 {
-                    WELLS[iw].WOPRH = SWEL[iw * NSWELZ + 0];
-                    WELLS[iw].WWPRH = SWEL[iw * NSWELZ + 1];
-                    WELLS[iw].WGPRH = SWEL[iw * NSWELZ + 2];
-                    WELLS[iw].WLPRH = SWEL[iw * NSWELZ + 3];
-                    WELLS[iw].REF_DEPTH = SWEL[iw * NSWELZ + 9];
-                    WELLS[iw].WEFA = SWEL[iw * NSWELZ + 24];
-                    WELLS[iw].BHPH = SWEL[iw * NSWELZ + 68];
-                }
+                    SetPosition("SWEL");
+                    br.ReadHeader();
 
-                SetPosition("XWEL");
-                br.ReadHeader();
+                    float[] SWEL = br.ReadFloatList(br.header.count);
 
-                double[] XWEL = br.ReadDoubleList();
+                    for (int iw = 0; iw < NWELLS; ++iw)
+                    {
+                        WELLS[iw].WOPRH = SWEL[iw * NSWELZ + 0];
+                        WELLS[iw].WWPRH = SWEL[iw * NSWELZ + 1];
+                        WELLS[iw].WGPRH = SWEL[iw * NSWELZ + 2];
+                        WELLS[iw].WLPRH = SWEL[iw * NSWELZ + 3];
+                        WELLS[iw].REF_DEPTH = SWEL[iw * NSWELZ + 9];
+                        WELLS[iw].WEFA = SWEL[iw * NSWELZ + 24];
+                        WELLS[iw].BHPH = SWEL[iw * NSWELZ + 68];
+                    }
 
-                for (int iw = 0; iw < NWELLS; ++iw)
-                {
-                    WELLS[iw].WOPR = XWEL[iw * NXWELZ + 0];
-                    WELLS[iw].WWPR = XWEL[iw * NXWELZ + 1];
-                    WELLS[iw].WLPR = XWEL[iw * NXWELZ + 3];
-                    WELLS[iw].WBHP = XWEL[iw * NXWELZ + 6];
-                    WELLS[iw].WWCT = XWEL[iw * NXWELZ + 7];
-                    WELLS[iw].WOPT = XWEL[iw * NXWELZ + 18];
-                    WELLS[iw].WWPT = XWEL[iw * NXWELZ + 19];
-                    WELLS[iw].WWIT = XWEL[iw * NXWELZ + 23];
-                    WELLS[iw].WPI = XWEL[iw * NXWELZ + 55];
-                    WELLS[iw].WOPTH = XWEL[iw * NXWELZ + 75];
-                    WELLS[iw].WWPTH = XWEL[iw * NXWELZ + 76];
-                    WELLS[iw].WWITH = XWEL[iw * NXWELZ + 81];
+                    SetPosition("XWEL");
+                    br.ReadHeader();
+
+                    double[] XWEL = br.ReadDoubleList();
+
+                    for (int iw = 0; iw < NWELLS; ++iw)
+                    {
+                        WELLS[iw].WOPR = XWEL[iw * NXWELZ + 0];
+                        WELLS[iw].WWPR = XWEL[iw * NXWELZ + 1];
+                        WELLS[iw].WLPR = XWEL[iw * NXWELZ + 3];
+                        WELLS[iw].WBHP = XWEL[iw * NXWELZ + 6];
+                        WELLS[iw].WWCT = XWEL[iw * NXWELZ + 7];
+                        WELLS[iw].WOPT = XWEL[iw * NXWELZ + 18];
+                        WELLS[iw].WWPT = XWEL[iw * NXWELZ + 19];
+                        WELLS[iw].WWIT = XWEL[iw * NXWELZ + 23];
+                        WELLS[iw].WPI = XWEL[iw * NXWELZ + 55];
+                        WELLS[iw].WOPTH = XWEL[iw * NXWELZ + 75];
+                        WELLS[iw].WWPTH = XWEL[iw * NXWELZ + 76];
+                        WELLS[iw].WWITH = XWEL[iw * NXWELZ + 81];
+                    }
                 }
 
                 SetPosition("ZWEL");
@@ -288,24 +311,24 @@ namespace mview.ECL
                     }
                     WELLS[iw].WELLNAME.Trim();
                 }
-                SetPosition("ICON");
-                br.ReadHeader();
+                    SetPosition("ICON");
+                    br.ReadHeader();
 
-                int[] ICON = br.ReadIntList();
+                    int[] ICON = br.ReadIntList();
 
-                for (int iw = 0; iw < NWELLS; ++iw) // Для всех скважин и для всех перфораций
-                    for (int ic = 0; ic < NCWMAX; ++ic)
-                    {
-                        if (ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 0] != 0) // Если перфорация существует
+                    for (int iw = 0; iw < NWELLS; ++iw) // Для всех скважин и для всех перфораций
+                        for (int ic = 0; ic < NCWMAX; ++ic)
                         {
-                            WELLS[iw].COMPLS.Add(new COMPLDATA
+                            if (ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 0] != 0) // Если перфорация существует
                             {
-                                I = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 1] - 1,
-                                J = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 2] - 1,
-                                K = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 3] - 1
-                            });
+                                WELLS[iw].COMPLS.Add(new COMPLDATA
+                                {
+                                    I = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 1] - 1,
+                                    J = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 2] - 1,
+                                    K = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 3] - 1
+                                });
+                            }
                         }
-                    }
             }
      
             br.CloseBinaryFile();

@@ -78,9 +78,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.glControl.BackColor = System.Drawing.Color.Black;
             this.glControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.glControl.Location = new System.Drawing.Point(12, 12);
+            this.glControl.Location = new System.Drawing.Point(12, 44);
             this.glControl.Name = "glControl";
-            this.glControl.Size = new System.Drawing.Size(743, 649);
+            this.glControl.Size = new System.Drawing.Size(743, 617);
             this.glControl.TabIndex = 0;
             this.glControl.VSync = true;
             this.glControl.Load += new System.EventHandler(this.glControlOnLoad);
@@ -155,7 +155,7 @@
             this.boxXslice.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.boxXslice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxXslice.FormattingEnabled = true;
-            this.boxXslice.Location = new System.Drawing.Point(14, 20);
+            this.boxXslice.Location = new System.Drawing.Point(11, 10);
             this.boxXslice.Name = "boxXslice";
             this.boxXslice.Size = new System.Drawing.Size(127, 21);
             this.boxXslice.TabIndex = 40;
@@ -193,10 +193,9 @@
             // 
             // buttonChartOptions
             // 
-            this.buttonChartOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonChartOptions.Location = new System.Drawing.Point(776, 581);
+            this.buttonChartOptions.Location = new System.Drawing.Point(12, 12);
             this.buttonChartOptions.Name = "buttonChartOptions";
-            this.buttonChartOptions.Size = new System.Drawing.Size(130, 29);
+            this.buttonChartOptions.Size = new System.Drawing.Size(98, 26);
             this.buttonChartOptions.TabIndex = 49;
             this.buttonChartOptions.Text = "Options";
             this.buttonChartOptions.UseVisualStyleBackColor = true;
@@ -218,8 +217,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(932, 673);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonChartOptions);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.tabSliceControl);
             this.Controls.Add(this.glControl);
             this.Controls.Add(this.boxRestart);

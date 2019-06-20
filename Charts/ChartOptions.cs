@@ -123,7 +123,7 @@ namespace mview
             chartController.AxisXWidth = Convert.ToInt32(numericAxisXWidth.Value);
             chartController.AxisYStyle = (OxyPlot.LineStyle)Enum.Parse(typeof(OxyPlot.LineStyle), boxAxisYStyle.Text, true);
             chartController.AxisYWidth = Convert.ToInt32(numericAxisXWidth.Value);
-
+            
             if (buttonAxisXColor.Text != "(default)")
             {
                 chartController.AxisXColor = buttonAxisXColor.BackColor;

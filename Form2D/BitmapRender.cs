@@ -59,6 +59,8 @@ namespace mview
 
             int size = 0; // Размер круга
             float wcut = 1; // Обводненность
+            double wlpr = 0;
+        
 
             if (style.BubbleMode == BubbleMode.Simulation)
             {
@@ -66,14 +68,27 @@ namespace mview
                 if (size < 4) size = 4;
 
                 wcut = well.WLPR == 0 ? 0 : (float)(well.WWPR / well.WLPR);
+                wlpr = well.WLPR;
             }
 
             if (style.BubbleMode == BubbleMode.Historical)
             {
-                size = (int)(Math.Abs(well.WLPRH) * style.scale_factor * 0.01);
-                if (size < 4) size = 4;
+                if (well.WLPR < 0)
+                {
+                    size = (int)(Math.Abs(well.WWPRH) * style.scale_factor * 0.01);
 
-                wcut = well.WLPRH == 0 ? 0 : (float)(well.WWPRH / well.WLPRH);
+                    wlpr = Math.Abs(well.WWPRH);
+
+                    wcut = 1;
+                }
+                else
+                {
+                    size = (int)(Math.Abs(well.WLPRH) * style.scale_factor * 0.01);
+                    wcut = well.WLPRH == 0 ? 0 : (float)(well.WWPRH / well.WLPRH);
+                    wlpr = well.WLPRH;
+                }
+
+                if (size < 4) size = 4;
             }
 
             if (well.WLPR > 0)
@@ -84,7 +99,7 @@ namespace mview
                     gfx.FillPie(Brushes.BurlyWood, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, (float)Math.Round(360.0 * (1 - wcut)));
                     gfx.FillPie(Brushes.SteelBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), (float)Math.Round(360.0 * (1 - wcut)), 360 - (float)Math.Round(360.0 * (1 - wcut)));
                 }
-                gfx.DrawString(well.WLPR.ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
+                gfx.DrawString(wlpr.ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
             }
 
             if (well.WLPR < 0) // Меньше нуля, это у нас закачка
@@ -95,7 +110,7 @@ namespace mview
                     gfx.FillPie(Brushes.LightBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, 360);
                 }
 
-                gfx.DrawString((-well.WLPR).ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
+                gfx.DrawString( wlpr.ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
             }
 
             gfx.FillEllipse(Brushes.White, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);

@@ -206,7 +206,7 @@ namespace mview
             // Обновить график
 
             plotModel.Series.Clear();
-
+   
             int series_index = -1;
 
             for (int ip = 0; ip < selected_pm.Length; ++ip) // Цикл по всем выбранным проектам
@@ -224,7 +224,7 @@ namespace mview
                     // Определение стиля линии графика
 
                     var tmp_style = chartController.GetStyle(listKeywords.SelectedItems[iw].ToString());
-
+                //    System.Diagnostics.Debug.WriteLine(tmp_style.GroupMode.ToString());
                     //
 
                     if (tmp_style?.GroupMode == GroupMode.Normal || tmp_style == null) // Обычный режим отображения

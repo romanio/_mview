@@ -21,7 +21,7 @@ namespace mview
         public bool ShowBubbles = true;
         public BubbleMode BubbleMode = BubbleMode.Simulation;
         public double min_value = 0;
-        public double max_value = 100;
+        public double max_value = 1;
         public double scale_factor = 100;
     }
 
