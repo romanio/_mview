@@ -155,7 +155,7 @@
             this.boxXslice.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.boxXslice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxXslice.FormattingEnabled = true;
-            this.boxXslice.Location = new System.Drawing.Point(11, 10);
+            this.boxXslice.Location = new System.Drawing.Point(14, 20);
             this.boxXslice.Name = "boxXslice";
             this.boxXslice.Size = new System.Drawing.Size(127, 21);
             this.boxXslice.TabIndex = 40;
@@ -205,9 +205,9 @@
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(776, 616);
+            this.button1.Location = new System.Drawing.Point(323, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(130, 29);
+            this.button1.Size = new System.Drawing.Size(118, 26);
             this.button1.TabIndex = 50;
             this.button1.Text = "Filter [ON]";
             this.button1.UseVisualStyleBackColor = true;
