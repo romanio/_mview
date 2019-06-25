@@ -85,6 +85,7 @@
             this.glControl.VSync = true;
             this.glControl.Load += new System.EventHandler(this.glControlOnLoad);
             this.glControl.Paint += new System.Windows.Forms.PaintEventHandler(this.glControlOnPaint);
+            this.glControl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.glControlOnMouseClick);
             this.glControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glControlOnMouseMove);
             this.glControl.Resize += new System.EventHandler(this.glControlOnResize);
             // 

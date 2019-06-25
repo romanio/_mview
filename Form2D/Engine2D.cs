@@ -198,5 +198,39 @@ namespace mview
         {
             camera.MouseMove(e);
         }
+
+        int XS, YS, ZS; // Координаты выбранной ячейки
+
+        public void MouseClick(MouseEventArgs e)
+        {
+            if (grid.element_count == 0) return;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                XS = -1;
+                YS = -1;
+                ZS = -1;
+
+                int[] viewport = new int[4];
+                GL.GetInteger(GetPName.Viewport, viewport);
+                byte[] pixel = null;
+                IntPtr p = new IntPtr();
+
+                GL.ReadPixels(e.X, viewport[3] - e.Y, 1, 1, PixelFormat.Rgb, PixelType.UnsignedByte, ref p);
+                pixel = BitConverter.GetBytes(p.ToInt32());  // Цвет под мышкой
+
+
+                float XT = (e.X - 0.5f * width) / camera.scale + grid.XMINCOORD + grid.XC - camera.shift_x - camera.shift_end_x + camera.shift_start_x;
+                float YT = (e.Y - 0.5f * height) / camera.scale + grid.YMINCOORD + grid.YC + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
+                grid.GetCellUnderMouse(XT, YT, pixel);
+
+                /*
+                Color COLOR = new Color();
+                Cell CELL = new Cell();
+                int[] SIGN = new int[4];
+                */
+
+            }
+        }
     }
 }

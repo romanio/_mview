@@ -143,6 +143,50 @@ namespace mview
             GenerateGrid(tmp_ecl, tmp_GetValue);
         }
 
+        public void GetCellUnderMouse(float eX, float eY, byte[] pixel)
+        {
+            int cell_index = 0;
+            float value;
+            Color color;
+            Cell CELL;
+
+            for (int X = 0; X < tmp_ecl.EGRID.NX; ++X)
+                for (int Y = 0; Y < tmp_ecl.EGRID.NY; ++Y)
+                {
+                    cell_index = tmp_ecl.INIT.GetActive(X, Y, ZA);
+
+                    if (cell_index > 0)
+                    {
+                        value = tmp_GetValue(cell_index - 1);
+                        color = colorizer.ColorByValue(value);
+
+                        if (color.R == pixel[0])
+                            if (color.G == pixel[1])
+                                if (color.B == pixel[2])
+                                {
+                                    CELL = tmp_ecl.EGRID.GetCell(X, Y, ZA);
+
+                                    float[] xcoords = new float[4] { CELL.TNE.X, CELL.TNW.X, CELL.TSE.X, CELL.TSW.X };
+                                    float xmin = xcoords.Min();
+                                    float xmax = xcoords.Max();
+
+                                    if (eX >= xmin && eX <= xmax)
+                                    {
+                                        float[] ycoords = new float[4] { CELL.TNE.Y, CELL.TNW.Y, CELL.TSE.Y, CELL.TSW.Y };
+                                        float ymin = ycoords.Min();
+                                        float ymax = ycoords.Max();
+                                        if (eY >= ymin && eY <= ymax)
+                                        {
+                                            System.Diagnostics.Debug.WriteLine(X + " ; " + Y);
+                                            break;
+                                        }
+                                    }
+                                }
+                    }
+                }
+        }
+
+
         EclipseProject tmp_ecl;
         Func<int, float> tmp_GetValue;
 

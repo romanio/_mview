@@ -110,6 +110,8 @@ namespace mview
                     gfx.FillPie(Brushes.LightBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, 360);
                 }
 
+                wlpr = Math.Abs(wlpr);
+
                 gfx.DrawString( wlpr.ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
             }
 

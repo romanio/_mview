@@ -231,5 +231,10 @@ namespace mview
         {
             engine.MouseWheel(e);
         }
+
+        public void MouseClick(MouseEventArgs e)
+        {
+            engine.MouseClick(e);
+        }
     }
 }

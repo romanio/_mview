@@ -112,6 +112,12 @@ namespace mview
             glControlOnPaint(null, null);
         }
 
+        private void glControlOnMouseClick(object sender, MouseEventArgs e)
+        {
+            model.MouseClick(e);
+            glControlOnPaint(null, null);
+        }
+
         private void glControlOnResize(object sender, EventArgs e)
         {
             model.OnResize(glControl.Width, glControl.Height);
@@ -142,5 +148,7 @@ namespace mview
             model.ApplyStyle();
             glControlOnPaint(null, null);
         }
+
+
     }
 }
