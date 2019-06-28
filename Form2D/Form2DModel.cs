@@ -153,6 +153,11 @@ namespace mview
             return DynamicProperties;
         }
 
+        public Tuple<int, int, int, float> GetXYZVSelected()
+        {
+            return new Tuple<int, int, int, float>(engine.XS, engine.YS, engine.ZS, engine.VS);
+        }
+
         public int GetNZ()
         {
             return ecl.EGRID.NZ;

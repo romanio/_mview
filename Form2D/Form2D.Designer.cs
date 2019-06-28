@@ -44,6 +44,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.buttonChartOptions = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.lbCellValue = new System.Windows.Forms.Label();
             this.tabSliceControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -213,11 +214,21 @@
             this.button1.Text = "Filter [ON]";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // lbCellValue
+            // 
+            this.lbCellValue.AutoSize = true;
+            this.lbCellValue.Location = new System.Drawing.Point(480, 19);
+            this.lbCellValue.Name = "lbCellValue";
+            this.lbCellValue.Size = new System.Drawing.Size(106, 13);
+            this.lbCellValue.TabIndex = 51;
+            this.lbCellValue.Text = "Cell[-1;-1;-1]=0.000";
+            // 
             // Form2D
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(932, 673);
+            this.Controls.Add(this.lbCellValue);
             this.Controls.Add(this.buttonChartOptions);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tabSliceControl);
@@ -259,5 +270,6 @@
 
         private System.Windows.Forms.Button buttonChartOptions;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label lbCellValue;
     }
 }

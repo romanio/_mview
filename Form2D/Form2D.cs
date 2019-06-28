@@ -116,6 +116,10 @@ namespace mview
         {
             model.MouseClick(e);
             glControlOnPaint(null, null);
+
+            var res = model.GetXYZVSelected();
+
+            lbCellValue.Text = String.Format("Cell [{0}, {1}, {2}] = {3}, {4}", res.Item1 + 1, res.Item2 + 1, res.Item3, res.Item4, "BAR");
         }
 
         private void glControlOnResize(object sender, EventArgs e)

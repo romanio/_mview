@@ -143,7 +143,8 @@ namespace mview
             GenerateGrid(tmp_ecl, tmp_GetValue);
         }
 
-        public void GetCellUnderMouse(float eX, float eY, byte[] pixel)
+
+        public Tuple<int, int, float> GetCellUnderMouseZ(float eX, float eY, byte[] pixel)
         {
             int cell_index = 0;
             float value;
@@ -177,13 +178,14 @@ namespace mview
                                         float ymax = ycoords.Max();
                                         if (eY >= ymin && eY <= ymax)
                                         {
-                                            System.Diagnostics.Debug.WriteLine(X + " ; " + Y);
-                                            break;
+                                            return new Tuple<int, int, float>(X, Y, value);
                                         }
                                     }
                                 }
                     }
                 }
+
+            return new Tuple<int, int, float>(-1, -1, -1);
         }
 
 

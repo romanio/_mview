@@ -199,7 +199,8 @@ namespace mview
             camera.MouseMove(e);
         }
 
-        int XS, YS, ZS; // Координаты выбранной ячейки
+        public int XS, YS, ZS; // Координаты выбранной ячейки
+        public float VS; // Значение выбранной ячейки
 
         public void MouseClick(MouseEventArgs e)
         {
@@ -219,17 +220,14 @@ namespace mview
                 GL.ReadPixels(e.X, viewport[3] - e.Y, 1, 1, PixelFormat.Rgb, PixelType.UnsignedByte, ref p);
                 pixel = BitConverter.GetBytes(p.ToInt32());  // Цвет под мышкой
 
+                float XT = (e.X - 0.5f * width) / camera.scale + grid.XMINCOORD + 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) - camera.shift_x - camera.shift_end_x + camera.shift_start_x;
+                float YT = (e.Y - 0.5f * height) / camera.scale + grid.YMINCOORD + 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
 
-                float XT = (e.X - 0.5f * width) / camera.scale + grid.XMINCOORD + grid.XC - camera.shift_x - camera.shift_end_x + camera.shift_start_x;
-                float YT = (e.Y - 0.5f * height) / camera.scale + grid.YMINCOORD + grid.YC + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
-                grid.GetCellUnderMouse(XT, YT, pixel);
+                var res = grid.GetCellUnderMouseZ(XT, YT, pixel);
 
-                /*
-                Color COLOR = new Color();
-                Cell CELL = new Cell();
-                int[] SIGN = new int[4];
-                */
-
+                XS = res.Item1;
+                YS = res.Item2;
+                VS = res.Item3;
             }
         }
     }
