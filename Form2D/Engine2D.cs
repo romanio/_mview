@@ -148,6 +148,37 @@ namespace mview
                 GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
             }
 
+            // Отрисовка выбранной ячейки
+
+            if (XS > -1)
+            {
+                var CELL = grid.GetCell(XS, YS, ZS);
+
+                if ((CELL.TNE.X + CELL.TNW.X + CELL.TSE.X) != 0)
+                {
+                    GL.LineWidth(2);
+                    GL.Begin(PrimitiveType.Lines);
+                    GL.Color3(Color.Black);
+
+                    GL.Vertex3(CELL.TNW.X, CELL.TNW.Y, 0.3);
+                    GL.Vertex3(CELL.TNE.X, CELL.TNE.Y, 0.3);
+
+                    GL.Vertex3(CELL.TNE.X, CELL.TNE.Y, 0.3);
+                    GL.Vertex3(CELL.TSE.X, CELL.TSE.Y, 0.3);
+
+                    GL.Vertex3(CELL.TSE.X, CELL.TSE.Y, 0.3);
+                    GL.Vertex3(CELL.TSW.X, CELL.TSW.Y, 0.3);
+
+                    GL.Vertex3(CELL.TSW.X, CELL.TSW.Y, 0.3);
+                    GL.Vertex3(CELL.TNW.X, CELL.TNW.Y, 0.3);
+
+                    GL.End();
+
+                    GL.LineWidth(1);
+                }
+            }
+
+
             DrawFrame();
 
             // Вывод текста текстурой
@@ -201,6 +232,7 @@ namespace mview
 
         public int XS, YS, ZS; // Координаты выбранной ячейки
         public float VS; // Значение выбранной ячейки
+        private readonly object CELL;
 
         public void MouseClick(MouseEventArgs e)
         {
@@ -210,7 +242,7 @@ namespace mview
             {
                 XS = -1;
                 YS = -1;
-                ZS = -1;
+                ZS = grid.ZA;
 
                 int[] viewport = new int[4];
                 GL.GetInteger(GetPName.Viewport, viewport);

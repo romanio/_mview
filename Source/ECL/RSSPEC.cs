@@ -334,6 +334,8 @@ namespace mview.ECL
             br.CloseBinaryFile();
         }
 
+        public string GridUnit = null;
+
         public void ReadGrid(string property)
         {
             FileReader br = new FileReader();
@@ -341,8 +343,17 @@ namespace mview.ECL
             Action<string> SetPosition = (name) =>
             {
                 int index = Array.IndexOf(NAME[RESTART_STEP], name);
+
+               
+                if (UNITS.Count != 0)
+                {
+                    GridUnit = UNITS[RESTART_STEP][index].ToString();
+                }
+
                 long pointer = POINTER[RESTART_STEP][index];
                 long pointerb = POINTERB[RESTART_STEP][index];
+
+
                 br.SetPosition(pointerb * 2147483648 + pointer);
             };
 

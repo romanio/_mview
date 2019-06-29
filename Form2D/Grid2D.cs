@@ -138,11 +138,23 @@ namespace mview
             System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
         }
 
+
         public void RefreshGrid()
         {
             GenerateGrid(tmp_ecl, tmp_GetValue);
         }
 
+        public Cell GetCell(int X, int Y, int Z)
+        {
+            var cell_index = tmp_ecl.INIT.GetActive(X, Y, Z);
+
+            if (cell_index > 0)
+            {
+                return tmp_ecl.EGRID.GetCell(X, Y, Z);
+            }
+
+            return new Cell();
+        }
 
         public Tuple<int, int, float> GetCellUnderMouseZ(float eX, float eY, byte[] pixel)
         {

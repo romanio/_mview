@@ -195,9 +195,9 @@
             // 
             // buttonChartOptions
             // 
-            this.buttonChartOptions.Location = new System.Drawing.Point(12, 12);
+            this.buttonChartOptions.Location = new System.Drawing.Point(305, 12);
             this.buttonChartOptions.Name = "buttonChartOptions";
-            this.buttonChartOptions.Size = new System.Drawing.Size(98, 26);
+            this.buttonChartOptions.Size = new System.Drawing.Size(118, 26);
             this.buttonChartOptions.TabIndex = 49;
             this.buttonChartOptions.Text = "Options";
             this.buttonChartOptions.UseVisualStyleBackColor = true;
@@ -205,9 +205,8 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(323, 12);
+            this.button1.Location = new System.Drawing.Point(429, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(118, 26);
             this.button1.TabIndex = 50;
@@ -217,7 +216,7 @@
             // lbCellValue
             // 
             this.lbCellValue.AutoSize = true;
-            this.lbCellValue.Location = new System.Drawing.Point(480, 19);
+            this.lbCellValue.Location = new System.Drawing.Point(12, 19);
             this.lbCellValue.Name = "lbCellValue";
             this.lbCellValue.Size = new System.Drawing.Size(106, 13);
             this.lbCellValue.TabIndex = 51;

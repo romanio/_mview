@@ -119,7 +119,7 @@ namespace mview
 
             var res = model.GetXYZVSelected();
 
-            lbCellValue.Text = String.Format("Cell [{0}, {1}, {2}] = {3}, {4}", res.Item1 + 1, res.Item2 + 1, res.Item3, res.Item4, "BAR");
+            lbCellValue.Text = String.Format("Cell [{0}, {1}, {2}] = {3}, {4}", res.Item1 + 1, res.Item2 + 1, res.Item3 + 1, res.Item4, model.GetGridUnit());
         }
 
         private void glControlOnResize(object sender, EventArgs e)

@@ -153,6 +153,11 @@ namespace mview
             return DynamicProperties;
         }
 
+        public string GetGridUnit()
+        {
+            return GridUnit;
+        }
+
         public Tuple<int, int, int, float> GetXYZVSelected()
         {
             return new Tuple<int, int, int, float>(engine.XS, engine.YS, engine.ZS, engine.VS);
@@ -173,15 +178,21 @@ namespace mview
         public void SetStaticProperty(string name)
         {
             ecl.INIT.ReadGrid(name);
+            GridUnit = ecl.INIT.GridUnit;
+
             engine.grid.GenerateGrid(ecl, ecl.INIT.GetValue);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
         }
+
+        string GridUnit = null;
 
         public void SetDynamicProperty(string name)
         {
             if (Array.IndexOf(ecl.RESTART.NAME[ecl.RESTART.RESTART_STEP], name) != -1)
             {
                 ecl.RESTART.ReadGrid(name);
+                GridUnit = ecl.RESTART.GridUnit;
+
                 engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
                 engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
             }

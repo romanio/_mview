@@ -146,6 +146,7 @@ namespace mview.ECL
         }
 
         public float[] DATA = null;
+        public string GridUnit = null;
 
         public void ReadGrid(string property)
         {
@@ -164,6 +165,11 @@ namespace mview.ECL
                         INIT_STEP = iw;
                         break;
                     }
+                }
+
+                if (UNITS.Count != 0)
+                {
+                    GridUnit = UNITS[INIT_STEP][index];
                 }
 
                 long pointer = POINTER[INIT_STEP][index];
