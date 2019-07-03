@@ -207,6 +207,7 @@ namespace mview
                     item.SetEclipseProject(model.GetProjectManager());
                 }
 
+                gridGeneral.Rows.Clear();
                 listNames.Items.Clear();
             }
             else
@@ -314,6 +315,12 @@ namespace mview
         private void bbUpdate_Click(object sender, EventArgs e)
         {
             model.UpdateActiveProject();
+            UpdateData();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            model.GetProjectManager().DeleteActiveProject();
             UpdateData();
         }
     }

@@ -54,6 +54,7 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bbUpdate = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).BeginInit();
@@ -236,6 +237,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.boxNewName);
             this.panel1.Controls.Add(this.buttonRename);
             this.panel1.Controls.Add(this.boxActiveProject);
@@ -289,7 +291,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(0, 1);
+            this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 24);
             this.button1.TabIndex = 13;
@@ -317,7 +319,7 @@
             this.gridGeneral.ReadOnly = true;
             this.gridGeneral.RowHeadersVisible = false;
             this.gridGeneral.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridGeneral.Size = new System.Drawing.Size(394, 259);
+            this.gridGeneral.Size = new System.Drawing.Size(394, 236);
             this.gridGeneral.TabIndex = 17;
             // 
             // Column1
@@ -344,6 +346,18 @@
             this.bbUpdate.Text = "Update";
             this.bbUpdate.UseVisualStyleBackColor = true;
             this.bbUpdate.Click += new System.EventHandler(this.bbUpdate_Click);
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button2.ForeColor = System.Drawing.Color.Red;
+            this.button2.Location = new System.Drawing.Point(297, 305);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(100, 24);
+            this.button2.TabIndex = 24;
+            this.button2.Text = "Delete";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // FormMain
             // 
@@ -407,6 +421,7 @@
         private System.Windows.Forms.Button buttonRename;
         private System.Windows.Forms.TextBox boxNewName;
         private System.Windows.Forms.Button bbUpdate;
+        private System.Windows.Forms.Button button2;
     }
 }
 

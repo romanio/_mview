@@ -19,6 +19,7 @@ namespace mview
     {
         ChartModel model = null;
         PlotModel plotModel = null;
+        PlotModel specplotModel = null;
         ChartController chartController = null;
 
         bool edit_mode_keywords = false;
@@ -88,6 +89,41 @@ namespace mview
             });
 
             plotView1.Model = plotModel;
+
+            //
+
+            specplotModel = new PlotModel
+            {
+                Title = "Waterflood Diagnostic",
+                DefaultFont = "Tahoma",
+                TitleFontWeight = 2,
+                TitleFontSize = 10,
+                LegendFontSize = 10,
+               // LegendPosition = chartController.LegendPosition,
+
+                DefaultFontSize = 10
+            };
+
+            specplotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
+            {
+                Position = AxisPosition.Bottom,
+                Title = "Oil cummulative",
+                MajorGridlineStyle = chartController.AxisXStyle,
+                MajorGridlineThickness = chartController.AxisXWidth,
+                MajorGridlineColor = chartController.AxisXColor.ToOxyColor()
+            });
+
+            specplotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
+            {
+                Position = AxisPosition.Left,
+                Title = "WaterCut",
+                MajorGridlineStyle = chartController.AxisYStyle,
+                MajorGridlineThickness = chartController.AxisYWidth,
+                MajorGridlineColor = chartController.AxisYColor.ToOxyColor()
+            });
+
+            plotView2.Model = specplotModel;
+            
         }
 
         public Chart(ProjectManager pm, ChartController chartController)
@@ -150,6 +186,50 @@ namespace mview
 
         void UpdateVisibleElements()
         {
+            // Обновим специальные операции
+
+            specplotModel.Series.Clear();
+
+            int series_index = 0;
+
+            for (int it = 0; it < selected_names.Length; ++it)
+            {
+                specplotModel.Series.Add(new LineSeries
+                {
+                    Title = "Sim",
+                    LineStyle = OxyPlot.LineStyle.Solid,
+                    StrokeThickness = 2,
+                    Smooth = false,
+                    MarkerType =  OxyPlot.MarkerType.Circle,
+                    MarkerSize = 3
+                });
+
+                ((OxyPlot.Series.LineSeries)specplotModel.Series[series_index]).Points.AddRange(
+                    model.GetData(selected_names[it], "WOPT", "WWCT"));
+
+                series_index++;
+
+                specplotModel.Series.Add(new LineSeries
+                {
+                    Title = "Hist",
+                    LineStyle = OxyPlot.LineStyle.Solid,
+                    StrokeThickness = 2,
+                    Smooth = false,
+                    MarkerType = OxyPlot.MarkerType.Circle,
+                    MarkerSize = 3
+                });
+
+                ((OxyPlot.Series.LineSeries)specplotModel.Series[series_index]).Points.AddRange(
+                    model.GetData(selected_names[it], "WOPTH", "WWCTH"));
+
+                series_index++;
+            }
+
+            specplotModel.Axes[0].Reset();
+            specplotModel.Axes[1].Reset();
+
+            specplotModel.InvalidatePlot(true);
+
             // Обновим таблицу
 
             gridData.ColumnCount = selected_names.Length * listKeywords.SelectedItems.Count + 1;
@@ -207,7 +287,7 @@ namespace mview
 
             plotModel.Series.Clear();
    
-            int series_index = -1;
+            series_index = -1;
 
             for (int ip = 0; ip < selected_pm.Length; ++ip) // Цикл по всем выбранным проектам
             {
@@ -224,8 +304,6 @@ namespace mview
                     // Определение стиля линии графика
 
                     var tmp_style = chartController.GetStyle(listKeywords.SelectedItems[iw].ToString());
-                //    System.Diagnostics.Debug.WriteLine(tmp_style.GroupMode.ToString());
-                    //
 
                     if (tmp_style?.GroupMode == GroupMode.Normal || tmp_style == null) // Обычный режим отображения
                     {
@@ -420,6 +498,11 @@ namespace mview
         private void listKeywords_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (edit_mode_keywords) return;
+            if (tabControl1.SelectedIndex == 2)
+            {
+                UpdateVisibleElements();
+            }
+
             if (listKeywords.SelectedItems.Count == 0) return;
 
             System.Diagnostics.Debug.WriteLine("LIST KEYWORDS");

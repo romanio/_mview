@@ -139,6 +139,7 @@ namespace mview
             GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
 
             // Отрисовка границ ячеек
+
             if (style.ShowGridLines == true)
             {
                 GL.PolygonOffset(0, 0);
