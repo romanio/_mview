@@ -45,6 +45,7 @@
             this.buttonModels = new System.Windows.Forms.Button();
             this.buttonChartOptions = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.boxNewName = new System.Windows.Forms.TextBox();
             this.buttonRename = new System.Windows.Forms.Button();
             this.boxActiveProject = new System.Windows.Forms.ComboBox();
@@ -54,7 +55,7 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bbUpdate = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.virtualGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).BeginInit();
@@ -86,7 +87,8 @@
             // optionalToolStripMenuItem
             // 
             this.optionalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportToExcelToolStripMenuItem});
+            this.exportToExcelToolStripMenuItem,
+            this.virtualGroupsToolStripMenuItem});
             this.optionalToolStripMenuItem.Name = "optionalToolStripMenuItem";
             this.optionalToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.optionalToolStripMenuItem.Text = "Optional";
@@ -94,7 +96,7 @@
             // exportToExcelToolStripMenuItem
             // 
             this.exportToExcelToolStripMenuItem.Name = "exportToExcelToolStripMenuItem";
-            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exportToExcelToolStripMenuItem.Text = "Export to Excel";
             this.exportToExcelToolStripMenuItem.Click += new System.EventHandler(this.exportToExcelToolStripMenuItem_Click);
             // 
@@ -250,6 +252,18 @@
             this.panel1.TabIndex = 0;
             this.panel1.Visible = false;
             // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button2.ForeColor = System.Drawing.Color.Red;
+            this.button2.Location = new System.Drawing.Point(297, 305);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(100, 24);
+            this.button2.TabIndex = 24;
+            this.button2.Text = "Delete";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // boxNewName
             // 
             this.boxNewName.Location = new System.Drawing.Point(204, 3);
@@ -347,17 +361,12 @@
             this.bbUpdate.UseVisualStyleBackColor = true;
             this.bbUpdate.Click += new System.EventHandler(this.bbUpdate_Click);
             // 
-            // button2
+            // virtualGroupsToolStripMenuItem
             // 
-            this.button2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.ForeColor = System.Drawing.Color.Red;
-            this.button2.Location = new System.Drawing.Point(297, 305);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(100, 24);
-            this.button2.TabIndex = 24;
-            this.button2.Text = "Delete";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.virtualGroupsToolStripMenuItem.Name = "virtualGroupsToolStripMenuItem";
+            this.virtualGroupsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.virtualGroupsToolStripMenuItem.Text = "Virtual Groups";
+            this.virtualGroupsToolStripMenuItem.Click += new System.EventHandler(this.virtualGroupsToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -422,6 +431,7 @@
         private System.Windows.Forms.TextBox boxNewName;
         private System.Windows.Forms.Button bbUpdate;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripMenuItem virtualGroupsToolStripMenuItem;
     }
 }
 

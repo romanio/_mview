@@ -27,6 +27,12 @@ namespace mview
             return pm;
         }
 
+        public void ShowVirtualGroups()
+        {
+            FormVirtualGroups tmp = new FormVirtualGroups(pm.ActiveProject);
+            tmp.Show();
+        }
+
         public void Show2DView()
         {
             Form2D tmp = new Form2D(pm.ActiveProject);

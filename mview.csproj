@@ -62,6 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormVirtualGroups.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVirtualGroups.Designer.cs">
+      <DependentUpon>FormVirtualGroups.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form2D\BitmapRender.cs" />
     <Compile Include="Form2D\Camera2D.cs" />
     <Compile Include="Charts\Chart.cs">
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Charts\ChartOptions.resx">
       <DependentUpon>ChartOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormVirtualGroups.resx">
+      <DependentUpon>FormVirtualGroups.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form2D\Form2D.resx">
       <DependentUpon>Form2D.cs</DependentUpon>

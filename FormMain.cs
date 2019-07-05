@@ -323,5 +323,11 @@ namespace mview
             model.GetProjectManager().DeleteActiveProject();
             UpdateData();
         }
+
+        private void virtualGroupsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            model.ShowVirtualGroups();
+
+        }
     }
 }
