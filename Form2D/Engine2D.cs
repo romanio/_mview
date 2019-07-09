@@ -129,6 +129,7 @@ namespace mview
             GL.Translate(camera.shift_x + (camera.shift_end_x - camera.shift_start_x), -camera.shift_y  + camera.shift_end_y - camera.shift_start_y, 0); // Сдвиг за счет мышки
             GL.Translate(-grid.XC, -grid.YC, 0);
 
+          //  System.Diagnostics.Debug.WriteLine("cam shift_x " + camera.shift_x + "  cam shift y " + camera.shift_y);
             render.Clear(Color.Transparent);
             DrawWells();
             
@@ -157,7 +158,7 @@ namespace mview
 
                 if ((CELL.TNE.X + CELL.TNW.X + CELL.TSE.X) != 0)
                 {
-                    GL.LineWidth(2);
+                    GL.LineWidth(3);
                     GL.Begin(PrimitiveType.Lines);
                     GL.Color3(Color.Black);
 

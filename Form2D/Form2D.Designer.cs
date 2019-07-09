@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Static ");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Dynamic");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Static ");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Dynamic");
             this.label2 = new System.Windows.Forms.Label();
             this.boxRestart = new System.Windows.Forms.ComboBox();
             this.glControl = new OpenTK.GLControl();
@@ -45,17 +45,22 @@
             this.buttonChartOptions = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.lbCellValue = new System.Windows.Forms.Label();
+            this.bbSetFocusOn = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.listWells = new System.Windows.Forms.ListBox();
             this.tabSliceControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(776, 116);
+            this.label2.Location = new System.Drawing.Point(761, 116);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 13);
             this.label2.TabIndex = 24;
@@ -66,7 +71,7 @@
             this.boxRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.boxRestart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxRestart.FormattingEnabled = true;
-            this.boxRestart.Location = new System.Drawing.Point(776, 132);
+            this.boxRestart.Location = new System.Drawing.Point(761, 132);
             this.boxRestart.Name = "boxRestart";
             this.boxRestart.Size = new System.Drawing.Size(130, 21);
             this.boxRestart.TabIndex = 25;
@@ -81,7 +86,7 @@
             this.glControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.glControl.Location = new System.Drawing.Point(12, 44);
             this.glControl.Name = "glControl";
-            this.glControl.Size = new System.Drawing.Size(743, 617);
+            this.glControl.Size = new System.Drawing.Size(728, 641);
             this.glControl.TabIndex = 0;
             this.glControl.VSync = true;
             this.glControl.Load += new System.EventHandler(this.glControlOnLoad);
@@ -95,15 +100,15 @@
             this.treeProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.treeProperties.FullRowSelect = true;
             this.treeProperties.HideSelection = false;
-            this.treeProperties.Location = new System.Drawing.Point(776, 186);
+            this.treeProperties.Location = new System.Drawing.Point(761, 186);
             this.treeProperties.Name = "treeProperties";
-            treeNode1.Name = "Узел0";
-            treeNode1.Text = "Static ";
-            treeNode2.Name = "Узел1";
-            treeNode2.Text = "Dynamic";
+            treeNode5.Name = "Узел0";
+            treeNode5.Text = "Static ";
+            treeNode6.Name = "Узел1";
+            treeNode6.Text = "Dynamic";
             this.treeProperties.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
+            treeNode5,
+            treeNode6});
             this.treeProperties.Size = new System.Drawing.Size(130, 372);
             this.treeProperties.TabIndex = 0;
             this.treeProperties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeProperties_AfterSelect);
@@ -112,7 +117,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(776, 170);
+            this.label1.Location = new System.Drawing.Point(761, 170);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 32;
@@ -135,7 +140,7 @@
             this.tabSliceControl.Controls.Add(this.tabPage1);
             this.tabSliceControl.Controls.Add(this.tabPage2);
             this.tabSliceControl.Controls.Add(this.tabPage3);
-            this.tabSliceControl.Location = new System.Drawing.Point(761, 12);
+            this.tabSliceControl.Location = new System.Drawing.Point(746, 12);
             this.tabSliceControl.Name = "tabSliceControl";
             this.tabSliceControl.SelectedIndex = 0;
             this.tabSliceControl.Size = new System.Drawing.Size(159, 89);
@@ -222,11 +227,53 @@
             this.lbCellValue.TabIndex = 51;
             this.lbCellValue.Text = "Cell[-1;-1;-1]=0.000";
             // 
+            // bbSetFocusOn
+            // 
+            this.bbSetFocusOn.Location = new System.Drawing.Point(553, 12);
+            this.bbSetFocusOn.Name = "bbSetFocusOn";
+            this.bbSetFocusOn.Size = new System.Drawing.Size(118, 26);
+            this.bbSetFocusOn.TabIndex = 52;
+            this.bbSetFocusOn.Text = "Set Focus On";
+            this.bbSetFocusOn.UseVisualStyleBackColor = true;
+            this.bbSetFocusOn.Click += new System.EventHandler(this.bbSetFocusOn_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.listWells);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Location = new System.Drawing.Point(553, 44);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(145, 256);
+            this.panel1.TabIndex = 53;
+            this.panel1.Visible = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(14, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Wells";
+            // 
+            // listWells
+            // 
+            this.listWells.FormattingEnabled = true;
+            this.listWells.Location = new System.Drawing.Point(17, 35);
+            this.listWells.Name = "listWells";
+            this.listWells.Size = new System.Drawing.Size(112, 186);
+            this.listWells.Sorted = true;
+            this.listWells.TabIndex = 1;
+            this.listWells.SelectedIndexChanged += new System.EventHandler(this.listWells_SelectedIndexChanged);
+            // 
             // Form2D
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(932, 673);
+            this.ClientSize = new System.Drawing.Size(917, 697);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.bbSetFocusOn);
             this.Controls.Add(this.lbCellValue);
             this.Controls.Add(this.buttonChartOptions);
             this.Controls.Add(this.button1);
@@ -247,6 +294,8 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -270,5 +319,9 @@
         private System.Windows.Forms.Button buttonChartOptions;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label lbCellValue;
+        private System.Windows.Forms.Button bbSetFocusOn;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ListBox listWells;
+        private System.Windows.Forms.Label label3;
     }
 }

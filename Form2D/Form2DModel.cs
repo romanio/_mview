@@ -88,6 +88,28 @@ namespace mview
             engine.grid.ZC = (engine.grid.ZMINCOORD + engine.grid.ZMAXCOORD) * 0.5f;
         }
 
+        public string[] GetWellNames()
+        {
+            return
+                (from item in ecl.RESTART.WELLS
+                 select item.WELLNAME).ToArray();
+         }
+
+        public void SetFocusOnWell(string wellname)
+        {
+            var well = engine.grid.WELLS.FirstOrDefault(c => c.WELLNAME == wellname);
+
+            if (well != null)
+            {
+                float XC = well.XC;
+                float YC = well.YC;
+
+                engine.camera.shift_x =-( XC - engine.grid.XC);
+                engine.camera.shift_y =( YC - engine.grid.YC);
+                engine.OnPaint();
+            }                   
+        }
+
         void GenerateWellCoord() 
         {
             // Вспомогательный массив WCOORD содержит в себе

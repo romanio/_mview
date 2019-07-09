@@ -177,7 +177,6 @@ namespace mview
 
         void UpdateDataModels()
         {
-
             boxActiveProject.Items.Clear();
             boxActiveProject.BeginUpdate();
 

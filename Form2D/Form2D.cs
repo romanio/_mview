@@ -153,6 +153,24 @@ namespace mview
             glControlOnPaint(null, null);
         }
 
+        private void bbSetFocusOn_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = !panel1.Visible;
 
+            if (panel1.Visible == true)
+            {
+                listWells.Items.Clear();
+                listWells.Items.AddRange(model.GetWellNames());
+            }
+
+        }
+
+        private void listWells_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listWells.SelectedItem == null) return;
+
+            model.SetFocusOnWell(listWells.SelectedItem.ToString());
+            glControl.SwapBuffers();
+        }
     }
 }

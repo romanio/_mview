@@ -488,7 +488,6 @@ namespace mview
                 }
             }
 
-
             plotModel.Axes[0].Reset();
             plotModel.Axes[1].Reset();
 

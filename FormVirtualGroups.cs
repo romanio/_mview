@@ -93,5 +93,10 @@ namespace mview
         {
             ecl.VirtualGroup = null;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
