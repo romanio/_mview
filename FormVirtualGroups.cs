@@ -17,59 +17,25 @@ namespace mview
 
         bool after_init = false;
 
+        EclipseProject ecl = null;
+
         public FormVirtualGroups(EclipseProject ecl)
         {
             InitializeComponent();
-            after_init = true;
+
+
+            this.ecl = ecl;
+
+            if (ecl.VirtualGroup != null)
+            {
+                listGroups.Items.Clear();
+
+                var pads = (from item in ecl.VirtualGroup
+                            select item.pad).Distinct().ToArray();
+
+                listGroups.Items.AddRange(pads);
+            }
         }
-
-        private void checkShowGridLines_CheckedChanged(object sender, EventArgs e)
-        {
-            if (after_init) ApplyStyle();
-        }
-
-        private void boxMaximum_Validating(object sender, CancelEventArgs e)
-        {
-            double value;
-        }
-
-        private void boxMinimum_Validating(object sender, CancelEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("BOX MINIMUM : VALIDATING");
-
-            double value;
-        }
-
-        private void checkShowBubbles_CheckedChanged(object sender, EventArgs e)
-        {
-            if (after_init) ApplyStyle();
-        }
-
-        private void boxBubbleMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (after_init) ApplyStyle();
-
-        }
-
-        private void numericScaleFactor_ValueChanged(object sender, EventArgs e)
-        {
-
-            if (after_init) ApplyStyle();
-        }
-
-        private void checkShowAllWell_CheckedChanged(object sender, EventArgs e)
-        {
-
-            if (after_init) ApplyStyle();
-        }
-
-        class VirtualGroupItem
-        {
-            public string wellname;
-            public string pad;
-        }
-
-        List<VirtualGroupItem> VirtualGroup = null;
 
         private void bbLoadGroups_Click(object sender, EventArgs e)
         {
@@ -77,7 +43,7 @@ namespace mview
 
             if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                VirtualGroup = new List<VirtualGroupItem>();
+                ecl.VirtualGroup = new List<VirtualGroupItem>();
 
                 using (TextReader text = new StreamReader(fd.FileName, Encoding.GetEncoding("Windows-1251")))
                 {
@@ -89,7 +55,7 @@ namespace mview
 
                         if (split.Length == 2)
                         {
-                            VirtualGroup.Add(new VirtualGroupItem
+                            ecl.VirtualGroup.Add(new VirtualGroupItem
                             {
                                 wellname = split[0].Trim(),
                                 pad = split[1].Trim()
@@ -100,7 +66,7 @@ namespace mview
 
                     listGroups.Items.Clear();
 
-                    var pads = (from item in VirtualGroup
+                    var pads = (from item in ecl.VirtualGroup
                                 select item.pad).Distinct().ToArray();
 
                     listGroups.Items.AddRange(pads);
@@ -116,11 +82,16 @@ namespace mview
 
             listWells.Items.Clear();
 
-            var wells = (from item in VirtualGroup
+            var wells = (from item in ecl.VirtualGroup
                          where item.pad == selected_pad
                          select item.wellname).ToArray();
 
             listWells.Items.AddRange(wells);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ecl.VirtualGroup = null;
         }
     }
 }

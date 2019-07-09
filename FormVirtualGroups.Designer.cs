@@ -39,7 +39,7 @@
             // bbLoadGroups
             // 
             this.bbLoadGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbLoadGroups.Location = new System.Drawing.Point(12, 43);
+            this.bbLoadGroups.Location = new System.Drawing.Point(20, 44);
             this.bbLoadGroups.Name = "bbLoadGroups";
             this.bbLoadGroups.Size = new System.Drawing.Size(127, 27);
             this.bbLoadGroups.TabIndex = 31;
@@ -52,12 +52,13 @@
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button2.ForeColor = System.Drawing.Color.Red;
-            this.button2.Location = new System.Drawing.Point(12, 134);
+            this.button2.Location = new System.Drawing.Point(20, 107);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(127, 27);
             this.button2.TabIndex = 33;
             this.button2.Text = "Remove All Groups";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // labelMin
             // 
@@ -77,7 +78,7 @@
             this.listGroups.Location = new System.Drawing.Point(165, 43);
             this.listGroups.Name = "listGroups";
             this.listGroups.ScrollAlwaysVisible = true;
-            this.listGroups.Size = new System.Drawing.Size(120, 305);
+            this.listGroups.Size = new System.Drawing.Size(120, 318);
             this.listGroups.Sorted = true;
             this.listGroups.TabIndex = 61;
             this.listGroups.SelectedIndexChanged += new System.EventHandler(this.listGroups_SelectedIndexChanged);
@@ -91,7 +92,7 @@
             this.listWells.IntegralHeight = false;
             this.listWells.Location = new System.Drawing.Point(307, 44);
             this.listWells.Name = "listWells";
-            this.listWells.Size = new System.Drawing.Size(111, 305);
+            this.listWells.Size = new System.Drawing.Size(111, 318);
             this.listWells.TabIndex = 62;
             // 
             // label1
@@ -107,7 +108,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 373);
+            this.ClientSize = new System.Drawing.Size(440, 386);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listWells);
             this.Controls.Add(this.listGroups);

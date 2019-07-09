@@ -32,6 +32,7 @@
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.virtualGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dViewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.FileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -55,7 +56,6 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bbUpdate = new System.Windows.Forms.Button();
-            this.virtualGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).BeginInit();
@@ -96,9 +96,16 @@
             // exportToExcelToolStripMenuItem
             // 
             this.exportToExcelToolStripMenuItem.Name = "exportToExcelToolStripMenuItem";
-            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.exportToExcelToolStripMenuItem.Text = "Export to Excel";
             this.exportToExcelToolStripMenuItem.Click += new System.EventHandler(this.exportToExcelToolStripMenuItem_Click);
+            // 
+            // virtualGroupsToolStripMenuItem
+            // 
+            this.virtualGroupsToolStripMenuItem.Name = "virtualGroupsToolStripMenuItem";
+            this.virtualGroupsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.virtualGroupsToolStripMenuItem.Text = "Virtual Groups";
+            this.virtualGroupsToolStripMenuItem.Click += new System.EventHandler(this.virtualGroupsToolStripMenuItem_Click);
             // 
             // dViewToolStripMenuItem
             // 
@@ -360,13 +367,6 @@
             this.bbUpdate.Text = "Update";
             this.bbUpdate.UseVisualStyleBackColor = true;
             this.bbUpdate.Click += new System.EventHandler(this.bbUpdate_Click);
-            // 
-            // virtualGroupsToolStripMenuItem
-            // 
-            this.virtualGroupsToolStripMenuItem.Name = "virtualGroupsToolStripMenuItem";
-            this.virtualGroupsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.virtualGroupsToolStripMenuItem.Text = "Virtual Groups";
-            this.virtualGroupsToolStripMenuItem.Click += new System.EventHandler(this.virtualGroupsToolStripMenuItem_Click);
             // 
             // FormMain
             // 

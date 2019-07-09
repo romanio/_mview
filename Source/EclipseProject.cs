@@ -44,6 +44,11 @@ namespace mview
         public List<VectorData> Data = new List<VectorData>();
     }
 
+    public class VirtualGroupItem
+    {
+        public string wellname;
+        public string pad;
+    }
 
     public class EclipseProject
     {
@@ -57,6 +62,7 @@ namespace mview
         public RSSPEC RESTART = null;
         public INSPEC INIT = null;
         public EGRID EGRID = null;
+        public List<VirtualGroupItem> VirtualGroup = null;
 
         public void OpenData(string filename)
         {
