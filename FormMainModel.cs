@@ -27,6 +27,12 @@ namespace mview
             return pm;
         }
 
+        public void ShowCrossPlots()
+        {
+            FormCrossPlots tmp = new FormCrossPlots(pm.ActiveProject);
+            tmp.Show();
+        }
+
         public void ShowVirtualGroups()
         {
             FormVirtualGroups tmp = new FormVirtualGroups(pm.ActiveProject);

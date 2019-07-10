@@ -62,6 +62,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormCrossPlots\FormCrossPlots.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCrossPlots\FormCrossPlots.Designer.cs">
+      <DependentUpon>FormCrossPlots.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCrossPlots\FormCrossPlotsModel.cs" />
     <Compile Include="FormVirtualGroups.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Charts\ChartOptions.resx">
       <DependentUpon>ChartOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCrossPlots\FormCrossPlots.resx">
+      <DependentUpon>FormCrossPlots.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormVirtualGroups.resx">
       <DependentUpon>FormVirtualGroups.cs</DependentUpon>

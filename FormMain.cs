@@ -328,5 +328,10 @@ namespace mview
             model.ShowVirtualGroups();
 
         }
+
+        private void crossPlotsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            model.ShowCrossPlots();
+        }
     }
 }

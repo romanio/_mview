@@ -35,6 +35,8 @@
             this.virtualGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dViewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.hMAssistentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.crossPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileDialog = new System.Windows.Forms.OpenFileDialog();
             this.listNames = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -70,7 +72,8 @@
             this.openModelToolStripMenuItem,
             this.optionalToolStripMenuItem,
             this.dViewToolStripMenuItem,
-            this.dViewToolStripMenuItem1});
+            this.dViewToolStripMenuItem1,
+            this.hMAssistentToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(819, 24);
@@ -121,6 +124,21 @@
             this.dViewToolStripMenuItem1.Size = new System.Drawing.Size(57, 20);
             this.dViewToolStripMenuItem1.Text = "3D View";
             this.dViewToolStripMenuItem1.Click += new System.EventHandler(this.dViewToolStripMenuItem1_Click);
+            // 
+            // hMAssistentToolStripMenuItem
+            // 
+            this.hMAssistentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.crossPlotsToolStripMenuItem});
+            this.hMAssistentToolStripMenuItem.Name = "hMAssistentToolStripMenuItem";
+            this.hMAssistentToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.hMAssistentToolStripMenuItem.Text = "HM Assistent";
+            // 
+            // crossPlotsToolStripMenuItem
+            // 
+            this.crossPlotsToolStripMenuItem.Name = "crossPlotsToolStripMenuItem";
+            this.crossPlotsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.crossPlotsToolStripMenuItem.Text = "Cross-Plots";
+            this.crossPlotsToolStripMenuItem.Click += new System.EventHandler(this.crossPlotsToolStripMenuItem_Click);
             // 
             // FileDialog
             // 
@@ -432,6 +450,8 @@
         private System.Windows.Forms.Button bbUpdate;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ToolStripMenuItem virtualGroupsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hMAssistentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem crossPlotsToolStripMenuItem;
     }
 }
 
