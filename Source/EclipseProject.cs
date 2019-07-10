@@ -81,7 +81,7 @@ namespace mview
             foreach (string item in files)
             {
                 extension = Path.GetExtension(item);
-                rootname = Path.GetFileNameWithoutExtension(item);
+                rootname = Path.GetFileNameWithoutExtension(item).ToUpper();
 
                 if (rootname == ROOT)
                 {
