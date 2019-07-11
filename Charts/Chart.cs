@@ -13,6 +13,7 @@ using OxyPlot.Series;
 using OxyPlot.WindowsForms;
 using OxyPlot.Axes;
 
+
 namespace mview
 {
     public partial class Chart : UserControl
@@ -130,9 +131,11 @@ namespace mview
         {
             InitializeComponent();
 
+            //
             typeof(Control).InvokeMember("DoubleBuffered",
                 BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                 null, gridData, new object[] { true });
+            //
 
             model = new ChartModel(pm);
             this.chartController = chartController;

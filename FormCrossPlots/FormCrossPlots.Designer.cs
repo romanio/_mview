@@ -35,16 +35,16 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.listKeywords = new System.Windows.Forms.ListBox();
-            this.boxRestart = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.gridData = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.listKeywords = new System.Windows.Forms.ListBox();
+            this.boxRestart = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -60,7 +60,7 @@
             this.plotView1.Location = new System.Drawing.Point(6, 6);
             this.plotView1.Name = "plotView1";
             this.plotView1.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView1.Size = new System.Drawing.Size(424, 523);
+            this.plotView1.Size = new System.Drawing.Size(424, 404);
             this.plotView1.TabIndex = 1;
             this.plotView1.Text = "plotView1";
             this.plotView1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
@@ -78,7 +78,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(444, 561);
+            this.tabControl1.Size = new System.Drawing.Size(444, 442);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -87,7 +87,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(436, 535);
+            this.tabPage1.Size = new System.Drawing.Size(436, 416);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Chart";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -111,59 +111,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Table";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(464, 85);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Keywords";
-            // 
-            // listKeywords
-            // 
-            this.listKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.listKeywords.FormattingEnabled = true;
-            this.listKeywords.Items.AddRange(new object[] {
-            "LPR",
-            "OPR",
-            "WPR",
-            "GPR",
-            "WIR",
-            "BHP",
-            "LPT",
-            "OPT",
-            "WPT",
-            "GPT",
-            "WIT"});
-            this.listKeywords.Location = new System.Drawing.Point(466, 101);
-            this.listKeywords.Name = "listKeywords";
-            this.listKeywords.Size = new System.Drawing.Size(130, 225);
-            this.listKeywords.TabIndex = 4;
-            this.listKeywords.SelectedIndexChanged += new System.EventHandler(this.listKeywords_SelectedIndexChanged);
-            // 
-            // boxRestart
-            // 
-            this.boxRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxRestart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.boxRestart.FormattingEnabled = true;
-            this.boxRestart.Location = new System.Drawing.Point(467, 51);
-            this.boxRestart.Name = "boxRestart";
-            this.boxRestart.Size = new System.Drawing.Size(130, 21);
-            this.boxRestart.TabIndex = 27;
-            this.boxRestart.SelectedIndexChanged += new System.EventHandler(this.boxRestart_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(464, 35);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 13);
-            this.label2.TabIndex = 26;
-            this.label2.Text = "Restart date";
             // 
             // gridData
             // 
@@ -224,11 +171,64 @@
             this.Column5.Name = "Column5";
             this.Column5.Width = 80;
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(464, 88);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Keywords";
+            // 
+            // listKeywords
+            // 
+            this.listKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.listKeywords.FormattingEnabled = true;
+            this.listKeywords.Items.AddRange(new object[] {
+            "LPR",
+            "OPR",
+            "WPR",
+            "GPR",
+            "WIR",
+            "BHP",
+            "LPT",
+            "OPT",
+            "WPT",
+            "GPT",
+            "WIT"});
+            this.listKeywords.Location = new System.Drawing.Point(467, 104);
+            this.listKeywords.Name = "listKeywords";
+            this.listKeywords.Size = new System.Drawing.Size(98, 225);
+            this.listKeywords.TabIndex = 4;
+            this.listKeywords.SelectedIndexChanged += new System.EventHandler(this.listKeywords_SelectedIndexChanged);
+            // 
+            // boxRestart
+            // 
+            this.boxRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.boxRestart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxRestart.FormattingEnabled = true;
+            this.boxRestart.Location = new System.Drawing.Point(467, 51);
+            this.boxRestart.Name = "boxRestart";
+            this.boxRestart.Size = new System.Drawing.Size(130, 21);
+            this.boxRestart.TabIndex = 27;
+            this.boxRestart.SelectedIndexChanged += new System.EventHandler(this.boxRestart_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(464, 35);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(68, 13);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "Restart date";
+            // 
             // FormCrossPlots
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(608, 587);
+            this.ClientSize = new System.Drawing.Size(608, 468);
             this.Controls.Add(this.boxRestart);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.listKeywords);
