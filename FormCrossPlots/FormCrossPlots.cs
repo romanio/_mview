@@ -20,7 +20,7 @@ namespace mview
         FormCrossPlotsModel model = null;
         PlotModel plotModel = null;
         PlotModel plotHisto = null;
-                
+
         public FormCrossPlots(EclipseProject ecl)
         {
             InitializeComponent();
@@ -45,7 +45,7 @@ namespace mview
             //
             plotModel = new PlotModel
             {
-                Title = "(No wells yet)",
+                Title = "(No keyword)",
                 DefaultFont = "Tahoma",
                 TitleFontWeight = 2,
                 TitleFontSize = 10,
@@ -57,9 +57,9 @@ namespace mview
                 Position = AxisPosition.Bottom,
                 Title = "Simualted"
             });
-        
 
-        plotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
+
+            plotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
             {
                 Position = OxyPlot.Axes.AxisPosition.Left,
                 Title = "Historical"
@@ -70,7 +70,6 @@ namespace mview
 
             plotHisto = new PlotModel
             {
-                Title = "(No wells yet)",
                 DefaultFont = "Tahoma",
                 TitleFontWeight = 2,
                 TitleFontSize = 10,
@@ -80,7 +79,7 @@ namespace mview
             plotHisto.Axes.Add(new OxyPlot.Axes.CategoryAxis
             {
                 Position = AxisPosition.Bottom,
-                Title = "Simualted",
+                Title = "Relative Deviation",
                 ItemsSource = new[] { "<10%", "10-20%", ">20%" }
             });
 
@@ -92,6 +91,9 @@ namespace mview
             });
 
             plotView2.Model = plotHisto;
+
+            //
+            UpdateVirtualGroupsList();
 
         }
 
@@ -115,10 +117,22 @@ namespace mview
             plotModel.Series.Clear();
             plotModel.Annotations.Clear();
             plotHisto.Series.Clear();
-            
+
             int step = boxRestart.SelectedIndex;
             string keyword = listKeywords.SelectedItem.ToString();
-            var data = model.GetDataByKeywordAndDate(keyword, step);
+
+            //
+            var data = new List<Tuple<string, float, float>>();
+
+            if (listGroups.SelectedItem.ToString() == "(All)")
+            {
+                data = model.GetDataByKeywordAndDate(keyword, step);
+            }
+            else
+            {
+                string selected_pad = listGroups.SelectedItem.ToString();
+                data = model.GetDataByPadKeywordAndDate(selected_pad, keyword, step);
+            }
 
             plotModel.Title = keyword.ToUpper();
                 
@@ -173,10 +187,39 @@ namespace mview
                     pointAnnotation1.X = Convert.ToDouble(item.Item2);
                     pointAnnotation1.Y = Convert.ToDouble(item.Item3);
                     pointAnnotation1.Text = item.Item1;
-                    pointAnnotation1.FontSize = 7;
+                    pointAnnotation1.FontSize = 9;
                     plotModel.Annotations.Add(pointAnnotation1);
                 }
             }
+
+            /*
+            data.Sort((x, y) => (y.Item2 - y.Item3).CompareTo(x.Item2-x.Item3));
+
+            plotAbsolute.Series.Add(new LineSeries { });
+
+            int position = 0;
+
+            for (int iw = 0; iw < data.Count; ++iw)
+            {
+                if (data[iw].Item2 > 0)
+                {
+                    double difference = data[iw].Item2 - data[iw].Item3;
+                    ((LineSeries)plotAbsolute.Series[0]).Points.Add(new DataPoint(position, difference));
+
+                    var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation();
+                    pointAnnotation1.Fill = Color.Orange.ToOxyColor();
+                    pointAnnotation1.StrokeThickness = 1;
+                    pointAnnotation1.Stroke = Color.Black.ToOxyColor();
+                    pointAnnotation1.X = Convert.ToDouble(position);
+                    pointAnnotation1.Y = Convert.ToDouble(difference);
+                    pointAnnotation1.Text = data[iw].Item1;
+                    pointAnnotation1.FontSize = 9;
+                    plotAbsolute.Annotations.Add(pointAnnotation1);
+
+                    position++;
+                }
+            }
+            */
 
             sum = less10 + over10 + over20;
 
@@ -250,13 +293,31 @@ namespace mview
              
             }
 
-
-
-            plotModel.Axes[0].Reset();
-            plotModel.Axes[1].Reset();
-
             plotModel.InvalidatePlot(true);
             plotHisto.InvalidatePlot(true);
+        }
+
+        private void listGroups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateData();
+        }
+
+        void UpdateVirtualGroupsList()
+        {
+            listGroups.Items.Clear();
+            listGroups.Items.Add("(All)");
+
+            var pads = model.GetVirtalGroups();
+
+            if (pads != null) listGroups.Items.AddRange(pads);
+
+            listGroups.SelectedIndex = 0;
+        }
+
+        private void bbLoadGroups_Click(object sender, EventArgs e)
+        {
+            model.LoadVirtualGroups();
+            UpdateVirtualGroupsList();
         }
     }
 }

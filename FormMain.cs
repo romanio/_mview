@@ -333,5 +333,10 @@ namespace mview
         {
             model.ShowCrossPlots();
         }
+
+        private void dViewToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            model.Show2DView();
+        }
     }
 }

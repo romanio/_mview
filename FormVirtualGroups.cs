@@ -15,7 +15,6 @@ namespace mview
     {
         public event UpdateDataDelegate ApplyStyle;
 
-        bool after_init = false;
 
         EclipseProject ecl = null;
 

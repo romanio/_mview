@@ -30,11 +30,10 @@
         {
             this.menu = new System.Windows.Forms.MenuStrip();
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.virtualGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dViewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.hMAssistentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.crossPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -58,8 +57,8 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bbUpdate = new System.Windows.Forms.Button();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dViewToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dViewToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).BeginInit();
@@ -74,9 +73,7 @@
             this.openModelToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.optionalToolStripMenuItem,
-            this.hMAssistentToolStripMenuItem,
-            this.dViewToolStripMenuItem1,
-            this.dViewToolStripMenuItem});
+            this.hMAssistentToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(819, 24);
@@ -89,6 +86,15 @@
             this.openModelToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
             this.openModelToolStripMenuItem.Text = "Open model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dViewToolStripMenuItem2,
+            this.dViewToolStripMenuItem3});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.viewToolStripMenuItem.Text = "View";
             // 
             // optionalToolStripMenuItem
             // 
@@ -113,21 +119,6 @@
             this.virtualGroupsToolStripMenuItem.Text = "Virtual Groups";
             this.virtualGroupsToolStripMenuItem.Click += new System.EventHandler(this.virtualGroupsToolStripMenuItem_Click);
             // 
-            // dViewToolStripMenuItem
-            // 
-            this.dViewToolStripMenuItem.Name = "dViewToolStripMenuItem";
-            this.dViewToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.dViewToolStripMenuItem.Text = "2D View";
-            this.dViewToolStripMenuItem.Click += new System.EventHandler(this.dViewToolStripMenuItem_Click);
-            // 
-            // dViewToolStripMenuItem1
-            // 
-            this.dViewToolStripMenuItem1.Enabled = false;
-            this.dViewToolStripMenuItem1.Name = "dViewToolStripMenuItem1";
-            this.dViewToolStripMenuItem1.Size = new System.Drawing.Size(57, 20);
-            this.dViewToolStripMenuItem1.Text = "3D View";
-            this.dViewToolStripMenuItem1.Click += new System.EventHandler(this.dViewToolStripMenuItem1_Click);
-            // 
             // hMAssistentToolStripMenuItem
             // 
             this.hMAssistentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -139,7 +130,7 @@
             // crossPlotsToolStripMenuItem
             // 
             this.crossPlotsToolStripMenuItem.Name = "crossPlotsToolStripMenuItem";
-            this.crossPlotsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.crossPlotsToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.crossPlotsToolStripMenuItem.Text = "Cross-Plots";
             this.crossPlotsToolStripMenuItem.Click += new System.EventHandler(this.crossPlotsToolStripMenuItem_Click);
             // 
@@ -389,19 +380,18 @@
             this.bbUpdate.UseVisualStyleBackColor = true;
             this.bbUpdate.Click += new System.EventHandler(this.bbUpdate_Click);
             // 
-            // viewToolStripMenuItem
+            // dViewToolStripMenuItem2
             // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.dViewToolStripMenuItem2.Name = "dViewToolStripMenuItem2";
+            this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.dViewToolStripMenuItem2.Text = "2D View";
+            this.dViewToolStripMenuItem2.Click += new System.EventHandler(this.dViewToolStripMenuItem2_Click);
             // 
-            // toolStripMenuItem2
+            // dViewToolStripMenuItem3
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "1";
+            this.dViewToolStripMenuItem3.Name = "dViewToolStripMenuItem3";
+            this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.dViewToolStripMenuItem3.Text = "3D View";
             // 
             // FormMain
             // 
@@ -453,8 +443,6 @@
         private System.Windows.Forms.ToolStripMenuItem optionalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToExcelToolStripMenuItem;
         private System.Windows.Forms.Button buttonChartOptions;
-        private System.Windows.Forms.ToolStripMenuItem dViewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dViewToolStripMenuItem1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView gridGeneral;
@@ -470,7 +458,8 @@
         private System.Windows.Forms.ToolStripMenuItem hMAssistentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem crossPlotsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem dViewToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem dViewToolStripMenuItem3;
     }
 }
 
