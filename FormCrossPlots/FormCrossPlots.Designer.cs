@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.plotView1 = new OxyPlot.WindowsForms.PlotView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -45,8 +45,11 @@
             this.listKeywords = new System.Windows.Forms.ListBox();
             this.boxRestart = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.plotView2 = new OxyPlot.WindowsForms.PlotView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridData)).BeginInit();
             this.SuspendLayout();
@@ -74,6 +77,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
@@ -94,10 +98,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.plotView2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(436, 535);
+            this.tabPage2.Size = new System.Drawing.Size(436, 416);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Histo";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -107,7 +112,7 @@
             this.tabPage3.Controls.Add(this.gridData);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(436, 535);
+            this.tabPage3.Size = new System.Drawing.Size(436, 416);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Table";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -139,8 +144,8 @@
             // 
             // Column1
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle3;
             this.Column1.HeaderText = "Wellname";
             this.Column1.Name = "Column1";
             this.Column1.Width = 80;
@@ -159,8 +164,8 @@
             // 
             // Column4
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle4;
             this.Column4.HeaderText = "Difference";
             this.Column4.Name = "Column4";
             this.Column4.Width = 80;
@@ -224,6 +229,31 @@
             this.label2.TabIndex = 26;
             this.label2.Text = "Restart date";
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(436, 416);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Absolute";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // plotView2
+            // 
+            this.plotView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.plotView2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.plotView2.Location = new System.Drawing.Point(6, 6);
+            this.plotView2.Name = "plotView2";
+            this.plotView2.PanCursor = System.Windows.Forms.Cursors.Hand;
+            this.plotView2.Size = new System.Drawing.Size(424, 404);
+            this.plotView2.TabIndex = 2;
+            this.plotView2.Text = "plotHisto";
+            this.plotView2.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
+            this.plotView2.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
+            this.plotView2.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNWSE;
+            // 
             // FormCrossPlots
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -240,6 +270,7 @@
             this.Text = "HM Cross Plots";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridData)).EndInit();
             this.ResumeLayout(false);
@@ -264,5 +295,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.TabPage tabPage4;
+        private OxyPlot.WindowsForms.PlotView plotView2;
     }
 }

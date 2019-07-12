@@ -19,6 +19,7 @@ namespace mview
     {
         FormCrossPlotsModel model = null;
         PlotModel plotModel = null;
+        PlotModel plotHisto = null;
                 
         public FormCrossPlots(EclipseProject ecl)
         {
@@ -65,6 +66,32 @@ namespace mview
             });
 
             plotView1.Model = plotModel;
+            //
+
+            plotHisto = new PlotModel
+            {
+                Title = "(No wells yet)",
+                DefaultFont = "Tahoma",
+                TitleFontWeight = 2,
+                TitleFontSize = 10,
+                DefaultFontSize = 10,
+            };
+
+            plotHisto.Axes.Add(new OxyPlot.Axes.CategoryAxis
+            {
+                Position = AxisPosition.Bottom,
+                Title = "Simualted",
+                ItemsSource = new[] { "<10%", "10-20%", ">20%" }
+            });
+
+
+            plotHisto.Axes.Add(new OxyPlot.Axes.LinearAxis
+            {
+                Position = OxyPlot.Axes.AxisPosition.Left,
+                Title = "Well count"
+            });
+
+            plotView2.Model = plotHisto;
 
         }
 
@@ -87,11 +114,14 @@ namespace mview
             gridData.Rows.Clear();
             plotModel.Series.Clear();
             plotModel.Annotations.Clear();
-
+            plotHisto.Series.Clear();
+            
             int step = boxRestart.SelectedIndex;
             string keyword = listKeywords.SelectedItem.ToString();
             var data = model.GetDataByKeywordAndDate(keyword, step);
 
+            plotModel.Title = keyword.ToUpper();
+                
             int row = -1;
 
             int over20 = 0;
@@ -132,11 +162,10 @@ namespace mview
                     if (item.Item2 > max) max = item.Item2;
                     if (item.Item3 > max) max = item.Item3;
 
-                    ((LineSeries)plotModel.Series[0]).Points.Add(new DataPoint(item.Item2, item.Item3));
+                    //((LineSeries)plotModel.Series[0]).Points.Add(new DataPoint(item.Item2, item.Item3));
 
                     // добавим подпись
 
-                    /*
                     var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation();
                     pointAnnotation1.Fill = Color.Orange.ToOxyColor();
                     pointAnnotation1.StrokeThickness = 1;
@@ -144,8 +173,8 @@ namespace mview
                     pointAnnotation1.X = Convert.ToDouble(item.Item2);
                     pointAnnotation1.Y = Convert.ToDouble(item.Item3);
                     pointAnnotation1.Text = item.Item1;
+                    pointAnnotation1.FontSize = 7;
                     plotModel.Annotations.Add(pointAnnotation1);
-                    */
                 }
             }
 
@@ -213,13 +242,21 @@ namespace mview
                 ((LineSeries)plotModel.Series[5]).Points.Add(new DataPoint(0, 0));
                 ((LineSeries)plotModel.Series[5]).Points.Add(new DataPoint(max, 0.8 * max));
 
+                //
+                plotHisto.Series.Add(new ColumnSeries { });
+                ((ColumnSeries)plotHisto.Series[0]).Items.Add(new ColumnItem { CategoryIndex = 0, Value = less10 });
+                ((ColumnSeries)plotHisto.Series[0]).Items.Add(new ColumnItem { CategoryIndex = 1, Value = over10 });
+                ((ColumnSeries)plotHisto.Series[0]).Items.Add(new ColumnItem { CategoryIndex = 2, Value = over20 });
+             
             }
+
+
 
             plotModel.Axes[0].Reset();
             plotModel.Axes[1].Reset();
 
             plotModel.InvalidatePlot(true);
-
+            plotHisto.InvalidatePlot(true);
         }
     }
 }
