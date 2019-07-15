@@ -191,7 +191,9 @@ namespace mview
 
         private void buttonOptions_Click(object sender, EventArgs e)
         {
-            panel1.Visible = true;
+            panel1.Visible = !panel1.Visible;
+
+
             UpdateDataModels();
         }
 

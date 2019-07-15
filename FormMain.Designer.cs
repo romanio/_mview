@@ -31,11 +31,13 @@
             this.menu = new System.Windows.Forms.MenuStrip();
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dViewToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dViewToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.hMAssistentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.crossPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.virtualGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hMAssistentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.crossPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileDialog = new System.Windows.Forms.OpenFileDialog();
             this.listNames = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -52,13 +54,10 @@
             this.buttonRename = new System.Windows.Forms.Button();
             this.boxActiveProject = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.gridGeneral = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bbUpdate = new System.Windows.Forms.Button();
-            this.dViewToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dViewToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).BeginInit();
@@ -72,8 +71,8 @@
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openModelToolStripMenuItem,
             this.viewToolStripMenuItem,
-            this.optionalToolStripMenuItem,
-            this.hMAssistentToolStripMenuItem});
+            this.hMAssistentToolStripMenuItem,
+            this.optionalToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(819, 24);
@@ -95,6 +94,35 @@
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.viewToolStripMenuItem.Text = "View";
+            // 
+            // dViewToolStripMenuItem2
+            // 
+            this.dViewToolStripMenuItem2.Name = "dViewToolStripMenuItem2";
+            this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(112, 22);
+            this.dViewToolStripMenuItem2.Text = "2D View";
+            this.dViewToolStripMenuItem2.Click += new System.EventHandler(this.dViewToolStripMenuItem2_Click);
+            // 
+            // dViewToolStripMenuItem3
+            // 
+            this.dViewToolStripMenuItem3.Enabled = false;
+            this.dViewToolStripMenuItem3.Name = "dViewToolStripMenuItem3";
+            this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(112, 22);
+            this.dViewToolStripMenuItem3.Text = "3D View";
+            // 
+            // hMAssistentToolStripMenuItem
+            // 
+            this.hMAssistentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.crossPlotsToolStripMenuItem});
+            this.hMAssistentToolStripMenuItem.Name = "hMAssistentToolStripMenuItem";
+            this.hMAssistentToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.hMAssistentToolStripMenuItem.Text = "HM Assistent";
+            // 
+            // crossPlotsToolStripMenuItem
+            // 
+            this.crossPlotsToolStripMenuItem.Name = "crossPlotsToolStripMenuItem";
+            this.crossPlotsToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.crossPlotsToolStripMenuItem.Text = "Cross-Plots";
+            this.crossPlotsToolStripMenuItem.Click += new System.EventHandler(this.crossPlotsToolStripMenuItem_Click);
             // 
             // optionalToolStripMenuItem
             // 
@@ -118,21 +146,6 @@
             this.virtualGroupsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.virtualGroupsToolStripMenuItem.Text = "Virtual Groups";
             this.virtualGroupsToolStripMenuItem.Click += new System.EventHandler(this.virtualGroupsToolStripMenuItem_Click);
-            // 
-            // hMAssistentToolStripMenuItem
-            // 
-            this.hMAssistentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.crossPlotsToolStripMenuItem});
-            this.hMAssistentToolStripMenuItem.Name = "hMAssistentToolStripMenuItem";
-            this.hMAssistentToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
-            this.hMAssistentToolStripMenuItem.Text = "HM Assistent";
-            // 
-            // crossPlotsToolStripMenuItem
-            // 
-            this.crossPlotsToolStripMenuItem.Name = "crossPlotsToolStripMenuItem";
-            this.crossPlotsToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
-            this.crossPlotsToolStripMenuItem.Text = "Cross-Plots";
-            this.crossPlotsToolStripMenuItem.Click += new System.EventHandler(this.crossPlotsToolStripMenuItem_Click);
             // 
             // FileDialog
             // 
@@ -263,11 +276,10 @@
             this.panel1.Controls.Add(this.buttonRename);
             this.panel1.Controls.Add(this.boxActiveProject);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.gridGeneral);
-            this.panel1.Location = new System.Drawing.Point(12, 35);
+            this.panel1.Location = new System.Drawing.Point(12, 68);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(414, 341);
+            this.panel1.Size = new System.Drawing.Size(405, 341);
             this.panel1.TabIndex = 0;
             this.panel1.Visible = false;
             // 
@@ -275,7 +287,7 @@
             // 
             this.button2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button2.ForeColor = System.Drawing.Color.Red;
-            this.button2.Location = new System.Drawing.Point(297, 305);
+            this.button2.Location = new System.Drawing.Point(287, 304);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(100, 24);
             this.button2.TabIndex = 24;
@@ -285,7 +297,7 @@
             // 
             // boxNewName
             // 
-            this.boxNewName.Location = new System.Drawing.Point(204, 3);
+            this.boxNewName.Location = new System.Drawing.Point(106, 10);
             this.boxNewName.Name = "boxNewName";
             this.boxNewName.Size = new System.Drawing.Size(163, 21);
             this.boxNewName.TabIndex = 23;
@@ -294,11 +306,11 @@
             // 
             // buttonRename
             // 
-            this.buttonRename.Location = new System.Drawing.Point(373, 1);
+            this.buttonRename.Location = new System.Drawing.Point(287, 7);
             this.buttonRename.Name = "buttonRename";
-            this.buttonRename.Size = new System.Drawing.Size(27, 24);
+            this.buttonRename.Size = new System.Drawing.Size(100, 24);
             this.buttonRename.TabIndex = 22;
-            this.buttonRename.Text = "...";
+            this.buttonRename.Text = "Rename";
             this.buttonRename.UseVisualStyleBackColor = true;
             this.buttonRename.Click += new System.EventHandler(this.buttonRename_Click);
             // 
@@ -306,7 +318,7 @@
             // 
             this.boxActiveProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxActiveProject.FormattingEnabled = true;
-            this.boxActiveProject.Location = new System.Drawing.Point(204, 3);
+            this.boxActiveProject.Location = new System.Drawing.Point(106, 10);
             this.boxActiveProject.Name = "boxActiveProject";
             this.boxActiveProject.Size = new System.Drawing.Size(163, 21);
             this.boxActiveProject.TabIndex = 19;
@@ -315,23 +327,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(124, 6);
+            this.label3.Location = new System.Drawing.Point(3, 13);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 13);
             this.label3.TabIndex = 18;
             this.label3.Text = "Active project";
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 24);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Close";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // gridGeneral
             // 
@@ -346,13 +346,13 @@
             this.Column1,
             this.Column2});
             this.gridGeneral.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.gridGeneral.Location = new System.Drawing.Point(3, 53);
+            this.gridGeneral.Location = new System.Drawing.Point(6, 53);
             this.gridGeneral.MultiSelect = false;
             this.gridGeneral.Name = "gridGeneral";
             this.gridGeneral.ReadOnly = true;
             this.gridGeneral.RowHeadersVisible = false;
             this.gridGeneral.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridGeneral.Size = new System.Drawing.Size(394, 236);
+            this.gridGeneral.Size = new System.Drawing.Size(390, 236);
             this.gridGeneral.TabIndex = 17;
             // 
             // Column1
@@ -379,19 +379,6 @@
             this.bbUpdate.Text = "Update";
             this.bbUpdate.UseVisualStyleBackColor = true;
             this.bbUpdate.Click += new System.EventHandler(this.bbUpdate_Click);
-            // 
-            // dViewToolStripMenuItem2
-            // 
-            this.dViewToolStripMenuItem2.Name = "dViewToolStripMenuItem2";
-            this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.dViewToolStripMenuItem2.Text = "2D View";
-            this.dViewToolStripMenuItem2.Click += new System.EventHandler(this.dViewToolStripMenuItem2_Click);
-            // 
-            // dViewToolStripMenuItem3
-            // 
-            this.dViewToolStripMenuItem3.Name = "dViewToolStripMenuItem3";
-            this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
-            this.dViewToolStripMenuItem3.Text = "3D View";
             // 
             // FormMain
             // 
@@ -444,7 +431,6 @@
         private System.Windows.Forms.ToolStripMenuItem exportToExcelToolStripMenuItem;
         private System.Windows.Forms.Button buttonChartOptions;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView gridGeneral;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;

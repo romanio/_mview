@@ -13,15 +13,11 @@ namespace mview
 {
     public partial class FormVirtualGroups : Form
     {
-        public event UpdateDataDelegate ApplyStyle;
-
-
         EclipseProject ecl = null;
 
         public FormVirtualGroups(EclipseProject ecl)
         {
             InitializeComponent();
-
 
             this.ecl = ecl;
 
@@ -84,6 +80,18 @@ namespace mview
             var wells = (from item in ecl.VirtualGroup
                          where item.pad == selected_pad
                          select item.wellname).ToArray();
+
+            var all_wells = (from item in ecl.VECTORS
+                             where item.Type == NameOptions.Well
+                             select item.Name).ToArray();
+                
+            for (int iw = 0; iw < wells.Length; ++iw)
+            {
+                if (Array.IndexOf(all_wells, wells[iw]) == -1)
+                {
+                    wells[iw] = wells[iw] + "*";
+                }
+            }
 
             listWells.Items.AddRange(wells);
         }
