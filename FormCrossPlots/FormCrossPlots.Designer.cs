@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             this.plotView1 = new OxyPlot.WindowsForms.PlotView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -49,11 +49,20 @@
             this.listGroups = new System.Windows.Forms.ListBox();
             this.labelMin = new System.Windows.Forms.Label();
             this.bbLoadGroups = new System.Windows.Forms.Button();
+            this.bbCriteria = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.boxTypeCondition = new System.Windows.Forms.ComboBox();
+            this.boxFirstCond = new System.Windows.Forms.TextBox();
+            this.boxSecondCond = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridData)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // plotView1
@@ -65,7 +74,7 @@
             this.plotView1.Location = new System.Drawing.Point(6, 6);
             this.plotView1.Name = "plotView1";
             this.plotView1.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView1.Size = new System.Drawing.Size(466, 463);
+            this.plotView1.Size = new System.Drawing.Size(762, 545);
             this.plotView1.TabIndex = 1;
             this.plotView1.Text = "plotView1";
             this.plotView1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
@@ -83,7 +92,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(486, 501);
+            this.tabControl1.Size = new System.Drawing.Size(782, 583);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -92,7 +101,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(478, 475);
+            this.tabPage1.Size = new System.Drawing.Size(774, 557);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Chart";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -103,7 +112,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(471, 427);
+            this.tabPage2.Size = new System.Drawing.Size(774, 557);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Histo";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -118,7 +127,7 @@
             this.plotView2.Location = new System.Drawing.Point(6, 6);
             this.plotView2.Name = "plotView2";
             this.plotView2.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView2.Size = new System.Drawing.Size(424, 404);
+            this.plotView2.Size = new System.Drawing.Size(762, 545);
             this.plotView2.TabIndex = 2;
             this.plotView2.Text = "plotHisto";
             this.plotView2.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
@@ -130,7 +139,7 @@
             this.tabPage3.Controls.Add(this.gridData);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(471, 427);
+            this.tabPage3.Size = new System.Drawing.Size(774, 557);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Table";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -157,13 +166,13 @@
             this.gridData.RowHeadersVisible = false;
             this.gridData.RowTemplate.Height = 18;
             this.gridData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridData.Size = new System.Drawing.Size(430, 410);
+            this.gridData.Size = new System.Drawing.Size(768, 551);
             this.gridData.TabIndex = 2;
             // 
             // Column1
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle13;
             this.Column1.HeaderText = "Wellname";
             this.Column1.Name = "Column1";
             this.Column1.Width = 80;
@@ -182,8 +191,8 @@
             // 
             // Column4
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle14;
             this.Column4.HeaderText = "Difference";
             this.Column4.Name = "Column4";
             this.Column4.Width = 80;
@@ -198,7 +207,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(510, 81);
+            this.label1.Location = new System.Drawing.Point(806, 69);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 13);
             this.label1.TabIndex = 3;
@@ -220,9 +229,9 @@
             "WPT",
             "GPT",
             "WIT"});
-            this.listKeywords.Location = new System.Drawing.Point(513, 97);
+            this.listKeywords.Location = new System.Drawing.Point(809, 85);
             this.listKeywords.Name = "listKeywords";
-            this.listKeywords.Size = new System.Drawing.Size(120, 108);
+            this.listKeywords.Size = new System.Drawing.Size(120, 121);
             this.listKeywords.TabIndex = 4;
             this.listKeywords.SelectedIndexChanged += new System.EventHandler(this.listKeywords_SelectedIndexChanged);
             // 
@@ -231,7 +240,7 @@
             this.boxRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.boxRestart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxRestart.FormattingEnabled = true;
-            this.boxRestart.Location = new System.Drawing.Point(513, 34);
+            this.boxRestart.Location = new System.Drawing.Point(809, 34);
             this.boxRestart.Name = "boxRestart";
             this.boxRestart.Size = new System.Drawing.Size(120, 21);
             this.boxRestart.TabIndex = 27;
@@ -241,7 +250,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(510, 18);
+            this.label2.Location = new System.Drawing.Point(806, 18);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 13);
             this.label2.TabIndex = 26;
@@ -253,10 +262,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listGroups.FormattingEnabled = true;
             this.listGroups.IntegralHeight = false;
-            this.listGroups.Location = new System.Drawing.Point(513, 240);
+            this.listGroups.Location = new System.Drawing.Point(809, 276);
             this.listGroups.Name = "listGroups";
             this.listGroups.ScrollAlwaysVisible = true;
-            this.listGroups.Size = new System.Drawing.Size(120, 209);
+            this.listGroups.Size = new System.Drawing.Size(120, 242);
             this.listGroups.Sorted = true;
             this.listGroups.TabIndex = 63;
             this.listGroups.SelectedIndexChanged += new System.EventHandler(this.listGroups_SelectedIndexChanged);
@@ -266,7 +275,7 @@
             this.labelMin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMin.AutoSize = true;
-            this.labelMin.Location = new System.Drawing.Point(510, 224);
+            this.labelMin.Location = new System.Drawing.Point(806, 260);
             this.labelMin.Name = "labelMin";
             this.labelMin.Size = new System.Drawing.Size(55, 13);
             this.labelMin.TabIndex = 62;
@@ -275,7 +284,7 @@
             // bbLoadGroups
             // 
             this.bbLoadGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbLoadGroups.Location = new System.Drawing.Point(513, 455);
+            this.bbLoadGroups.Location = new System.Drawing.Point(809, 524);
             this.bbLoadGroups.Name = "bbLoadGroups";
             this.bbLoadGroups.Size = new System.Drawing.Size(120, 27);
             this.bbLoadGroups.TabIndex = 64;
@@ -283,11 +292,98 @@
             this.bbLoadGroups.UseVisualStyleBackColor = true;
             this.bbLoadGroups.Click += new System.EventHandler(this.bbLoadGroups_Click);
             // 
+            // bbCriteria
+            // 
+            this.bbCriteria.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bbCriteria.Location = new System.Drawing.Point(809, 218);
+            this.bbCriteria.Name = "bbCriteria";
+            this.bbCriteria.Size = new System.Drawing.Size(120, 27);
+            this.bbCriteria.TabIndex = 65;
+            this.bbCriteria.Text = "Criteria";
+            this.bbCriteria.UseVisualStyleBackColor = true;
+            this.bbCriteria.Click += new System.EventHandler(this.bbCriteria_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.boxSecondCond);
+            this.panel1.Controls.Add(this.boxFirstCond);
+            this.panel1.Controls.Add(this.boxTypeCondition);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Location = new System.Drawing.Point(696, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(238, 194);
+            this.panel1.TabIndex = 66;
+            this.panel1.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(27, 72);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(74, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "First condition";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(27, 105);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(88, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Second condition";
+            // 
+            // boxTypeCondition
+            // 
+            this.boxTypeCondition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxTypeCondition.FormattingEnabled = true;
+            this.boxTypeCondition.Items.AddRange(new object[] {
+            "Relative",
+            "Absolute"});
+            this.boxTypeCondition.Location = new System.Drawing.Point(128, 32);
+            this.boxTypeCondition.Name = "boxTypeCondition";
+            this.boxTypeCondition.Size = new System.Drawing.Size(94, 21);
+            this.boxTypeCondition.TabIndex = 3;
+            this.boxTypeCondition.SelectedIndexChanged += new System.EventHandler(this.boxTypeCondition_SelectedIndexChanged);
+            // 
+            // boxFirstCond
+            // 
+            this.boxFirstCond.Location = new System.Drawing.Point(128, 69);
+            this.boxFirstCond.Name = "boxFirstCond";
+            this.boxFirstCond.Size = new System.Drawing.Size(94, 21);
+            this.boxFirstCond.TabIndex = 4;
+            this.boxFirstCond.Text = "10";
+            this.boxFirstCond.Validating += new System.ComponentModel.CancelEventHandler(this.boxFirstCond_Validating);
+            // 
+            // boxSecondCond
+            // 
+            this.boxSecondCond.Location = new System.Drawing.Point(128, 102);
+            this.boxSecondCond.Name = "boxSecondCond";
+            this.boxSecondCond.Size = new System.Drawing.Size(94, 21);
+            this.boxSecondCond.TabIndex = 5;
+            this.boxSecondCond.Text = "20";
+            this.boxSecondCond.Validating += new System.ComponentModel.CancelEventHandler(this.boxSecondCond_Validating);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(27, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(31, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Type";
+            // 
             // FormCrossPlots
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(650, 527);
+            this.ClientSize = new System.Drawing.Size(946, 607);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.bbCriteria);
             this.Controls.Add(this.bbLoadGroups);
             this.Controls.Add(this.listGroups);
             this.Controls.Add(this.labelMin);
@@ -305,6 +401,8 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridData)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -331,5 +429,13 @@
         private System.Windows.Forms.ListBox listGroups;
         private System.Windows.Forms.Label labelMin;
         private System.Windows.Forms.Button bbLoadGroups;
+        private System.Windows.Forms.Button bbCriteria;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ComboBox boxTypeCondition;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox boxSecondCond;
+        private System.Windows.Forms.TextBox boxFirstCond;
+        private System.Windows.Forms.Label label3;
     }
 }

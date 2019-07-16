@@ -70,8 +70,8 @@
             this.menu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openModelToolStripMenuItem,
-            this.viewToolStripMenuItem,
             this.hMAssistentToolStripMenuItem,
+            this.viewToolStripMenuItem,
             this.optionalToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
@@ -98,7 +98,7 @@
             // dViewToolStripMenuItem2
             // 
             this.dViewToolStripMenuItem2.Name = "dViewToolStripMenuItem2";
-            this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(112, 22);
+            this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
             this.dViewToolStripMenuItem2.Text = "2D View";
             this.dViewToolStripMenuItem2.Click += new System.EventHandler(this.dViewToolStripMenuItem2_Click);
             // 
@@ -106,7 +106,7 @@
             // 
             this.dViewToolStripMenuItem3.Enabled = false;
             this.dViewToolStripMenuItem3.Name = "dViewToolStripMenuItem3";
-            this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(112, 22);
+            this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
             this.dViewToolStripMenuItem3.Text = "3D View";
             // 
             // hMAssistentToolStripMenuItem

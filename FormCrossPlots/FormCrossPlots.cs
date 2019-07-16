@@ -21,6 +21,14 @@ namespace mview
         PlotModel plotModel = null;
         PlotModel plotHisto = null;
 
+        enum TypeCondition
+        {
+            Relative,
+            Absolute
+        }
+
+        TypeCondition ActiveCondition = TypeCondition.Relative;
+
         public FormCrossPlots(EclipseProject ecl)
         {
             InitializeComponent();
@@ -143,7 +151,8 @@ namespace mview
             int less10 = 0;
             int sum = 0;
             float max = 0;
-            float diff = 0;
+            float relvalue = 0;
+            float absvalue = 0;
 
             plotModel.Series.Add(new LineSeries
             {
@@ -164,21 +173,35 @@ namespace mview
                     gridData[0, row].Value = item.Item1;
                     gridData[1, row].Value = item.Item2;
                     gridData[2, row].Value = item.Item3;
-                    gridData[3, row].Value = item.Item2 - item.Item3;
-                    diff = 100 * (item.Item2 - item.Item3) / item.Item3;
 
-                    gridData[4, row].Value = diff;
+                    absvalue = item.Item2 - item.Item3;
+                    relvalue = 100 * (item.Item2 - item.Item3) / item.Item3;
 
-                    if (Math.Abs(diff) <= 10) less10++;
-                    if ((Math.Abs(diff) > 10) && (Math.Abs(diff) <= 20)) over10++;
-                    if (Math.Abs(diff) > 20) over20++;
+                    gridData[3, row].Value = absvalue;
+                    gridData[4, row].Value = relvalue;
+
+                    // Критерии
+
+                    if (ActiveCondition == TypeCondition.Relative)
+                    {
+                        if (Math.Abs(relvalue) <= FirstCond) less10++;
+                        if ((Math.Abs(relvalue) > FirstCond) && (Math.Abs(relvalue) <= SecondCond)) over10++;
+                        if (Math.Abs(relvalue) > SecondCond) over20++;
+                    }
+
+                    if (ActiveCondition == TypeCondition.Absolute)
+                    {
+                        if (Math.Abs(absvalue) <= FirstCond) less10++;
+                        if ((Math.Abs(absvalue) > FirstCond) && (Math.Abs(absvalue) <= SecondCond)) over10++;
+                        if (Math.Abs(absvalue) > SecondCond) over20++;
+                    }
 
                     if (item.Item2 > max) max = item.Item2;
                     if (item.Item3 > max) max = item.Item3;
+                    //
 
-                    //((LineSeries)plotModel.Series[0]).Points.Add(new DataPoint(item.Item2, item.Item3));
 
-                    // добавим подпись
+                    // Точки на графике
 
                     var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation();
                     pointAnnotation1.Fill = Color.Orange.ToOxyColor();
@@ -191,36 +214,6 @@ namespace mview
                     plotModel.Annotations.Add(pointAnnotation1);
                 }
             }
-
-            /*
-            data.Sort((x, y) => (y.Item2 - y.Item3).CompareTo(x.Item2-x.Item3));
-
-            plotAbsolute.Series.Add(new LineSeries { });
-
-            int position = 0;
-
-            for (int iw = 0; iw < data.Count; ++iw)
-            {
-                if (data[iw].Item2 > 0)
-                {
-                    double difference = data[iw].Item2 - data[iw].Item3;
-                    ((LineSeries)plotAbsolute.Series[0]).Points.Add(new DataPoint(position, difference));
-
-                    var pointAnnotation1 = new OxyPlot.Annotations.PointAnnotation();
-                    pointAnnotation1.Fill = Color.Orange.ToOxyColor();
-                    pointAnnotation1.StrokeThickness = 1;
-                    pointAnnotation1.Stroke = Color.Black.ToOxyColor();
-                    pointAnnotation1.X = Convert.ToDouble(position);
-                    pointAnnotation1.Y = Convert.ToDouble(difference);
-                    pointAnnotation1.Text = data[iw].Item1;
-                    pointAnnotation1.FontSize = 9;
-                    plotAbsolute.Annotations.Add(pointAnnotation1);
-
-                    position++;
-                }
-            }
-            */
-
             sum = less10 + over10 + over20;
 
             if (sum > 0)
@@ -237,7 +230,7 @@ namespace mview
                 ((LineSeries)plotModel.Series[1]).Points.Add(new DataPoint(0, 0));
                 ((LineSeries)plotModel.Series[1]).Points.Add(new DataPoint(max, max));
 
-                // Линия плюс минус 10%
+                // Линия по первому условию
 
                 plotModel.Series.Add(new LineSeries
                 {
@@ -253,16 +246,6 @@ namespace mview
                     MarkerType = MarkerType.None,
                 });
 
-
-                ((LineSeries)plotModel.Series[2]).Points.Add(new DataPoint(0, 0));
-                ((LineSeries)plotModel.Series[2]).Points.Add(new DataPoint(max, 1.1 * max));
-
-
-                ((LineSeries)plotModel.Series[3]).Points.Add(new DataPoint(0, 0));
-                ((LineSeries)plotModel.Series[3]).Points.Add(new DataPoint(max, 0.9 * max));
-
-                // Линия плюс минус 20%
-
                 plotModel.Series.Add(new LineSeries
                 {
                     LineStyle = LineStyle.Dot,
@@ -277,13 +260,41 @@ namespace mview
                     MarkerType = MarkerType.None,
                 });
 
+                if (ActiveCondition == TypeCondition.Relative)
+                {
+                    ((LineSeries)plotModel.Series[2]).Points.Add(new DataPoint(0, 0));
+                    ((LineSeries)plotModel.Series[2]).Points.Add(new DataPoint(max, (100 + FirstCond ) * 0.01 * max));
+                    
+                    ((LineSeries)plotModel.Series[3]).Points.Add(new DataPoint(0, 0));
+                    ((LineSeries)plotModel.Series[3]).Points.Add(new DataPoint(max, (100 - FirstCond) * 0.01 * max));
 
-                ((LineSeries)plotModel.Series[4]).Points.Add(new DataPoint(0, 0));
-                ((LineSeries)plotModel.Series[4]).Points.Add(new DataPoint(max, 1.2 * max));
+                    ((LineSeries)plotModel.Series[4]).Points.Add(new DataPoint(0, 0));
+                    ((LineSeries)plotModel.Series[4]).Points.Add(new DataPoint(max, (100 + SecondCond) * 0.01 * max));
 
+                    ((LineSeries)plotModel.Series[5]).Points.Add(new DataPoint(0, 0));
+                    ((LineSeries)plotModel.Series[5]).Points.Add(new DataPoint(max, (100 - SecondCond) * 0.01 * max));
 
-                ((LineSeries)plotModel.Series[5]).Points.Add(new DataPoint(0, 0));
-                ((LineSeries)plotModel.Series[5]).Points.Add(new DataPoint(max, 0.8 * max));
+                    plotHisto.Axes[0].Title = "Relative Deviation";
+                    ((CategoryAxis)plotHisto.Axes[0]).ItemsSource = new[] { "<" + FirstCond + "%", FirstCond + "-" + SecondCond + " %", ">" + SecondCond + "%" };
+                }
+
+                if (ActiveCondition == TypeCondition.Absolute)
+                {
+                    ((LineSeries)plotModel.Series[2]).Points.Add(new DataPoint(0, FirstCond));
+                    ((LineSeries)plotModel.Series[2]).Points.Add(new DataPoint(max,  max + FirstCond));
+
+                    ((LineSeries)plotModel.Series[3]).Points.Add(new DataPoint(0, -FirstCond));
+                    ((LineSeries)plotModel.Series[3]).Points.Add(new DataPoint(max, max - FirstCond));
+
+                    ((LineSeries)plotModel.Series[4]).Points.Add(new DataPoint(0, SecondCond));
+                    ((LineSeries)plotModel.Series[4]).Points.Add(new DataPoint(max,  max + SecondCond));
+
+                    ((LineSeries)plotModel.Series[5]).Points.Add(new DataPoint(0, -SecondCond));
+                    ((LineSeries)plotModel.Series[5]).Points.Add(new DataPoint(max, max - SecondCond));
+
+                    plotHisto.Axes[0].Title = "Absolute Deviation";
+                    ((CategoryAxis)plotHisto.Axes[0]).ItemsSource = new[] { "<" + FirstCond , FirstCond + "-" + SecondCond , ">" + SecondCond};
+                }
 
                 //
                 plotHisto.Series.Add(new ColumnSeries { });
@@ -318,6 +329,83 @@ namespace mview
         {
             model.LoadVirtualGroups();
             UpdateVirtualGroupsList();
+        }
+
+        private void bbCriteria_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = !panel1.Visible;
+
+            if (panel1.Visible)
+            {
+                if (ActiveCondition == TypeCondition.Relative)
+                {
+                    boxTypeCondition.SelectedIndex = 0;
+                }
+
+                if (ActiveCondition == TypeCondition.Absolute)
+                {
+                    boxTypeCondition.SelectedIndex = 1;
+                }
+
+                boxFirstCond.Text = FirstCond.ToString();
+                boxFirstCond.ForeColor = Color.Black;
+
+
+                boxSecondCond.Text = SecondCond.ToString();
+                boxSecondCond.ForeColor = Color.Black;
+            }
+        }
+
+        private void boxTypeCondition_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (boxTypeCondition.SelectedItem == null) return;
+
+            if (boxTypeCondition.SelectedIndex == 0)
+            {
+                ActiveCondition = TypeCondition.Relative;
+                UpdateData();
+            }
+
+            if (boxTypeCondition.SelectedIndex == 1)
+            {
+                ActiveCondition = TypeCondition.Absolute;
+                UpdateData();
+            }
+        }
+
+        double FirstCond = 10;
+        double SecondCond = 20;
+
+        private void boxFirstCond_Validating(object sender, CancelEventArgs e)
+        {
+            double value;
+
+            if (Double.TryParse(boxFirstCond.Text, out value))
+            {
+                FirstCond = value;
+                boxFirstCond.ForeColor = Color.Black;
+                UpdateData();
+            }
+            else
+            {
+                boxFirstCond.ForeColor = Color.Red;
+            }
+        }
+
+        private void boxSecondCond_Validating(object sender, CancelEventArgs e)
+        {
+            double value;
+
+            if (Double.TryParse(boxSecondCond.Text, out value))
+            {
+                SecondCond = value;
+                boxSecondCond.ForeColor = Color.Black;
+                UpdateData();
+            }
+            else
+            {
+                boxSecondCond.ForeColor = Color.Red;
+            }
         }
     }
 }

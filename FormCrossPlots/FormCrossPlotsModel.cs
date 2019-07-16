@@ -33,7 +33,6 @@ namespace mview
             {
                 dates.Add(ecl.SUMMARY.STARTDATE.AddDays(ecl.SUMMARY.DATA[istep][ecl.SUMMARY.TINDEX]).ToString());
             }
-
             return dates.ToArray();
         }
 
@@ -137,7 +136,6 @@ namespace mview
                     }
                 }
             }
-
             return res;
         } 
     }
