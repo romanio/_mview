@@ -11,6 +11,28 @@ using System.Windows.Forms;
 
 namespace mview
 {
+    public class CoordConverter
+    {
+        Engine2D engine = null;
+
+        public CoordConverter(Engine2D engine)
+        {
+            this.engine = engine;
+        }
+
+        // Я никогда больше не буду отлаживать эту функцию
+
+        public PointF ConvertWorldToScreen(float XC, float YC)
+        {
+            return new PointF()
+            {
+                X = (XC - engine.grid.XMINCOORD - 0.5f * (engine.grid.XMAXCOORD - engine.grid.XMINCOORD) + engine.camera.shift_x + engine.camera.shift_end_x - engine.camera.shift_start_x) * engine.camera.scale + 0.5f * engine.width,
+                Y = (YC - engine.grid.YMINCOORD - 0.5f * (engine.grid.YMAXCOORD - engine.grid.YMINCOORD) - engine.camera.shift_y + engine.camera.shift_end_y - engine.camera.shift_start_y) * engine.camera.scale + 0.5f * engine.height
+            };
+        }
+    }
+
+
     public class Engine2D
     {
         public Grid2D grid = new Grid2D();
@@ -85,14 +107,18 @@ namespace mview
         {
             GL.CallList(grid.welsID);
 
+            CoordConverter cordconv = new CoordConverter(this);
+
             foreach (ECL.WELLDATA well in grid.ACTIVE_WELLS)
             {
                 if (well.COMPLS.Count > 0)
                 {
-                    render.DrawWell(well, WellsFont, Brushes.Black, new PointF(
-                        (well.XC - grid.XMINCOORD - 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) + camera.shift_x + camera.shift_end_x - camera.shift_start_x) * camera.scale + 0.5f * width,
-                        (well.YC - grid.YMINCOORD - 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_y + camera.shift_end_y - camera.shift_start_y) * camera.scale + 0.5f * height),
-                        style);
+                    render.DrawWell(well, WellsFont, Brushes.Black, cordconv, style);
+
+                    //new PointF(
+                    //    (well.XC - grid.XMINCOORD - 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) + camera.shift_x + camera.shift_end_x - camera.shift_start_x) * camera.scale + 0.5f * width,
+                    //    (well.YC - grid.YMINCOORD - 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_y + camera.shift_end_y - camera.shift_start_y) * camera.scale + 0.5f * height),
+                    //    style);
                 }
             }
         }

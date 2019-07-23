@@ -53,8 +53,40 @@ namespace mview
 
         Font InfoFont = new Font("Segoe Pro Cond", 09, FontStyle.Regular);
 
-        public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, PointF point, Form2DModelStyle style)
+        public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, CoordConverter cordconv, Form2DModelStyle style)
         {
+           
+            PointF point = cordconv.ConvertWorldToScreen(well.XC, well.YC);
+
+            foreach (ECL.COMPLDATA compl in well.COMPLS)
+            {
+                if (compl.is_show)
+                {
+                    PointF point_cpl = cordconv.ConvertWorldToScreen(compl.XC, compl.YC);
+                    if (compl.OPR > 0)
+                    {
+                        gfx.FillRectangle(Brushes.SteelBlue, point_cpl.X + 5, point_cpl.Y - 6, (float)((compl.OPR + compl.WPR) * 50), 12);
+                        gfx.FillRectangle(Brushes.BurlyWood, point_cpl.X + 5, point_cpl.Y - 6, (float)(compl.OPR * 50), 12);
+                        gfx.DrawRectangle(Pens.Black, point_cpl.X + 5, point_cpl.Y - 6, (float)((compl.OPR + compl.WPR) * 50), 12);
+                    }
+
+                    if (compl.WPR < 0)
+                    {
+                        gfx.FillRectangle(Brushes.LightBlue, point_cpl.X + 5, point_cpl.Y - 6, (float)((-compl.WPR) * 50), 12);
+                        gfx.DrawRectangle(Pens.Black, point_cpl.X + 5, point_cpl.Y - 6, (float)((-compl.WPR) * 50), 12);
+
+                    }
+
+                    /*
+                    gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
+                    gfx.FillPie(Brushes.BurlyWood, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, (float)Math.Round(360.0 * (1 - wcut)));
+                    gfx.FillPie(Brushes.SteelBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), (float)Math.Round(360.0 * (1 - wcut)), 360 - (float)Math.Round(360.0 * (1 - wcut)));
+                    */
+                    }
+            }
+            
+            /*
+             
             // 100 m3 = 10 pt
 
             int size = 0; // Размер круга
@@ -115,6 +147,7 @@ namespace mview
                 gfx.DrawString( wlpr.ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
             }
 
+    */
             gfx.FillEllipse(Brushes.White, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
             gfx.DrawEllipse(Pens.Black, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
 

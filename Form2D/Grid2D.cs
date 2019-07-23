@@ -59,6 +59,7 @@ namespace mview
                 {
                     // Решение о визуализации скважины
                     show_well = false;
+                    compl.is_show = false;
 
                     if (show_all)
                         show_well = true;
@@ -71,6 +72,7 @@ namespace mview
                      
                     if (show_well)
                     {
+                        compl.is_show = true;
                         GL.Vertex3(compl.XC, compl.YC, 0.2);
                     }
                 }

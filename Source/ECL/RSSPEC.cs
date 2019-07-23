@@ -18,12 +18,34 @@ namespace mview.ECL
 
     public class COMPLDATA
     {
+        public bool is_show;
         public int I;
         public int J;
         public int K;
         public float XC;
         public float YC;
         public float ZC;
+        public float CF;
+        public float Depth;
+        public float D;
+        public float kh;
+        public float S;
+        public float Complex; // ln(R/Rw)+S
+        public float H; // DZ * NTG
+
+        public double Hw;
+        public double OPR;
+        public double WPR;
+        public double GPR;
+        public double OPT;
+        public double WPT;
+        public double GPT;
+        public double PIO;
+        public double PIW;
+        public double PIG;
+        public double PRESS;
+        public double SOIL;
+
     }
 
 
@@ -311,24 +333,53 @@ namespace mview.ECL
                     }
                     WELLS[iw].WELLNAME.Trim();
                 }
-                    SetPosition("ICON");
-                    br.ReadHeader();
 
-                    int[] ICON = br.ReadIntList();
+                SetPosition("ICON");
+                br.ReadHeader();
+                int[] ICON = br.ReadIntList();
 
-                    for (int iw = 0; iw < NWELLS; ++iw) // Для всех скважин и для всех перфораций
-                        for (int ic = 0; ic < NCWMAX; ++ic)
+                SetPosition("SCON");
+                br.ReadHeader();
+                float[] SCON = br.ReadFloatList(br.header.count);
+
+                SetPosition("XCON");
+                br.ReadHeader();
+                double[] XCON = br.ReadDoubleList();
+
+                for (int IW = 0; IW < NWELLS; ++IW) // Для всех скважин и для всех перфораций
+                    for (int IC = 0; IC < NCWMAX; ++IC)
+                    {
+                        if (ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 0] != 0) // Если перфорация существует
                         {
-                            if (ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 0] != 0) // Если перфорация существует
+                            WELLS[IW].COMPLS.Add(new COMPLDATA
                             {
-                                WELLS[iw].COMPLS.Add(new COMPLDATA
-                                {
-                                    I = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 1] - 1,
-                                    J = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 2] - 1,
-                                    K = ICON[iw * NICONZ * NCWMAX + ic * NICONZ + 3] - 1
-                                });
-                            }
+                                I = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 1] - 1,
+                                J = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 2] - 1,
+                                K = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 3] - 1,
+
+                                CF = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 0],
+                                Depth = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 1],
+                                D = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 2],
+                                kh = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 3],
+                                S = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 4],
+                                Complex = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 6],
+                                H = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 31],
+
+                                OPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 0],
+                                WPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 1],
+                                GPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 2],
+                                OPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 3],
+                                WPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 4],
+                                GPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 5],
+                                Hw = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 9],
+                                PIO = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 23],
+                                PIW = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 24],
+                                PIG = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 25],
+                                PRESS = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 34],
+                                SOIL = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 35]
+                            });
                         }
+                    }
             }
      
             br.CloseBinaryFile();

@@ -30,11 +30,11 @@
         {
             this.menu = new System.Windows.Forms.MenuStrip();
             this.openModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hMAssistentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.crossPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dViewToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.dViewToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.hMAssistentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.crossPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.virtualGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,6 +86,21 @@
             this.openModelToolStripMenuItem.Text = "Open model";
             this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
             // 
+            // hMAssistentToolStripMenuItem
+            // 
+            this.hMAssistentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.crossPlotsToolStripMenuItem});
+            this.hMAssistentToolStripMenuItem.Name = "hMAssistentToolStripMenuItem";
+            this.hMAssistentToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.hMAssistentToolStripMenuItem.Text = "HM Assistent";
+            // 
+            // crossPlotsToolStripMenuItem
+            // 
+            this.crossPlotsToolStripMenuItem.Name = "crossPlotsToolStripMenuItem";
+            this.crossPlotsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.crossPlotsToolStripMenuItem.Text = "Show Cross-Plots";
+            this.crossPlotsToolStripMenuItem.Click += new System.EventHandler(this.crossPlotsToolStripMenuItem_Click);
+            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -99,7 +114,7 @@
             // 
             this.dViewToolStripMenuItem2.Name = "dViewToolStripMenuItem2";
             this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.dViewToolStripMenuItem2.Text = "2D View";
+            this.dViewToolStripMenuItem2.Text = "Show 2D View";
             this.dViewToolStripMenuItem2.Click += new System.EventHandler(this.dViewToolStripMenuItem2_Click);
             // 
             // dViewToolStripMenuItem3
@@ -108,21 +123,6 @@
             this.dViewToolStripMenuItem3.Name = "dViewToolStripMenuItem3";
             this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
             this.dViewToolStripMenuItem3.Text = "3D View";
-            // 
-            // hMAssistentToolStripMenuItem
-            // 
-            this.hMAssistentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.crossPlotsToolStripMenuItem});
-            this.hMAssistentToolStripMenuItem.Name = "hMAssistentToolStripMenuItem";
-            this.hMAssistentToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
-            this.hMAssistentToolStripMenuItem.Text = "HM Assistent";
-            // 
-            // crossPlotsToolStripMenuItem
-            // 
-            this.crossPlotsToolStripMenuItem.Name = "crossPlotsToolStripMenuItem";
-            this.crossPlotsToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
-            this.crossPlotsToolStripMenuItem.Text = "Cross-Plots";
-            this.crossPlotsToolStripMenuItem.Click += new System.EventHandler(this.crossPlotsToolStripMenuItem_Click);
             // 
             // optionalToolStripMenuItem
             // 
