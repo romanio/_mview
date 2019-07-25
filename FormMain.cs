@@ -36,8 +36,30 @@ namespace mview
                 listNames.Items.Clear();
                 listNames.Sorted = checkSorted.Checked;
 
+                string selected_pad = listGroups.SelectedItem?.ToString()??"(All)";
+
                 if (value != null)
-                    listNames.Items.AddRange(value);
+                {
+                    if (selected_pad == "(All)")
+                    {
+                        listNames.Items.AddRange(value);
+                    }
+                    else
+                    {
+                        var selected_wells_in_pad = model.GetNamesFromVGroup(selected_pad);
+                        List<string> filtered_wellnames = new List<string>();
+
+                        for (int iw = 0; iw < selected_wells_in_pad.Length; ++iw)
+                        {
+                            if (Array.IndexOf(value, selected_wells_in_pad[iw]) != -1)
+                            {
+                                filtered_wellnames.Add(selected_wells_in_pad[iw]);
+                            }
+                        }
+
+                        listNames.Items.AddRange(filtered_wellnames.ToArray());
+                    }
+                }
 
                 // Востановим выделенные слова
 
@@ -339,6 +361,22 @@ namespace mview
         private void dViewToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             model.Show2DView();
+        }
+
+        private void bbWellFilter_Click(object sender, EventArgs e)
+        {
+            panelNameFilter.Visible = !panelNameFilter.Visible;
+
+            listGroups.Items.Clear();
+            listGroups.Items.Add("(All)");
+            listGroups.Items.AddRange(model.GetVirtualGroups()??new string[] { });
+        }
+
+        private void listGroups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listGroups.SelectedIndex == -1) return;
+
+            UpdateData();
         }
     }
 }

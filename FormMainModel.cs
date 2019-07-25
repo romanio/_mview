@@ -57,6 +57,27 @@ namespace mview
             fm.ShowDialog();
         }
 
+        public string[] GetNamesFromVGroup(string selected_pad)
+        {
+            var wells = (from item in pm.ActiveProject.VirtualGroup
+                         where item.pad == selected_pad
+                         select item.wellname).ToArray();
+
+            return wells.ToArray();
+        }
+
+
+        public string[] GetVirtualGroups()
+        {
+            if (pm.ActiveProject.VirtualGroup != null)
+            {
+                var pads = (from item in pm.ActiveProject.VirtualGroup
+                            select item.pad).Distinct().ToArray();
+                return pads;
+            }
+            return null;
+        }
+
         public string GetActiveProjectName()
         {
             return pm.projectList[pm.ActiveProjectIndex].name;

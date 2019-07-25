@@ -58,9 +58,14 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bbUpdate = new System.Windows.Forms.Button();
+            this.bbWellFilter = new System.Windows.Forms.Button();
+            this.panelNameFilter = new System.Windows.Forms.Panel();
+            this.listGroups = new System.Windows.Forms.ListBox();
+            this.labelMin = new System.Windows.Forms.Label();
             this.menu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).BeginInit();
+            this.panelNameFilter.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
@@ -75,7 +80,7 @@
             this.optionalToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(819, 24);
+            this.menu.Size = new System.Drawing.Size(808, 24);
             this.menu.TabIndex = 0;
             this.menu.Text = "menuStrip1";
             // 
@@ -113,7 +118,7 @@
             // dViewToolStripMenuItem2
             // 
             this.dViewToolStripMenuItem2.Name = "dViewToolStripMenuItem2";
-            this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(141, 22);
             this.dViewToolStripMenuItem2.Text = "Show 2D View";
             this.dViewToolStripMenuItem2.Click += new System.EventHandler(this.dViewToolStripMenuItem2_Click);
             // 
@@ -121,7 +126,7 @@
             // 
             this.dViewToolStripMenuItem3.Enabled = false;
             this.dViewToolStripMenuItem3.Name = "dViewToolStripMenuItem3";
-            this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(141, 22);
             this.dViewToolStripMenuItem3.Text = "3D View";
             // 
             // optionalToolStripMenuItem
@@ -160,7 +165,7 @@
             this.listNames.Location = new System.Drawing.Point(12, 68);
             this.listNames.Name = "listNames";
             this.listNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listNames.Size = new System.Drawing.Size(100, 396);
+            this.listNames.Size = new System.Drawing.Size(100, 380);
             this.listNames.TabIndex = 3;
             this.listNames.SelectedIndexChanged += new System.EventHandler(this.listNames_SelectedIndexChanged);
             // 
@@ -176,14 +181,14 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(686, 528);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(675, 552);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(207, 41);
+            this.label1.Location = new System.Drawing.Point(196, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 6;
@@ -199,7 +204,7 @@
             "1",
             "2",
             "4"});
-            this.boxSetChartCount.Location = new System.Drawing.Point(309, 38);
+            this.boxSetChartCount.Location = new System.Drawing.Point(298, 38);
             this.boxSetChartCount.Name = "boxSetChartCount";
             this.boxSetChartCount.Size = new System.Drawing.Size(61, 21);
             this.boxSetChartCount.TabIndex = 7;
@@ -209,7 +214,7 @@
             // 
             this.checkSorted.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkSorted.AutoSize = true;
-            this.checkSorted.Location = new System.Drawing.Point(12, 483);
+            this.checkSorted.Location = new System.Drawing.Point(12, 463);
             this.checkSorted.Name = "checkSorted";
             this.checkSorted.Size = new System.Drawing.Size(92, 17);
             this.checkSorted.TabIndex = 8;
@@ -221,7 +226,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 521);
+            this.label2.Location = new System.Drawing.Point(9, 492);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 9;
@@ -240,7 +245,7 @@
             "Aquifer",
             "Region",
             "Other"});
-            this.boxNamesType.Location = new System.Drawing.Point(12, 537);
+            this.boxNamesType.Location = new System.Drawing.Point(12, 508);
             this.boxNamesType.Name = "boxNamesType";
             this.boxNamesType.Size = new System.Drawing.Size(100, 21);
             this.boxNamesType.TabIndex = 10;
@@ -260,7 +265,7 @@
             // buttonChartOptions
             // 
             this.buttonChartOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonChartOptions.Location = new System.Drawing.Point(415, 35);
+            this.buttonChartOptions.Location = new System.Drawing.Point(404, 35);
             this.buttonChartOptions.Name = "buttonChartOptions";
             this.buttonChartOptions.Size = new System.Drawing.Size(100, 24);
             this.buttonChartOptions.TabIndex = 12;
@@ -372,7 +377,7 @@
             // bbUpdate
             // 
             this.bbUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbUpdate.Location = new System.Drawing.Point(707, 36);
+            this.bbUpdate.Location = new System.Drawing.Point(696, 36);
             this.bbUpdate.Name = "bbUpdate";
             this.bbUpdate.Size = new System.Drawing.Size(100, 24);
             this.bbUpdate.TabIndex = 13;
@@ -380,11 +385,59 @@
             this.bbUpdate.UseVisualStyleBackColor = true;
             this.bbUpdate.Click += new System.EventHandler(this.bbUpdate_Click);
             // 
+            // bbWellFilter
+            // 
+            this.bbWellFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.bbWellFilter.Location = new System.Drawing.Point(12, 596);
+            this.bbWellFilter.Name = "bbWellFilter";
+            this.bbWellFilter.Size = new System.Drawing.Size(100, 24);
+            this.bbWellFilter.TabIndex = 14;
+            this.bbWellFilter.Text = "Filtered OFF";
+            this.bbWellFilter.UseVisualStyleBackColor = true;
+            this.bbWellFilter.Click += new System.EventHandler(this.bbWellFilter_Click);
+            // 
+            // panelNameFilter
+            // 
+            this.panelNameFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelNameFilter.Controls.Add(this.listGroups);
+            this.panelNameFilter.Controls.Add(this.labelMin);
+            this.panelNameFilter.Location = new System.Drawing.Point(12, 433);
+            this.panelNameFilter.Name = "panelNameFilter";
+            this.panelNameFilter.Size = new System.Drawing.Size(176, 157);
+            this.panelNameFilter.TabIndex = 25;
+            this.panelNameFilter.Visible = false;
+            // 
+            // listGroups
+            // 
+            this.listGroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listGroups.FormattingEnabled = true;
+            this.listGroups.IntegralHeight = false;
+            this.listGroups.Location = new System.Drawing.Point(16, 39);
+            this.listGroups.Name = "listGroups";
+            this.listGroups.ScrollAlwaysVisible = true;
+            this.listGroups.Size = new System.Drawing.Size(120, 103);
+            this.listGroups.Sorted = true;
+            this.listGroups.TabIndex = 63;
+            this.listGroups.SelectedIndexChanged += new System.EventHandler(this.listGroups_SelectedIndexChanged);
+            // 
+            // labelMin
+            // 
+            this.labelMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelMin.AutoSize = true;
+            this.labelMin.Location = new System.Drawing.Point(13, 14);
+            this.labelMin.Name = "labelMin";
+            this.labelMin.Size = new System.Drawing.Size(55, 13);
+            this.labelMin.TabIndex = 62;
+            this.labelMin.Text = "Group List";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(819, 629);
+            this.ClientSize = new System.Drawing.Size(808, 653);
+            this.Controls.Add(this.panelNameFilter);
+            this.Controls.Add(this.bbWellFilter);
             this.Controls.Add(this.bbUpdate);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.buttonChartOptions);
@@ -409,6 +462,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).EndInit();
+            this.panelNameFilter.ResumeLayout(false);
+            this.panelNameFilter.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -446,6 +501,10 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dViewToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem dViewToolStripMenuItem3;
+        private System.Windows.Forms.Button bbWellFilter;
+        private System.Windows.Forms.Panel panelNameFilter;
+        private System.Windows.Forms.ListBox listGroups;
+        private System.Windows.Forms.Label labelMin;
     }
 }
 

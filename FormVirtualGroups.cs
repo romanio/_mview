@@ -99,6 +99,8 @@ namespace mview
         private void button2_Click(object sender, EventArgs e)
         {
             ecl.VirtualGroup = null;
+            listGroups.Items.Clear();
+            listWells.Items.Clear();
         }
 
         private void button1_Click(object sender, EventArgs e)
