@@ -29,7 +29,7 @@ namespace mview
 
         TypeCondition ActiveCondition = TypeCondition.Relative;
 
-        public FormCrossPlots(EclipseProject ecl)
+        public FormCrossPlots(ProjectManager pm)
         {
             InitializeComponent();
             //
@@ -38,7 +38,7 @@ namespace mview
                 null, gridData, new object[] { true });
             //
 
-            model = new FormCrossPlotsModel(ecl);
+            model = new FormCrossPlotsModel(pm);
 
             listKeywords.SelectedIndex = 0;
             //

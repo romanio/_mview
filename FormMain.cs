@@ -14,6 +14,7 @@ namespace mview
     {
         FormMainModel model = new FormMainModel();
         NameOptions namesType = NameOptions.Well;
+        string selectedPad = "(All)";
 
         ChartController chartController = new ChartController();
 
@@ -36,17 +37,15 @@ namespace mview
                 listNames.Items.Clear();
                 listNames.Sorted = checkSorted.Checked;
 
-                string selected_pad = listGroups.SelectedItem?.ToString()??"(All)";
-
                 if (value != null)
                 {
-                    if (selected_pad == "(All)")
+                    if (selectedPad == "(All)")
                     {
                         listNames.Items.AddRange(value);
                     }
                     else
                     {
-                        var selected_wells_in_pad = model.GetNamesFromVGroup(selected_pad);
+                        var selected_wells_in_pad = model.GetNamesFromVGroup(selectedPad);
                         List<string> filtered_wellnames = new List<string>();
 
                         for (int iw = 0; iw < selected_wells_in_pad.Length; ++iw)
@@ -375,6 +374,17 @@ namespace mview
         private void listGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listGroups.SelectedIndex == -1) return;
+
+            selectedPad = listGroups.SelectedItem.ToString();
+
+            if (selectedPad == "(All)")
+            {
+                bbWellFilter.ForeColor = Color.Black;
+            }
+            else
+            {
+                bbWellFilter.ForeColor = Color.Red;
+            }
 
             UpdateData();
         }

@@ -13,10 +13,17 @@ namespace mview
         public string name = null;
     }
 
+    public class VirtualGroupItem
+    {
+        public string wellname;
+        public string pad;
+    }
+
     public class ProjectManager
     {
         public List<ProjectManagerItem> projectList = new List<ProjectManagerItem>();
         public EclipseProject ActiveProject;
+        public List<VirtualGroupItem> VirtualGroup = null;
         public int ActiveProjectIndex = -1;
 
         public void OpenECLProject()

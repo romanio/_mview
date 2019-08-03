@@ -29,13 +29,13 @@ namespace mview
 
         public void ShowCrossPlots()
         {
-            FormCrossPlots tmp = new FormCrossPlots(pm.ActiveProject);
+            FormCrossPlots tmp = new FormCrossPlots(pm);
             tmp.Show();
         }
 
         public void ShowVirtualGroups()
         {
-            FormVirtualGroups tmp = new FormVirtualGroups(pm.ActiveProject);
+            FormVirtualGroups tmp = new FormVirtualGroups(pm);
             tmp.Show();
         }
 
@@ -59,7 +59,7 @@ namespace mview
 
         public string[] GetNamesFromVGroup(string selected_pad)
         {
-            var wells = (from item in pm.ActiveProject.VirtualGroup
+            var wells = (from item in pm.VirtualGroup
                          where item.pad == selected_pad
                          select item.wellname).ToArray();
 
@@ -69,9 +69,9 @@ namespace mview
 
         public string[] GetVirtualGroups()
         {
-            if (pm.ActiveProject.VirtualGroup != null)
+            if (pm.VirtualGroup != null)
             {
-                var pads = (from item in pm.ActiveProject.VirtualGroup
+                var pads = (from item in pm.VirtualGroup
                             select item.pad).Distinct().ToArray();
                 return pads;
             }

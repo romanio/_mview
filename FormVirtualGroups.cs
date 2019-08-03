@@ -13,19 +13,19 @@ namespace mview
 {
     public partial class FormVirtualGroups : Form
     {
-        EclipseProject ecl = null;
+        ProjectManager pm = null;
 
-        public FormVirtualGroups(EclipseProject ecl)
+        public FormVirtualGroups(ProjectManager pm)
         {
             InitializeComponent();
 
-            this.ecl = ecl;
+            this.pm = pm;
 
-            if (ecl.VirtualGroup != null)
+            if (pm.VirtualGroup != null)
             {
                 listGroups.Items.Clear();
 
-                var pads = (from item in ecl.VirtualGroup
+                var pads = (from item in pm.VirtualGroup
                             select item.pad).Distinct().ToArray();
 
                 listGroups.Items.AddRange(pads);
@@ -38,7 +38,7 @@ namespace mview
 
             if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                ecl.VirtualGroup = new List<VirtualGroupItem>();
+                pm.VirtualGroup = new List<VirtualGroupItem>();
 
                 using (TextReader text = new StreamReader(fd.FileName, Encoding.GetEncoding("Windows-1251")))
                 {
@@ -50,7 +50,7 @@ namespace mview
 
                         if (split.Length == 2)
                         {
-                            ecl.VirtualGroup.Add(new VirtualGroupItem
+                            pm.VirtualGroup.Add(new VirtualGroupItem
                             {
                                 wellname = split[0].Trim(),
                                 pad = split[1].Trim()
@@ -61,7 +61,7 @@ namespace mview
 
                     listGroups.Items.Clear();
 
-                    var pads = (from item in ecl.VirtualGroup
+                    var pads = (from item in pm.VirtualGroup
                                 select item.pad).Distinct().ToArray();
 
                     listGroups.Items.AddRange(pads);
@@ -77,11 +77,11 @@ namespace mview
 
             listWells.Items.Clear();
 
-            var wells = (from item in ecl.VirtualGroup
+            var wells = (from item in pm.VirtualGroup
                          where item.pad == selected_pad
                          select item.wellname).ToArray();
 
-            var all_wells = (from item in ecl.VECTORS
+            var all_wells = (from item in pm.ActiveProject.VECTORS
                              where item.Type == NameOptions.Well
                              select item.Name).ToArray();
                 
@@ -98,14 +98,9 @@ namespace mview
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ecl.VirtualGroup = null;
+            pm.VirtualGroup = null;
             listGroups.Items.Clear();
             listWells.Items.Clear();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -392,7 +392,7 @@
             this.bbWellFilter.Name = "bbWellFilter";
             this.bbWellFilter.Size = new System.Drawing.Size(100, 24);
             this.bbWellFilter.TabIndex = 14;
-            this.bbWellFilter.Text = "Filtered OFF";
+            this.bbWellFilter.Text = "Filtered";
             this.bbWellFilter.UseVisualStyleBackColor = true;
             this.bbWellFilter.Click += new System.EventHandler(this.bbWellFilter_Click);
             // 
@@ -403,7 +403,7 @@
             this.panelNameFilter.Controls.Add(this.labelMin);
             this.panelNameFilter.Location = new System.Drawing.Point(12, 433);
             this.panelNameFilter.Name = "panelNameFilter";
-            this.panelNameFilter.Size = new System.Drawing.Size(176, 157);
+            this.panelNameFilter.Size = new System.Drawing.Size(177, 157);
             this.panelNameFilter.TabIndex = 25;
             this.panelNameFilter.Visible = false;
             // 
@@ -413,10 +413,10 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listGroups.FormattingEnabled = true;
             this.listGroups.IntegralHeight = false;
-            this.listGroups.Location = new System.Drawing.Point(16, 39);
+            this.listGroups.Location = new System.Drawing.Point(6, 30);
             this.listGroups.Name = "listGroups";
             this.listGroups.ScrollAlwaysVisible = true;
-            this.listGroups.Size = new System.Drawing.Size(120, 103);
+            this.listGroups.Size = new System.Drawing.Size(120, 113);
             this.listGroups.Sorted = true;
             this.listGroups.TabIndex = 63;
             this.listGroups.SelectedIndexChanged += new System.EventHandler(this.listGroups_SelectedIndexChanged);
@@ -425,7 +425,7 @@
             // 
             this.labelMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelMin.AutoSize = true;
-            this.labelMin.Location = new System.Drawing.Point(13, 14);
+            this.labelMin.Location = new System.Drawing.Point(3, 14);
             this.labelMin.Name = "labelMin";
             this.labelMin.Size = new System.Drawing.Size(55, 13);
             this.labelMin.TabIndex = 62;
