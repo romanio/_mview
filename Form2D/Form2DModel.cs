@@ -42,6 +42,12 @@ namespace mview
             SetMinMaxAndScaleFactor();
         }
 
+        public void SavePosition()
+        {
+
+        }
+
+
         public void ApplyStyle()
         {
             engine.SetStyle(style);
@@ -185,6 +191,16 @@ namespace mview
             return new Tuple<int, int, int, float>(engine.XS, engine.YS, engine.ZS, engine.VS);
         }
 
+        public int GetNX()
+        {
+            return ecl.EGRID.NX;
+        }
+
+        public int GetNY()
+        {
+            return ecl.EGRID.NY;
+        }
+
         public int GetNZ()
         {
             return ecl.EGRID.NZ;
@@ -218,6 +234,17 @@ namespace mview
                 engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
                 engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
             }
+        }
+
+        
+        public void SetXA(int X)
+        {
+            engine.grid.XA = X;
+        }
+
+        public void SetYA(int Y)
+        {
+            engine.grid.YA = Y;
         }
 
         public void SetZA(int Z)

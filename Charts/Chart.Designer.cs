@@ -30,6 +30,8 @@
         {
             this.plotView1 = new OxyPlot.WindowsForms.PlotView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.gridData = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonLoadUserFunction = new System.Windows.Forms.Button();
@@ -38,15 +40,13 @@
             this.checkedProjectList = new System.Windows.Forms.CheckedListBox();
             this.buttonOptions = new System.Windows.Forms.Button();
             this.listKeywords = new System.Windows.Forms.ListBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.gridData = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.plotView2 = new OxyPlot.WindowsForms.PlotView();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridData)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,6 +79,38 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(459, 405);
             this.tabControl1.TabIndex = 2;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.gridData);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(451, 379);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Data";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // gridData
+            // 
+            this.gridData.AllowUserToAddRows = false;
+            this.gridData.AllowUserToDeleteRows = false;
+            this.gridData.AllowUserToResizeRows = false;
+            this.gridData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridData.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            this.gridData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridData.Location = new System.Drawing.Point(6, 6);
+            this.gridData.Name = "gridData";
+            this.gridData.ReadOnly = true;
+            this.gridData.RowHeadersVisible = false;
+            this.gridData.RowTemplate.Height = 18;
+            this.gridData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.gridData.Size = new System.Drawing.Size(439, 367);
+            this.gridData.TabIndex = 1;
+            this.gridData.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridData_CellValueNeeded);
             // 
             // tabPage1
             // 
@@ -183,38 +215,6 @@
             this.listKeywords.TabIndex = 1;
             this.listKeywords.SelectedIndexChanged += new System.EventHandler(this.listKeywords_SelectedIndexChanged);
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.gridData);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(451, 379);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Data";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // gridData
-            // 
-            this.gridData.AllowUserToAddRows = false;
-            this.gridData.AllowUserToDeleteRows = false;
-            this.gridData.AllowUserToResizeRows = false;
-            this.gridData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridData.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gridData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            this.gridData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridData.Location = new System.Drawing.Point(6, 6);
-            this.gridData.Name = "gridData";
-            this.gridData.ReadOnly = true;
-            this.gridData.RowHeadersVisible = false;
-            this.gridData.RowTemplate.Height = 18;
-            this.gridData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridData.Size = new System.Drawing.Size(439, 367);
-            this.gridData.TabIndex = 1;
-            this.gridData.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridData_CellValueNeeded);
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.plotView2);
@@ -250,11 +250,11 @@
             this.Name = "Chart";
             this.Size = new System.Drawing.Size(465, 411);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridData)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridData)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 

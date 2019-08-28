@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Static ");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Dynamic");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Static ");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Dynamic");
             this.label2 = new System.Windows.Forms.Label();
             this.boxRestart = new System.Windows.Forms.ComboBox();
             this.glControl = new OpenTK.GLControl();
@@ -38,17 +38,17 @@
             this.boxZSlice = new System.Windows.Forms.ComboBox();
             this.tabSliceControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.boxXslice = new System.Windows.Forms.ComboBox();
+            this.boxXSlice = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.boxYslice = new System.Windows.Forms.ComboBox();
+            this.boxYSlice = new System.Windows.Forms.ComboBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.buttonChartOptions = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.lbCellValue = new System.Windows.Forms.Label();
             this.bbSetFocusOn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.listWells = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabSliceControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -102,13 +102,13 @@
             this.treeProperties.HideSelection = false;
             this.treeProperties.Location = new System.Drawing.Point(761, 186);
             this.treeProperties.Name = "treeProperties";
-            treeNode5.Name = "Узел0";
-            treeNode5.Text = "Static ";
-            treeNode6.Name = "Узел1";
-            treeNode6.Text = "Dynamic";
+            treeNode3.Name = "Узел0";
+            treeNode3.Text = "Static ";
+            treeNode4.Name = "Узел1";
+            treeNode4.Text = "Dynamic";
             this.treeProperties.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
+            treeNode3,
+            treeNode4});
             this.treeProperties.Size = new System.Drawing.Size(130, 372);
             this.treeProperties.TabIndex = 0;
             this.treeProperties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeProperties_AfterSelect);
@@ -145,10 +145,11 @@
             this.tabSliceControl.SelectedIndex = 0;
             this.tabSliceControl.Size = new System.Drawing.Size(159, 89);
             this.tabSliceControl.TabIndex = 41;
+            this.tabSliceControl.SelectedIndexChanged += new System.EventHandler(this.tabSliceControl_SelectedIndexChanged);
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.boxXslice);
+            this.tabPage1.Controls.Add(this.boxXSlice);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -157,19 +158,20 @@
             this.tabPage1.Text = "X(I)";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // boxXslice
+            // boxXSlice
             // 
-            this.boxXslice.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.boxXslice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.boxXslice.FormattingEnabled = true;
-            this.boxXslice.Location = new System.Drawing.Point(14, 20);
-            this.boxXslice.Name = "boxXslice";
-            this.boxXslice.Size = new System.Drawing.Size(127, 21);
-            this.boxXslice.TabIndex = 40;
+            this.boxXSlice.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.boxXSlice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxXSlice.FormattingEnabled = true;
+            this.boxXSlice.Location = new System.Drawing.Point(14, 20);
+            this.boxXSlice.Name = "boxXSlice";
+            this.boxXSlice.Size = new System.Drawing.Size(127, 21);
+            this.boxXSlice.TabIndex = 40;
+            this.boxXSlice.SelectedIndexChanged += new System.EventHandler(this.boxXSlice_SelectedIndexChanged);
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.boxYslice);
+            this.tabPage2.Controls.Add(this.boxYSlice);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -178,15 +180,16 @@
             this.tabPage2.Text = "Y(J)";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // boxYslice
+            // boxYSlice
             // 
-            this.boxYslice.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.boxYslice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.boxYslice.FormattingEnabled = true;
-            this.boxYslice.Location = new System.Drawing.Point(14, 20);
-            this.boxYslice.Name = "boxYslice";
-            this.boxYslice.Size = new System.Drawing.Size(121, 21);
-            this.boxYslice.TabIndex = 39;
+            this.boxYSlice.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.boxYSlice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxYSlice.FormattingEnabled = true;
+            this.boxYSlice.Location = new System.Drawing.Point(14, 20);
+            this.boxYSlice.Name = "boxYSlice";
+            this.boxYSlice.Size = new System.Drawing.Size(127, 21);
+            this.boxYSlice.TabIndex = 39;
+            this.boxYSlice.SelectedIndexChanged += new System.EventHandler(this.boxYSlice_SelectedIndexChanged);
             // 
             // tabPage3
             // 
@@ -248,15 +251,6 @@
             this.panel1.TabIndex = 53;
             this.panel1.Visible = false;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 10);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Wells";
-            // 
             // listWells
             // 
             this.listWells.FormattingEnabled = true;
@@ -266,6 +260,15 @@
             this.listWells.Sorted = true;
             this.listWells.TabIndex = 1;
             this.listWells.SelectedIndexChanged += new System.EventHandler(this.listWells_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(14, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Wells";
             // 
             // Form2D
             // 
@@ -311,8 +314,8 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.ComboBox boxXslice;
-        private System.Windows.Forms.ComboBox boxYslice;
+        private System.Windows.Forms.ComboBox boxXSlice;
+        private System.Windows.Forms.ComboBox boxYSlice;
 
         #endregion
 

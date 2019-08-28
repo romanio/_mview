@@ -50,6 +50,30 @@ namespace mview
 
             boxRestart.EndUpdate();
 
+            // Размерность по X, Y, Z
+
+            boxXSlice.Items.Clear();
+            boxXSlice.BeginUpdate();
+
+            for (int it = 0; it < model.GetNX(); ++it)
+                boxXSlice.Items.Add((it + 1).ToString());
+
+            boxXSlice.SelectedIndex = 0;
+            boxXSlice.EndUpdate();
+
+            //
+
+            boxYSlice.Items.Clear();
+            boxYSlice.BeginUpdate();
+
+            for (int it = 0; it < model.GetNY(); ++it)
+                boxYSlice.Items.Add((it + 1).ToString());
+
+            boxYSlice.SelectedIndex = 0;
+            boxYSlice.EndUpdate();
+
+            //
+
             boxZSlice.Items.Clear();
             boxZSlice.BeginUpdate();
 
@@ -61,6 +85,8 @@ namespace mview
 
             boxZSlice.SelectedIndex = 0;
             boxZSlice.EndUpdate();
+            
+            //
         }
 
         private void boxRestart_SelectedIndexChanged(object sender, EventArgs e)
@@ -133,6 +159,18 @@ namespace mview
             model.OnUnload();
         }
 
+        private void boxXSlice_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            model.SetXA(boxXSlice.SelectedIndex);
+            treeProperties_AfterSelect(null, null);
+        }
+
+        private void boxYSlice_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            model.SetYA(boxYSlice.SelectedIndex);
+            treeProperties_AfterSelect(null, null);
+        }
+
         private void boxZSliceOnSelectedIndexChanged(object sender, EventArgs e)
         {
             model.SetZA(boxZSlice.SelectedIndex);
@@ -172,5 +210,12 @@ namespace mview
             model.SetFocusOnWell(listWells.SelectedItem.ToString());
             glControl.SwapBuffers();
         }
+
+        private void tabSliceControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //
+        }
+
+
     }
 }

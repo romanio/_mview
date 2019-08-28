@@ -11,6 +11,19 @@ using System.Windows.Forms;
 
 namespace mview
 {
+    public class ViewPosition
+    {
+        public float Scale;
+        public float Shift_X;
+        public float Shift_Y;
+        public int XS, YS, ZS;
+    }
+
+    public enum ViewMode
+    { 
+        X, Y, Z
+    }
+
     public class CoordConverter
     {
         Engine2D engine = null;
@@ -38,10 +51,83 @@ namespace mview
         public Grid2D grid = new Grid2D();
         public Camera2D camera = new Camera2D();
 
+
+        ViewPosition ViewPositionX = new ViewPosition();
+        ViewPosition ViewPositionY = new ViewPosition();
+        ViewPosition ViewPositionZ = new ViewPosition();
+        ViewMode CurrentViewMode = ViewMode.X;
+
         BitmapRender render;
 
         int vboID;
         int eboID;
+
+        public void SavePosition()
+        {
+            if (CurrentViewMode == ViewMode.X)
+            {
+                ViewPositionX.Scale = camera.scale;
+                ViewPositionX.Shift_X = camera.shift_x;
+                ViewPositionX.Shift_Y = camera.shift_y;
+                ViewPositionX.XS = XS;
+                ViewPositionX.YS = YS;
+                ViewPositionX.ZS = ZS;
+            }
+
+            if (CurrentViewMode == ViewMode.Y)
+            {
+                ViewPositionY.Scale = camera.scale;
+                ViewPositionY.Shift_X = camera.shift_x;
+                ViewPositionY.Shift_Y = camera.shift_y;
+                ViewPositionY.XS = XS;
+                ViewPositionY.YS = YS;
+                ViewPositionY.ZS = ZS;
+            }
+
+            if (CurrentViewMode == ViewMode.Z)
+            {
+                ViewPositionZ.Scale = camera.scale;
+                ViewPositionZ.Shift_X = camera.shift_x;
+                ViewPositionZ.Shift_Y = camera.shift_y;
+                ViewPositionZ.XS = XS;
+                ViewPositionZ.YS = YS;
+                ViewPositionZ.ZS = ZS;
+            }
+        }
+
+        public void RestorePosition()
+        {
+            if (CurrentViewMode == ViewMode.X)
+            {
+                camera.scale = ViewPositionX.Scale;
+                camera.shift_x = ViewPositionX.Shift_X;
+                camera.shift_y = ViewPositionX.Shift_Y;
+                XS = ViewPositionX.XS;
+                YS = ViewPositionX.YS;
+                ZS = ViewPositionX.ZS; 
+            }
+
+            if (CurrentViewMode == ViewMode.Y)
+            {
+                camera.scale = ViewPositionY.Scale;
+                camera.shift_x = ViewPositionY.Shift_X;
+                camera.shift_y = ViewPositionY.Shift_Y;
+                XS = ViewPositionY.XS;
+                YS = ViewPositionY.YS;
+                ZS = ViewPositionY.ZS;
+            }
+
+            if (CurrentViewMode == ViewMode.Z)
+            {
+                camera.scale = ViewPositionZ.Scale;
+                camera.shift_x = ViewPositionZ.Shift_X;
+                camera.shift_y = ViewPositionZ.Shift_Y;
+                XS = ViewPositionZ.XS;
+                YS = ViewPositionZ.YS;
+                ZS = ViewPositionZ.ZS;
+            }
+        }
+
 
         public void OnLoad()
         {
@@ -114,11 +200,6 @@ namespace mview
                 if (well.COMPLS.Count > 0)
                 {
                     render.DrawWell(well, WellsFont, Brushes.Black, cordconv, style);
-
-                    //new PointF(
-                    //    (well.XC - grid.XMINCOORD - 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) + camera.shift_x + camera.shift_end_x - camera.shift_start_x) * camera.scale + 0.5f * width,
-                    //    (well.YC - grid.YMINCOORD - 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_y + camera.shift_end_y - camera.shift_start_y) * camera.scale + 0.5f * height),
-                    //    style);
                 }
             }
         }

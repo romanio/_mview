@@ -28,7 +28,13 @@ namespace mview
         public float XC;
         public float YC;
         public float ZC;
+
+        // Выбранные для отображения координаты
+
         public int ZA = 0;
+        public int XA = 0;
+        public int YA = 0;
+
 
         // Информация по перфорациям
         public int[] WCOORD = null;
