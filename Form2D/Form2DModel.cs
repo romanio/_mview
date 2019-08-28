@@ -42,11 +42,28 @@ namespace mview
             SetMinMaxAndScaleFactor();
         }
 
-        public void SavePosition()
+        public void SetPosition(ViewMode Position)
         {
+            engine.SavePosition();
 
+            if (Position == ViewMode.X)
+            {
+                engine.CurrentViewMode = ViewMode.X;
+                engine.RestorePosition();
+            }
+
+            if (Position == ViewMode.Y)
+            {
+                engine.CurrentViewMode = ViewMode.Y;
+                engine.RestorePosition();
+            }
+
+            if (Position == ViewMode.Z)
+            {
+                engine.CurrentViewMode = ViewMode.Z;
+                engine.RestorePosition();
+            }
         }
-
 
         public void ApplyStyle()
         {

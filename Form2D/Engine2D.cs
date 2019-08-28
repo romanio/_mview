@@ -51,11 +51,11 @@ namespace mview
         public Grid2D grid = new Grid2D();
         public Camera2D camera = new Camera2D();
 
-
         ViewPosition ViewPositionX = new ViewPosition();
         ViewPosition ViewPositionY = new ViewPosition();
         ViewPosition ViewPositionZ = new ViewPosition();
-        ViewMode CurrentViewMode = ViewMode.X;
+
+        public ViewMode CurrentViewMode = ViewMode.X;
 
         BitmapRender render;
 

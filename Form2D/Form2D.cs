@@ -161,6 +161,8 @@ namespace mview
 
         private void boxXSlice_SelectedIndexChanged(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("BOX X SELECTED INDEX");
+
             model.SetXA(boxXSlice.SelectedIndex);
             treeProperties_AfterSelect(null, null);
         }
@@ -213,9 +215,20 @@ namespace mview
 
         private void tabSliceControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //
+            if (tabSliceControl.SelectedIndex == 0)
+            {
+                model.SetPosition(ViewMode.X);
+            }
+
+            if (tabSliceControl.SelectedIndex == 1)
+            {
+                model.SetPosition(ViewMode.Y);
+            }
+
+            if (tabSliceControl.SelectedIndex == 2)
+            {
+                model.SetPosition(ViewMode.Z);
+            }
         }
-
-
     }
 }
