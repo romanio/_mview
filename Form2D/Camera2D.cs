@@ -23,7 +23,6 @@ namespace mview
             if (e.Delta < 0) scale *= 0.95f;
         }
 
-
         public void MouseMove(MouseEventArgs e)
         {
             switch (e.Button)

@@ -13,7 +13,7 @@ namespace mview
 {
     public class ViewPosition
     {
-        public float Scale;
+        public float Scale = 0.01f;
         public float Shift_X;
         public float Shift_Y;
         public int XS, YS, ZS;
@@ -45,7 +45,6 @@ namespace mview
         }
     }
 
-
     public class Engine2D
     {
         public Grid2D grid = new Grid2D();
@@ -54,6 +53,8 @@ namespace mview
         ViewPosition ViewPositionX = new ViewPosition();
         ViewPosition ViewPositionY = new ViewPosition();
         ViewPosition ViewPositionZ = new ViewPosition();
+
+        double XMIN, XMAX, YMIN, YMAX;
 
         public ViewMode CurrentViewMode = ViewMode.X;
 
@@ -69,6 +70,7 @@ namespace mview
                 ViewPositionX.Scale = camera.scale;
                 ViewPositionX.Shift_X = camera.shift_x;
                 ViewPositionX.Shift_Y = camera.shift_y;
+
                 ViewPositionX.XS = XS;
                 ViewPositionX.YS = YS;
                 ViewPositionX.ZS = ZS;
@@ -79,6 +81,7 @@ namespace mview
                 ViewPositionY.Scale = camera.scale;
                 ViewPositionY.Shift_X = camera.shift_x;
                 ViewPositionY.Shift_Y = camera.shift_y;
+
                 ViewPositionY.XS = XS;
                 ViewPositionY.YS = YS;
                 ViewPositionY.ZS = ZS;
@@ -89,6 +92,7 @@ namespace mview
                 ViewPositionZ.Scale = camera.scale;
                 ViewPositionZ.Shift_X = camera.shift_x;
                 ViewPositionZ.Shift_Y = camera.shift_y;
+
                 ViewPositionZ.XS = XS;
                 ViewPositionZ.YS = YS;
                 ViewPositionZ.ZS = ZS;
@@ -102,9 +106,15 @@ namespace mview
                 camera.scale = ViewPositionX.Scale;
                 camera.shift_x = ViewPositionX.Shift_X;
                 camera.shift_y = ViewPositionX.Shift_Y;
+
                 XS = ViewPositionX.XS;
                 YS = ViewPositionX.YS;
-                ZS = ViewPositionX.ZS; 
+                ZS = ViewPositionX.ZS;
+
+                XMIN = grid.YMINCOORD;
+                XMAX = grid.YMAXCOORD;
+                YMIN = grid.ZMINCOORD;
+                YMAX = grid.ZMAXCOORD;
             }
 
             if (CurrentViewMode == ViewMode.Y)
@@ -112,9 +122,15 @@ namespace mview
                 camera.scale = ViewPositionY.Scale;
                 camera.shift_x = ViewPositionY.Shift_X;
                 camera.shift_y = ViewPositionY.Shift_Y;
+
                 XS = ViewPositionY.XS;
                 YS = ViewPositionY.YS;
                 ZS = ViewPositionY.ZS;
+
+                XMIN = grid.XMINCOORD;
+                XMAX = grid.XMAXCOORD;
+                YMIN = grid.ZMINCOORD;
+                YMAX = grid.ZMAXCOORD;
             }
 
             if (CurrentViewMode == ViewMode.Z)
@@ -122,13 +138,18 @@ namespace mview
                 camera.scale = ViewPositionZ.Scale;
                 camera.shift_x = ViewPositionZ.Shift_X;
                 camera.shift_y = ViewPositionZ.Shift_Y;
+
                 XS = ViewPositionZ.XS;
                 YS = ViewPositionZ.YS;
                 ZS = ViewPositionZ.ZS;
+
+                XMIN = grid.XMINCOORD;
+                XMAX = grid.XMAXCOORD;
+                YMIN = grid.YMINCOORD;
+                YMAX = grid.YMAXCOORD;
             }
         }
-
-
+        
         public void OnLoad()
         {
             System.Diagnostics.Debug.WriteLine("Engine2D : OnLoad");
@@ -183,11 +204,9 @@ namespace mview
                 render.Dispose(); // Удаляем старый рендер текста
 
             render = new BitmapRender(width, height); // И объявляем новый
-
         }
 
         Font WellsFont = new Font("Segoe Pro Cond", 11, FontStyle.Bold);
-
 
         public void DrawWells()
         {
@@ -209,14 +228,14 @@ namespace mview
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
             GL.Begin(PrimitiveType.Lines);
             GL.Color3(Color.Black);
-            GL.Vertex3(grid.XMINCOORD, grid.YMINCOORD, 0);
-            GL.Vertex3(grid.XMINCOORD, grid.YMAXCOORD, 0);
-            GL.Vertex3(grid.XMINCOORD, grid.YMAXCOORD, 0);
-            GL.Vertex3(grid.XMAXCOORD, grid.YMAXCOORD, 0);
-            GL.Vertex3(grid.XMAXCOORD, grid.YMAXCOORD, 0);
-            GL.Vertex3(grid.XMAXCOORD, grid.YMINCOORD, 0);
-            GL.Vertex3(grid.XMAXCOORD, grid.YMINCOORD, 0);
-            GL.Vertex3(grid.XMINCOORD, grid.YMINCOORD, 0);
+            GL.Vertex3(XMIN, YMIN, 0);
+            GL.Vertex3(XMIN, YMAX, 0);
+            GL.Vertex3(XMIN, YMAX, 0);
+            GL.Vertex3(XMAX, YMAX, 0);
+            GL.Vertex3(XMAX, YMAX, 0);
+            GL.Vertex3(XMAX, YMIN, 0);
+            GL.Vertex3(XMAX, YMIN, 0);
+            GL.Vertex3(XMIN, YMIN, 0);
             GL.End();
         }
 
@@ -232,15 +251,24 @@ namespace mview
             GL.LoadIdentity();
             GL.Scale(camera.scale, camera.scale, 1);
 
+            if (CurrentViewMode != ViewMode.Z)
+            {
+                GL.Scale(1, 20, 1);
+            }
+
             // Центрирование
+
             GL.Translate(camera.shift_x + (camera.shift_end_x - camera.shift_start_x), -camera.shift_y  + camera.shift_end_y - camera.shift_start_y, 0); // Сдвиг за счет мышки
             GL.Translate(-grid.XC, -grid.YC, 0);
 
-          //  System.Diagnostics.Debug.WriteLine("cam shift_x " + camera.shift_x + "  cam shift y " + camera.shift_y);
             render.Clear(Color.Transparent);
-            DrawWells();
+
+//            DrawWells();
             
             // Отрисовка ячеек
+
+            /*
+             * 
             GL.PolygonOffset(+1, +1);
             GL.EnableClientState(ArrayCap.ColorArray);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
@@ -257,8 +285,12 @@ namespace mview
                 GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
             }
 
+            */
+
             // Отрисовка выбранной ячейки
 
+            /*
+             
             if (XS > -1)
             {
                 var CELL = grid.GetCell(XS, YS, ZS);
@@ -287,11 +319,14 @@ namespace mview
                 }
             }
 
+            */
 
             DrawFrame();
 
             // Вывод текста текстурой
 
+            /*
+             
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, render.Texture);
 
@@ -312,6 +347,8 @@ namespace mview
 
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.Texture2D);
+
+    */
         }
 
         Form2DModelStyle style = new Form2DModelStyle()
@@ -341,6 +378,7 @@ namespace mview
 
         public int XS, YS, ZS; // Координаты выбранной ячейки
         public float VS; // Значение выбранной ячейки
+
         private readonly object CELL;
 
         public void MouseClick(MouseEventArgs e)
@@ -359,6 +397,7 @@ namespace mview
                 IntPtr p = new IntPtr();
 
                 GL.ReadPixels(e.X, viewport[3] - e.Y, 1, 1, PixelFormat.Rgb, PixelType.UnsignedByte, ref p);
+
                 pixel = BitConverter.GetBytes(p.ToInt32());  // Цвет под мышкой
 
                 float XT = (e.X - 0.5f * width) / camera.scale + grid.XMINCOORD + 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) - camera.shift_x - camera.shift_end_x + camera.shift_start_x;

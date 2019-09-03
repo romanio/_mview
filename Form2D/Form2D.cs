@@ -202,7 +202,6 @@ namespace mview
                 listWells.Items.Clear();
                 listWells.Items.AddRange(model.GetWellNames());
             }
-
         }
 
         private void listWells_SelectedIndexChanged(object sender, EventArgs e)
@@ -218,16 +217,19 @@ namespace mview
             if (tabSliceControl.SelectedIndex == 0)
             {
                 model.SetPosition(ViewMode.X);
+                glControlOnPaint(null, null);
             }
 
             if (tabSliceControl.SelectedIndex == 1)
             {
                 model.SetPosition(ViewMode.Y);
+                glControlOnPaint(null, null);
             }
 
             if (tabSliceControl.SelectedIndex == 2)
             {
                 model.SetPosition(ViewMode.Z);
+                glControlOnPaint(null, null);
             }
         }
     }

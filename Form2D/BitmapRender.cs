@@ -55,7 +55,6 @@ namespace mview
 
         public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, CoordConverter cordconv, Form2DModelStyle style)
         {
-           
             PointF point = cordconv.ConvertWorldToScreen(well.XC, well.YC);
 
             foreach (ECL.COMPLDATA compl in well.COMPLS)
