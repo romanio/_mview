@@ -49,18 +49,23 @@ namespace mview
             if (Position == ViewMode.X)
             {
                 engine.CurrentViewMode = ViewMode.X;
+                engine.camera.CurrentViewMode = ViewMode.X;
+                
                 engine.RestorePosition();
             }
 
             if (Position == ViewMode.Y)
             {
                 engine.CurrentViewMode = ViewMode.Y;
+                engine.camera.CurrentViewMode = ViewMode.Y;
+
                 engine.RestorePosition();
             }
 
             if (Position == ViewMode.Z)
             {
                 engine.CurrentViewMode = ViewMode.Z;
+                engine.camera.CurrentViewMode = ViewMode.Z;
                 engine.RestorePosition();
             }
         }
@@ -105,6 +110,9 @@ namespace mview
 
             engine.grid.YMINCOORD = YCORD.Min();
             engine.grid.YMAXCOORD = YCORD.Max();
+
+            engine.grid.ZMAXCOORD = ecl.INIT.GetArrayMax("DEPTH");
+            engine.grid.ZMINCOORD = ecl.INIT.GetArrayMin("DEPTH");
 
             engine.grid.XC = (engine.grid.XMINCOORD + engine.grid.XMAXCOORD) * 0.5f;
             engine.grid.YC = (engine.grid.YMINCOORD + engine.grid.YMAXCOORD) * 0.5f;
@@ -253,7 +261,6 @@ namespace mview
             }
         }
 
-        
         public void SetXA(int X)
         {
             engine.grid.XA = X;
@@ -280,7 +287,6 @@ namespace mview
         {
             if (resize_init) // Установить начальный масштабный фактор
             {
-
                 float DX = engine.grid.XMAXCOORD - engine.grid.XMINCOORD;
                 float DY = engine.grid.YMAXCOORD - engine.grid.YMINCOORD;
 

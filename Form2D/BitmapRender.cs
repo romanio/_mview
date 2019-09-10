@@ -8,7 +8,6 @@ using OpenTK.Graphics.OpenGL;
 using System.Windows.Forms;
 using System.Drawing;
 
-
 namespace mview
 {
     // Отрисовка текста и прочей графики в текстуру.

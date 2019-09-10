@@ -140,6 +140,36 @@ namespace mview.ECL
             br.CloseBinaryFile();
         }
 
+        public float GetArrayMin(string name)
+        {
+            for (int it = 0; it < NAME.Count; ++it)
+            {
+                for (int iw = 0; iw < NAME[it].Length; ++iw)
+                {
+                    if (NAME[it][iw] == "DEPTH")
+                    {
+                        return ARRAYMIN[it][iw];
+                    }
+                }
+            }
+            return -9999;
+        }
+
+        public float GetArrayMax(string name)
+        {
+            for (int it = 0; it < NAME.Count; ++it)
+            {
+                for (int iw = 0; iw < NAME[it].Length; ++iw)
+                {
+                    if (NAME[it][iw] == "DEPTH")
+                    {
+                        return ARRAYMAX[it][iw];
+                    }
+                }
+            }
+            return -9999;
+        }
+
         public int GetActive(int X, int Y, int Z)
         {
             return ACTNUM[X + NX * Y + Z * NX * NY];

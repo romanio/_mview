@@ -259,16 +259,28 @@ namespace mview
             // Центрирование
 
             GL.Translate(camera.shift_x + (camera.shift_end_x - camera.shift_start_x), -camera.shift_y  + camera.shift_end_y - camera.shift_start_y, 0); // Сдвиг за счет мышки
-            GL.Translate(-grid.XC, -grid.YC, 0);
+
+            if (CurrentViewMode == ViewMode.Z)
+            {
+                GL.Translate(-grid.XC, -grid.YC, 0);
+            }
+
+            if (CurrentViewMode == ViewMode.X)
+            {
+                GL.Translate(-grid.YC, -grid.ZC, 0);
+            }
+
+            if (CurrentViewMode == ViewMode.Y)
+            {
+                GL.Translate(-grid.XC, -grid.ZC, 0);
+            }
 
             render.Clear(Color.Transparent);
 
-//            DrawWells();
-            
+            DrawWells();
+
             // Отрисовка ячеек
 
-            /*
-             * 
             GL.PolygonOffset(+1, +1);
             GL.EnableClientState(ArrayCap.ColorArray);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
@@ -285,11 +297,7 @@ namespace mview
                 GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
             }
 
-            */
-
             // Отрисовка выбранной ячейки
-
-            /*
              
             if (XS > -1)
             {
@@ -319,14 +327,12 @@ namespace mview
                 }
             }
 
-            */
-
             DrawFrame();
 
             // Вывод текста текстурой
 
             /*
-             
+            
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, render.Texture);
 
@@ -349,6 +355,7 @@ namespace mview
             GL.Disable(EnableCap.Texture2D);
 
     */
+
         }
 
         Form2DModelStyle style = new Form2DModelStyle()
