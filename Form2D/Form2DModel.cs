@@ -50,7 +50,8 @@ namespace mview
             {
                 engine.CurrentViewMode = ViewMode.X;
                 engine.camera.CurrentViewMode = ViewMode.X;
-                
+                engine.grid.CurrentViewMode = ViewMode.X;
+
                 engine.RestorePosition();
             }
 
@@ -58,6 +59,7 @@ namespace mview
             {
                 engine.CurrentViewMode = ViewMode.Y;
                 engine.camera.CurrentViewMode = ViewMode.Y;
+                engine.grid.CurrentViewMode = ViewMode.Y;
 
                 engine.RestorePosition();
             }
@@ -66,6 +68,8 @@ namespace mview
             {
                 engine.CurrentViewMode = ViewMode.Z;
                 engine.camera.CurrentViewMode = ViewMode.Z;
+                engine.grid.CurrentViewMode = ViewMode.Z;
+
                 engine.RestorePosition();
             }
         }

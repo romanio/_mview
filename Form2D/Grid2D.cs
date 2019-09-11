@@ -15,6 +15,9 @@ namespace mview
     {
         public List<WELLDATA> WELLS; // Опасная копия данных с рестарт файла
         public List<WELLDATA> ACTIVE_WELLS; // Только те скважины, которые следует отображать
+        public ViewMode CurrentViewMode = ViewMode.X;
+        public float StretchFactor = 0;
+
         public Colorizer colorizer = new Colorizer();
 
         public int element_count = 0;
@@ -32,7 +35,7 @@ namespace mview
         // Выбранные для отображения координаты
 
         public int ZA = 0;
-        public int XA = 0;
+        public int XA = 6;
         public int YA = 0;
 
 
@@ -101,6 +104,7 @@ namespace mview
                 foreach (ECL.COMPLDATA compl in well.COMPLS)
                 {
                     // Решение о визуализации скважины
+
                     show_well = false;
 
                     if (show_all)
@@ -220,27 +224,6 @@ namespace mview
             IntPtr vertex_ptr;
             IntPtr element_ptr;
 
-            GL.BufferData(
-                BufferTarget.ArrayBuffer,
-                (IntPtr)(ecl.EGRID.NX * ecl.EGRID.NY * sizeof(float) * 3 * 4 + ecl.EGRID.NX * ecl.EGRID.NY * sizeof(byte) * 4 * 3),
-                IntPtr.Zero,
-                BufferUsageHint.StaticDraw);
-
-            vertex_ptr = GL.MapBuffer(BufferTarget.ArrayBuffer, BufferAccess.WriteOnly);
-
-            GL.BufferData(
-                BufferTarget.ElementArrayBuffer,
-                (IntPtr)(ecl.EGRID.NX * ecl.EGRID.NY * sizeof(int) * 4),
-                IntPtr.Zero,
-                BufferUsageHint.StaticDraw);
-
-            element_ptr = GL.MapBuffer(BufferTarget.ElementArrayBuffer, BufferAccess.WriteOnly);
-
-            GL.VertexPointer(3, VertexPointerType.Float, 0, 0);
-            GL.ColorPointer(3, ColorPointerType.UnsignedByte, 0, ecl.EGRID.NX * ecl.EGRID.NY * sizeof(float) * 3 * 4);
-
-            System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
-
             int cell_index = 0;
 
             Color color;
@@ -248,71 +231,192 @@ namespace mview
             Cell CELL;
             int index = 0;
 
-            unsafe
+            float DX = 0;
+            float DY = 0;
+            
+            if (CurrentViewMode == ViewMode.Z)
             {
-                float* vertex_mem = (float*)vertex_ptr;
-                int* index_mem = (int*)element_ptr;
-                byte* color_mem = (byte*)(vertex_ptr + ecl.EGRID.NX * ecl.EGRID.NY * sizeof(float) * 3 * 4);
+                GL.BufferData(
+                    BufferTarget.ArrayBuffer,
+                    (IntPtr)(ecl.EGRID.NX * ecl.EGRID.NY * sizeof(float) * 3 * 4 + ecl.EGRID.NX * ecl.EGRID.NY * sizeof(byte) * 4 * 3),
+                    IntPtr.Zero,
+                    BufferUsageHint.StaticDraw);
 
-                for (int X = 0; X < ecl.EGRID.NX; ++X)
-                    for (int Y = 0; Y < ecl.EGRID.NY; ++Y)
-                    {
-                        cell_index = ecl.INIT.GetActive(X, Y, ZA);
+                vertex_ptr = GL.MapBuffer(BufferTarget.ArrayBuffer, BufferAccess.WriteOnly);
 
-                        if (cell_index > 0)
+                GL.BufferData(
+                    BufferTarget.ElementArrayBuffer,
+                    (IntPtr)(ecl.EGRID.NX * ecl.EGRID.NY * sizeof(int) * 4),
+                    IntPtr.Zero,
+                    BufferUsageHint.StaticDraw);
+
+                element_ptr = GL.MapBuffer(BufferTarget.ElementArrayBuffer, BufferAccess.WriteOnly);
+
+                GL.VertexPointer(3, VertexPointerType.Float, 0, 0);
+                GL.ColorPointer(3, ColorPointerType.UnsignedByte, 0, ecl.EGRID.NX * ecl.EGRID.NY * sizeof(float) * 3 * 4);
+
+                System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
+
+                unsafe
+                {
+                    float* vertex_mem = (float*)vertex_ptr;
+                    int* index_mem = (int*)element_ptr;
+                    byte* color_mem = (byte*)(vertex_ptr + ecl.EGRID.NX * ecl.EGRID.NY * sizeof(float) * 3 * 4);
+
+                    for (int X = 0; X < ecl.EGRID.NX; ++X)
+                        for (int Y = 0; Y < ecl.EGRID.NY; ++Y)
                         {
-                            CELL = ecl.EGRID.GetCell(X, Y, ZA);
+                            cell_index = ecl.INIT.GetActive(X, Y, ZA);
 
-                            value = GetValue(cell_index - 1);
+                            if (cell_index > 0)
+                            {
+                                CELL = ecl.EGRID.GetCell(X, Y, ZA);
 
-                            color = colorizer.ColorByValue(value);
+                                value = GetValue(cell_index - 1);
 
-                            index_mem[index] = index;
-                            vertex_mem[index * 3 + 0] = CELL.TNW.X;
-                            vertex_mem[index * 3 + 1] = CELL.TNW.Y;
-                            vertex_mem[index * 3 + 2] = 0.1f;
+                                color = colorizer.ColorByValue(value);
 
-                            color_mem[index * 3 + 0] = color.R;
-                            color_mem[index * 3 + 1] = color.G;
-                            color_mem[index * 3 + 2] = color.B;
+                                index_mem[index] = index;
+                                vertex_mem[index * 3 + 0] = CELL.TNW.X;
+                                vertex_mem[index * 3 + 1] = CELL.TNW.Y;
+                                vertex_mem[index * 3 + 2] = 0.1f;
 
-                            index++;
+                                color_mem[index * 3 + 0] = color.R;
+                                color_mem[index * 3 + 1] = color.G;
+                                color_mem[index * 3 + 2] = color.B;
 
-                            index_mem[index] = index;
-                            vertex_mem[index * 3 + 0] = CELL.TNE.X;
-                            vertex_mem[index * 3 + 1] = CELL.TNE.Y;
-                            vertex_mem[index * 3 + 2] = 0.1f;
+                                index++;
 
-                            color_mem[index * 3 + 0] = color.R;
-                            color_mem[index * 3 + 1] = color.G;
-                            color_mem[index * 3 + 2] = color.B;
+                                index_mem[index] = index;
+                                vertex_mem[index * 3 + 0] = CELL.TNE.X;
+                                vertex_mem[index * 3 + 1] = CELL.TNE.Y;
+                                vertex_mem[index * 3 + 2] = 0.1f;
 
-                            index++;
+                                color_mem[index * 3 + 0] = color.R;
+                                color_mem[index * 3 + 1] = color.G;
+                                color_mem[index * 3 + 2] = color.B;
 
-                            index_mem[index] = index;
-                            vertex_mem[index * 3 + 0] = CELL.TSE.X;
-                            vertex_mem[index * 3 + 1] = CELL.TSE.Y;
-                            vertex_mem[index * 3 + 2] = 0.1f;
+                                index++;
 
-                            color_mem[index * 3 + 0] = color.R;
-                            color_mem[index * 3 + 1] = color.G;
-                            color_mem[index * 3 + 2] = color.B;
+                                index_mem[index] = index;
+                                vertex_mem[index * 3 + 0] = CELL.TSE.X;
+                                vertex_mem[index * 3 + 1] = CELL.TSE.Y;
+                                vertex_mem[index * 3 + 2] = 0.1f;
 
-                            index++;
+                                color_mem[index * 3 + 0] = color.R;
+                                color_mem[index * 3 + 1] = color.G;
+                                color_mem[index * 3 + 2] = color.B;
 
-                            index_mem[index] = index;
-                            vertex_mem[index * 3 + 0] = CELL.TSW.X;
-                            vertex_mem[index * 3 + 1] = CELL.TSW.Y;
-                            vertex_mem[index * 3 + 2] = 0.1f;
+                                index++;
 
-                            color_mem[index * 3 + 0] = color.R;
-                            color_mem[index * 3 + 1] = color.G;
-                            color_mem[index * 3 + 2] = color.B;
+                                index_mem[index] = index;
+                                vertex_mem[index * 3 + 0] = CELL.TSW.X;
+                                vertex_mem[index * 3 + 1] = CELL.TSW.Y;
+                                vertex_mem[index * 3 + 2] = 0.1f;
 
-                            index++;
+                                color_mem[index * 3 + 0] = color.R;
+                                color_mem[index * 3 + 1] = color.G;
+                                color_mem[index * 3 + 2] = color.B;
+
+                                index++;
+                            }
                         }
-                    }
-            }
+                }
+            } // End for CurrentViewMode Z
+
+            if (CurrentViewMode == ViewMode.X)
+            {
+                GL.BufferData(
+                    BufferTarget.ArrayBuffer,
+                    (IntPtr)(ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(float) * 3 * 4 + ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(byte) * 4 * 3),
+                    IntPtr.Zero,
+                    BufferUsageHint.StaticDraw);
+
+                vertex_ptr = GL.MapBuffer(BufferTarget.ArrayBuffer, BufferAccess.WriteOnly);
+
+                GL.BufferData(
+                    BufferTarget.ElementArrayBuffer,
+                    (IntPtr)(ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(int) * 4),
+                    IntPtr.Zero,
+                    BufferUsageHint.StaticDraw);
+
+                element_ptr = GL.MapBuffer(BufferTarget.ElementArrayBuffer, BufferAccess.WriteOnly);
+
+                GL.VertexPointer(3, VertexPointerType.Float, 0, 0);
+                GL.ColorPointer(3, ColorPointerType.UnsignedByte, 0, ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(float) * 3 * 4);
+
+                System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
+
+
+                DX = (XMAXCOORD - XMINCOORD) / ecl.EGRID.NY;
+                DY = (YMAXCOORD - YMINCOORD) / ecl.EGRID.NZ;
+
+                unsafe
+                {
+                    float* vertex_mem = (float*)vertex_ptr;
+                    int* index_mem = (int*)element_ptr;
+                    byte* color_mem = (byte*)(vertex_ptr + ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(float) * 3 * 4);
+
+                    for (int Z = 0; Z < ecl.EGRID.NZ; ++Z)
+                        for (int Y = 0; Y < ecl.EGRID.NY; ++Y)
+                        {
+                            cell_index = ecl.INIT.GetActive(XA, Y, Z);
+
+                            if (cell_index > 0)
+                            {
+                                CELL = ecl.EGRID.GetCell(XA, Y, Z);
+
+                                value = GetValue(cell_index - 1);
+
+                                color = colorizer.ColorByValue(value);
+
+                                index_mem[index] = index;
+                                vertex_mem[index * 3 + 0] = CELL.TSE.Y * (1 - StretchFactor) + (XMINCOORD + DX * Y + DX) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.TSE.Z * (1 - StretchFactor) + (YMINCOORD + DY * Z) * StretchFactor ;
+                                vertex_mem[index * 3 + 2] = 0.1f;
+
+                                color_mem[index * 3 + 0] = color.R;
+                                color_mem[index * 3 + 1] = color.G;
+                                color_mem[index * 3 + 2] = color.B;
+
+                                index++;
+
+                                index_mem[index] = index;
+                                vertex_mem[index * 3 + 0] = CELL.BSE.Y * (1 - StretchFactor) + (XMINCOORD + DX * Y + DX) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.BSE.Z * (1 - StretchFactor) + (YMINCOORD + DY * Z + DY) * StretchFactor;
+                                vertex_mem[index * 3 + 2] = 0.1f;
+
+                                color_mem[index * 3 + 0] = color.R;
+                                color_mem[index * 3 + 1] = color.G;
+                                color_mem[index * 3 + 2] = color.B;
+
+                                index++;
+
+                                index_mem[index] = index;
+                                vertex_mem[index * 3 + 0] = CELL.BNE.Y * (1 - StretchFactor) + (XMINCOORD + DX * Y) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.BNE.Z * (1 - StretchFactor) + (YMINCOORD + DY * Z + DY) * StretchFactor;
+                                vertex_mem[index * 3 + 2] = 0.1f;
+
+                                color_mem[index * 3 + 0] = color.R;
+                                color_mem[index * 3 + 1] = color.G;
+                                color_mem[index * 3 + 2] = color.B;
+
+                                index++;
+
+                                index_mem[index] = index;
+                                vertex_mem[index * 3 + 0] = CELL.TNE.Y * (1 - StretchFactor) + (XMINCOORD + DX * Y) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.TNE.Z * (1 - StretchFactor) + (YMINCOORD + DY * Z) * StretchFactor;
+                                vertex_mem[index * 3 + 2] = 0.1f;
+
+                                color_mem[index * 3 + 0] = color.R;
+                                color_mem[index * 3 + 1] = color.G;
+                                color_mem[index * 3 + 2] = color.B;
+
+                                index++;
+                            }
+                        }
+                }
+            } // End for CurrentViewMode X
 
             element_count = index;
             GL.UnmapBuffer(BufferTarget.ArrayBuffer);
