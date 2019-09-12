@@ -243,7 +243,7 @@ namespace mview
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            if (grid.element_count == 0) return;
+
 
             // Масштабирование и перенос области отображения
 
@@ -275,29 +275,37 @@ namespace mview
                 GL.Translate(-grid.XC, -grid.ZC, 0);
             }
 
-            render.Clear(Color.Transparent);
-
-            DrawWells();
-
-            // Отрисовка ячеек
-
-            GL.PolygonOffset(+1, +1);
-            GL.EnableClientState(ArrayCap.ColorArray);
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-            GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
-
-            // Отрисовка границ ячеек
-
-            if (style.ShowGridLines == true)
+            if (grid.element_count > 0)
             {
-                GL.PolygonOffset(0, 0);
-                GL.DisableClientState(ArrayCap.ColorArray);
-                GL.Color3(Color.Black);
-                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+
+                render.Clear(Color.Transparent);
+
+                /*
+                DrawWells();
+                */
+
+                // Отрисовка ячеек
+
+                GL.PolygonOffset(+1, +1);
+                GL.EnableClientState(ArrayCap.ColorArray);
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
                 GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
+
+                // Отрисовка границ ячеек
+
+                if (style.ShowGridLines == true)
+                {
+                    GL.PolygonOffset(0, 0);
+                    GL.DisableClientState(ArrayCap.ColorArray);
+                    GL.Color3(Color.Black);
+                    GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                    GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
+                }
             }
 
             // Отрисовка выбранной ячейки
+
+            /*
              
             if (XS > -1)
             {
@@ -326,6 +334,8 @@ namespace mview
                     GL.LineWidth(1);
                 }
             }
+
+            */
 
             DrawFrame();
 
@@ -385,8 +395,6 @@ namespace mview
 
         public int XS, YS, ZS; // Координаты выбранной ячейки
         public float VS; // Значение выбранной ячейки
-
-        private readonly object CELL;
 
         public void MouseClick(MouseEventArgs e)
         {

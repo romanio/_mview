@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Static ");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Dynamic");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Static ");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Dynamic");
             this.label2 = new System.Windows.Forms.Label();
             this.boxRestart = new System.Windows.Forms.ComboBox();
             this.glControl = new OpenTK.GLControl();
@@ -102,13 +102,13 @@
             this.treeProperties.HideSelection = false;
             this.treeProperties.Location = new System.Drawing.Point(761, 186);
             this.treeProperties.Name = "treeProperties";
-            treeNode3.Name = "Узел0";
-            treeNode3.Text = "Static ";
-            treeNode4.Name = "Узел1";
-            treeNode4.Text = "Dynamic";
+            treeNode1.Name = "Узел0";
+            treeNode1.Text = "Static ";
+            treeNode2.Name = "Узел1";
+            treeNode2.Text = "Dynamic";
             this.treeProperties.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode1,
+            treeNode2});
             this.treeProperties.Size = new System.Drawing.Size(130, 372);
             this.treeProperties.TabIndex = 0;
             this.treeProperties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeProperties_AfterSelect);
