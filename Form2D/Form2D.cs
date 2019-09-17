@@ -14,10 +14,26 @@ namespace mview
     {
         Form2DModel model = null;
 
+        UCSetFocusOn ucSetFocusOn = new UCSetFocusOn();
+
         public Form2D(EclipseProject ecl)
         {
             InitializeComponent();
             model = new Form2DModel(ecl);
+
+            this.Controls.Add(ucSetFocusOn);
+            ucSetFocusOn.BringToFront();
+            ucSetFocusOn.Location = new Point(bbSetFocusOn.Location.X, bbSetFocusOn.Location.Y + bbSetFocusOn.Height + 8);
+
+            ucSetFocusOn.Visible = false;
+            ucSetFocusOn.SelectedIndexChanged += new EventHandler(this.OnUCWellsSelected);
+  
+        }
+
+        private void OnUCWellsSelected(object sender, EventArgs e)
+        {
+            model.SetFocusOnWell(((ListBox)sender).SelectedItem.ToString());
+            glControl.SwapBuffers();
         }
 
         void FillStaticProperties()
@@ -193,23 +209,17 @@ namespace mview
             glControlOnPaint(null, null);
         }
 
+
+
         private void bbSetFocusOn_Click(object sender, EventArgs e)
         {
-            panel1.Visible = !panel1.Visible;
+            ucSetFocusOn.Visible = !ucSetFocusOn.Visible;
 
-            if (panel1.Visible == true)
+            if (ucSetFocusOn.Visible)
             {
-                listWells.Items.Clear();
-                listWells.Items.AddRange(model.GetWellNames());
+                ucSetFocusOn.listWells.Items.Clear();
+                ucSetFocusOn.listWells.Items.AddRange(model.GetWellNames());
             }
-        }
-
-        private void listWells_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listWells.SelectedItem == null) return;
-
-            model.SetFocusOnWell(listWells.SelectedItem.ToString());
-            glControl.SwapBuffers();
         }
 
         private void tabSliceControl_SelectedIndexChanged(object sender, EventArgs e)

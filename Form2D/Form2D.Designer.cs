@@ -46,14 +46,10 @@
             this.button1 = new System.Windows.Forms.Button();
             this.lbCellValue = new System.Windows.Forms.Label();
             this.bbSetFocusOn = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.listWells = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.tabSliceControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -240,42 +236,11 @@
             this.bbSetFocusOn.UseVisualStyleBackColor = true;
             this.bbSetFocusOn.Click += new System.EventHandler(this.bbSetFocusOn_Click);
             // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.listWells);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Location = new System.Drawing.Point(553, 44);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(145, 256);
-            this.panel1.TabIndex = 53;
-            this.panel1.Visible = false;
-            // 
-            // listWells
-            // 
-            this.listWells.FormattingEnabled = true;
-            this.listWells.Location = new System.Drawing.Point(17, 35);
-            this.listWells.Name = "listWells";
-            this.listWells.Size = new System.Drawing.Size(112, 186);
-            this.listWells.Sorted = true;
-            this.listWells.TabIndex = 1;
-            this.listWells.SelectedIndexChanged += new System.EventHandler(this.listWells_SelectedIndexChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 10);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Wells";
-            // 
             // Form2D
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(917, 697);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.bbSetFocusOn);
             this.Controls.Add(this.lbCellValue);
             this.Controls.Add(this.buttonChartOptions);
@@ -297,8 +262,6 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -323,8 +286,5 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label lbCellValue;
         private System.Windows.Forms.Button bbSetFocusOn;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ListBox listWells;
-        private System.Windows.Forms.Label label3;
     }
 }
