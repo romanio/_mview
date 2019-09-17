@@ -14,20 +14,40 @@ namespace mview
     {
         Form2DModel model = null;
 
-        UCSetFocusOn ucSetFocusOn = new UCSetFocusOn();
+        UCSetFocusOn ucSetFocusOn = null;
+        UСOptions ucOptions = null;
 
         public Form2D(EclipseProject ecl)
         {
             InitializeComponent();
             model = new Form2DModel(ecl);
 
+            // 
+            ucSetFocusOn = new UCSetFocusOn();
             this.Controls.Add(ucSetFocusOn);
             ucSetFocusOn.BringToFront();
             ucSetFocusOn.Location = new Point(bbSetFocusOn.Location.X, bbSetFocusOn.Location.Y + bbSetFocusOn.Height + 8);
 
             ucSetFocusOn.Visible = false;
             ucSetFocusOn.SelectedIndexChanged += new EventHandler(this.OnUCWellsSelected);
-  
+
+            //
+            ucOptions = new UСOptions(model.style);
+
+            this.Controls.Add(ucOptions);
+            ucOptions.BringToFront();
+            ucOptions.Location = new Point(bbChartOptions.Location.X, bbChartOptions.Location.Y + bbChartOptions.Height + 8);
+
+            ucOptions.Visible = false;
+            ucOptions.ApplyStyle += new EventHandler(this.OnUCApplyStyle);
+
+        }
+
+        private void OnUCApplyStyle(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("2D Options : ApplyStyle");
+            model.ApplyStyle();
+            glControlOnPaint(null, null);
         }
 
         private void OnUCWellsSelected(object sender, EventArgs e)
@@ -197,16 +217,38 @@ namespace mview
 
         private void buttonChartOptions_Click(object sender, EventArgs e)
         {
-            Form2DOptions tmp = new Form2DOptions(model.style);
-            tmp.ApplyStyle += OnApplyStyle;
-            tmp.Show();
+            ucOptions.Visible = !ucOptions.Visible;
+
+            if (ucOptions.Visible)
+            {
+                // Восстановление настроек
+
+                ucOptions.checkShowGridLines.Checked = model.style.ShowGridLines;
+                ucOptions.checkShowBubbles.Checked = model.style.ShowBubbles;
+                ucOptions.boxBubbleMode.SelectedIndex = 0;
+                ucOptions.numericScaleFactor.Value = (decimal)model.style.scale_factor;
+
+                ucOptions.boxMinimum.Text = model.style.min_value.ToString();
+                ucOptions.boxMaximum.Text = model.style.max_value.ToString();
+
+                switch (model.style.BubbleMode)
+                {
+                    case BubbleMode.Simulation:
+                        ucOptions.boxBubbleMode.SelectedIndex = 0;
+                        break;
+                    case BubbleMode.Historical:
+                        ucOptions.boxBubbleMode.SelectedIndex = 1;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
 
         private void OnApplyStyle()
         {
-            System.Diagnostics.Debug.WriteLine("2D Options : ApplyStyle");
-            model.ApplyStyle();
-            glControlOnPaint(null, null);
+
         }
 
 

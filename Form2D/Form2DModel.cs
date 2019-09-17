@@ -23,6 +23,7 @@ namespace mview
         public double min_value = 0;
         public double max_value = 1;
         public double scale_factor = 100;
+        public double stretch_factor = 0;
     }
 
 
@@ -80,6 +81,8 @@ namespace mview
             engine.grid.colorizer.SetMinimum(style.min_value);
             engine.grid.colorizer.SetMaximum(style.max_value);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
+            engine.grid.StretchFactor = (float)style.stretch_factor;
+
             engine.grid.RefreshGrid();
         }
 

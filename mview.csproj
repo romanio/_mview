@@ -68,6 +68,12 @@
     <Compile Include="Form2D\SubForms\UCSetFocusOn.Designer.cs">
       <DependentUpon>UCSetFocusOn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form2D\SubForms\UСOptions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Form2D\SubForms\UСOptions.Designer.cs">
+      <DependentUpon>UСOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormCrossPlots\FormCrossPlots.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,12 +113,6 @@
       <DependentUpon>Form2D.cs</DependentUpon>
     </Compile>
     <Compile Include="Form2D\Form2DModel.cs" />
-    <Compile Include="Form2D\Form2DOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form2D\Form2DOptions.Designer.cs">
-      <DependentUpon>Form2DOptions.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form3DInfo\Form3DInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +151,9 @@
     <EmbeddedResource Include="Form2D\SubForms\UCSetFocusOn.resx">
       <DependentUpon>UCSetFocusOn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form2D\SubForms\UСOptions.resx">
+      <DependentUpon>UСOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormCrossPlots\FormCrossPlots.resx">
       <DependentUpon>FormCrossPlots.cs</DependentUpon>
     </EmbeddedResource>
@@ -159,9 +162,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2D\Form2D.resx">
       <DependentUpon>Form2D.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form2D\Form2DOptions.resx">
-      <DependentUpon>Form2DOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form3DInfo\Form3DInfo.resx">
       <DependentUpon>Form3DInfo.cs</DependentUpon>

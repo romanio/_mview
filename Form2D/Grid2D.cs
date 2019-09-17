@@ -16,7 +16,7 @@ namespace mview
         public List<WELLDATA> WELLS; // Опасная копия данных с рестарт файла
         public List<WELLDATA> ACTIVE_WELLS; // Только те скважины, которые следует отображать
         public ViewMode CurrentViewMode = ViewMode.X;
-        public float StretchFactor = 1;
+        public float StretchFactor = 0;
 
         public Colorizer colorizer = new Colorizer();
 
@@ -326,13 +326,13 @@ namespace mview
 
             if (CurrentViewMode == ViewMode.X)
             {
-                GL.BufferData(
+              GL.BufferData(
                     BufferTarget.ArrayBuffer,
                     (IntPtr)(ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(float) * 3 * 4 + ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(byte) * 4 * 3),
                     IntPtr.Zero,
                     BufferUsageHint.StaticDraw);
 
-                vertex_ptr = GL.MapBuffer(BufferTarget.ArrayBuffer, BufferAccess.WriteOnly);
+                vertex_ptr = GL.MapBuffer(BufferTarget.ArrayBuffer, BufferAccess.WriteOnly);    
 
                 GL.BufferData(
                     BufferTarget.ElementArrayBuffer,
@@ -367,15 +367,9 @@ namespace mview
 
                                 color = colorizer.ColorByValue(value);
 
-                                //
-                                //XMIN = grid.YMINCOORD;
-                                //XMAX = grid.YMAXCOORD;
-                                //YMIN = grid.ZMINCOORD;
-                                //YMAX = grid.ZMAXCOORD;
-
                                 index_mem[index] = index;
-                                vertex_mem[index * 3 + 0] = CELL.TSE.Y * (1 - StretchFactor) + (YMINCOORD + DX * Y + DX) * StretchFactor;
-                                vertex_mem[index * 3 + 1] = CELL.TSE.Z * (1 - StretchFactor) + (ZMINCOORD + DY * Z) * StretchFactor ;
+                                vertex_mem[index * 3 + 0] = CELL.TSE.Y; // * (1 - StretchFactor) + (YMINCOORD + DX * Y + DX) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.TSE.Z;// * (1 - StretchFactor) + (ZMINCOORD + DY * Z) * StretchFactor ;
                                 vertex_mem[index * 3 + 2] = 0.1f;
 
                                 color_mem[index * 3 + 0] = color.R;
@@ -385,8 +379,8 @@ namespace mview
                                 index++;
 
                                 index_mem[index] = index;
-                                vertex_mem[index * 3 + 0] = CELL.BSE.Y * (1 - StretchFactor) + (YMINCOORD + DX * Y + DX) * StretchFactor;
-                                vertex_mem[index * 3 + 1] = CELL.BSE.Z * (1 - StretchFactor) + (ZMINCOORD + DY * Z + DY) * StretchFactor;
+                                vertex_mem[index * 3 + 0] = CELL.BSE.Y;// * (1 - StretchFactor) + (YMINCOORD + DX * Y + DX) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.BSE.Z;// * (1 - StretchFactor) + (ZMINCOORD + DY * Z + DY) * StretchFactor;
                                 vertex_mem[index * 3 + 2] = 0.1f;
 
                                 color_mem[index * 3 + 0] = color.R;
@@ -396,8 +390,8 @@ namespace mview
                                 index++;
 
                                 index_mem[index] = index;
-                                vertex_mem[index * 3 + 0] = CELL.BNE.Y * (1 - StretchFactor) + (YMINCOORD + DX * Y) * StretchFactor;
-                                vertex_mem[index * 3 + 1] = CELL.BNE.Z * (1 - StretchFactor) + (ZMINCOORD + DY * Z + DY) * StretchFactor;
+                                vertex_mem[index * 3 + 0] = CELL.BNE.Y;// * (1 - StretchFactor) + (YMINCOORD + DX * Y) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.BNE.Z;// * (1 - StretchFactor) + (ZMINCOORD + DY * Z + DY) * StretchFactor;
                                 vertex_mem[index * 3 + 2] = 0.1f;
 
                                 color_mem[index * 3 + 0] = color.R;
@@ -407,8 +401,8 @@ namespace mview
                                 index++;
 
                                 index_mem[index] = index;
-                                vertex_mem[index * 3 + 0] = CELL.TNE.Y * (1 - StretchFactor) + (YMINCOORD + DX * Y) * StretchFactor;
-                                vertex_mem[index * 3 + 1] = CELL.TNE.Z * (1 - StretchFactor) + (ZMINCOORD + DY * Z) * StretchFactor;
+                                vertex_mem[index * 3 + 0] = CELL.TNE.Y;// * (1 - StretchFactor) + (YMINCOORD + DX * Y) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.TNE.Z;// * (1 - StretchFactor) + (ZMINCOORD + DY * Z) * StretchFactor;
                                 vertex_mem[index * 3 + 2] = 0.1f;
 
                                 color_mem[index * 3 + 0] = color.R;

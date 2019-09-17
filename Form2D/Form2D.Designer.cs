@@ -42,7 +42,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.boxYSlice = new System.Windows.Forms.ComboBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.buttonChartOptions = new System.Windows.Forms.Button();
+            this.bbChartOptions = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.lbCellValue = new System.Windows.Forms.Label();
             this.bbSetFocusOn = new System.Windows.Forms.Button();
@@ -197,15 +197,15 @@
             this.tabPage3.Text = "Z(K)";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // buttonChartOptions
+            // bbChartOptions
             // 
-            this.buttonChartOptions.Location = new System.Drawing.Point(305, 12);
-            this.buttonChartOptions.Name = "buttonChartOptions";
-            this.buttonChartOptions.Size = new System.Drawing.Size(118, 26);
-            this.buttonChartOptions.TabIndex = 49;
-            this.buttonChartOptions.Text = "Options";
-            this.buttonChartOptions.UseVisualStyleBackColor = true;
-            this.buttonChartOptions.Click += new System.EventHandler(this.buttonChartOptions_Click);
+            this.bbChartOptions.Location = new System.Drawing.Point(305, 12);
+            this.bbChartOptions.Name = "bbChartOptions";
+            this.bbChartOptions.Size = new System.Drawing.Size(118, 26);
+            this.bbChartOptions.TabIndex = 49;
+            this.bbChartOptions.Text = "Options";
+            this.bbChartOptions.UseVisualStyleBackColor = true;
+            this.bbChartOptions.Click += new System.EventHandler(this.buttonChartOptions_Click);
             // 
             // button1
             // 
@@ -243,7 +243,7 @@
             this.ClientSize = new System.Drawing.Size(917, 697);
             this.Controls.Add(this.bbSetFocusOn);
             this.Controls.Add(this.lbCellValue);
-            this.Controls.Add(this.buttonChartOptions);
+            this.Controls.Add(this.bbChartOptions);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tabSliceControl);
             this.Controls.Add(this.glControl);
@@ -282,7 +282,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button buttonChartOptions;
+        private System.Windows.Forms.Button bbChartOptions;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label lbCellValue;
         private System.Windows.Forms.Button bbSetFocusOn;

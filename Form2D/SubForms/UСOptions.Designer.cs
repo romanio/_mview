@@ -1,16 +1,16 @@
 ﻿namespace mview
 {
-    partial class Form2DOptions
+    partial class UСOptions
     {
-        /// <summary>
-        /// Required designer variable.
+        /// <summary> 
+        /// Обязательная переменная конструктора.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
+        /// <summary> 
+        /// Освободить все используемые ресурсы.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,14 +20,15 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Код, автоматически созданный конструктором компонентов
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// <summary> 
+        /// Требуемый метод для поддержки конструктора — не изменяйте 
+        /// содержимое этого метода с помощью редактора кода.
         /// </summary>
         private void InitializeComponent()
         {
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.checkShowAllWell = new System.Windows.Forms.CheckBox();
@@ -41,14 +42,25 @@
             this.boxBubbleMode = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
             this.checkShowBubbles = new System.Windows.Forms.CheckBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.trackStratch = new System.Windows.Forms.TrackBar();
+            this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericScaleFactor)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackStratch)).BeginInit();
             this.SuspendLayout();
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Location = new System.Drawing.Point(14, 18);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(272, 421);
+            this.tabControl1.TabIndex = 31;
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.trackStratch);
             this.tabPage4.Controls.Add(this.label1);
             this.tabPage4.Controls.Add(this.checkShowAllWell);
             this.tabPage4.Controls.Add(this.labelMax);
@@ -64,16 +76,16 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(351, 395);
+            this.tabPage4.Size = new System.Drawing.Size(264, 395);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Bubble map";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 189);
+            this.label1.Location = new System.Drawing.Point(22, 189);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 13);
             this.label1.TabIndex = 63;
@@ -81,11 +93,11 @@
             // 
             // checkShowAllWell
             // 
-            this.checkShowAllWell.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkShowAllWell.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkShowAllWell.AutoSize = true;
             this.checkShowAllWell.Checked = true;
             this.checkShowAllWell.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowAllWell.Location = new System.Drawing.Point(21, 280);
+            this.checkShowAllWell.Location = new System.Drawing.Point(25, 280);
             this.checkShowAllWell.Name = "checkShowAllWell";
             this.checkShowAllWell.Size = new System.Drawing.Size(113, 17);
             this.checkShowAllWell.TabIndex = 62;
@@ -95,9 +107,9 @@
             // 
             // labelMax
             // 
-            this.labelMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelMax.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelMax.AutoSize = true;
-            this.labelMax.Location = new System.Drawing.Point(87, 219);
+            this.labelMax.Location = new System.Drawing.Point(91, 219);
             this.labelMax.Name = "labelMax";
             this.labelMax.Size = new System.Drawing.Size(51, 13);
             this.labelMax.TabIndex = 61;
@@ -105,9 +117,9 @@
             // 
             // checkShowGridLines
             // 
-            this.checkShowGridLines.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkShowGridLines.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkShowGridLines.AutoSize = true;
-            this.checkShowGridLines.Location = new System.Drawing.Point(21, 141);
+            this.checkShowGridLines.Location = new System.Drawing.Point(25, 141);
             this.checkShowGridLines.Name = "checkShowGridLines";
             this.checkShowGridLines.Size = new System.Drawing.Size(97, 17);
             this.checkShowGridLines.TabIndex = 60;
@@ -117,9 +129,9 @@
             // 
             // labelMin
             // 
-            this.labelMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelMin.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelMin.AutoSize = true;
-            this.labelMin.Location = new System.Drawing.Point(87, 189);
+            this.labelMin.Location = new System.Drawing.Point(91, 189);
             this.labelMin.Name = "labelMin";
             this.labelMin.Size = new System.Drawing.Size(47, 13);
             this.labelMin.TabIndex = 59;
@@ -127,8 +139,8 @@
             // 
             // boxMaximum
             // 
-            this.boxMaximum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxMaximum.Location = new System.Drawing.Point(175, 216);
+            this.boxMaximum.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.boxMaximum.Location = new System.Drawing.Point(179, 216);
             this.boxMaximum.Name = "boxMaximum";
             this.boxMaximum.Size = new System.Drawing.Size(64, 21);
             this.boxMaximum.TabIndex = 57;
@@ -138,8 +150,8 @@
             // 
             // boxMinimum
             // 
-            this.boxMinimum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxMinimum.Location = new System.Drawing.Point(175, 189);
+            this.boxMinimum.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.boxMinimum.Location = new System.Drawing.Point(179, 189);
             this.boxMinimum.Name = "boxMinimum";
             this.boxMinimum.Size = new System.Drawing.Size(64, 21);
             this.boxMinimum.TabIndex = 56;
@@ -149,8 +161,9 @@
             // 
             // label22
             // 
+            this.label22.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(18, 101);
+            this.label22.Location = new System.Drawing.Point(19, 101);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(64, 13);
             this.label22.TabIndex = 55;
@@ -158,7 +171,8 @@
             // 
             // numericScaleFactor
             // 
-            this.numericScaleFactor.Location = new System.Drawing.Point(175, 99);
+            this.numericScaleFactor.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.numericScaleFactor.Location = new System.Drawing.Point(176, 99);
             this.numericScaleFactor.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -181,13 +195,14 @@
             // 
             // boxBubbleMode
             // 
+            this.boxBubbleMode.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.boxBubbleMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxBubbleMode.FormattingEnabled = true;
             this.boxBubbleMode.IntegralHeight = false;
             this.boxBubbleMode.Items.AddRange(new object[] {
             "Simulation",
             "History"});
-            this.boxBubbleMode.Location = new System.Drawing.Point(133, 62);
+            this.boxBubbleMode.Location = new System.Drawing.Point(134, 62);
             this.boxBubbleMode.Name = "boxBubbleMode";
             this.boxBubbleMode.Size = new System.Drawing.Size(106, 21);
             this.boxBubbleMode.TabIndex = 53;
@@ -195,8 +210,9 @@
             // 
             // label21
             // 
+            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(18, 65);
+            this.label21.Location = new System.Drawing.Point(19, 65);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(91, 13);
             this.label21.TabIndex = 52;
@@ -204,11 +220,11 @@
             // 
             // checkShowBubbles
             // 
-            this.checkShowBubbles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkShowBubbles.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkShowBubbles.AutoSize = true;
             this.checkShowBubbles.Checked = true;
             this.checkShowBubbles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowBubbles.Location = new System.Drawing.Point(21, 26);
+            this.checkShowBubbles.Location = new System.Drawing.Point(25, 26);
             this.checkShowBubbles.Name = "checkShowBubbles";
             this.checkShowBubbles.Size = new System.Drawing.Size(92, 17);
             this.checkShowBubbles.TabIndex = 51;
@@ -216,51 +232,52 @@
             this.checkShowBubbles.UseVisualStyleBackColor = true;
             this.checkShowBubbles.CheckedChanged += new System.EventHandler(this.checkShowBubbles_CheckedChanged);
             // 
-            // tabControl1
+            // trackStratch
             // 
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(359, 421);
-            this.tabControl1.TabIndex = 30;
+            this.trackStratch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.trackStratch.BackColor = System.Drawing.SystemColors.Window;
+            this.trackStratch.Location = new System.Drawing.Point(77, 327);
+            this.trackStratch.Maximum = 100;
+            this.trackStratch.Name = "trackStratch";
+            this.trackStratch.Size = new System.Drawing.Size(146, 45);
+            this.trackStratch.TabIndex = 64;
+            this.trackStratch.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackStratch.Scroll += new System.EventHandler(this.trackStratch_Scroll);
             // 
-            // Form2DOptions
+            // UСOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(381, 446);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "Form2DOptions";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "2D Options";
+            this.Name = "UСOptions";
+            this.Size = new System.Drawing.Size(296, 452);
+            this.VisibleChanged += new System.EventHandler(this.UСOptions_VisibleChanged);
+            this.tabControl1.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericScaleFactor)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackStratch)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.Label labelMax;
-        private System.Windows.Forms.CheckBox checkShowGridLines;
-        private System.Windows.Forms.Label labelMin;
-        private System.Windows.Forms.TextBox boxMaximum;
-        private System.Windows.Forms.TextBox boxMinimum;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.NumericUpDown numericScaleFactor;
-        private System.Windows.Forms.ComboBox boxBubbleMode;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.CheckBox checkShowBubbles;
+
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.CheckBox checkShowAllWell;
+        private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelMax;
+        private System.Windows.Forms.Label labelMin;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        public System.Windows.Forms.CheckBox checkShowAllWell;
+        public System.Windows.Forms.CheckBox checkShowGridLines;
+        public System.Windows.Forms.TextBox boxMaximum;
+        public System.Windows.Forms.TextBox boxMinimum;
+        public System.Windows.Forms.NumericUpDown numericScaleFactor;
+        public System.Windows.Forms.ComboBox boxBubbleMode;
+        public System.Windows.Forms.CheckBox checkShowBubbles;
+        private System.Windows.Forms.TrackBar trackStratch;
     }
 }
