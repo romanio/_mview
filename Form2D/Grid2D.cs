@@ -368,8 +368,8 @@ namespace mview
                                 color = colorizer.ColorByValue(value);
 
                                 index_mem[index] = index;
-                                vertex_mem[index * 3 + 0] = CELL.TSE.Y; // * (1 - StretchFactor) + (YMINCOORD + DX * Y + DX) * StretchFactor;
-                                vertex_mem[index * 3 + 1] = CELL.TSE.Z;// * (1 - StretchFactor) + (ZMINCOORD + DY * Z) * StretchFactor ;
+                                vertex_mem[index * 3 + 0] = CELL.TSE.Y * (1 - StretchFactor) + (YMINCOORD + DX * Y + DX) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.TSE.Z * (1 - StretchFactor) + (ZMINCOORD + DY * Z) * StretchFactor ;
                                 vertex_mem[index * 3 + 2] = 0.1f;
 
                                 color_mem[index * 3 + 0] = color.R;
@@ -379,8 +379,8 @@ namespace mview
                                 index++;
 
                                 index_mem[index] = index;
-                                vertex_mem[index * 3 + 0] = CELL.BSE.Y;// * (1 - StretchFactor) + (YMINCOORD + DX * Y + DX) * StretchFactor;
-                                vertex_mem[index * 3 + 1] = CELL.BSE.Z;// * (1 - StretchFactor) + (ZMINCOORD + DY * Z + DY) * StretchFactor;
+                                vertex_mem[index * 3 + 0] = CELL.BSE.Y * (1 - StretchFactor) + (YMINCOORD + DX * Y + DX) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.BSE.Z * (1 - StretchFactor) + (ZMINCOORD + DY * Z + DY) * StretchFactor;
                                 vertex_mem[index * 3 + 2] = 0.1f;
 
                                 color_mem[index * 3 + 0] = color.R;
@@ -390,8 +390,8 @@ namespace mview
                                 index++;
 
                                 index_mem[index] = index;
-                                vertex_mem[index * 3 + 0] = CELL.BNE.Y;// * (1 - StretchFactor) + (YMINCOORD + DX * Y) * StretchFactor;
-                                vertex_mem[index * 3 + 1] = CELL.BNE.Z;// * (1 - StretchFactor) + (ZMINCOORD + DY * Z + DY) * StretchFactor;
+                                vertex_mem[index * 3 + 0] = CELL.BNE.Y * (1 - StretchFactor) + (YMINCOORD + DX * Y) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.BNE.Z * (1 - StretchFactor) + (ZMINCOORD + DY * Z + DY) * StretchFactor;
                                 vertex_mem[index * 3 + 2] = 0.1f;
 
                                 color_mem[index * 3 + 0] = color.R;
@@ -401,8 +401,8 @@ namespace mview
                                 index++;
 
                                 index_mem[index] = index;
-                                vertex_mem[index * 3 + 0] = CELL.TNE.Y;// * (1 - StretchFactor) + (YMINCOORD + DX * Y) * StretchFactor;
-                                vertex_mem[index * 3 + 1] = CELL.TNE.Z;// * (1 - StretchFactor) + (ZMINCOORD + DY * Z) * StretchFactor;
+                                vertex_mem[index * 3 + 0] = CELL.TNE.Y * (1 - StretchFactor) + (YMINCOORD + DX * Y) * StretchFactor;
+                                vertex_mem[index * 3 + 1] = CELL.TNE.Z * (1 - StretchFactor) + (ZMINCOORD + DY * Z) * StretchFactor;
                                 vertex_mem[index * 3 + 2] = 0.1f;
 
                                 color_mem[index * 3 + 0] = color.R;
@@ -410,6 +410,13 @@ namespace mview
                                 color_mem[index * 3 + 2] = color.B;
 
                                 index++;
+
+                                /*
+                                System.Diagnostics.Debug.WriteLine(CELL.TSE.Y + "  " + CELL.TSE.Z);
+                                System.Diagnostics.Debug.WriteLine(CELL.BSE.Y + "  " + CELL.BSE.Z);
+                                System.Diagnostics.Debug.WriteLine(CELL.BNE.Y + "  " + CELL.BNE.Z);
+                                System.Diagnostics.Debug.WriteLine(CELL.TNE.Y + "  " + CELL.TNE.Z);
+                                */
                             }
                         }
                 }

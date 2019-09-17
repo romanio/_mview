@@ -253,7 +253,7 @@ namespace mview
 
             if (CurrentViewMode != ViewMode.Z)
             {
-                GL.Scale(1, 1, 1);
+                GL.Scale(1, 20, 1);
             }
 
             // Центрирование

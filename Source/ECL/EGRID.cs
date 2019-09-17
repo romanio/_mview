@@ -22,11 +22,11 @@ namespace mview.ECL
     public class BigArray<T>
     {
         internal const int BLOCK_SIZE = 524288;
-        internal const int BLOCK_SIZE_LOG2 = 24;
+        internal const int BLOCK_SIZE_LOG2 = 19;
 
         T[][] _elements;
         ulong _length;
-
+  
         public BigArray(ulong size)
         {
             int numBlocks = (int)(size / BLOCK_SIZE);
