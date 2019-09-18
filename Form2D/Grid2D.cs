@@ -45,8 +45,6 @@ namespace mview
 
         public void GenerateWellDrawList(bool show_all)
         {
-            return;
-
             System.Diagnostics.Debug.WriteLine("GRID : GenerateWellDrawList");
 
             ACTIVE_WELLS = new List<WELLDATA>();
@@ -410,13 +408,6 @@ namespace mview
                                 color_mem[index * 3 + 2] = color.B;
 
                                 index++;
-
-                                /*
-                                System.Diagnostics.Debug.WriteLine(CELL.TSE.Y + "  " + CELL.TSE.Z);
-                                System.Diagnostics.Debug.WriteLine(CELL.BSE.Y + "  " + CELL.BSE.Z);
-                                System.Diagnostics.Debug.WriteLine(CELL.BNE.Y + "  " + CELL.BNE.Z);
-                                System.Diagnostics.Debug.WriteLine(CELL.TNE.Y + "  " + CELL.TNE.Z);
-                                */
                             }
                         }
                 }
@@ -451,7 +442,7 @@ namespace mview
                 {
                     float* vertex_mem = (float*)vertex_ptr;
                     int* index_mem = (int*)element_ptr;
-                    byte* color_mem = (byte*)(vertex_ptr + ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(float) * 3 * 4);
+                    byte* color_mem = (byte*)(vertex_ptr + ecl.EGRID.NX * ecl.EGRID.NZ * sizeof(float) * 3 * 4);
 
                     for (int Z = 0; Z < ecl.EGRID.NZ; ++Z)
                         for (int X = 0; X < ecl.EGRID.NX; ++X)
