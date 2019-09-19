@@ -15,6 +15,7 @@ namespace mview
     {
         public List<WELLDATA> WELLS; // Опасная копия данных с рестарт файла
         public List<WELLDATA> ACTIVE_WELLS; // Только те скважины, которые следует отображать
+
         public ViewMode CurrentViewMode = ViewMode.X;
         public float StretchFactor = 0;
 
@@ -45,10 +46,6 @@ namespace mview
 
         public void GenerateWellDrawList(bool show_all)
         {
-            return;
-
-            System.Diagnostics.Debug.WriteLine("GRID : GenerateWellDrawList");
-
             ACTIVE_WELLS = new List<WELLDATA>();
 
             GL.NewList(welsID, ListMode.Compile);
@@ -74,16 +71,35 @@ namespace mview
                     if (show_all)
                         show_well = true;
 
-                    if (!show_all && (compl.K == ZA))
+                    if (CurrentViewMode == ViewMode.Z)
                     {
-                        show_well = true;
+
+                        if (!show_all && (compl.K == ZA))
+                        {
+                            show_well = true;
+                        }
+                        //
+
+                        if (show_well)
+                        {
+                            compl.is_show = true;
+                            GL.Vertex3(compl.XC, compl.YC, 0.2);
+                        }
                     }
-                    //
-                     
-                    if (show_well)
+
+                    if (CurrentViewMode == ViewMode.X)
                     {
-                        compl.is_show = true;
-                        GL.Vertex3(compl.XC, compl.YC, 0.2);
+                        if (compl.I == XA)
+                        {
+                            show_well = true;
+                        }
+                        //
+
+                        if (show_well)
+                        {
+                            compl.is_show = true;
+                            GL.Vertex3(compl.YC, compl.ZC, 0.2);
+                        }
                     }
                 }
             }
@@ -111,9 +127,20 @@ namespace mview
                     if (show_all)
                         show_well = true;
 
-                    if (!show_all && (compl.K == ZA))
+                    if (CurrentViewMode == ViewMode.Z)
                     {
-                        show_well = true;
+                        if (!show_all && (compl.K == ZA))
+                        {
+                            show_well = true;
+                        }
+                    }
+
+                    if (CurrentViewMode == ViewMode.X)
+                    {
+                        if ((compl.I == XA))
+                        {
+                            show_well = true;
+                        }
                     }
                     //
 
@@ -121,21 +148,45 @@ namespace mview
                     {
                         if (is_first_name) // Отрабатывает только один раз, при первом появлении скважины
                         {
-                            last_XC = compl.XC;
-                            last_YC = compl.YC;
+                            if (CurrentViewMode == ViewMode.Z)
+                            {
+                                last_XC = compl.XC;
+                                last_YC = compl.YC;
 
-                            well.XC = compl.XC;
-                            well.YC = compl.YC;
+                                well.XC = compl.XC;
+                                well.YC = compl.YC;
+                            }
+
+                            if (CurrentViewMode == ViewMode.X)
+                            {
+                                last_XC = compl.YC;
+                                last_YC = compl.ZC;
+
+                                well.XC = compl.YC;
+                                well.YC = compl.ZC;
+                            }
 
                             ACTIVE_WELLS.Add(well); // Сохраняется в списке активных скважин
                         }
                         else // если скважина уже существует, рисуем часть ствола
                         {
                             GL.Vertex3(last_XC, last_YC, 0.2);
-                            GL.Vertex3(compl.XC, compl.YC, 0.2);
 
-                            last_XC = compl.XC;
-                            last_YC = compl.YC;
+                            if (CurrentViewMode == ViewMode.Z)
+                            {
+                                GL.Vertex3(compl.XC, compl.YC, 0.2);
+
+                                last_XC = compl.XC;
+                                last_YC = compl.YC;
+                            }
+
+                            if (CurrentViewMode == ViewMode.X)
+                            {
+                                GL.Vertex3(compl.YC, compl.ZC, 0.2);
+
+                                last_XC = compl.YC;
+                                last_YC = compl.ZC;
+                            }
                         }
 
                         is_first_name = false;
