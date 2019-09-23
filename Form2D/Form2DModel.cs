@@ -154,16 +154,16 @@ namespace mview
             // перфорации скважин. Если скважина вскрывает ячейку, то в массив WCOORD
             // записывается индекс скважины
 
-            engine.grid.WCOORD = new int[ecl.INIT.NACTIV];
+            engine.grid.SetEclipseProject(ecl);
+
+       //     engine.grid.WCOORD = new int[ecl.INIT.NACTIV];
 
             foreach(ECL.WELLDATA well in ecl.RESTART.WELLS)
             {
                 foreach (ECL.COMPLDATA compl in well.COMPLS)
                 {
-                    engine.grid.WCOORD[ecl.INIT.GetActive(compl.I, compl.J, compl.K) - 1] = well.WINDEX;
-                    compl.XC = 0.5f * (ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TNW.X + ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TSE.X);
-                    compl.YC = 0.5f * (ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TNW.Y + ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TSE.Y);
-                    compl.ZC = 0.5f * (ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TNW.Z + ecl.EGRID.GetCell(compl.I, compl.J, compl.K).TSE.Z);
+                    //        engine.grid.WCOORD[ecl.INIT.GetActive(compl.I, compl.J, compl.K) - 1] = well.WINDEX;
+                    compl.Cell = ecl.EGRID.GetCell(compl.I, compl.J, compl.K);
                 }
             }
 
@@ -250,7 +250,7 @@ namespace mview
             ecl.INIT.ReadGrid(name);
             GridUnit = ecl.INIT.GridUnit;
 
-            engine.grid.GenerateGrid(ecl, ecl.INIT.GetValue);
+            engine.grid.GenerateGrid(ecl.INIT.GetValue);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
         }
 
@@ -263,7 +263,7 @@ namespace mview
                 ecl.RESTART.ReadGrid(name);
                 GridUnit = ecl.RESTART.GridUnit;
 
-                engine.grid.GenerateGrid(ecl, ecl.RESTART.GetValue);
+                engine.grid.GenerateGrid(ecl.RESTART.GetValue);
                 engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
             }
         }

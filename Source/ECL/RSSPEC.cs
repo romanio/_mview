@@ -22,6 +22,7 @@ namespace mview.ECL
         public int I;
         public int J;
         public int K;
+        public Cell Cell;
         public float XC;
         public float YC;
         public float ZC;

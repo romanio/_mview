@@ -41,20 +41,16 @@ namespace mview
 
 
         // Информация по перфорациям
-        public int[] WCOORD = null;
+     //   public int[] WCOORD = null;
         public int welsID;
 
         public void GenerateWellDrawList(bool show_all)
         {
-            return;
-
-            System.Diagnostics.Debug.WriteLine("GRID : GenerateWellDrawList");
-
             ACTIVE_WELLS = new List<WELLDATA>();
 
-            float DX = (XMAXCOORD - XMINCOORD) / tmp_ecl.EGRID.NX;
-            float DY = (YMAXCOORD - YMINCOORD) / tmp_ecl.EGRID.NY;
-            float DZ = (ZMAXCOORD - ZMINCOORD) / tmp_ecl.EGRID.NZ;
+            float DX = (XMAXCOORD - XMINCOORD) / ecl.EGRID.NX;
+            float DY = (YMAXCOORD - YMINCOORD) / ecl.EGRID.NY;
+            float DZ = (ZMAXCOORD - ZMINCOORD) / ecl.EGRID.NZ;
 
             GL.NewList(welsID, ListMode.Compile);
 
@@ -73,24 +69,27 @@ namespace mview
                 foreach (ECL.COMPLDATA compl in well.COMPLS)
                 {
                     // Решение о визуализации скважины
+
                     show_well = false;
                     compl.is_show = false;
 
                     if (CurrentViewMode == ViewMode.Z)
                     {
-                        if (show_all)
-                            show_well = true;
+                        if (show_all) show_well = true;
 
                         if (!show_all && (compl.K == ZA))
                         {
                             show_well = true;
                         }
-                        //
-
+                   
                         if (show_well)
                         {
                             compl.is_show = true;
-                            GL.Vertex3(compl.XC, compl.YC, 0.2);
+
+                            var XC = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
+                            var YC = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
+
+                            GL.Vertex3(XC, YC, 0.2);
                         }
                     }
 
@@ -98,14 +97,12 @@ namespace mview
                     {
                         if (compl.I == XA)
                         {
-                            show_well = true;
-                        }
-                        //
-
-                        if (show_well)
-                        {
                             compl.is_show = true;
-                            GL.Vertex3(compl.YC * (1 - StretchFactor) + (YMINCOORD + DX * compl.J) * StretchFactor, compl.ZC * (1 - StretchFactor) + (ZMINCOORD + DY * compl.K + DY) * StretchFactor, 0.2);
+
+                            var YC = 0.5 * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + YMINCOORD + DY * compl.J + 0.5 * DY;  //0.5f * (compl.Cell.TSE.Y + compl.Cell.BNE.Y);
+                            var ZC = 0.5 * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + ZMINCOORD + DZ * compl.K + 0.5 * DZ;
+
+                            GL.Vertex3(YC, ZC, 0.2);
                         }
                     }
                 }
@@ -131,10 +128,8 @@ namespace mview
 
                     show_well = false;
 
-
                     if (CurrentViewMode == ViewMode.Z)
                     {
-
                         if (show_all)
                             show_well = true;
 
@@ -159,42 +154,51 @@ namespace mview
                         {
                             if (CurrentViewMode == ViewMode.Z)
                             {
-                                last_XC = compl.XC;
-                                last_YC = compl.YC;
+                                var XC = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
+                                var YC = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
 
-                                well.XC = compl.XC;
-                                well.YC = compl.YC;
+                                last_XC = XC;
+                                last_YC = YC;
+
+                                well.XC = XC;
+                                well.YC = YC;
                             }
 
                             if (CurrentViewMode == ViewMode.X)
                             {
-                                last_XC = compl.YC;
-                                last_YC = compl.ZC;
+                                var YC = 0.5 * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + YMINCOORD + DY * compl.J + 0.5 * DY; 
+                                var ZC = 0.5 * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + ZMINCOORD + DZ * compl.K + 0.5 * DZ;
 
-                                well.XC = compl.YC;
-                                well.YC = compl.ZC;
+                                last_XC = (float)YC;
+                                last_YC = (float)ZC;
+
+                                well.XC = (float)YC;
+                                well.YC = (float)ZC;
                             }
-
                             ACTIVE_WELLS.Add(well); // Сохраняется в списке активных скважин
                         }
                         else // если скважина уже существует, рисуем часть ствола
                         {
-                            GL.Vertex3(last_XC, last_YC, 0.2);
-
                             if (CurrentViewMode == ViewMode.Z)
                             {
-                                GL.Vertex3(compl.XC, compl.YC, 0.2);
+                                var XC = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
+                                var YC = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
 
-                                last_XC = compl.XC;
-                                last_YC = compl.YC;
+                                GL.Vertex3(XC, YC, 0.2);
+
+                                last_XC = XC;
+                                last_YC = YC;
                             }
 
                             if (CurrentViewMode == ViewMode.X)
                             {
-                                GL.Vertex3(compl.YC * (1 - StretchFactor) + (YMINCOORD + DX * compl.J) * StretchFactor, compl.ZC * (1 - StretchFactor) + (ZMINCOORD + DY * compl.K + DY) * StretchFactor, 0.2);
+                                double YC = 0.5 * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + YMINCOORD + DY * compl.J + 0.5 * DY;
+                                var ZC = 0.5 * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + ZMINCOORD + DZ * compl.K + 0.5 * DZ;
 
-                                last_XC = compl.YC;
-                                last_YC = compl.ZC;
+                                GL.Vertex3(YC, ZC, 0.2);
+
+                                last_XC = YC;
+                                last_YC = ZC;
                             }
                         }
 
@@ -213,16 +217,16 @@ namespace mview
 
         public void RefreshGrid()
         {
-            GenerateGrid(tmp_ecl, tmp_GetValue);
+            GenerateGrid(tmp_GetValue);
         }
 
         public Cell GetCell(int X, int Y, int Z)
         {
-            var cell_index = tmp_ecl.INIT.GetActive(X, Y, Z);
+            var cell_index = ecl.INIT.GetActive(X, Y, Z);
 
             if (cell_index > 0)
             {
-                return tmp_ecl.EGRID.GetCell(X, Y, Z);
+                return ecl.EGRID.GetCell(X, Y, Z);
             }
 
             return new Cell();
@@ -235,10 +239,10 @@ namespace mview
             Color color;
             Cell CELL;
 
-            for (int X = 0; X < tmp_ecl.EGRID.NX; ++X)
-                for (int Y = 0; Y < tmp_ecl.EGRID.NY; ++Y)
+            for (int X = 0; X < ecl.EGRID.NX; ++X)
+                for (int Y = 0; Y < ecl.EGRID.NY; ++Y)
                 {
-                    cell_index = tmp_ecl.INIT.GetActive(X, Y, ZA);
+                    cell_index = ecl.INIT.GetActive(X, Y, ZA);
 
                     if (cell_index > 0)
                     {
@@ -249,7 +253,7 @@ namespace mview
                             if (color.G == pixel[1])
                                 if (color.B == pixel[2])
                                 {
-                                    CELL = tmp_ecl.EGRID.GetCell(X, Y, ZA);
+                                    CELL = ecl.EGRID.GetCell(X, Y, ZA);
 
                                     float[] xcoords = new float[4] { CELL.TNE.X, CELL.TNW.X, CELL.TSE.X, CELL.TSW.X };
                                     float xmin = xcoords.Min();
@@ -273,12 +277,16 @@ namespace mview
         }
 
 
-        EclipseProject tmp_ecl;
+        EclipseProject ecl;
         Func<int, float> tmp_GetValue;
 
-        public void GenerateGrid(EclipseProject ecl, Func<int, float> GetValue)
+        public void SetEclipseProject(EclipseProject ecl)
         {
-            this.tmp_ecl = ecl;
+            this.ecl = ecl;
+        }
+
+        public void GenerateGrid(Func<int, float> GetValue)
+        {
             this.tmp_GetValue = GetValue;
 
             IntPtr vertex_ptr;
