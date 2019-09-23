@@ -48,6 +48,10 @@ namespace mview
         {
             ACTIVE_WELLS = new List<WELLDATA>();
 
+            float DX = (XMAXCOORD - XMINCOORD) / tmp_ecl.EGRID.NX;
+            float DY = (YMAXCOORD - YMINCOORD) / tmp_ecl.EGRID.NY;
+            float DZ = (ZMAXCOORD - ZMINCOORD) / tmp_ecl.EGRID.NZ;
+
             GL.NewList(welsID, ListMode.Compile);
 
             System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
@@ -68,11 +72,10 @@ namespace mview
                     show_well = false;
                     compl.is_show = false;
 
-                    if (show_all)
-                        show_well = true;
-
                     if (CurrentViewMode == ViewMode.Z)
                     {
+                        if (show_all)
+                            show_well = true;
 
                         if (!show_all && (compl.K == ZA))
                         {
@@ -98,7 +101,7 @@ namespace mview
                         if (show_well)
                         {
                             compl.is_show = true;
-                            GL.Vertex3(compl.YC, compl.ZC, 0.2);
+                            GL.Vertex3(compl.YC * (1 - StretchFactor) + (YMINCOORD + DX * compl.J) * StretchFactor, compl.ZC * (1 - StretchFactor) + (ZMINCOORD + DY * compl.K + DY) * StretchFactor, 0.2);
                         }
                     }
                 }
@@ -124,11 +127,13 @@ namespace mview
 
                     show_well = false;
 
-                    if (show_all)
-                        show_well = true;
 
                     if (CurrentViewMode == ViewMode.Z)
                     {
+
+                        if (show_all)
+                            show_well = true;
+
                         if (!show_all && (compl.K == ZA))
                         {
                             show_well = true;
@@ -182,7 +187,7 @@ namespace mview
 
                             if (CurrentViewMode == ViewMode.X)
                             {
-                                GL.Vertex3(compl.YC, compl.ZC, 0.2);
+                                GL.Vertex3(compl.YC * (1 - StretchFactor) + (YMINCOORD + DX * compl.J) * StretchFactor, compl.ZC * (1 - StretchFactor) + (ZMINCOORD + DY * compl.K + DY) * StretchFactor, 0.2);
 
                                 last_XC = compl.YC;
                                 last_YC = compl.ZC;
@@ -461,13 +466,6 @@ namespace mview
                                 color_mem[index * 3 + 2] = color.B;
 
                                 index++;
-
-                                /*
-                                System.Diagnostics.Debug.WriteLine(CELL.TSE.Y + "  " + CELL.TSE.Z);
-                                System.Diagnostics.Debug.WriteLine(CELL.BSE.Y + "  " + CELL.BSE.Z);
-                                System.Diagnostics.Debug.WriteLine(CELL.BNE.Y + "  " + CELL.BNE.Z);
-                                System.Diagnostics.Debug.WriteLine(CELL.TNE.Y + "  " + CELL.TNE.Z);
-                                */
                             }
                         }
                 }
