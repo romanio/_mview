@@ -46,6 +46,10 @@ namespace mview
 
         public void GenerateWellDrawList(bool show_all)
         {
+            return;
+
+            System.Diagnostics.Debug.WriteLine("GRID : GenerateWellDrawList");
+
             ACTIVE_WELLS = new List<WELLDATA>();
 
             float DX = (XMAXCOORD - XMINCOORD) / tmp_ecl.EGRID.NX;
@@ -500,7 +504,7 @@ namespace mview
                 {
                     float* vertex_mem = (float*)vertex_ptr;
                     int* index_mem = (int*)element_ptr;
-                    byte* color_mem = (byte*)(vertex_ptr + ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(float) * 3 * 4);
+                    byte* color_mem = (byte*)(vertex_ptr + ecl.EGRID.NX * ecl.EGRID.NZ * sizeof(float) * 3 * 4);
 
                     for (int Z = 0; Z < ecl.EGRID.NZ; ++Z)
                         for (int X = 0; X < ecl.EGRID.NX; ++X)
