@@ -280,9 +280,7 @@ namespace mview
 
                 render.Clear(Color.Transparent);
 
-                /*
                 DrawWells();
-                */
 
                 // Отрисовка ячеек
 

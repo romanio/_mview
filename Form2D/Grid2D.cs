@@ -15,6 +15,7 @@ namespace mview
     {
         public List<WELLDATA> WELLS; // Опасная копия данных с рестарт файла
         public List<WELLDATA> ACTIVE_WELLS; // Только те скважины, которые следует отображать
+
         public ViewMode CurrentViewMode = ViewMode.X;
         public float StretchFactor = 0;
 
@@ -45,9 +46,11 @@ namespace mview
 
         public void GenerateWellDrawList(bool show_all)
         {
-            System.Diagnostics.Debug.WriteLine("GRID : GenerateWellDrawList");
-
             ACTIVE_WELLS = new List<WELLDATA>();
+
+            float DX = (XMAXCOORD - XMINCOORD) / tmp_ecl.EGRID.NX;
+            float DY = (YMAXCOORD - YMINCOORD) / tmp_ecl.EGRID.NY;
+            float DZ = (ZMAXCOORD - ZMINCOORD) / tmp_ecl.EGRID.NZ;
 
             GL.NewList(welsID, ListMode.Compile);
 
@@ -69,19 +72,37 @@ namespace mview
                     show_well = false;
                     compl.is_show = false;
 
-                    if (show_all)
-                        show_well = true;
+                    if (CurrentViewMode == ViewMode.Z)
+                    {
+                        if (show_all)
+                            show_well = true;
 
-                    if (!show_all && (compl.K == ZA))
-                    {
-                        show_well = true;
+                        if (!show_all && (compl.K == ZA))
+                        {
+                            show_well = true;
+                        }
+                        //
+
+                        if (show_well)
+                        {
+                            compl.is_show = true;
+                            GL.Vertex3(compl.XC, compl.YC, 0.2);
+                        }
                     }
-                    //
-                     
-                    if (show_well)
+
+                    if (CurrentViewMode == ViewMode.X)
                     {
-                        compl.is_show = true;
-                        GL.Vertex3(compl.XC, compl.YC, 0.2);
+                        if (compl.I == XA)
+                        {
+                            show_well = true;
+                        }
+                        //
+
+                        if (show_well)
+                        {
+                            compl.is_show = true;
+                            GL.Vertex3(compl.YC * (1 - StretchFactor) + (YMINCOORD + DX * compl.J) * StretchFactor, compl.ZC * (1 - StretchFactor) + (ZMINCOORD + DY * compl.K + DY) * StretchFactor, 0.2);
+                        }
                     }
                 }
             }
@@ -106,12 +127,25 @@ namespace mview
 
                     show_well = false;
 
-                    if (show_all)
-                        show_well = true;
 
-                    if (!show_all && (compl.K == ZA))
+                    if (CurrentViewMode == ViewMode.Z)
                     {
-                        show_well = true;
+
+                        if (show_all)
+                            show_well = true;
+
+                        if (!show_all && (compl.K == ZA))
+                        {
+                            show_well = true;
+                        }
+                    }
+
+                    if (CurrentViewMode == ViewMode.X)
+                    {
+                        if ((compl.I == XA))
+                        {
+                            show_well = true;
+                        }
                     }
                     //
 
@@ -119,21 +153,45 @@ namespace mview
                     {
                         if (is_first_name) // Отрабатывает только один раз, при первом появлении скважины
                         {
-                            last_XC = compl.XC;
-                            last_YC = compl.YC;
+                            if (CurrentViewMode == ViewMode.Z)
+                            {
+                                last_XC = compl.XC;
+                                last_YC = compl.YC;
 
-                            well.XC = compl.XC;
-                            well.YC = compl.YC;
+                                well.XC = compl.XC;
+                                well.YC = compl.YC;
+                            }
+
+                            if (CurrentViewMode == ViewMode.X)
+                            {
+                                last_XC = compl.YC;
+                                last_YC = compl.ZC;
+
+                                well.XC = compl.YC;
+                                well.YC = compl.ZC;
+                            }
 
                             ACTIVE_WELLS.Add(well); // Сохраняется в списке активных скважин
                         }
                         else // если скважина уже существует, рисуем часть ствола
                         {
                             GL.Vertex3(last_XC, last_YC, 0.2);
-                            GL.Vertex3(compl.XC, compl.YC, 0.2);
 
-                            last_XC = compl.XC;
-                            last_YC = compl.YC;
+                            if (CurrentViewMode == ViewMode.Z)
+                            {
+                                GL.Vertex3(compl.XC, compl.YC, 0.2);
+
+                                last_XC = compl.XC;
+                                last_YC = compl.YC;
+                            }
+
+                            if (CurrentViewMode == ViewMode.X)
+                            {
+                                GL.Vertex3(compl.YC * (1 - StretchFactor) + (YMINCOORD + DX * compl.J) * StretchFactor, compl.ZC * (1 - StretchFactor) + (ZMINCOORD + DY * compl.K + DY) * StretchFactor, 0.2);
+
+                                last_XC = compl.YC;
+                                last_YC = compl.ZC;
+                            }
                         }
 
                         is_first_name = false;
@@ -442,7 +500,7 @@ namespace mview
                 {
                     float* vertex_mem = (float*)vertex_ptr;
                     int* index_mem = (int*)element_ptr;
-                    byte* color_mem = (byte*)(vertex_ptr + ecl.EGRID.NX * ecl.EGRID.NZ * sizeof(float) * 3 * 4);
+                    byte* color_mem = (byte*)(vertex_ptr + ecl.EGRID.NY * ecl.EGRID.NZ * sizeof(float) * 3 * 4);
 
                     for (int Z = 0; Z < ecl.EGRID.NZ; ++Z)
                         for (int X = 0; X < ecl.EGRID.NX; ++X)
