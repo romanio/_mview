@@ -39,9 +39,8 @@ namespace mview
         public int XA = 0;
         public int YA = 0;
 
-
         // Информация по перфорациям
-     //   public int[] WCOORD = null;
+       // public int[] WCOORD = null;
         public int welsID;
 
         public void GenerateWellDrawList(bool show_all)
@@ -52,11 +51,14 @@ namespace mview
             float DY = (YMAXCOORD - YMINCOORD) / ecl.EGRID.NY;
             float DZ = (ZMAXCOORD - ZMINCOORD) / ecl.EGRID.NZ;
 
+            float X = 0;
+            float Y = 0;
+
             GL.NewList(welsID, ListMode.Compile);
 
             System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
 
-            // Отрисовываем точки
+            // Отрисовываем в первую очеред точки
 
             GL.PointSize(7);
             GL.Color3(Color.Black);
@@ -73,6 +75,42 @@ namespace mview
                     show_well = false;
                     compl.is_show = false;
 
+                    switch (CurrentViewMode)
+                    {
+                        case ViewMode.X:
+                            if (compl.I == XA)
+                            {
+                                X = 0.5f * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + (YMINCOORD + DY * compl.J + 0.5f * DY) * StretchFactor;
+                                Y = 0.5f * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + (ZMINCOORD + DZ * compl.K + 0.5f * DZ) *StretchFactor;
+                                compl.is_show = true;
+                            }
+                            break;
+                        case ViewMode.Y:
+                            if (compl.J == YA)
+                            {
+                                X = 0.5f * (compl.Cell.TSW.X + compl.Cell.BSE.X) * (1 - StretchFactor) + (XMINCOORD + DX * compl.I + 0.5f * DX) * StretchFactor;
+                                Y = 0.5f * (compl.Cell.TSW.Z + compl.Cell.BSE.Z) * (1 - StretchFactor) + (ZMINCOORD + DZ * compl.K + 0.5f * DZ) * StretchFactor;
+                                compl.is_show = true;
+                            }
+                            break;
+                        case ViewMode.Z:
+                            if (compl.K == ZA)
+                            {
+                                X = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
+                                Y = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
+                                compl.is_show = true;
+                            }
+                            break;
+                    }
+
+                    if (compl.is_show)
+                    {
+                        GL.Vertex3(X, Y, 0.2);
+                    }
+                }
+            }
+                    /*
+
                     if (CurrentViewMode == ViewMode.Z)
                     {
                         if (show_all) show_well = true;
@@ -86,10 +124,7 @@ namespace mview
                         {
                             compl.is_show = true;
 
-                            var XC = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
-                            var YC = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
 
-                            GL.Vertex3(XC, YC, 0.2);
                         }
                     }
 
@@ -99,19 +134,19 @@ namespace mview
                         {
                             compl.is_show = true;
 
-                            var YC = 0.5 * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + YMINCOORD + DY * compl.J + 0.5 * DY;  //0.5f * (compl.Cell.TSE.Y + compl.Cell.BNE.Y);
-                            var ZC = 0.5 * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + ZMINCOORD + DZ * compl.K + 0.5 * DZ;
 
-                            GL.Vertex3(YC, ZC, 0.2);
+
                         }
                     }
                 }
             }
+            */
 
             GL.End();
 
             // Затем отрисовывем ствол скважины линиями
 
+            /*
             GL.Color3(Color.Black);
             GL.LineWidth(3);
             GL.Begin(PrimitiveType.Lines);
@@ -192,8 +227,8 @@ namespace mview
 
                             if (CurrentViewMode == ViewMode.X)
                             {
-                                double YC = 0.5 * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + YMINCOORD + DY * compl.J + 0.5 * DY;
-                                var ZC = 0.5 * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + ZMINCOORD + DZ * compl.K + 0.5 * DZ;
+                                float YC = 0.5f * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + YMINCOORD + DY * compl.J + 0.5f * DY;
+                                float ZC = 0.5f * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + ZMINCOORD + DZ * compl.K + 0.5f * DZ;
 
                                 GL.Vertex3(YC, ZC, 0.2);
 
@@ -206,13 +241,14 @@ namespace mview
                     }
                 }
             }
+            */
 
-            GL.End();
+            //GL.End();
             GL.LineWidth(1);
 
             GL.EndList();
 
-            System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
+          //  System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
         }
 
         public void RefreshGrid()

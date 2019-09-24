@@ -73,6 +73,8 @@ namespace mview
 
                 engine.RestorePosition();
             }
+
+            engine.grid.RefreshGrid();
         }
 
         public void ApplyStyle()
@@ -80,8 +82,9 @@ namespace mview
             engine.SetStyle(style);
             engine.grid.colorizer.SetMinimum(style.min_value);
             engine.grid.colorizer.SetMaximum(style.max_value);
-            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
             engine.grid.StretchFactor = (float)style.stretch_factor;
+            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
+
 
             engine.grid.RefreshGrid();
         }

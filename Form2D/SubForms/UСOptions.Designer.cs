@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.trackStratch = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
             this.checkShowAllWell = new System.Windows.Forms.CheckBox();
             this.labelMax = new System.Windows.Forms.Label();
@@ -42,11 +43,10 @@
             this.boxBubbleMode = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
             this.checkShowBubbles = new System.Windows.Forms.CheckBox();
-            this.trackStratch = new System.Windows.Forms.TrackBar();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericScaleFactor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackStratch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericScaleFactor)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -80,6 +80,19 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Bubble map";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // trackStratch
+            // 
+            this.trackStratch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.trackStratch.BackColor = System.Drawing.SystemColors.Window;
+            this.trackStratch.Location = new System.Drawing.Point(22, 327);
+            this.trackStratch.Maximum = 100;
+            this.trackStratch.Name = "trackStratch";
+            this.trackStratch.Size = new System.Drawing.Size(236, 45);
+            this.trackStratch.TabIndex = 64;
+            this.trackStratch.TickFrequency = 4;
+            this.trackStratch.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackStratch.Scroll += new System.EventHandler(this.trackStratch_Scroll);
             // 
             // label1
             // 
@@ -232,18 +245,6 @@
             this.checkShowBubbles.UseVisualStyleBackColor = true;
             this.checkShowBubbles.CheckedChanged += new System.EventHandler(this.checkShowBubbles_CheckedChanged);
             // 
-            // trackStratch
-            // 
-            this.trackStratch.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.trackStratch.BackColor = System.Drawing.SystemColors.Window;
-            this.trackStratch.Location = new System.Drawing.Point(77, 327);
-            this.trackStratch.Maximum = 100;
-            this.trackStratch.Name = "trackStratch";
-            this.trackStratch.Size = new System.Drawing.Size(146, 45);
-            this.trackStratch.TabIndex = 64;
-            this.trackStratch.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackStratch.Scroll += new System.EventHandler(this.trackStratch_Scroll);
-            // 
             // UСOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,8 +257,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericScaleFactor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackStratch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericScaleFactor)).EndInit();
             this.ResumeLayout(false);
 
         }
