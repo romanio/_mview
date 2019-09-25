@@ -54,9 +54,8 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(761, 116);
+            this.label2.Location = new System.Drawing.Point(12, 116);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 13);
             this.label2.TabIndex = 24;
@@ -64,12 +63,11 @@
             // 
             // boxRestart
             // 
-            this.boxRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.boxRestart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxRestart.FormattingEnabled = true;
-            this.boxRestart.Location = new System.Drawing.Point(761, 132);
+            this.boxRestart.Location = new System.Drawing.Point(15, 132);
             this.boxRestart.Name = "boxRestart";
-            this.boxRestart.Size = new System.Drawing.Size(130, 21);
+            this.boxRestart.Size = new System.Drawing.Size(150, 21);
             this.boxRestart.TabIndex = 25;
             this.boxRestart.SelectedIndexChanged += new System.EventHandler(this.boxRestart_SelectedIndexChanged);
             // 
@@ -80,9 +78,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.glControl.BackColor = System.Drawing.Color.Black;
             this.glControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.glControl.Location = new System.Drawing.Point(12, 44);
+            this.glControl.Location = new System.Drawing.Point(175, 38);
             this.glControl.Name = "glControl";
-            this.glControl.Size = new System.Drawing.Size(728, 641);
+            this.glControl.Size = new System.Drawing.Size(648, 647);
             this.glControl.TabIndex = 0;
             this.glControl.VSync = true;
             this.glControl.Load += new System.EventHandler(this.glControlOnLoad);
@@ -93,10 +91,9 @@
             // 
             // treeProperties
             // 
-            this.treeProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.treeProperties.FullRowSelect = true;
             this.treeProperties.HideSelection = false;
-            this.treeProperties.Location = new System.Drawing.Point(761, 186);
+            this.treeProperties.Location = new System.Drawing.Point(15, 186);
             this.treeProperties.Name = "treeProperties";
             treeNode1.Name = "Узел0";
             treeNode1.Text = "Static ";
@@ -105,15 +102,14 @@
             this.treeProperties.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2});
-            this.treeProperties.Size = new System.Drawing.Size(130, 372);
+            this.treeProperties.Size = new System.Drawing.Size(150, 372);
             this.treeProperties.TabIndex = 0;
             this.treeProperties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeProperties_AfterSelect);
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(761, 170);
+            this.label1.Location = new System.Drawing.Point(12, 170);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 32;
@@ -132,11 +128,10 @@
             // 
             // tabSliceControl
             // 
-            this.tabSliceControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tabSliceControl.Controls.Add(this.tabPage1);
             this.tabSliceControl.Controls.Add(this.tabPage2);
             this.tabSliceControl.Controls.Add(this.tabPage3);
-            this.tabSliceControl.Location = new System.Drawing.Point(746, 12);
+            this.tabSliceControl.Location = new System.Drawing.Point(10, 12);
             this.tabSliceControl.Name = "tabSliceControl";
             this.tabSliceControl.SelectedIndex = 0;
             this.tabSliceControl.Size = new System.Drawing.Size(159, 89);
@@ -199,7 +194,8 @@
             // 
             // bbChartOptions
             // 
-            this.bbChartOptions.Location = new System.Drawing.Point(305, 12);
+            this.bbChartOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bbChartOptions.Location = new System.Drawing.Point(457, 6);
             this.bbChartOptions.Name = "bbChartOptions";
             this.bbChartOptions.Size = new System.Drawing.Size(118, 26);
             this.bbChartOptions.TabIndex = 49;
@@ -209,8 +205,9 @@
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(429, 12);
+            this.button1.Location = new System.Drawing.Point(581, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(118, 26);
             this.button1.TabIndex = 50;
@@ -220,7 +217,7 @@
             // lbCellValue
             // 
             this.lbCellValue.AutoSize = true;
-            this.lbCellValue.Location = new System.Drawing.Point(12, 19);
+            this.lbCellValue.Location = new System.Drawing.Point(175, 13);
             this.lbCellValue.Name = "lbCellValue";
             this.lbCellValue.Size = new System.Drawing.Size(106, 13);
             this.lbCellValue.TabIndex = 51;
@@ -228,7 +225,8 @@
             // 
             // bbSetFocusOn
             // 
-            this.bbSetFocusOn.Location = new System.Drawing.Point(553, 12);
+            this.bbSetFocusOn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bbSetFocusOn.Location = new System.Drawing.Point(705, 6);
             this.bbSetFocusOn.Name = "bbSetFocusOn";
             this.bbSetFocusOn.Size = new System.Drawing.Size(118, 26);
             this.bbSetFocusOn.TabIndex = 52;
@@ -240,7 +238,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(917, 697);
+            this.ClientSize = new System.Drawing.Size(835, 697);
             this.Controls.Add(this.bbSetFocusOn);
             this.Controls.Add(this.lbCellValue);
             this.Controls.Add(this.bbChartOptions);

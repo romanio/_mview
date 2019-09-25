@@ -91,6 +91,8 @@ namespace mview
 
         void SetMinMaxAndScaleFactor()
         {
+            System.Diagnostics.Debug.WriteLine("Form2DModel [SetMinMaxAndScaleFactor]");
+
             // Определение максимальной и минимальной координаты Х и Y кажется простым,
             // для этого рассмотрим координаты четырех углов модели.
             // Более полный алгоритм должен рассматривать все 8 углов модели
@@ -250,6 +252,8 @@ namespace mview
 
         public void SetStaticProperty(string name)
         {
+            System.Diagnostics.Debug.WriteLine("Form2DModel [SetStaticProperty = " + name);
+
             ecl.INIT.ReadGrid(name);
             GridUnit = ecl.INIT.GridUnit;
 

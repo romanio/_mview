@@ -26,7 +26,7 @@ namespace mview
             ucSetFocusOn = new UCSetFocusOn();
             this.Controls.Add(ucSetFocusOn);
             ucSetFocusOn.BringToFront();
-            ucSetFocusOn.Location = new Point(bbSetFocusOn.Location.X, bbSetFocusOn.Location.Y + bbSetFocusOn.Height + 8);
+
 
             ucSetFocusOn.Visible = false;
             ucSetFocusOn.SelectedIndexChanged += new EventHandler(this.OnUCWellsSelected);
@@ -36,7 +36,7 @@ namespace mview
 
             this.Controls.Add(ucOptions);
             ucOptions.BringToFront();
-            ucOptions.Location = new Point(bbChartOptions.Location.X, bbChartOptions.Location.Y + bbChartOptions.Height + 8);
+
 
             ucOptions.Visible = false;
             ucOptions.ApplyStyle += new EventHandler(this.OnUCApplyStyle);
@@ -121,12 +121,17 @@ namespace mview
 
             boxZSlice.SelectedIndex = 0;
             boxZSlice.EndUpdate();
-            
+
             //
+            tabSliceControl_SelectedIndexChanged(null, null);
+
+
         }
 
         private void boxRestart_SelectedIndexChanged(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Form2D [BoxRestart SelectedIndexChanged]");
+
             model.ReadRestart(boxRestart.SelectedIndex);
             treeProperties_AfterSelect(null, null);
         }
@@ -217,6 +222,7 @@ namespace mview
 
         private void buttonChartOptions_Click(object sender, EventArgs e)
         {
+            ucOptions.Location = new Point(bbChartOptions.Location.X, bbChartOptions.Location.Y + bbChartOptions.Height + 8);
             ucOptions.Visible = !ucOptions.Visible;
 
             if (ucOptions.Visible)
@@ -246,15 +252,9 @@ namespace mview
             }
         }
 
-        private void OnApplyStyle()
-        {
-
-        }
-
-
-
         private void bbSetFocusOn_Click(object sender, EventArgs e)
         {
+            ucSetFocusOn.Location = new Point(bbSetFocusOn.Location.X, bbSetFocusOn.Location.Y + bbSetFocusOn.Height + 8);
             ucSetFocusOn.Visible = !ucSetFocusOn.Visible;
 
             if (ucSetFocusOn.Visible)

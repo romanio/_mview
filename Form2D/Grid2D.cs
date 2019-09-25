@@ -45,6 +45,8 @@ namespace mview
 
         public void GenerateWellDrawList(bool show_all)
         {
+            System.Diagnostics.Debug.WriteLine("Grid2D [GenerateWellDrawList]");
+
             ACTIVE_WELLS = new List<WELLDATA>();
 
             float DX = (XMAXCOORD - XMINCOORD) / ecl.EGRID.NX;
@@ -56,15 +58,11 @@ namespace mview
 
             GL.NewList(welsID, ListMode.Compile);
 
-            System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
-
             // Отрисовываем в первую очеред точки
 
             GL.PointSize(7);
             GL.Color3(Color.Black);
             GL.Begin(PrimitiveType.Points);
-
-            bool show_well = false;
 
             foreach (ECL.WELLDATA well in WELLS)
             {
@@ -72,7 +70,6 @@ namespace mview
                 {
                     // Решение о визуализации скважины
 
-                    show_well = false;
                     compl.is_show = false;
 
                     switch (CurrentViewMode)
@@ -94,7 +91,7 @@ namespace mview
                             }
                             break;
                         case ViewMode.Z:
-                            if (compl.K == ZA)
+                            if (compl.K == ZA || show_all)
                             {
                                 X = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
                                 Y = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
@@ -109,44 +106,11 @@ namespace mview
                     }
                 }
             }
-                    /*
-
-                    if (CurrentViewMode == ViewMode.Z)
-                    {
-                        if (show_all) show_well = true;
-
-                        if (!show_all && (compl.K == ZA))
-                        {
-                            show_well = true;
-                        }
-                   
-                        if (show_well)
-                        {
-                            compl.is_show = true;
-
-
-                        }
-                    }
-
-                    if (CurrentViewMode == ViewMode.X)
-                    {
-                        if (compl.I == XA)
-                        {
-                            compl.is_show = true;
-
-
-
-                        }
-                    }
-                }
-            }
-            */
 
             GL.End();
-
+ 
             // Затем отрисовывем ствол скважины линиями
 
-            /*
             GL.Color3(Color.Black);
             GL.LineWidth(3);
             GL.Begin(PrimitiveType.Lines);
@@ -161,89 +125,113 @@ namespace mview
                 {
                     // Решение о визуализации скважины
 
-                    show_well = false;
-
-                    if (CurrentViewMode == ViewMode.Z)
+                    switch (CurrentViewMode)
                     {
-                        if (show_all)
-                            show_well = true;
+                        case ViewMode.X:
+                            if (compl.I == XA)
+                            {
+                                if (is_first_name) // Первая точка, начало траектории
+                                {
+                                    X = 0.5f * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + (YMINCOORD + DY * compl.J + 0.5f * DY) * StretchFactor;
+                                    Y = 0.5f * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + (ZMINCOORD + DZ * compl.K + 0.5f * DZ) * StretchFactor;
 
-                        if (!show_all && (compl.K == ZA))
-                        {
-                            show_well = true;
-                        }
+                                    last_XC = X;
+                                    last_YC = Y;
+
+                                    well.XC = X;
+                                    well.YC = Y;
+
+                                    ACTIVE_WELLS.Add(well); // Сохранить в списке активных скважин
+
+                                    is_first_name = false;
+                                }
+                                else
+                                {
+                                    GL.Vertex3(last_XC, last_YC, 0.2);
+
+                                    X = 0.5f * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + (YMINCOORD + DY * compl.J + 0.5f * DY) * StretchFactor;
+                                    Y = 0.5f * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + (ZMINCOORD + DZ * compl.K + 0.5f * DZ) * StretchFactor;
+
+                                    GL.Vertex3(X, Y, 0.2);
+
+                                    last_XC = X;
+                                    last_YC = Y;
+                                }
+                            }
+                            break;
+
+                        case ViewMode.Y:
+                            if (compl.J == YA)
+                            {
+                                if (is_first_name) // Первая точка, начало траектории
+                                {
+                                    X = 0.5f * (compl.Cell.TSW.X + compl.Cell.BSE.X) * (1 - StretchFactor) + (XMINCOORD + DX * compl.I + 0.5f * DX) * StretchFactor;
+                                    Y = 0.5f * (compl.Cell.TSW.Z + compl.Cell.BSE.Z) * (1 - StretchFactor) + (ZMINCOORD + DZ * compl.K + 0.5f * DZ) * StretchFactor;
+
+                                    last_XC = X;
+                                    last_YC = Y;
+
+                                    well.XC = X;
+                                    well.YC = Y;
+
+                                    ACTIVE_WELLS.Add(well); // Сохранить в списке активных скважин
+
+                                    is_first_name = false;
+                                }
+                                else
+                                {
+                                    GL.Vertex3(last_XC, last_YC, 0.2);
+
+                                    X = 0.5f * (compl.Cell.TSW.X + compl.Cell.BSE.X) * (1 - StretchFactor) + (XMINCOORD + DX * compl.I + 0.5f * DX) * StretchFactor;
+                                    Y = 0.5f * (compl.Cell.TSW.Z + compl.Cell.BSE.Z) * (1 - StretchFactor) + (ZMINCOORD + DZ * compl.K + 0.5f * DZ) * StretchFactor;
+
+                                    GL.Vertex3(X, Y, 0.2);
+
+                                    last_XC = X;
+                                    last_YC = Y;
+                                }
+                            }
+                            break;
+                        case ViewMode.Z:
+                            if (compl.K == ZA || show_all)
+                            {
+                                if (is_first_name) // Первая точка, начало траектории
+                                {
+                                    X = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
+                                    Y = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
+
+                                    last_XC = X;
+                                    last_YC = Y;
+
+                                    well.XC = X;
+                                    well.YC = Y;
+
+                                    ACTIVE_WELLS.Add(well); // Сохранить в списке активных скважин
+
+                                    is_first_name = false;
+                                }
+                                else
+                                {
+                                    GL.Vertex3(last_XC, last_YC, 0.2);
+
+                                    X = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
+                                    Y = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
+
+                                    GL.Vertex3(X, Y, 0.2);
+
+                                    last_XC = X;
+                                    last_YC = Y;
+                                }
+                            }
+                            break;
                     }
 
-                    if (CurrentViewMode == ViewMode.X)
-                    {
-                        if ((compl.I == XA))
-                        {
-                            show_well = true;
-                        }
-                    }
-                    //
-
-                    if (show_well)
-                    {
-                        if (is_first_name) // Отрабатывает только один раз, при первом появлении скважины
-                        {
-                            if (CurrentViewMode == ViewMode.Z)
-                            {
-                                var XC = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
-                                var YC = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
-
-                                last_XC = XC;
-                                last_YC = YC;
-
-                                well.XC = XC;
-                                well.YC = YC;
-                            }
-
-                            if (CurrentViewMode == ViewMode.X)
-                            {
-                                var YC = 0.5 * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + YMINCOORD + DY * compl.J + 0.5 * DY; 
-                                var ZC = 0.5 * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + ZMINCOORD + DZ * compl.K + 0.5 * DZ;
-
-                                last_XC = (float)YC;
-                                last_YC = (float)ZC;
-
-                                well.XC = (float)YC;
-                                well.YC = (float)ZC;
-                            }
-                            ACTIVE_WELLS.Add(well); // Сохраняется в списке активных скважин
-                        }
-                        else // если скважина уже существует, рисуем часть ствола
-                        {
-                            if (CurrentViewMode == ViewMode.Z)
-                            {
-                                var XC = 0.5f * (compl.Cell.TNW.X + compl.Cell.TSE.X);
-                                var YC = 0.5f * (compl.Cell.TNW.Y + compl.Cell.TSE.Y);
-
-                                GL.Vertex3(XC, YC, 0.2);
-
-                                last_XC = XC;
-                                last_YC = YC;
-                            }
-
-                            if (CurrentViewMode == ViewMode.X)
-                            {
-                                float YC = 0.5f * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + YMINCOORD + DY * compl.J + 0.5f * DY;
-                                float ZC = 0.5f * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + ZMINCOORD + DZ * compl.K + 0.5f * DZ;
-
-                                GL.Vertex3(YC, ZC, 0.2);
-
-                                last_XC = YC;
-                                last_YC = ZC;
-                            }
-                        }
-
-                        is_first_name = false;
-                    }
                 }
+                is_first_name = true;
             }
-            */
 
-            //GL.End();
+
+            GL.End();
             GL.LineWidth(1);
 
             GL.EndList();
@@ -323,6 +311,10 @@ namespace mview
 
         public void GenerateGrid(Func<int, float> GetValue)
         {
+            System.Diagnostics.Debug.WriteLine("Grid2D [GenerateGrid]");
+
+            if (GetValue == null) return;
+
             this.tmp_GetValue = GetValue;
 
             IntPtr vertex_ptr;

@@ -101,6 +101,8 @@ namespace mview
 
         public void RestorePosition()
         {
+            System.Diagnostics.Debug.WriteLine("Engine2D [RestorePosition]");
+
             if (CurrentViewMode == ViewMode.X)
             {
                 camera.scale = ViewPositionX.Scale;
