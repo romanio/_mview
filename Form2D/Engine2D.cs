@@ -305,9 +305,7 @@ namespace mview
 
             // Отрисовка выбранной ячейки
 
-            /*
-             
-            if (XS > -1)
+            if (CurrentViewMode == ViewMode.Z && (XS > -1))
             {
                 var CELL = grid.GetCell(XS, YS, ZS);
 
@@ -335,37 +333,33 @@ namespace mview
                 }
             }
 
-            */
-
             DrawFrame();
 
             // Вывод текста текстурой
 
-            /*
-            
-            GL.Enable(EnableCap.Texture2D);
-            GL.BindTexture(TextureTarget.Texture2D, render.Texture);
+            if (CurrentViewMode == ViewMode.Z)
+            {
+                GL.Enable(EnableCap.Texture2D);
+                GL.BindTexture(TextureTarget.Texture2D, render.Texture);
 
-            GL.LoadIdentity();
+                GL.LoadIdentity();
 
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
 
-            GL.Begin(PrimitiveType.Quads);
-            GL.Color4(Color.White);
+                GL.Begin(PrimitiveType.Quads);
+                GL.Color4(Color.White);
 
-            GL.TexCoord2(0, 1); GL.Vertex3(-0.5 * width, +0.5 * height, +0.3);
-            GL.TexCoord2(1, 1); GL.Vertex3(+0.5 * width, +0.5 * height, +0.3);
-            GL.TexCoord2(1, 0); GL.Vertex3(+0.5 * width, -0.5 * height, +0.3);
-            GL.TexCoord2(0, 0); GL.Vertex3(-0.5 * width, -0.5 * height, +0.3);
+                GL.TexCoord2(0, 1); GL.Vertex3(-0.5 * width, +0.5 * height, +0.3);
+                GL.TexCoord2(1, 1); GL.Vertex3(+0.5 * width, +0.5 * height, +0.3);
+                GL.TexCoord2(1, 0); GL.Vertex3(+0.5 * width, -0.5 * height, +0.3);
+                GL.TexCoord2(0, 0); GL.Vertex3(-0.5 * width, -0.5 * height, +0.3);
 
-            GL.End();
+                GL.End();
 
-            GL.Disable(EnableCap.Blend);
-            GL.Disable(EnableCap.Texture2D);
-
-    */
-
+                GL.Disable(EnableCap.Blend);
+                GL.Disable(EnableCap.Texture2D);
+            }
         }
 
         Form2DModelStyle style = new Form2DModelStyle()

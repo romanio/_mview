@@ -56,6 +56,7 @@ namespace mview
         {
             PointF point = cordconv.ConvertWorldToScreen(well.XC, well.YC);
 
+            /*
             foreach (ECL.COMPLDATA compl in well.COMPLS)
             {
                 if (compl.is_show)
@@ -75,16 +76,14 @@ namespace mview
 
                     }
 
-                    /*
                     gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
                     gfx.FillPie(Brushes.BurlyWood, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, (float)Math.Round(360.0 * (1 - wcut)));
                     gfx.FillPie(Brushes.SteelBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), (float)Math.Round(360.0 * (1 - wcut)), 360 - (float)Math.Round(360.0 * (1 - wcut)));
-                    */
+
                     }
             }
-            
-            /*
-             
+           */
+                         
             // 100 m3 = 10 pt
 
             int size = 0; // Размер круга
@@ -145,7 +144,6 @@ namespace mview
                 gfx.DrawString( wlpr.ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
             }
 
-    */
             gfx.FillEllipse(Brushes.White, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
             gfx.DrawEllipse(Pens.Black, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
 
