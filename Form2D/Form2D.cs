@@ -40,7 +40,19 @@ namespace mview
 
             ucOptions.Visible = false;
             ucOptions.ApplyStyle += new EventHandler(this.OnUCApplyStyle);
+            ucOptions.GetMaxColorDefault += OnUCGetMaxColorDefault;
+            ucOptions.GetMinColorDefault += OnUCGetMinColorDefault;
 
+        }
+
+        private void OnUCGetMinColorDefault(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnUCGetMaxColorDefault(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnUCApplyStyle(object sender, EventArgs e)

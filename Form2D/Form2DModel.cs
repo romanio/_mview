@@ -256,12 +256,16 @@ namespace mview
 
             ecl.INIT.ReadGrid(name);
             GridUnit = ecl.INIT.GridUnit;
+            PropertyMinValue = ecl.INIT.GetArrayMin(name);
+            PropertyMaxValue = ecl.INIT.GetArrayMax(name);
 
             engine.grid.GenerateGrid(ecl.INIT.GetValue);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
         }
 
         string GridUnit = null;
+        float PropertyMinValue = 0;
+        float PropertyMaxValue = 1;
 
         public void SetDynamicProperty(string name)
         {

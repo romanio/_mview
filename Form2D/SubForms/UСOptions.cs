@@ -16,6 +16,8 @@ namespace mview
         bool IsUpdateStyle = true;
 
         public event EventHandler ApplyStyle;
+        public event EventHandler GetMinColorDefault;
+        public event EventHandler GetMaxColorDefault;
 
         public UСOptions(Form2DModelStyle Style)
         {
@@ -129,6 +131,16 @@ namespace mview
             Style.stretch_factor = trackStratch.Value * 0.01;
 
             if (!IsUpdateStyle) ApplyStyle(sender, e);
+        }
+
+        private void MinColorDefault_Click(object sender, EventArgs e)
+        {
+            GetMinColorDefault(sender, e);
+        }
+
+        private void MaxColorDefault_Click(object sender, EventArgs e)
+        {
+            GetMaxColorDefault(sender, e);
         }
     }
 }
