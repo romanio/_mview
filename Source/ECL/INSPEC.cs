@@ -146,7 +146,7 @@ namespace mview.ECL
             {
                 for (int iw = 0; iw < NAME[it].Length; ++iw)
                 {
-                    if (NAME[it][iw] == "DEPTH")
+                    if (NAME[it][iw] == name)
                     {
                         return ARRAYMIN[it][iw];
                     }
@@ -161,7 +161,7 @@ namespace mview.ECL
             {
                 for (int iw = 0; iw < NAME[it].Length; ++iw)
                 {
-                    if (NAME[it][iw] == "DEPTH")
+                    if (NAME[it][iw] == name)
                     {
                         return ARRAYMAX[it][iw];
                     }

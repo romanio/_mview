@@ -16,8 +16,8 @@ namespace mview
         bool IsUpdateStyle = true;
 
         public event EventHandler ApplyStyle;
-        public event EventHandler GetMinColorDefault;
-        public event EventHandler GetMaxColorDefault;
+        public float PropertyMaxValue = 1;
+        public float PropertyMinValue = 0;
 
         public UСOptions(Form2DModelStyle Style)
         {
@@ -135,12 +135,12 @@ namespace mview
 
         private void MinColorDefault_Click(object sender, EventArgs e)
         {
-            GetMinColorDefault(sender, e);
+            boxMinimum.Text = PropertyMinValue.ToString();
         }
 
         private void MaxColorDefault_Click(object sender, EventArgs e)
         {
-            GetMaxColorDefault(sender, e);
+            boxMaximum.Text = PropertyMaxValue.ToString();
         }
     }
 }

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.checkShowAllWell = new System.Windows.Forms.CheckBox();
             this.labelMax = new System.Windows.Forms.Label();
             this.checkShowGridLines = new System.Windows.Forms.CheckBox();
@@ -56,16 +55,6 @@
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
-            this.label1.TabIndex = 63;
-            this.label1.Text = "Set color";
-            // 
             // checkShowAllWell
             // 
             this.checkShowAllWell.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -84,7 +73,7 @@
             // 
             this.labelMax.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelMax.AutoSize = true;
-            this.labelMax.Location = new System.Drawing.Point(27, 99);
+            this.labelMax.Location = new System.Drawing.Point(14, 61);
             this.labelMax.Name = "labelMax";
             this.labelMax.Size = new System.Drawing.Size(51, 13);
             this.labelMax.TabIndex = 61;
@@ -106,7 +95,7 @@
             // 
             this.labelMin.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelMin.AutoSize = true;
-            this.labelMin.Location = new System.Drawing.Point(28, 67);
+            this.labelMin.Location = new System.Drawing.Point(15, 29);
             this.labelMin.Name = "labelMin";
             this.labelMin.Size = new System.Drawing.Size(47, 13);
             this.labelMin.TabIndex = 59;
@@ -115,7 +104,7 @@
             // boxMaximum
             // 
             this.boxMaximum.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.boxMaximum.Location = new System.Drawing.Point(115, 96);
+            this.boxMaximum.Location = new System.Drawing.Point(102, 58);
             this.boxMaximum.Name = "boxMaximum";
             this.boxMaximum.Size = new System.Drawing.Size(64, 21);
             this.boxMaximum.TabIndex = 57;
@@ -126,7 +115,7 @@
             // boxMinimum
             // 
             this.boxMinimum.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.boxMinimum.Location = new System.Drawing.Point(115, 64);
+            this.boxMinimum.Location = new System.Drawing.Point(102, 26);
             this.boxMinimum.Name = "boxMinimum";
             this.boxMinimum.Size = new System.Drawing.Size(64, 21);
             this.boxMinimum.TabIndex = 56;
@@ -276,7 +265,6 @@
             this.tabPage3.Controls.Add(this.MaxColorDefault);
             this.tabPage3.Controls.Add(this.MinColorDefault);
             this.tabPage3.Controls.Add(this.boxMaximum);
-            this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Controls.Add(this.boxMinimum);
             this.tabPage3.Controls.Add(this.labelMax);
             this.tabPage3.Controls.Add(this.labelMin);
@@ -290,7 +278,7 @@
             // MaxColorDefault
             // 
             this.MaxColorDefault.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MaxColorDefault.Location = new System.Drawing.Point(185, 99);
+            this.MaxColorDefault.Location = new System.Drawing.Point(172, 58);
             this.MaxColorDefault.Name = "MaxColorDefault";
             this.MaxColorDefault.Size = new System.Drawing.Size(24, 21);
             this.MaxColorDefault.TabIndex = 65;
@@ -301,7 +289,7 @@
             // MinColorDefault
             // 
             this.MinColorDefault.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MinColorDefault.Location = new System.Drawing.Point(185, 64);
+            this.MinColorDefault.Location = new System.Drawing.Point(172, 26);
             this.MinColorDefault.Name = "MinColorDefault";
             this.MinColorDefault.Size = new System.Drawing.Size(24, 21);
             this.MinColorDefault.TabIndex = 64;
@@ -332,7 +320,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelMax;
         private System.Windows.Forms.Label labelMin;
         private System.Windows.Forms.Label label22;

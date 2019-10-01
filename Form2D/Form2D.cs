@@ -27,7 +27,6 @@ namespace mview
             this.Controls.Add(ucSetFocusOn);
             ucSetFocusOn.BringToFront();
 
-
             ucSetFocusOn.Visible = false;
             ucSetFocusOn.SelectedIndexChanged += new EventHandler(this.OnUCWellsSelected);
 
@@ -36,23 +35,9 @@ namespace mview
 
             this.Controls.Add(ucOptions);
             ucOptions.BringToFront();
-
-
             ucOptions.Visible = false;
             ucOptions.ApplyStyle += new EventHandler(this.OnUCApplyStyle);
-            ucOptions.GetMaxColorDefault += OnUCGetMaxColorDefault;
-            ucOptions.GetMinColorDefault += OnUCGetMinColorDefault;
 
-        }
-
-        private void OnUCGetMinColorDefault(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void OnUCGetMaxColorDefault(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void OnUCApplyStyle(object sender, EventArgs e)
@@ -155,12 +140,23 @@ namespace mview
                 model.SetStaticProperty(treeProperties.SelectedNode.Text);
                 glControlOnPaint(null, null);
 
+                ucOptions.boxMaximum.Text = model.GetPropertyMaxValue().ToString();
+                ucOptions.boxMinimum.Text = model.GetPropertyMinValue().ToString();
+
+                ucOptions.PropertyMaxValue = model.GetPropertyMaxValue();
+                ucOptions.PropertyMinValue = model.GetPropertyMinValue();
             }
 
             if (treeProperties.SelectedNode?.Parent?.Index == 1)
             {
                 model.SetDynamicProperty(treeProperties.SelectedNode.Text);
                 glControlOnPaint(null, null);
+
+                ucOptions.boxMaximum.Text = model.GetPropertyMaxValue().ToString();
+                ucOptions.boxMinimum.Text = model.GetPropertyMinValue().ToString();
+
+                ucOptions.PropertyMaxValue = model.GetPropertyMaxValue();
+                ucOptions.PropertyMinValue = model.GetPropertyMinValue();
             }
         }
 

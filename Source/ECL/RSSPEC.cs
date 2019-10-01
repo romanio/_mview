@@ -195,6 +195,39 @@ namespace mview.ECL
                 br.CloseBinaryFile();
             }
         }
+
+
+        public float GetArrayMin(string name)
+        {
+            for (int it = 0; it < NAME.Count; ++it)
+            {
+                for (int iw = 0; iw < NAME[it].Length; ++iw)
+                {
+                    if (NAME[it][iw] == name)
+                    {
+                        return ARRAYMIN[it][iw];
+                    }
+                }
+            }
+            return -9999;
+        }
+
+        public float GetArrayMax(string name)
+        {
+            for (int it = 0; it < NAME.Count; ++it)
+            {
+                for (int iw = 0; iw < NAME[it].Length; ++iw)
+                {
+                    if (NAME[it][iw] == name)
+                    {
+                        return ARRAYMAX[it][iw];
+                    }
+                }
+            }
+            return -9999;
+        }
+
+
         public int NX, NY, NZ; // Размер по X, Y, Z
         public int NACTIV; // Количество активных ячеек
         public int IPHS; // Индикатор фазы
@@ -215,7 +248,7 @@ namespace mview.ECL
         public int RESTART_STEP;
         public float[] DATA = null;
 
-        public void ReadRestart(string filename, int step)
+        public void ReadRestart(string filename, int step, bool read_compls)
         {
             FILENAME = filename;
             RESTART_STEP = step;
@@ -335,50 +368,68 @@ namespace mview.ECL
                     WELLS[iw].WELLNAME.Trim();
                 }
 
+
                 SetPosition("ICON");
                 br.ReadHeader();
                 int[] ICON = br.ReadIntList();
+                float[] SCON = null;
+                double[] XCON = null;
 
-                SetPosition("SCON");
-                br.ReadHeader();
-                float[] SCON = br.ReadFloatList(br.header.count);
+                if (read_compls)
+                {
+                    SetPosition("SCON");
+                    br.ReadHeader();
+                    SCON = br.ReadFloatList(br.header.count);
 
-                SetPosition("XCON");
-                br.ReadHeader();
-                double[] XCON = br.ReadDoubleList();
+                    SetPosition("XCON");
+                    br.ReadHeader();
+                    XCON = br.ReadDoubleList();
+                }
 
                 for (int IW = 0; IW < NWELLS; ++IW) // Для всех скважин и для всех перфораций
                     for (int IC = 0; IC < NCWMAX; ++IC)
                     {
                         if (ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 0] != 0) // Если перфорация существует
                         {
-                            WELLS[IW].COMPLS.Add(new COMPLDATA
+                            if (read_compls)
                             {
-                                I = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 1] - 1,
-                                J = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 2] - 1,
-                                K = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 3] - 1,
+                                WELLS[IW].COMPLS.Add(new COMPLDATA
+                                {
+                                    I = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 1] - 1,
+                                    J = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 2] - 1,
+                                    K = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 3] - 1,
 
-                                CF = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 0],
-                                Depth = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 1],
-                                D = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 2],
-                                kh = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 3],
-                                S = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 4],
-                                Complex = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 6],
-                                H = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 31],
+                                    CF = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 0],
+                                    Depth = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 1],
+                                    D = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 2],
+                                    kh = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 3],
+                                    S = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 4],
+                                    Complex = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 6],
+                                    H = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 31],
 
-                                OPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 0],
-                                WPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 1],
-                                GPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 2],
-                                OPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 3],
-                                WPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 4],
-                                GPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 5],
-                                Hw = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 9],
-                                PIO = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 23],
-                                PIW = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 24],
-                                PIG = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 25],
-                                PRESS = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 34],
-                                SOIL = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 35]
-                            });
+                                    OPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 0],
+                                    WPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 1],
+                                    GPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 2],
+                                    OPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 3],
+                                    WPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 4],
+                                    GPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 5],
+                                    Hw = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 9],
+                                    PIO = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 23],
+                                    PIW = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 24],
+                                    PIG = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 25],
+                                    PRESS = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 34],
+                                    SOIL = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 35]
+                                });
+                            }
+                            else
+                            {
+                                WELLS[IW].COMPLS.Add(new COMPLDATA
+                                {
+                                    I = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 1] - 1,
+                                    J = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 2] - 1,
+                                    K = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 3] - 1
+                                });
+                            }
                         }
                     }
             }

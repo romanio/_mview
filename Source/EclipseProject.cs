@@ -158,7 +158,7 @@ namespace mview
                 string ext = ".X" + RESTART.REPORT[step].ToString().PadLeft(4, '0');
                 if (FILES.ContainsKey(ext))
                 {
-                    RESTART.ReadRestart(FILES[ext], step);
+                    RESTART.ReadRestart(FILES[ext], step, false);
                 }
             }
 
@@ -166,7 +166,7 @@ namespace mview
 
             if (FILES.ContainsKey("UNRST"))
             {
-                RESTART.ReadRestart(FILES["UNRST"], step);
+                RESTART.ReadRestart(FILES["UNRST"], step, false);
             }
         }
 

@@ -84,8 +84,6 @@ namespace mview
             engine.grid.colorizer.SetMaximum(style.max_value);
             engine.grid.StretchFactor = (float)style.stretch_factor;
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
-
-
             engine.grid.RefreshGrid();
         }
 
@@ -218,6 +216,16 @@ namespace mview
             return DynamicProperties;
         }
 
+        public float GetPropertyMinValue()
+        {
+            return PropertyMinValue;
+        }
+
+        public float GetPropertyMaxValue()
+        {
+            return PropertyMaxValue;
+        }
+
         public string GetGridUnit()
         {
             return GridUnit;
@@ -273,6 +281,9 @@ namespace mview
             {
                 ecl.RESTART.ReadGrid(name);
                 GridUnit = ecl.RESTART.GridUnit;
+
+                PropertyMinValue = ecl.RESTART.GetArrayMin(name);
+                PropertyMaxValue = ecl.RESTART.GetArrayMax(name);
 
                 engine.grid.GenerateGrid(ecl.RESTART.GetValue);
                 engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
