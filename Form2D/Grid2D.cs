@@ -18,7 +18,8 @@ namespace mview
 
         public ViewMode CurrentViewMode = ViewMode.X;
         public float StretchFactor = 0;
-
+        public float Scale = 1;
+        public float ScaleZ = 1;
         public Colorizer colorizer = new Colorizer();
 
         public int element_count = 0;
@@ -39,8 +40,6 @@ namespace mview
         public int XA = 0;
         public int YA = 0;
 
-        // Информация по перфорациям
-       // public int[] WCOORD = null;
         public int welsID;
 
         public void GenerateWellDrawList(bool show_all)
@@ -135,6 +134,9 @@ namespace mview
                                     X = 0.5f * (compl.Cell.TSE.Y + compl.Cell.BNE.Y) * (1 - StretchFactor) + (YMINCOORD + DY * compl.J + 0.5f * DY) * StretchFactor;
                                     Y = 0.5f * (compl.Cell.TSE.Z + compl.Cell.BNE.Z) * (1 - StretchFactor) + (ZMINCOORD + DZ * compl.K + 0.5f * DZ) * StretchFactor;
 
+                                    GL.Vertex3(X, ZMINCOORD - (30 / (Scale * ScaleZ)), 0.2);
+                                    GL.Vertex3(X, Y, 0.2);
+
                                     last_XC = X;
                                     last_YC = Y;
 
@@ -167,6 +169,9 @@ namespace mview
                                 {
                                     X = 0.5f * (compl.Cell.TSW.X + compl.Cell.BSE.X) * (1 - StretchFactor) + (XMINCOORD + DX * compl.I + 0.5f * DX) * StretchFactor;
                                     Y = 0.5f * (compl.Cell.TSW.Z + compl.Cell.BSE.Z) * (1 - StretchFactor) + (ZMINCOORD + DZ * compl.K + 0.5f * DZ) * StretchFactor;
+
+                                    GL.Vertex3(X, ZMINCOORD - (30 / (Scale * ScaleZ)), 0.2);
+                                    GL.Vertex3(X, Y, 0.2);
 
                                     last_XC = X;
                                     last_YC = Y;

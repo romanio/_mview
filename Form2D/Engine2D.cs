@@ -27,6 +27,7 @@ namespace mview
     public class CoordConverter
     {
         Engine2D engine = null;
+        public ViewMode CurrentViewMode = ViewMode.X;
 
         public CoordConverter(Engine2D engine)
         {
@@ -37,11 +38,29 @@ namespace mview
 
         public PointF ConvertWorldToScreen(float XC, float YC)
         {
-            return new PointF()
+            float X = 0;
+            float Y = 0;
+
+            if (CurrentViewMode == ViewMode.X)
             {
-                X = (XC - engine.grid.XMINCOORD - 0.5f * (engine.grid.XMAXCOORD - engine.grid.XMINCOORD) + engine.camera.shift_x + engine.camera.shift_end_x - engine.camera.shift_start_x) * engine.camera.scale + 0.5f * engine.width,
-                Y = (YC - engine.grid.YMINCOORD - 0.5f * (engine.grid.YMAXCOORD - engine.grid.YMINCOORD) - engine.camera.shift_y + engine.camera.shift_end_y - engine.camera.shift_start_y) * engine.camera.scale + 0.5f * engine.height
+                X = (XC - engine.grid.YMINCOORD - 0.5f * (engine.grid.YMAXCOORD - engine.grid.YMINCOORD) + engine.camera.shift_x + engine.camera.shift_end_x - engine.camera.shift_start_x) * engine.camera.scale + 0.5f * engine.width;
+                Y = (-30 / (engine.camera.scale_z * engine.camera.scale) -  0.5f * (engine.grid.ZMAXCOORD - engine.grid.ZMINCOORD) - engine.camera.shift_y + engine.camera.shift_end_y - engine.camera.shift_start_y) * engine.camera.scale * engine.camera.scale_z + 0.5f * engine.height;
             };
+
+            if (CurrentViewMode == ViewMode.Y)
+            {
+                X = (XC - engine.grid.XMINCOORD - 0.5f * (engine.grid.XMAXCOORD - engine.grid.XMINCOORD) + engine.camera.shift_x + engine.camera.shift_end_x - engine.camera.shift_start_x) * engine.camera.scale + 0.5f * engine.width;
+                Y = (-30 / (engine.camera.scale_z * engine.camera.scale) - 0.5f * (engine.grid.ZMAXCOORD - engine.grid.ZMINCOORD) - engine.camera.shift_y + engine.camera.shift_end_y - engine.camera.shift_start_y) * engine.camera.scale * engine.camera.scale_z + 0.5f * engine.height;
+            };
+
+            if (CurrentViewMode == ViewMode.Z)
+            {
+                X = (XC - engine.grid.XMINCOORD - 0.5f * (engine.grid.XMAXCOORD - engine.grid.XMINCOORD) + engine.camera.shift_x + engine.camera.shift_end_x - engine.camera.shift_start_x) * engine.camera.scale + 0.5f * engine.width;
+                Y = (YC - engine.grid.YMINCOORD - 0.5f * (engine.grid.YMAXCOORD - engine.grid.YMINCOORD) - engine.camera.shift_y + engine.camera.shift_end_y - engine.camera.shift_start_y) * engine.camera.scale + 0.5f * engine.height;
+            };
+
+
+            return new PointF(X, Y);
         }
     }
 
@@ -215,6 +234,7 @@ namespace mview
             GL.CallList(grid.welsID);
 
             CoordConverter cordconv = new CoordConverter(this);
+            cordconv.CurrentViewMode = CurrentViewMode;
 
             foreach (ECL.WELLDATA well in grid.ACTIVE_WELLS)
             {
@@ -245,8 +265,6 @@ namespace mview
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-
-
             // Масштабирование и перенос области отображения
 
             GL.MatrixMode(MatrixMode.Modelview);
@@ -260,7 +278,7 @@ namespace mview
 
             // Центрирование
 
-            GL.Translate(camera.shift_x + (camera.shift_end_x - camera.shift_start_x), -camera.shift_y  + camera.shift_end_y - camera.shift_start_y, 0); // Сдвиг за счет мышки
+            GL.Translate(camera.shift_x + (camera.shift_end_x - camera.shift_start_x), -camera.shift_y + camera.shift_end_y - camera.shift_start_y, 0); // Сдвиг за счет мышки
 
             if (CurrentViewMode == ViewMode.Z)
             {
@@ -336,30 +354,27 @@ namespace mview
             DrawFrame();
 
             // Вывод текста текстурой
+            GL.Enable(EnableCap.Texture2D);
+            GL.BindTexture(TextureTarget.Texture2D, render.Texture);
 
-            if (CurrentViewMode == ViewMode.Z)
-            {
-                GL.Enable(EnableCap.Texture2D);
-                GL.BindTexture(TextureTarget.Texture2D, render.Texture);
+            GL.LoadIdentity();
 
-                GL.LoadIdentity();
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
 
-                GL.Enable(EnableCap.Blend);
-                GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color4(Color.White);
 
-                GL.Begin(PrimitiveType.Quads);
-                GL.Color4(Color.White);
+            GL.TexCoord2(0, 1); GL.Vertex3(-0.5 * width, +0.5 * height, +0.3);
+            GL.TexCoord2(1, 1); GL.Vertex3(+0.5 * width, +0.5 * height, +0.3);
+            GL.TexCoord2(1, 0); GL.Vertex3(+0.5 * width, -0.5 * height, +0.3);
+            GL.TexCoord2(0, 0); GL.Vertex3(-0.5 * width, -0.5 * height, +0.3);
 
-                GL.TexCoord2(0, 1); GL.Vertex3(-0.5 * width, +0.5 * height, +0.3);
-                GL.TexCoord2(1, 1); GL.Vertex3(+0.5 * width, +0.5 * height, +0.3);
-                GL.TexCoord2(1, 0); GL.Vertex3(+0.5 * width, -0.5 * height, +0.3);
-                GL.TexCoord2(0, 0); GL.Vertex3(-0.5 * width, -0.5 * height, +0.3);
+            GL.End();
 
-                GL.End();
-
-                GL.Disable(EnableCap.Blend);
-                GL.Disable(EnableCap.Texture2D);
-            }
+            GL.Disable(EnableCap.Blend);
+            GL.Disable(EnableCap.Texture2D);
+        
         }
 
         Form2DModelStyle style = new Form2DModelStyle()
@@ -380,6 +395,8 @@ namespace mview
         public void MouseWheel(MouseEventArgs e)
         {
             camera.MouseWheel(e);
+            grid.Scale = camera.scale;
+            grid.ScaleZ = camera.scale_z;
         }
 
         public void MouseMove(MouseEventArgs e)

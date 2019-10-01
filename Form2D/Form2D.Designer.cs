@@ -195,7 +195,7 @@
             // bbChartOptions
             // 
             this.bbChartOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbChartOptions.Location = new System.Drawing.Point(457, 6);
+            this.bbChartOptions.Location = new System.Drawing.Point(519, 6);
             this.bbChartOptions.Name = "bbChartOptions";
             this.bbChartOptions.Size = new System.Drawing.Size(118, 26);
             this.bbChartOptions.TabIndex = 49;
@@ -207,7 +207,7 @@
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(581, 6);
+            this.button1.Location = new System.Drawing.Point(643, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(118, 26);
             this.button1.TabIndex = 50;
@@ -226,7 +226,7 @@
             // bbSetFocusOn
             // 
             this.bbSetFocusOn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbSetFocusOn.Location = new System.Drawing.Point(705, 6);
+            this.bbSetFocusOn.Location = new System.Drawing.Point(395, 6);
             this.bbSetFocusOn.Name = "bbSetFocusOn";
             this.bbSetFocusOn.Size = new System.Drawing.Size(118, 26);
             this.bbSetFocusOn.TabIndex = 52;
