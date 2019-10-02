@@ -40,11 +40,12 @@ namespace mview
 
             ecl.ReadEGRID();
             ecl.ReadINIT();
-            SetMinMaxAndScaleFactor();
         }
 
         public void SetPosition(ViewMode Position)
         {
+            System.Diagnostics.Debug.WriteLine("Form2DModel [SetPosition = " + Position + " ]");
+
             engine.SavePosition();
 
             if (Position == ViewMode.X)
@@ -74,6 +75,7 @@ namespace mview
                 engine.RestorePosition();
             }
 
+            System.Diagnostics.Debug.WriteLine("Camera Scale = " + engine.camera.scale.ToString());
             engine.grid.RefreshGrid();
         }
 
@@ -87,7 +89,7 @@ namespace mview
             engine.grid.RefreshGrid();
         }
 
-        void SetMinMaxAndScaleFactor()
+        void SetMinMaxAndScaleFactor(int width, int height)
         {
             System.Diagnostics.Debug.WriteLine("Form2DModel [SetMinMaxAndScaleFactor]");
 
@@ -127,6 +129,33 @@ namespace mview
             engine.grid.XC = (engine.grid.XMINCOORD + engine.grid.XMAXCOORD) * 0.5f;
             engine.grid.YC = (engine.grid.YMINCOORD + engine.grid.YMAXCOORD) * 0.5f;
             engine.grid.ZC = (engine.grid.ZMINCOORD + engine.grid.ZMAXCOORD) * 0.5f;
+
+
+            float DX, DY, DZ;
+            float MC, SC;
+
+            DX = engine.grid.XMAXCOORD - engine.grid.XMINCOORD;
+            DY = engine.grid.YMAXCOORD - engine.grid.YMINCOORD;
+            DZ = engine.grid.ZMAXCOORD - engine.grid.ZMINCOORD;
+
+            SC = Math.Min(width, height);
+
+            // Z Scale Default
+
+            MC = Math.Max(DX, DY) * 1.1f;
+            engine.ViewPositionZ.Scale = SC / MC;
+
+            // X Scale Default
+
+            MC = Math.Max(DY, DZ * engine.camera.scale_z) * 1.1f;
+            engine.ViewPositionX.Scale = SC / MC;
+
+            // Y Scale Default
+
+            MC = Math.Max(DX, DZ * engine.camera.scale_z) * 1.1f;
+            engine.ViewPositionY.Scale = SC / MC;
+
+            engine.RestorePosition();
         }
 
         public string[] GetWellNames()
@@ -159,13 +188,10 @@ namespace mview
 
             engine.grid.SetEclipseProject(ecl);
 
-       //     engine.grid.WCOORD = new int[ecl.INIT.NACTIV];
-
             foreach(ECL.WELLDATA well in ecl.RESTART.WELLS)
             {
                 foreach (ECL.COMPLDATA compl in well.COMPLS)
                 {
-                    //        engine.grid.WCOORD[ecl.INIT.GetActive(compl.I, compl.J, compl.K) - 1] = well.WINDEX;
                     compl.Cell = ecl.EGRID.GetCell(compl.I, compl.J, compl.K);
                 }
             }
@@ -260,7 +286,7 @@ namespace mview
 
         public void SetStaticProperty(string name)
         {
-            System.Diagnostics.Debug.WriteLine("Form2DModel [SetStaticProperty = " + name);
+            System.Diagnostics.Debug.WriteLine("Form2DModel [SetStaticProperty = " + name + " ]");
 
             ecl.INIT.ReadGrid(name);
             GridUnit = ecl.INIT.GridUnit;
@@ -310,20 +336,15 @@ namespace mview
             engine.OnLoad();
         }
 
-        bool resize_init = true;
+
+        bool InitResize = false;
 
         public void OnResize(int width, int height)
         {
-            if (resize_init) // Установить начальный масштабный фактор
+            if (!InitResize) // Сработать один раз
             {
-                float DX = engine.grid.XMAXCOORD - engine.grid.XMINCOORD;
-                float DY = engine.grid.YMAXCOORD - engine.grid.YMINCOORD;
-
-                float MC = Math.Max(DX, DY) * 1.1f;
-                float SC = Math.Min(width, height);
-
-                engine.camera.scale = SC / MC;
-                resize_init = false;
+                SetMinMaxAndScaleFactor(width, height);
+                InitResize = true;
             }
 
             engine.OnResize(width, height);
@@ -347,6 +368,7 @@ namespace mview
         public void MouseWheel(MouseEventArgs e)
         {
             engine.MouseWheel(e);
+            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
         }
 
         public void MouseClick(MouseEventArgs e)

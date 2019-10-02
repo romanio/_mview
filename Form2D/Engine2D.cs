@@ -69,9 +69,9 @@ namespace mview
         public Grid2D grid = new Grid2D();
         public Camera2D camera = new Camera2D();
 
-        ViewPosition ViewPositionX = new ViewPosition();
-        ViewPosition ViewPositionY = new ViewPosition();
-        ViewPosition ViewPositionZ = new ViewPosition();
+        public ViewPosition ViewPositionX = new ViewPosition();
+        public ViewPosition ViewPositionY = new ViewPosition();
+        public ViewPosition ViewPositionZ = new ViewPosition();
 
         double XMIN, XMAX, YMIN, YMAX;
 
@@ -84,6 +84,9 @@ namespace mview
 
         public void SavePosition()
         {
+            System.Diagnostics.Debug.WriteLine("Engine2D [SavePosition]");
+
+
             if (CurrentViewMode == ViewMode.X)
             {
                 ViewPositionX.Scale = camera.scale;
@@ -173,7 +176,7 @@ namespace mview
         
         public void OnLoad()
         {
-            System.Diagnostics.Debug.WriteLine("Engine2D : OnLoad");
+            System.Diagnostics.Debug.WriteLine("Engine [OnLoad]");
 
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.PolygonOffsetFill);
@@ -187,11 +190,15 @@ namespace mview
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vboID);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, eboID);
+
+
+            grid.Scale = camera.scale;
+            grid.ScaleZ = camera.scale_z;
         }
 
         public void OnUnload()
         {
-            System.Diagnostics.Debug.WriteLine("Engine2D : OnUnLoad");
+            System.Diagnostics.Debug.WriteLine("Engine [OnUnLoad]");
 
             GL.DeleteBuffer(vboID);
             GL.DeleteBuffer(eboID);
@@ -202,7 +209,7 @@ namespace mview
 
         public void OnResize(int width, int height)
         {
-            System.Diagnostics.Debug.WriteLine("Engine2D : OnResize");
+            System.Diagnostics.Debug.WriteLine("Engine [OnResize]");
 
             this.width = width;
             this.height = height;
@@ -273,7 +280,7 @@ namespace mview
 
             if (CurrentViewMode != ViewMode.Z)
             {
-                GL.Scale(1, 20, 1);
+                GL.Scale(1, camera.scale_z, 1);
             }
 
             // Центрирование
@@ -395,6 +402,10 @@ namespace mview
         public void MouseWheel(MouseEventArgs e)
         {
             camera.MouseWheel(e);
+
+            // Изменение Scale приводит к изменению масштаба по оси Z.
+            // Приходится перерисовывать стволы
+
             grid.Scale = camera.scale;
             grid.ScaleZ = camera.scale_z;
         }

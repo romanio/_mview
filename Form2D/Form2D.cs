@@ -42,7 +42,8 @@ namespace mview
 
         private void OnUCApplyStyle(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("2D Options : ApplyStyle");
+            System.Diagnostics.Debug.WriteLine("Form2D [OnUCApplyStyle]");
+
             model.ApplyStyle();
             glControlOnPaint(null, null);
         }
@@ -53,8 +54,12 @@ namespace mview
             glControl.SwapBuffers();
         }
 
+        bool editVisualData = false;
+
         void FillStaticProperties()
         {
+            editVisualData = true;
+
             // Имена свойств из INIT файла
 
             treeProperties.Nodes[0].Nodes.Clear();
@@ -120,9 +125,10 @@ namespace mview
             boxZSlice.EndUpdate();
 
             //
+
+            editVisualData = false;
+
             tabSliceControl_SelectedIndexChanged(null, null);
-
-
         }
 
         private void boxRestart_SelectedIndexChanged(object sender, EventArgs e)
@@ -210,7 +216,9 @@ namespace mview
 
         private void boxXSlice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("BOX X SELECTED INDEX");
+            if (editVisualData) return;
+
+            System.Diagnostics.Debug.WriteLine("Form2D [BoxXSlice SelectedIndex]");
 
             model.SetXA(boxXSlice.SelectedIndex);
             treeProperties_AfterSelect(null, null);
@@ -218,12 +226,20 @@ namespace mview
 
         private void boxYSlice_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (editVisualData) return;
+
+            System.Diagnostics.Debug.WriteLine("Form2D [BoxYSlice SelectedIndex]");
+
             model.SetYA(boxYSlice.SelectedIndex);
             treeProperties_AfterSelect(null, null);
         }
 
         private void boxZSliceOnSelectedIndexChanged(object sender, EventArgs e)
         {
+            if (editVisualData) return;
+
+            System.Diagnostics.Debug.WriteLine("Form2D [BoxZSlice SelectedIndex]");
+
             model.SetZA(boxZSlice.SelectedIndex);
             treeProperties_AfterSelect(null, null);
         }
@@ -274,6 +290,8 @@ namespace mview
 
         private void tabSliceControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Form2D [tabSlice SelectedIndex]");
+
             if (tabSliceControl.SelectedIndex == 0)
             {
                 model.SetPosition(ViewMode.X);
