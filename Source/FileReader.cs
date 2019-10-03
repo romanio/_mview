@@ -335,6 +335,52 @@ namespace mview
             return list;
         }
 
+        public float[] ReadIntListAsFloat()
+        {
+            int count = header.count;
+
+            float[] list = new float[count];
+            int index = 0;
+            int bindex = 0;
+            int block = count / 1000;
+            int mod = count - block * 1000;
+
+            int buflen = 0;
+            if (block > 0)
+                buflen = (2 * 4 + 4000) * block;
+            if (mod > 0)
+                buflen += 2 * 4 + 4 * mod;
+
+            byte[] nums = br.ReadBytes(buflen); // Одновременное считывание всего массива данных
+            Position += buflen;
+
+            while (block > 0)
+            {
+                bindex += 4;
+                for (int iw = 0; iw < 1000; ++iw) // Конвертирование целых блоков
+                {
+                    list[index++] = (nums[bindex + 3]) | (nums[bindex + 2] << 8) | (nums[bindex + 1] << 0x10) | (nums[bindex] << 0x18);
+                    bindex += 4;
+                }
+                bindex += 4;
+                block--;
+            }
+
+            if (mod > 0) // И конвертация остатка
+            {
+                bindex += 4;
+                while (mod > 0)
+                {
+                    list[index++] = (nums[bindex + 3]) | (nums[bindex + 2] << 8) | (nums[bindex + 1] << 0x10) | (nums[bindex] << 0x18);
+                    bindex += 4;
+                    mod--;
+                }
+                bindex += 4;
+            }
+            return list;
+        }
+
+
         public int[] ReadIntList()
         {
             // Считывания массива целых чисел. Вариант кажется мне самым быстрым

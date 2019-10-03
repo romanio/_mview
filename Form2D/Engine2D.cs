@@ -437,14 +437,28 @@ namespace mview
 
                 pixel = BitConverter.GetBytes(p.ToInt32());  // Цвет под мышкой
 
-                float XT = (e.X - 0.5f * width) / camera.scale + grid.XMINCOORD + 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) - camera.shift_x - camera.shift_end_x + camera.shift_start_x;
-                float YT = (e.Y - 0.5f * height) / camera.scale + grid.YMINCOORD + 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
+                float XT = 0;
+                float YT = 0;
 
-                var res = grid.GetCellUnderMouseZ(XT, YT, pixel);
+                if (CurrentViewMode == ViewMode.X)
+                {
+                    XT = (e.X - 0.5f * width) / camera.scale + grid.YMINCOORD + 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_x - camera.shift_end_x + camera.shift_start_x;
+                    YT = (e.Y - 0.5f * height) / camera.scale + grid.ZMINCOORD + 0.5f * (grid.ZMAXCOORD - grid.ZMINCOORD) + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
+                    var res = grid.GetCellUnderMouseX(XT, YT, pixel);
+                    YS = res.Item1;
+                    ZS = res.Item2;
+                    VS = res.Item3;
+                }
 
-                XS = res.Item1;
-                YS = res.Item2;
-                VS = res.Item3;
+                if (CurrentViewMode == ViewMode.Z)
+                {
+                    XT = (e.X - 0.5f * width) / camera.scale + grid.XMINCOORD + 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) - camera.shift_x - camera.shift_end_x + camera.shift_start_x;
+                    YT = (e.Y - 0.5f * height) / camera.scale + grid.YMINCOORD + 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
+                    var res = grid.GetCellUnderMouseZ(XT, YT, pixel);
+                    XS = res.Item1;
+                    YS = res.Item2;
+                    VS = res.Item3;
+                }
             }
         }
     }

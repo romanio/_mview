@@ -211,7 +211,14 @@ namespace mview.ECL
             SetPosition(property);
             br.ReadHeader();
 
-            DATA = br.ReadFloatList(br.header.count);
+            if (br.header.type == "INTE")
+            {
+                DATA = br.ReadIntListAsFloat();
+            }
+            else
+            {
+                DATA = br.ReadFloatList(br.header.count);
+            }
             //
             br.CloseBinaryFile();
         }

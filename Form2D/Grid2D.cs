@@ -261,6 +261,53 @@ namespace mview
             return new Cell();
         }
 
+        public Tuple<int, int, float> GetCellUnderMouseX(float eX, float eY, byte[] pixel)
+        {
+            int cell_index = 0;
+            float value;
+            Color color;
+            Cell CELL;
+
+            float DX = (YMAXCOORD - YMINCOORD) / ecl.EGRID.NY;
+            float DY = (ZMAXCOORD - ZMINCOORD) / ecl.EGRID.NZ;
+
+            for (int Y = 0; Y < ecl.EGRID.NY; ++Y)
+                for (int Z = 0; Y < ecl.EGRID.NZ; ++Z)
+                {
+                    cell_index = ecl.INIT.GetActive(XA, Y, Z);
+
+                    if (cell_index > 0)
+                    {
+                        value = tmp_GetValue(cell_index - 1);
+                        color = colorizer.ColorByValue(value);
+
+                        if (color.R == pixel[0])
+                            if (color.G == pixel[1])
+                                if (color.B == pixel[2])
+                                {
+                                    CELL = ecl.EGRID.GetCell(XA, Y, Z);
+
+                                    float[] xcoords = new float[4] { CELL.TSW.Y * (1 - StretchFactor) + ecl.EGRID. + (, CELL.TNW.X, CELL.TSE.X, CELL.TSW.X };
+                                    float xmin = xcoords.Min();
+                                    float xmax = xcoords.Max();
+
+                                    if (eX >= xmin && eX <= xmax)
+                                    {
+                                        float[] ycoords = new float[4] { CELL.TNE.Y, CELL.TNW.Y, CELL.TSE.Y, CELL.TSW.Y };
+                                        float ymin = ycoords.Min();
+                                        float ymax = ycoords.Max();
+                                        if (eY >= ymin && eY <= ymax)
+                                        {
+                                            return new Tuple<int, int, float>(X, Y, value);
+                                        }
+                                    }
+                                }
+                    }
+                }
+
+            return new Tuple<int, int, float>(-1, -1, -1);
+        }
+
         public Tuple<int, int, float> GetCellUnderMouseZ(float eX, float eY, byte[] pixel)
         {
             int cell_index = 0;
