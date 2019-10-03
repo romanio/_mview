@@ -170,7 +170,7 @@ namespace mview.ECL
             return -9999;
         }
 
-        public int GetActive(int X, int Y, int Z)
+        public long GetActive(int X, int Y, int Z)
         {
             return ACTNUM[X + NX * Y + Z * NX * NY];
         }
@@ -223,7 +223,7 @@ namespace mview.ECL
             br.CloseBinaryFile();
         }
 
-        public float GetValue(int index)
+        public float GetValue(long index)
         {
             return DATA[index];
         }

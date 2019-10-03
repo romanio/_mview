@@ -330,6 +330,70 @@ namespace mview
 
             // Отрисовка выбранной ячейки
 
+            if (CurrentViewMode == ViewMode.X && (YS > -1))
+            {
+                var CELL = grid.GetCell(XS, YS, ZS);
+                
+                if ((CELL.TNE.X + CELL.TNW.X + CELL.TSE.X) != 0)
+                {
+                    float DY = (grid.YMAXCOORD - grid.YMINCOORD) / grid.NY;
+                    float DZ = (grid.ZMAXCOORD - grid.ZMINCOORD) / grid.NZ;
+
+                    GL.LineWidth(3);
+                    GL.Begin(PrimitiveType.Lines);
+                    GL.Color3(Color.Black);
+
+                    GL.Vertex3(CELL.TSE.Y * (1 - grid.StretchFactor) + (grid.YMINCOORD + DY * YS + DY) * grid.StretchFactor, CELL.TSE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS) * grid.StretchFactor, 0.3);
+                    GL.Vertex3(CELL.BSE.Y * (1 - grid.StretchFactor) + (grid.YMINCOORD + DY * YS + DY) * grid.StretchFactor, CELL.BSE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS + DZ) * grid.StretchFactor, 0.3);
+
+                    GL.Vertex3(CELL.BSE.Y * (1 - grid.StretchFactor) + (grid.YMINCOORD + DY * YS + DY) * grid.StretchFactor, CELL.BSE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS + DZ) * grid.StretchFactor, 0.3);
+                    GL.Vertex3(CELL.BNE.Y * (1 - grid.StretchFactor) + (grid.YMINCOORD + DY * YS) * grid.StretchFactor, CELL.BNE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS + DZ) * grid.StretchFactor, 0.3);
+
+                    GL.Vertex3(CELL.BNE.Y * (1 - grid.StretchFactor) + (grid.YMINCOORD + DY * YS) * grid.StretchFactor, CELL.BNE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS + DZ) * grid.StretchFactor, 0.3);
+                    GL.Vertex3(CELL.TNE.Y * (1 - grid.StretchFactor) + (grid.YMINCOORD + DY * YS) * grid.StretchFactor, CELL.TNE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS) * grid.StretchFactor, 0.3);
+
+                    GL.Vertex3(CELL.TNE.Y * (1 - grid.StretchFactor) + (grid.YMINCOORD + DY * YS) * grid.StretchFactor, CELL.TNE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS) * grid.StretchFactor, 0.3);
+                    GL.Vertex3(CELL.TSE.Y * (1 - grid.StretchFactor) + (grid.YMINCOORD + DY * YS + DY) * grid.StretchFactor, CELL.TSE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS) * grid.StretchFactor, 0.3);
+
+
+                    GL.End();
+
+                    GL.LineWidth(1);
+                }
+            }
+
+            if (CurrentViewMode == ViewMode.Y && (XS > -1))
+            {
+                var CELL = grid.GetCell(XS, YS, ZS);
+
+                if ((CELL.TNE.X + CELL.TNW.X + CELL.TSE.X) != 0)
+                {
+                    float DX = (grid.XMAXCOORD - grid.XMINCOORD) / grid.NX;
+                    float DZ = (grid.ZMAXCOORD - grid.ZMINCOORD) / grid.NZ;
+
+                    GL.LineWidth(3);
+                    GL.Begin(PrimitiveType.Lines);
+                    GL.Color3(Color.Black);
+
+                    GL.Vertex3(CELL.TSW.X * (1 - grid.StretchFactor) + (grid.XMINCOORD + DX * XS) * grid.StretchFactor, CELL.TSW.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS) * grid.StretchFactor, 0.3);
+                    GL.Vertex3(CELL.TSE.X * (1 - grid.StretchFactor) + (grid.XMINCOORD + DX * XS + DX) * grid.StretchFactor, CELL.TSE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS) * grid.StretchFactor, 0.3);
+
+                    GL.Vertex3(CELL.TSE.X * (1 - grid.StretchFactor) + (grid.XMINCOORD + DX * XS + DX) * grid.StretchFactor, CELL.TSE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS) * grid.StretchFactor, 0.3);
+                    GL.Vertex3(CELL.BSE.X * (1 - grid.StretchFactor) + (grid.XMINCOORD + DX * XS + DX) * grid.StretchFactor, CELL.BSE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS + DZ) * grid.StretchFactor, 0.3);
+
+                    GL.Vertex3(CELL.BSE.X * (1 - grid.StretchFactor) + (grid.XMINCOORD + DX * XS + DX) * grid.StretchFactor, CELL.BSE.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS + DZ) * grid.StretchFactor, 0.3);
+                    GL.Vertex3(CELL.BSW.X * (1 - grid.StretchFactor) + (grid.XMINCOORD + DX * XS) * grid.StretchFactor, CELL.BSW.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS + DZ) * grid.StretchFactor, 0.3);
+
+                    GL.Vertex3(CELL.BSW.X * (1 - grid.StretchFactor) + (grid.XMINCOORD + DX * XS) * grid.StretchFactor, CELL.BSW.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS + DZ) * grid.StretchFactor, 0.3);
+                    GL.Vertex3(CELL.TSW.X * (1 - grid.StretchFactor) + (grid.XMINCOORD + DX * XS) * grid.StretchFactor, CELL.TSW.Z * (1 - grid.StretchFactor) + (grid.ZMINCOORD + DZ * ZS) * grid.StretchFactor, 0.3);
+
+
+                    GL.End();
+
+                    GL.LineWidth(1);
+                }
+            }
+
             if (CurrentViewMode == ViewMode.Z && (XS > -1))
             {
                 var CELL = grid.GetCell(XS, YS, ZS);
@@ -424,10 +488,6 @@ namespace mview
 
             if (e.Button == MouseButtons.Left)
             {
-                XS = -1;
-                YS = -1;
-                ZS = grid.ZA;
-
                 int[] viewport = new int[4];
                 GL.GetInteger(GetPName.Viewport, viewport);
                 byte[] pixel = null;
@@ -442,16 +502,38 @@ namespace mview
 
                 if (CurrentViewMode == ViewMode.X)
                 {
+                    XS = grid.XA;
+                    YS = -1;
+                    ZS = -1;
+
                     XT = (e.X - 0.5f * width) / camera.scale + grid.YMINCOORD + 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) - camera.shift_x - camera.shift_end_x + camera.shift_start_x;
-                    YT = (e.Y - 0.5f * height) / camera.scale + grid.ZMINCOORD + 0.5f * (grid.ZMAXCOORD - grid.ZMINCOORD) + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
+                    YT = (e.Y - 0.5f * height) / (camera.scale * camera.scale_z) + grid.ZMINCOORD + 0.5f * (grid.ZMAXCOORD - grid.ZMINCOORD) + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
                     var res = grid.GetCellUnderMouseX(XT, YT, pixel);
                     YS = res.Item1;
                     ZS = res.Item2;
                     VS = res.Item3;
                 }
 
+                if (CurrentViewMode == ViewMode.Y)
+                {
+                    XS = -1;
+                    YS = grid.YA;
+                    ZS = -1;
+
+                    XT = (e.X - 0.5f * width) / camera.scale + grid.XMINCOORD + 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) - camera.shift_x - camera.shift_end_x + camera.shift_start_x;
+                    YT = (e.Y - 0.5f * height) / (camera.scale * camera.scale_z) + grid.ZMINCOORD + 0.5f * (grid.ZMAXCOORD - grid.ZMINCOORD) + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
+                    var res = grid.GetCellUnderMouseY(XT, YT, pixel);
+                    XS = res.Item1;
+                    ZS = res.Item2;
+                    VS = res.Item3;
+                }
+
                 if (CurrentViewMode == ViewMode.Z)
                 {
+                    XS = -1;
+                    YS = -1;
+                    ZS = grid.ZA;
+
                     XT = (e.X - 0.5f * width) / camera.scale + grid.XMINCOORD + 0.5f * (grid.XMAXCOORD - grid.XMINCOORD) - camera.shift_x - camera.shift_end_x + camera.shift_start_x;
                     YT = (e.Y - 0.5f * height) / camera.scale + grid.YMINCOORD + 0.5f * (grid.YMAXCOORD - grid.YMINCOORD) + camera.shift_y - camera.shift_end_y + camera.shift_start_y;
                     var res = grid.GetCellUnderMouseZ(XT, YT, pixel);

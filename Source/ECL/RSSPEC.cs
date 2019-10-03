@@ -468,7 +468,7 @@ namespace mview.ECL
             br.CloseBinaryFile();
         }
 
-        public float GetValue(int index)
+        public float GetValue(long index)
         {
             return DATA[index];
         }

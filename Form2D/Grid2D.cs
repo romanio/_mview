@@ -33,6 +33,9 @@ namespace mview
         public float XC;
         public float YC;
         public float ZC;
+        public int NX;
+        public int NY;
+        public int NZ;
 
         // Выбранные для отображения координаты
 
@@ -263,16 +266,16 @@ namespace mview
 
         public Tuple<int, int, float> GetCellUnderMouseX(float eX, float eY, byte[] pixel)
         {
-            int cell_index = 0;
+            long cell_index = 0;
             float value;
             Color color;
             Cell CELL;
 
-            float DX = (YMAXCOORD - YMINCOORD) / ecl.EGRID.NY;
-            float DY = (ZMAXCOORD - ZMINCOORD) / ecl.EGRID.NZ;
+            float DY = (YMAXCOORD - YMINCOORD) / ecl.EGRID.NY;
+            float DZ = (ZMAXCOORD - ZMINCOORD) / ecl.EGRID.NZ;
 
             for (int Y = 0; Y < ecl.EGRID.NY; ++Y)
-                for (int Z = 0; Y < ecl.EGRID.NZ; ++Z)
+                for (int Z = 0; Z < ecl.EGRID.NZ; ++Z)
                 {
                     cell_index = ecl.INIT.GetActive(XA, Y, Z);
 
@@ -287,18 +290,86 @@ namespace mview
                                 {
                                     CELL = ecl.EGRID.GetCell(XA, Y, Z);
 
-                                    float[] xcoords = new float[4] { CELL.TSW.Y * (1 - StretchFactor) + ecl.EGRID. + (, CELL.TNW.X, CELL.TSE.X, CELL.TSW.X };
+                                    float[] xcoords = new float[4] {
+                                        CELL.TSE.Y * (1 - StretchFactor) + (YMINCOORD + DY * Y + DY) * StretchFactor,
+                                        CELL.BSE.Y * (1 - StretchFactor) + (YMINCOORD + DY * Y + DY) * StretchFactor,
+                                        CELL.BNE.Y * (1 - StretchFactor) + (YMINCOORD + DY * Y) * StretchFactor,
+                                        CELL.TNE.Y * (1 - StretchFactor) + (YMINCOORD + DY * Y) * StretchFactor };
+
                                     float xmin = xcoords.Min();
                                     float xmax = xcoords.Max();
 
                                     if (eX >= xmin && eX <= xmax)
                                     {
-                                        float[] ycoords = new float[4] { CELL.TNE.Y, CELL.TNW.Y, CELL.TSE.Y, CELL.TSW.Y };
+                                        float[] ycoords = new float[4] {
+
+                                            CELL.TSE.Z * (1 - StretchFactor) + (ZMINCOORD + DZ * Z) * StretchFactor,
+                                            CELL.BSE.Z * (1 - StretchFactor) + (ZMINCOORD + DZ * Z + DZ) * StretchFactor,
+                                            CELL.BNE.Z * (1 - StretchFactor) + (ZMINCOORD + DZ * Z + DZ) * StretchFactor,
+                                            CELL.TNE.Z * (1 - StretchFactor) + (ZMINCOORD + DZ * Z) * StretchFactor };
+
                                         float ymin = ycoords.Min();
                                         float ymax = ycoords.Max();
                                         if (eY >= ymin && eY <= ymax)
                                         {
-                                            return new Tuple<int, int, float>(X, Y, value);
+                                            return new Tuple<int, int, float>(Y, Z, value);
+                                        }
+                                    }
+                                }
+                    }
+                }
+
+            return new Tuple<int, int, float>(-1, -1, -1);
+        }
+
+        public Tuple<int, int, float> GetCellUnderMouseY(float eX, float eY, byte[] pixel)
+        {
+            long cell_index = 0;
+            float value;
+            Color color;
+            Cell CELL;
+
+            float DX = (XMAXCOORD - XMINCOORD) / ecl.EGRID.NX;
+            float DZ = (ZMAXCOORD - ZMINCOORD) / ecl.EGRID.NZ;
+
+            for (int X = 0; X < ecl.EGRID.NX; ++X)
+                for (int Z = 0; Z < ecl.EGRID.NZ; ++Z)
+                {
+                    cell_index = ecl.INIT.GetActive(X, YA, Z);
+
+                    if (cell_index > 0)
+                    {
+                        value = tmp_GetValue(cell_index - 1);
+                        color = colorizer.ColorByValue(value);
+
+                        if (color.R == pixel[0])
+                            if (color.G == pixel[1])
+                                if (color.B == pixel[2])
+                                {
+                                    CELL = ecl.EGRID.GetCell(X, YA, Z);
+
+                                    float[] xcoords = new float[4] {
+                                        CELL.TSW.X * (1 - StretchFactor) + (XMINCOORD + DX * X) * StretchFactor,
+                                        CELL.TSE.X * (1 - StretchFactor) + (XMINCOORD + DX * X + DX) * StretchFactor,
+                                        CELL.BSE.X * (1 - StretchFactor) + (XMINCOORD + DX * X + DX) * StretchFactor,
+                                        CELL.BSW.X * (1 - StretchFactor) + (XMINCOORD + DX * X) * StretchFactor };
+
+                                    float xmin = xcoords.Min();
+                                    float xmax = xcoords.Max();
+
+                                    if (eX >= xmin && eX <= xmax)
+                                    {
+                                        float[] ycoords = new float[4] {
+                                            CELL.TSW.Z * (1 - StretchFactor) + (ZMINCOORD + DZ * Z) * StretchFactor,
+                                            CELL.TSE.Z * (1 - StretchFactor) + (ZMINCOORD + DZ * Z) * StretchFactor,
+                                            CELL.BSE.Z * (1 - StretchFactor) + (ZMINCOORD + DZ * Z + DZ) * StretchFactor,
+                                            CELL.BSW.Z * (1 - StretchFactor) + (ZMINCOORD + DZ * Z + DZ) * StretchFactor };
+
+                                        float ymin = ycoords.Min();
+                                        float ymax = ycoords.Max();
+                                        if (eY >= ymin && eY <= ymax)
+                                        {
+                                            return new Tuple<int, int, float>(X, Z, value);
                                         }
                                     }
                                 }
@@ -310,7 +381,7 @@ namespace mview
 
         public Tuple<int, int, float> GetCellUnderMouseZ(float eX, float eY, byte[] pixel)
         {
-            int cell_index = 0;
+            long cell_index = 0;
             float value;
             Color color;
             Cell CELL;
@@ -354,14 +425,14 @@ namespace mview
 
 
         EclipseProject ecl;
-        Func<int, float> tmp_GetValue;
+        Func<long, float> tmp_GetValue;
 
         public void SetEclipseProject(EclipseProject ecl)
         {
             this.ecl = ecl;
         }
 
-        public void GenerateGrid(Func<int, float> GetValue)
+        public void GenerateGrid(Func<long, float> GetValue)
         {
             System.Diagnostics.Debug.WriteLine("Grid2D [GenerateGrid]");
 
@@ -372,7 +443,7 @@ namespace mview
             IntPtr vertex_ptr;
             IntPtr element_ptr;
 
-            int cell_index = 0;
+            long cell_index = 0;
 
             Color color;
             float value;
@@ -381,7 +452,11 @@ namespace mview
 
             float DX = 0;
             float DY = 0;
-            
+
+            NX = ecl.EGRID.NX;
+            NY = ecl.EGRID.NY;
+            NZ = ecl.EGRID.NZ;
+
             if (CurrentViewMode == ViewMode.Z)
             {
                 GL.BufferData(
