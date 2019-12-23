@@ -454,7 +454,7 @@ namespace mview
             ShowGridLines = true,
             ShowAllWelltrack = true,
             BubbleMode = BubbleMode.Simulation,
-            scale_factor = 100
+            ScaleFactor = 100
         };
         
         public void SetStyle(Form2DModelStyle style)

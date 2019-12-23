@@ -20,10 +20,10 @@ namespace mview
         public bool ShowAllWelltrack = true;
         public bool ShowBubbles = true;
         public BubbleMode BubbleMode = BubbleMode.Simulation;
-        public double min_value = 0;
-        public double max_value = 1;
-        public double scale_factor = 100;
-        public double stretch_factor = 0;
+        public double MinValue = 0;
+        public double MaxValue = 1;
+        public double ScaleFactor = 100;
+        public double StretchFactor = 0;
     }
 
 
@@ -82,9 +82,9 @@ namespace mview
         public void ApplyStyle()
         {
             engine.SetStyle(style);
-            engine.grid.colorizer.SetMinimum(style.min_value);
-            engine.grid.colorizer.SetMaximum(style.max_value);
-            engine.grid.StretchFactor = (float)style.stretch_factor;
+            engine.grid.colorizer.SetMinimum(style.MinValue);
+            engine.grid.colorizer.SetMaximum(style.MaxValue);
+            engine.grid.StretchFactor = (float)style.StretchFactor;
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
             engine.grid.RefreshGrid();
         }
@@ -171,12 +171,15 @@ namespace mview
 
             if (well != null)
             {
-                float XC = well.XC;
-                float YC = well.YC;
+                if (engine.CurrentViewMode == ViewMode.Z)
+                {
+                    float XC = well.XC;
+                    float YC = well.YC;
 
-                engine.camera.shift_x =-( XC - engine.grid.XC);
-                engine.camera.shift_y =( YC - engine.grid.YC);
-                engine.OnPaint();
+                    engine.camera.shift_x = -(XC - engine.grid.XC);
+                    engine.camera.shift_y = (YC - engine.grid.YC);
+                    engine.OnPaint();
+                }
             }                   
         }
 
@@ -242,6 +245,11 @@ namespace mview
             return DynamicProperties;
         }
 
+        public long[] GetPropertyStatistic()
+        {
+            return PropertyStatistic;
+        }
+
         public float GetPropertyMinValue()
         {
             return PropertyMinValue;
@@ -293,6 +301,13 @@ namespace mview
             PropertyMinValue = ecl.INIT.GetArrayMin(name);
             PropertyMaxValue = ecl.INIT.GetArrayMax(name);
 
+            PropertyStatistic = new long[20];
+
+            for (int iw = 0; iw < ecl.INIT.DATA.Length; ++iw)
+                PropertyStatistic[
+                    (int)((float)(ecl.INIT.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
+                    ]++;
+
             engine.grid.GenerateGrid(ecl.INIT.GetValue);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
         }
@@ -300,6 +315,7 @@ namespace mview
         string GridUnit = null;
         float PropertyMinValue = 0;
         float PropertyMaxValue = 1;
+        long[] PropertyStatistic = null;
 
         public void SetDynamicProperty(string name)
         {
@@ -310,6 +326,13 @@ namespace mview
 
                 PropertyMinValue = ecl.RESTART.GetArrayMin(name);
                 PropertyMaxValue = ecl.RESTART.GetArrayMax(name);
+
+                PropertyStatistic = new long[20];
+
+                for (int iw = 0; iw < ecl.RESTART.DATA.Length; ++iw)
+                    PropertyStatistic[
+                        (int)((float)(ecl.RESTART.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
+                        ]++;
 
                 engine.grid.GenerateGrid(ecl.RESTART.GetValue);
                 engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);

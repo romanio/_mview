@@ -93,7 +93,7 @@ namespace mview
 
             if (style.BubbleMode == BubbleMode.Simulation)
             {
-                size = (int)(Math.Abs(well.WLPR) * style.scale_factor * 0.01);
+                size = (int)(Math.Abs(well.WLPR) * style.ScaleFactor * 0.01);
                 if (size < 4) size = 4;
 
                 wcut = well.WLPR == 0 ? 0 : (float)(well.WWPR / well.WLPR);
@@ -104,7 +104,7 @@ namespace mview
             {
                 if (well.WLPR < 0)
                 {
-                    size = (int)(Math.Abs(well.WWPRH) * style.scale_factor * 0.01);
+                    size = (int)(Math.Abs(well.WWPRH) * style.ScaleFactor * 0.01);
 
                     wlpr = Math.Abs(well.WWPRH);
 
@@ -112,7 +112,7 @@ namespace mview
                 }
                 else
                 {
-                    size = (int)(Math.Abs(well.WLPRH) * style.scale_factor * 0.01);
+                    size = (int)(Math.Abs(well.WLPRH) * style.ScaleFactor * 0.01);
                     wcut = well.WLPRH == 0 ? 0 : (float)(well.WWPRH / well.WLPRH);
                     wlpr = well.WLPRH;
                 }

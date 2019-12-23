@@ -35,10 +35,10 @@ namespace mview
                 checkShowGridLines.Checked = Style.ShowGridLines;
                 checkShowBubbles.Checked = Style.ShowBubbles;
                 boxBubbleMode.SelectedIndex = 0;
-                numericScaleFactor.Value = (decimal)Style.scale_factor;
+                numericScaleFactor.Value = (decimal)Style.ScaleFactor;
 
-                boxMinimum.Text = Style.min_value.ToString();
-                boxMaximum.Text = Style.max_value.ToString();
+                boxMinimum.Text = Style.MinValue.ToString();
+                boxMaximum.Text = Style.MaxValue.ToString();
 
                 switch (Style.BubbleMode)
                 {
@@ -70,7 +70,7 @@ namespace mview
 
             if (double.TryParse(boxMaximum.Text, out value))
             {
-                Style.max_value = value;
+                Style.MaxValue = value;
 
                 if (!IsUpdateStyle) ApplyStyle(sender, e);
             }
@@ -82,7 +82,7 @@ namespace mview
 
             if (double.TryParse(boxMinimum.Text, out value))
             {
-                Style.min_value = value;
+                Style.MinValue = value;
 
                 if (!IsUpdateStyle) ApplyStyle(sender, e);
             }
@@ -114,7 +114,7 @@ namespace mview
 
         private void numericScaleFactor_ValueChanged(object sender, EventArgs e)
         {
-            Style.scale_factor = (double)numericScaleFactor.Value;
+            Style.ScaleFactor = (double)numericScaleFactor.Value;
 
             if (!IsUpdateStyle) ApplyStyle(sender, e);
         }
@@ -128,7 +128,7 @@ namespace mview
 
         private void trackStratch_Scroll(object sender, EventArgs e)
         {
-            Style.stretch_factor = trackStratch.Value * 0.01;
+            Style.StretchFactor = trackStratch.Value * 0.01;
 
             if (!IsUpdateStyle) ApplyStyle(sender, e);
         }

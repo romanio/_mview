@@ -16,13 +16,17 @@ namespace mview
 
         UCSetFocusOn ucSetFocusOn = null;
         UСOptions ucOptions = null;
+        SubFormOptions sfOptions = null; //= new SubFormOptions();
+
 
         public Form2D(EclipseProject ecl)
         {
             InitializeComponent();
             model = new Form2DModel(ecl);
-
+            sfOptions = new SubFormOptions(model.style);
+            sfOptions.ApplyStyle += new EventHandler(this.OnSubFormOptions);
             // 
+            /*
             ucSetFocusOn = new UCSetFocusOn();
             this.Controls.Add(ucSetFocusOn);
             ucSetFocusOn.BringToFront();
@@ -38,6 +42,15 @@ namespace mview
             ucOptions.Visible = false;
             ucOptions.ApplyStyle += new EventHandler(this.OnUCApplyStyle);
 
+            //
+   
+            */
+        }
+
+        private void OnSubFormOptions(object sender, EventArgs e)
+        {
+            model.ApplyStyle();
+            glControlOnPaint(null, null);
         }
 
         private void OnUCApplyStyle(object sender, EventArgs e)
@@ -56,7 +69,7 @@ namespace mview
 
         bool editVisualData = false;
 
-        void FillStaticProperties()
+        void UpdateVisual()
         {
             editVisualData = true;
 
@@ -143,26 +156,27 @@ namespace mview
         {
             if (treeProperties.SelectedNode?.Parent?.Index == 0)
             {
-                model.SetStaticProperty(treeProperties.SelectedNode.Text);
+                string name = treeProperties.SelectedNode.Text;
+                model.SetStaticProperty(name);
+
+                sfOptions.PropertyMaxValue = model.GetPropertyMaxValue();
+                sfOptions.PropertyMinValue = model.GetPropertyMinValue();
+                sfOptions.PropertyStatistic = model.GetPropertyStatistic();
+                sfOptions.PropertName = name;
+
                 glControlOnPaint(null, null);
-
-                ucOptions.boxMaximum.Text = model.GetPropertyMaxValue().ToString();
-                ucOptions.boxMinimum.Text = model.GetPropertyMinValue().ToString();
-
-                ucOptions.PropertyMaxValue = model.GetPropertyMaxValue();
-                ucOptions.PropertyMinValue = model.GetPropertyMinValue();
             }
 
             if (treeProperties.SelectedNode?.Parent?.Index == 1)
             {
-                model.SetDynamicProperty(treeProperties.SelectedNode.Text);
+                string name = treeProperties.SelectedNode.Text;
+                model.SetDynamicProperty(name);
+                sfOptions.PropertyMaxValue = model.GetPropertyMaxValue();
+                sfOptions.PropertyMinValue = model.GetPropertyMinValue();
+                sfOptions.PropertyStatistic = model.GetPropertyStatistic();
+                sfOptions.PropertName = name;
+
                 glControlOnPaint(null, null);
-
-                ucOptions.boxMaximum.Text = model.GetPropertyMaxValue().ToString();
-                ucOptions.boxMinimum.Text = model.GetPropertyMinValue().ToString();
-
-                ucOptions.PropertyMaxValue = model.GetPropertyMaxValue();
-                ucOptions.PropertyMinValue = model.GetPropertyMinValue();
             }
         }
 
@@ -171,7 +185,7 @@ namespace mview
         private void glControlOnLoad(object sender, EventArgs e)
         {
             model.OnLoad();
-            FillStaticProperties();
+            UpdateVisual();
             glControl.MouseWheel += new MouseEventHandler(glControlOnMouseWheel);
         }
 
@@ -246,6 +260,13 @@ namespace mview
 
         private void buttonChartOptions_Click(object sender, EventArgs e)
         {
+            sfOptions.boxMinimum.Text = model.style.MinValue.ToString();
+            sfOptions.boxMaximum.Text = model.style.MaxValue.ToString();
+
+            sfOptions.Show();
+            sfOptions.Focus();
+
+            /*
             ucOptions.Location = new Point(bbChartOptions.Location.X, bbChartOptions.Location.Y + bbChartOptions.Height + 8);
             ucOptions.Visible = !ucOptions.Visible;
 
@@ -274,6 +295,7 @@ namespace mview
                         break;
                 }
             }
+            */
         }
 
         private void bbSetFocusOn_Click(object sender, EventArgs e)
@@ -309,6 +331,9 @@ namespace mview
                 model.SetPosition(ViewMode.Z);
                 glControlOnPaint(null, null);
             }
+
+            
+           
         }
     }
 }
