@@ -199,31 +199,25 @@ namespace mview.ECL
 
         public float GetArrayMin(string name)
         {
-            for (int it = 0; it < NAME.Count; ++it)
-            {
-                for (int iw = 0; iw < NAME[it].Length; ++iw)
+                for (int iw = 0; iw < NAME[RESTART_STEP].Length; ++iw)
                 {
-                    if (NAME[it][iw] == name)
+                    if (NAME[RESTART_STEP][iw] == name)
                     {
-                        return ARRAYMIN[it][iw];
+                        return ARRAYMIN[RESTART_STEP][iw];
                     }
                 }
-            }
             return -9999;
         }
 
         public float GetArrayMax(string name)
         {
-            for (int it = 0; it < NAME.Count; ++it)
-            {
-                for (int iw = 0; iw < NAME[it].Length; ++iw)
+                for (int iw = 0; iw < NAME[RESTART_STEP].Length; ++iw)
                 {
-                    if (NAME[it][iw] == name)
+                    if (NAME[RESTART_STEP][iw] == name)
                     {
-                        return ARRAYMAX[it][iw];
+                        return ARRAYMAX[RESTART_STEP][iw];
                     }
                 }
-            }
             return -9999;
         }
 
@@ -463,8 +457,12 @@ namespace mview.ECL
             br.OpenBinaryFile(FILENAME);
             SetPosition(property);
             br.ReadHeader();
+
+            // Если модель запущена с NOSIM
+            // то файл расчетов создается, но внутри массивы пустые
+
             DATA = br.ReadFloatList(br.header.count);
-            //
+            
             br.CloseBinaryFile();
         }
 

@@ -18,18 +18,15 @@ namespace mview
     {
         public event EventHandler ApplyStyle;
 
-        PlotModel plotModel = null;
+        readonly PlotModel plotModel = null;
 
-        string _propertyName = null;
-        float _propertyMinValue = 0;
-        float _propertyMaxValue = 1;
-        long[] _propertyStatistic = null;
+        float m_propertyMinValue = 0;
+        float m_propertyMaxValue = 1;
         
         public string PropertName
         {
             set
             {
-                _propertyName = value;
                 plotModel.Title = value;
             }
         }
@@ -38,23 +35,21 @@ namespace mview
         {
             set
             {
-                _propertyStatistic = value;
-
                 plotModel.Series.Clear();
 
-                double[] vals = new double[20];
-                double dvals = (_propertyMaxValue - _propertyMinValue) / 20;
+
+                double[] xvalues = new double[20];
+                double dvals = (m_propertyMaxValue - m_propertyMinValue) / 20;
 
                 for (int iw = 0; iw < 20; ++iw)
                 {
-                    vals[iw] = _propertyMinValue + dvals * (iw + 0.5);
+                    xvalues[iw] = m_propertyMinValue + dvals * (iw + 0.5);
                 }
+                
+                ((CategoryAxis)plotModel.Axes[0]).ItemsSource = xvalues;
 
-                ((CategoryAxis)plotModel.Axes[0]).ItemsSource = vals;
-
-
-            //
-            plotModel.Series.Add(new ColumnSeries { });
+                //
+                plotModel.Series.Add(new ColumnSeries { });
 
                 for (int iw = 0; iw < 20; ++iw)
                 {
@@ -64,6 +59,10 @@ namespace mview
                         Value = value[iw]
                     });
                 }
+
+                ((ColumnSeries)plotModel.Series[0]).FillColor = OxyColor.FromArgb(255, 255, 120, 0);
+                plotModel.Axes[0].Reset();
+                plotModel.Axes[1].Reset();
                 plotModel.InvalidatePlot(true);
             }
         } 
@@ -72,7 +71,7 @@ namespace mview
         {
             set
             {
-                _propertyMinValue = value;
+                m_propertyMinValue = value;
                 MinColorDefault_Click(null, null);
             }
         }
@@ -81,7 +80,7 @@ namespace mview
         {
             set
             {
-                _propertyMaxValue = value;
+                m_propertyMaxValue = value;
                 MaxColorDefault_Click(null, null);
             }
         }
@@ -93,7 +92,6 @@ namespace mview
             InitializeComponent();
 
             this.Style = Style;
-
 
             plotModel = new PlotModel
             {
@@ -108,11 +106,10 @@ namespace mview
             {
                 Position = AxisPosition.Bottom,
                 Title = "Value",
-               StringFormat = "N3",
-               Angle = -90,
-                AbsoluteMinimum = 1,
-                AbsoluteMaximum = 20,
-                ItemsSource = new[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
+                StringFormat = "N2",
+                Angle = -90,
+                AbsoluteMinimum = 0,
+                AbsoluteMaximum = 20
             });
 
 
@@ -123,7 +120,7 @@ namespace mview
                 AbsoluteMinimum = 0
             });
 
-            plotView2.Model = plotModel ;
+            plotView.Model = plotModel ;
         }
 
         private void SubFormOptions_FormClosing(object sender, FormClosingEventArgs e)
@@ -134,15 +131,15 @@ namespace mview
 
         private void MinColorDefault_Click(object sender, EventArgs e)
         {
-            boxMinimum.Text = _propertyMinValue.ToString();
-            Style.MinValue = _propertyMinValue;
+            boxMinimum.Text = m_propertyMinValue.ToString();
+            Style.MinValue = m_propertyMinValue;
             ApplyStyle(sender, e);
         }
 
         private void MaxColorDefault_Click(object sender, EventArgs e)
         {
-            boxMaximum.Text = _propertyMaxValue.ToString();
-            Style.MaxValue = _propertyMaxValue;
+            boxMaximum.Text = m_propertyMaxValue.ToString();
+            Style.MaxValue = m_propertyMaxValue;
             ApplyStyle(sender, e);
         }
 

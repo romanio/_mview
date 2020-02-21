@@ -301,6 +301,8 @@ namespace mview
             PropertyMinValue = ecl.INIT.GetArrayMin(name);
             PropertyMaxValue = ecl.INIT.GetArrayMax(name);
 
+            // Расчет распределения свойства по категориям
+
             PropertyStatistic = new long[20];
 
             for (int iw = 0; iw < ecl.INIT.DATA.Length; ++iw)

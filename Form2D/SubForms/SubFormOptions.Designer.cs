@@ -30,7 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.plotView2 = new OxyPlot.WindowsForms.PlotView();
+            this.plotView = new OxyPlot.WindowsForms.PlotView();
             this.MaxColorDefault = new System.Windows.Forms.Button();
             this.MinColorDefault = new System.Windows.Forms.Button();
             this.boxMaximum = new System.Windows.Forms.TextBox();
@@ -57,7 +57,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.plotView2);
+            this.tabPage1.Controls.Add(this.plotView);
             this.tabPage1.Controls.Add(this.MaxColorDefault);
             this.tabPage1.Controls.Add(this.MinColorDefault);
             this.tabPage1.Controls.Add(this.boxMaximum);
@@ -72,22 +72,22 @@
             this.tabPage1.Text = "Colors";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // plotView2
+            // plotView
             // 
-            this.plotView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.plotView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.plotView2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.plotView2.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.plotView2.Location = new System.Drawing.Point(6, 102);
-            this.plotView2.Name = "plotView2";
-            this.plotView2.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView2.Size = new System.Drawing.Size(405, 295);
-            this.plotView2.TabIndex = 72;
-            this.plotView2.Text = "plotHisto";
-            this.plotView2.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
-            this.plotView2.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
-            this.plotView2.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNWSE;
+            this.plotView.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.plotView.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.plotView.Location = new System.Drawing.Point(6, 80);
+            this.plotView.Name = "plotView";
+            this.plotView.PanCursor = System.Windows.Forms.Cursors.Hand;
+            this.plotView.Size = new System.Drawing.Size(405, 317);
+            this.plotView.TabIndex = 72;
+            this.plotView.Text = "plotHisto";
+            this.plotView.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
+            this.plotView.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
+            this.plotView.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNWSE;
             // 
             // MaxColorDefault
             // 
@@ -190,6 +190,6 @@
         public System.Windows.Forms.TextBox boxMinimum;
         private System.Windows.Forms.Label labelMax;
         private System.Windows.Forms.Label labelMin;
-        private OxyPlot.WindowsForms.PlotView plotView2;
+        private OxyPlot.WindowsForms.PlotView plotView;
     }
 }
