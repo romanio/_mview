@@ -247,7 +247,7 @@ namespace mview
             {
                 if (well.COMPLS.Count > 0)
                 {
-                    render.DrawWell(well, WellsFont, Brushes.Black, cordconv, style);
+                    render.DrawWell(well, WellsFont, Brushes.Black, cordconv, style, camera.is_mouse_shift);
                 }
             }
         }

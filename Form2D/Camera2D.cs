@@ -18,7 +18,7 @@ namespace mview
         public float shift_end_x, shift_end_y;
         public float shift_x, shift_y;
 
-        bool is_mouse_shift = false;
+        public bool is_mouse_shift = false;
 
         public void MouseWheel(MouseEventArgs e)
         {

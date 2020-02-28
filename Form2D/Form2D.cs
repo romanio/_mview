@@ -15,8 +15,7 @@ namespace mview
         Form2DModel model = null;
 
         UCSetFocusOn ucSetFocusOn = null;
-        UСOptions ucOptions = null;
-        SubFormOptions sfOptions = null; //= new SubFormOptions();
+        SubFormOptions sfOptions = null;
 
 
         public Form2D(EclipseProject ecl)
@@ -26,25 +25,13 @@ namespace mview
             sfOptions = new SubFormOptions(model.style);
             sfOptions.ApplyStyle += new EventHandler(this.OnSubFormOptions);
             // 
-            /*
+
             ucSetFocusOn = new UCSetFocusOn();
             this.Controls.Add(ucSetFocusOn);
             ucSetFocusOn.BringToFront();
 
             ucSetFocusOn.Visible = false;
             ucSetFocusOn.SelectedIndexChanged += new EventHandler(this.OnUCWellsSelected);
-
-            //
-            ucOptions = new UСOptions(model.style);
-
-            this.Controls.Add(ucOptions);
-            ucOptions.BringToFront();
-            ucOptions.Visible = false;
-            ucOptions.ApplyStyle += new EventHandler(this.OnUCApplyStyle);
-
-            //
-   
-            */
         }
 
         private void OnSubFormOptions(object sender, EventArgs e)
@@ -226,6 +213,7 @@ namespace mview
         private void Form2DOnFormClosed(object sender, FormClosedEventArgs e)
         {
             model.OnUnload();
+            sfOptions.Close();
         }
 
         private void boxXSlice_SelectedIndexChanged(object sender, EventArgs e)

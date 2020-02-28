@@ -19,7 +19,8 @@ namespace mview
         public event EventHandler ApplyStyle;
 
         readonly PlotModel plotModel = null;
-
+        
+        bool UpdateMode = true;
         float m_propertyMinValue = 0;
         float m_propertyMaxValue = 1;
         
@@ -107,9 +108,7 @@ namespace mview
                 Position = AxisPosition.Bottom,
                 Title = "Value",
                 StringFormat = "N2",
-                Angle = -90,
-                AbsoluteMinimum = 0,
-                AbsoluteMaximum = 20
+                Angle = -90
             });
 
 
@@ -121,6 +120,31 @@ namespace mview
             });
 
             plotView.Model = plotModel ;
+
+            UpdateMode = true;
+
+            checkShowGridLines.Checked = Style.ShowGridLines;
+            checkShowBubbles.Checked = Style.ShowBubbles;
+            boxBubbleMode.SelectedIndex = 0;
+            numericScaleFactor.Value = (decimal)Style.ScaleFactor;
+
+            boxMinimum.Text = Style.MinValue.ToString();
+            boxMaximum.Text = Style.MaxValue.ToString();
+
+            switch (Style.BubbleMode)
+            {
+                case BubbleMode.Simulation:
+                    boxBubbleMode.SelectedIndex = 0;
+                    break;
+                case BubbleMode.Historical:
+                    boxBubbleMode.SelectedIndex = 1;
+                    break;
+
+                default:
+                    break;
+            }
+
+            UpdateMode = false;
         }
 
         private void SubFormOptions_FormClosing(object sender, FormClosingEventArgs e)
@@ -132,6 +156,8 @@ namespace mview
         private void MinColorDefault_Click(object sender, EventArgs e)
         {
             boxMinimum.Text = m_propertyMinValue.ToString();
+            if (UpdateMode) return;
+
             Style.MinValue = m_propertyMinValue;
             ApplyStyle(sender, e);
         }
@@ -139,13 +165,16 @@ namespace mview
         private void MaxColorDefault_Click(object sender, EventArgs e)
         {
             boxMaximum.Text = m_propertyMaxValue.ToString();
+            if (UpdateMode) return;
+
             Style.MaxValue = m_propertyMaxValue;
             ApplyStyle(sender, e);
         }
 
+        double value;
         private void boxMinimum_Validating(object sender, CancelEventArgs e)
         {
-            double value;
+            if (UpdateMode) return;
 
             if (double.TryParse(boxMinimum.Text, out value))
             {
@@ -157,7 +186,7 @@ namespace mview
 
         private void boxMaximum_Validating(object sender, CancelEventArgs e)
         {
-            double value;
+            if (UpdateMode) return;
 
             if (double.TryParse(boxMaximum.Text, out value))
             {
@@ -165,6 +194,67 @@ namespace mview
 
                 ApplyStyle(sender, e);
             }
+        }
+
+        private void trackStratch_Scroll(object sender, EventArgs e)
+        {
+            Style.StretchFactor = trackStratch.Value * 0.01;
+            if (UpdateMode) return;
+
+            ApplyStyle(sender, e);
+        }
+
+        private void checkShowGridLines_CheckedChanged(object sender, EventArgs e)
+        {
+            Style.ShowGridLines = checkShowGridLines.Checked;
+            if (UpdateMode) return;
+
+            ApplyStyle(sender, e);
+        }
+
+        private void checkShowAllWell_CheckedChanged(object sender, EventArgs e)
+        {
+            Style.ShowAllWelltrack = checkShowAllWell.Checked;
+            
+            if (UpdateMode) return;
+            ApplyStyle(sender, e);
+        }
+
+        private void checkShowBubbles_CheckedChanged(object sender, EventArgs e)
+        {
+            Style.ShowBubbles = checkShowBubbles.Checked;
+            if (UpdateMode) return;
+
+            ApplyStyle(sender, e);
+        }
+
+        private void boxBubbleMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (UpdateMode) return;
+
+            switch (boxBubbleMode.SelectedIndex)
+            {
+                case 0:
+                    Style.BubbleMode = BubbleMode.Simulation;
+                    break;
+                case 1:
+                    Style.BubbleMode = BubbleMode.Historical;
+                    break;
+                case 2:
+                    Style.BubbleMode = BubbleMode.SimVSHist;
+                    break;
+            }
+
+            ApplyStyle(sender, e);
+        }
+
+        private void numericScaleFactor_ValueChanged(object sender, EventArgs e)
+        {
+            if (UpdateMode) return;
+
+            Style.ScaleFactor = (double)numericScaleFactor.Value;
+
+            ApplyStyle(sender, e);
         }
     }
 }

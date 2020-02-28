@@ -74,12 +74,6 @@
     <Compile Include="Form2D\SubForms\UCSetFocusOn.Designer.cs">
       <DependentUpon>UCSetFocusOn.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2D\SubForms\UСOptions.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Form2D\SubForms\UСOptions.Designer.cs">
-      <DependentUpon>UСOptions.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormCrossPlots\FormCrossPlots.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,9 +153,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2D\SubForms\UCSetFocusOn.resx">
       <DependentUpon>UCSetFocusOn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form2D\SubForms\UСOptions.resx">
-      <DependentUpon>UСOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormCrossPlots\FormCrossPlots.resx">
       <DependentUpon>FormCrossPlots.cs</DependentUpon>

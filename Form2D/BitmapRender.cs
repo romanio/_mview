@@ -52,7 +52,7 @@ namespace mview
 
         Font InfoFont = new Font("Segoe Pro Cond", 09, FontStyle.Regular);
 
-        public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, CoordConverter cordconv, Form2DModelStyle style)
+        public void DrawWell(ECL.WELLDATA well, Font font, Brush brush, CoordConverter cordconv, Form2DModelStyle style, bool MoveMode)
         {
             PointF point = cordconv.ConvertWorldToScreen(well.XC, well.YC);
 
@@ -122,7 +122,7 @@ namespace mview
 
             if (well.WLPR > 0)
             {
-                if (style.ShowBubbles)
+                if (style.ShowBubbles && !MoveMode)
                 {
                     gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
                     gfx.FillPie(Brushes.BurlyWood, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, (float)Math.Round(360.0 * (1 - wcut)));
@@ -133,7 +133,7 @@ namespace mview
 
             if (well.WLPR < 0) // Меньше нуля, это у нас закачка
             {
-                if (style.ShowBubbles)
+                if (style.ShowBubbles && !MoveMode)
                 {
                     gfx.DrawEllipse(new Pen(Color.Black, 1), new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size));
                     gfx.FillPie(Brushes.LightBlue, new Rectangle((int)(point.X) - size / 2, (int)(point.Y) - size / 2, size, size), 0, 360);
@@ -144,8 +144,11 @@ namespace mview
                 gfx.DrawString( wlpr.ToString("N1") + " / " + (100 * wcut).ToString("N1"), InfoFont, brush, (int)(point.X) - 16, (int)(point.Y) + 16);
             }
 
-            gfx.FillEllipse(Brushes.White, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
-            gfx.DrawEllipse(Pens.Black, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
+            if (!MoveMode)
+            {
+                gfx.FillEllipse(Brushes.White, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
+                gfx.DrawEllipse(Pens.Black, (int)(point.X) - 4, (int)(point.Y) - 4, 8, 8);
+            }
 
             gfx.DrawString(well.WELLNAME, font, brush, (int)(point.X) - 8, (int)(point.Y) - 32);
         }

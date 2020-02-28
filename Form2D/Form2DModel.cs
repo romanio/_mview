@@ -301,14 +301,25 @@ namespace mview
             PropertyMinValue = ecl.INIT.GetArrayMin(name);
             PropertyMaxValue = ecl.INIT.GetArrayMax(name);
 
+
             // Расчет распределения свойства по категориям
 
+            
             PropertyStatistic = new long[20];
 
-            for (int iw = 0; iw < ecl.INIT.DATA.Length; ++iw)
-                PropertyStatistic[
-                    (int)((float)(ecl.INIT.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
-                    ]++;
+            // Уникальный случай, когда минимум равен максимуму
+
+            if (PropertyMinValue == PropertyMaxValue)
+            {
+                PropertyStatistic[0] = 1;
+            }
+            else
+            {
+                for (int iw = 0; iw < ecl.INIT.DATA.Length; ++iw)
+                    PropertyStatistic[
+                        (int)((float)(ecl.INIT.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
+                        ]++;
+            }
 
             engine.grid.GenerateGrid(ecl.INIT.GetValue);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
@@ -331,10 +342,19 @@ namespace mview
 
                 PropertyStatistic = new long[20];
 
-                for (int iw = 0; iw < ecl.RESTART.DATA.Length; ++iw)
-                    PropertyStatistic[
-                        (int)((float)(ecl.RESTART.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
-                        ]++;
+                // Уникальный случай, когда минимум равен максимуму
+
+                if (PropertyMinValue == PropertyMaxValue)
+                {
+                    PropertyStatistic[0] = 1;
+                }
+                else
+                {
+                    for (int iw = 0; iw < ecl.RESTART.DATA.Length; ++iw)
+                        PropertyStatistic[
+                            (int)((float)(ecl.RESTART.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
+                            ]++;
+                }
 
                 engine.grid.GenerateGrid(ecl.RESTART.GetValue);
                 engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
