@@ -92,7 +92,7 @@
             this.plotView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.plotView.BackColor = System.Drawing.SystemColors.Control;
+            this.plotView.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.plotView.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.plotView.Location = new System.Drawing.Point(6, 80);
             this.plotView.Name = "plotView";
@@ -180,7 +180,6 @@
             // 
             // label2
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(18, 112);
             this.label2.Name = "label2";
@@ -190,7 +189,6 @@
             // 
             // trackStratch
             // 
-            this.trackStratch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.trackStratch.BackColor = System.Drawing.SystemColors.Window;
             this.trackStratch.Location = new System.Drawing.Point(20, 160);
             this.trackStratch.Maximum = 100;
@@ -203,7 +201,6 @@
             // 
             // checkShowAllWell
             // 
-            this.checkShowAllWell.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkShowAllWell.AutoSize = true;
             this.checkShowAllWell.Checked = true;
             this.checkShowAllWell.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -217,7 +214,6 @@
             // 
             // checkShowGridLines
             // 
-            this.checkShowGridLines.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkShowGridLines.AutoSize = true;
             this.checkShowGridLines.Checked = true;
             this.checkShowGridLines.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -245,7 +241,6 @@
             // 
             // checkShowBubbles
             // 
-            this.checkShowBubbles.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkShowBubbles.AutoSize = true;
             this.checkShowBubbles.Checked = true;
             this.checkShowBubbles.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -259,7 +254,6 @@
             // 
             // boxBubbleMode
             // 
-            this.boxBubbleMode.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.boxBubbleMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxBubbleMode.FormattingEnabled = true;
             this.boxBubbleMode.IntegralHeight = false;
@@ -274,7 +268,6 @@
             // 
             // label21
             // 
-            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(25, 61);
             this.label21.Name = "label21";
@@ -284,7 +277,6 @@
             // 
             // numericScaleFactor
             // 
-            this.numericScaleFactor.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.numericScaleFactor.Location = new System.Drawing.Point(136, 113);
             this.numericScaleFactor.Maximum = new decimal(new int[] {
             1000,
@@ -308,7 +300,6 @@
             // 
             // label22
             // 
-            this.label22.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(21, 113);
             this.label22.Name = "label22";

@@ -74,9 +74,8 @@ namespace mview
 
                 engine.RestorePosition();
             }
-
-            System.Diagnostics.Debug.WriteLine("Camera Scale = " + engine.camera.scale.ToString());
-            engine.grid.RefreshGrid();
+            ApplyStyle();
+            
         }
 
         public void ApplyStyle()
@@ -85,7 +84,9 @@ namespace mview
             engine.grid.colorizer.SetMinimum(style.MinValue);
             engine.grid.colorizer.SetMaximum(style.MaxValue);
             engine.grid.StretchFactor = (float)style.StretchFactor;
+           
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
+
             engine.grid.RefreshGrid();
         }
 
@@ -321,6 +322,8 @@ namespace mview
                         ]++;
             }
 
+            System.Diagnostics.Debug.WriteLine("... call Grid2D [GenerateGrid] from Form2DModel [SetStaticProperty = " + name + " ]");
+
             engine.grid.GenerateGrid(ecl.INIT.GetValue);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
         }
@@ -332,11 +335,13 @@ namespace mview
 
         public void SetDynamicProperty(string name)
         {
+            System.Diagnostics.Debug.WriteLine("Form2DModel [SetDynamicProperty = " + name + " ]");
+
             if (Array.IndexOf(ecl.RESTART.NAME[ecl.RESTART.RESTART_STEP], name) != -1)
             {
                 ecl.RESTART.ReadGrid(name);
-                GridUnit = ecl.RESTART.GridUnit;
 
+                GridUnit = ecl.RESTART.GridUnit;
                 PropertyMinValue = ecl.RESTART.GetArrayMin(name);
                 PropertyMaxValue = ecl.RESTART.GetArrayMax(name);
 
@@ -355,6 +360,8 @@ namespace mview
                             (int)((float)(ecl.RESTART.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
                             ]++;
                 }
+
+                System.Diagnostics.Debug.WriteLine("... call Grid2D [GenerateGrid] from Form2DModel [SetDynamicProperty = " + name + " ]");
 
                 engine.grid.GenerateGrid(ecl.RESTART.GetValue);
                 engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);

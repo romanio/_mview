@@ -36,14 +36,7 @@ namespace mview
 
         private void OnSubFormOptions(object sender, EventArgs e)
         {
-            model.ApplyStyle();
-            glControlOnPaint(null, null);
-        }
-
-        private void OnUCApplyStyle(object sender, EventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("Form2D [OnUCApplyStyle]");
-
+            System.Diagnostics.Debug.WriteLine("Form2D [OnSubFormOptions]");
             model.ApplyStyle();
             glControlOnPaint(null, null);
         }
@@ -141,27 +134,38 @@ namespace mview
 
         private void treeProperties_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Form2D [TreeProperties AfterSelect]");
+
+            // Статические свойства
+
             if (treeProperties.SelectedNode?.Parent?.Index == 0)
             {
                 string name = treeProperties.SelectedNode.Text;
                 model.SetStaticProperty(name);
 
+                sfOptions.UpdateMode = true;
                 sfOptions.PropertyMaxValue = model.GetPropertyMaxValue();
                 sfOptions.PropertyMinValue = model.GetPropertyMinValue();
                 sfOptions.PropertyStatistic = model.GetPropertyStatistic();
                 sfOptions.PropertName = name;
+                sfOptions.UpdateMode = false;
 
                 glControlOnPaint(null, null);
             }
+
+            // Динамические свойства
 
             if (treeProperties.SelectedNode?.Parent?.Index == 1)
             {
                 string name = treeProperties.SelectedNode.Text;
                 model.SetDynamicProperty(name);
+
+                sfOptions.UpdateMode = true;
                 sfOptions.PropertyMaxValue = model.GetPropertyMaxValue();
                 sfOptions.PropertyMinValue = model.GetPropertyMinValue();
                 sfOptions.PropertyStatistic = model.GetPropertyStatistic();
                 sfOptions.PropertName = name;
+                sfOptions.UpdateMode = false;
 
                 glControlOnPaint(null, null);
             }
@@ -253,37 +257,6 @@ namespace mview
 
             sfOptions.Show();
             sfOptions.Focus();
-
-            /*
-            ucOptions.Location = new Point(bbChartOptions.Location.X, bbChartOptions.Location.Y + bbChartOptions.Height + 8);
-            ucOptions.Visible = !ucOptions.Visible;
-
-            if (ucOptions.Visible)
-            {
-                // Восстановление настроек
-
-                ucOptions.checkShowGridLines.Checked = model.style.ShowGridLines;
-                ucOptions.checkShowBubbles.Checked = model.style.ShowBubbles;
-                ucOptions.boxBubbleMode.SelectedIndex = 0;
-                ucOptions.numericScaleFactor.Value = (decimal)model.style.scale_factor;
-
-                ucOptions.boxMinimum.Text = model.style.min_value.ToString();
-                ucOptions.boxMaximum.Text = model.style.max_value.ToString();
-
-                switch (model.style.BubbleMode)
-                {
-                    case BubbleMode.Simulation:
-                        ucOptions.boxBubbleMode.SelectedIndex = 0;
-                        break;
-                    case BubbleMode.Historical:
-                        ucOptions.boxBubbleMode.SelectedIndex = 1;
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-            */
         }
 
         private void bbSetFocusOn_Click(object sender, EventArgs e)

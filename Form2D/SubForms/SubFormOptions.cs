@@ -20,7 +20,7 @@ namespace mview
 
         readonly PlotModel plotModel = null;
         
-        bool UpdateMode = true;
+        public bool UpdateMode = true;
         float m_propertyMinValue = 0;
         float m_propertyMaxValue = 1;
         

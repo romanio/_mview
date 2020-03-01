@@ -11,6 +11,7 @@ using System.Drawing;
 
 namespace mview
 {
+
     public class Grid2D
     {
         public List<WELLDATA> WELLS; // Опасная копия данных с рестарт файла
@@ -249,6 +250,7 @@ namespace mview
 
         public void RefreshGrid()
         {
+            System.Diagnostics.Debug.WriteLine("Grid2D [RefreshGrid]");
             GenerateGrid(tmp_GetValue);
         }
 

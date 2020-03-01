@@ -319,7 +319,7 @@ namespace mview
                                 StrokeThickness = tmp_style?.LineWidth ?? 1,
                                 Smooth = tmp_style?.LineSmooth ?? false,
                                 MarkerType = tmp_style?.MarkerType ?? OxyPlot.MarkerType.Circle,
-                                MarkerSize = tmp_style?.MarkerSize ?? 4,
+                                MarkerSize = tmp_style?.MarkerSize ?? 3,
                             };
 
                             if (tmp_style != null)
@@ -357,7 +357,7 @@ namespace mview
                             StrokeThickness = tmp_style?.LineWidth ?? 1,
                             Smooth = tmp_style?.LineSmooth ?? false,
                             MarkerType = tmp_style?.MarkerType ?? OxyPlot.MarkerType.Circle,
-                            MarkerSize = tmp_style?.MarkerSize ?? 5
+                            MarkerSize = tmp_style?.MarkerSize ?? 3
                         };
 
                         if (tmp_style != null)
@@ -410,7 +410,7 @@ namespace mview
                             StrokeThickness = tmp_style?.LineWidth ?? 1,
                             Smooth = tmp_style?.LineSmooth ?? false,
                             MarkerType = tmp_style?.MarkerType ?? OxyPlot.MarkerType.Circle,
-                            MarkerSize = tmp_style?.MarkerSize ?? 5
+                            MarkerSize = tmp_style?.MarkerSize ?? 3
                         };
 
                         if (tmp_style != null)
@@ -468,7 +468,7 @@ namespace mview
                             Title = "User",
                             LineStyle = LineStyle.None,
                             MarkerType = MarkerType.Circle,
-                            MarkerSize = 4
+                            MarkerSize = 3
                         });
 
                         ((OxyPlot.Series.LineSeries)plotModel.Series.Last()).Points.AddRange(tmp_data);
