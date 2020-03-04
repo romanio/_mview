@@ -14,7 +14,7 @@ using OxyPlot.Axes;
 
 namespace mview
 {
-    public partial class SubFormOptions : Form
+    public partial class Form2DOptions : Form
     {
         public event EventHandler ApplyStyle;
 
@@ -88,7 +88,7 @@ namespace mview
 
         readonly Form2DModelStyle Style;
 
-        public SubFormOptions(Form2DModelStyle Style)
+        public Form2DOptions(Form2DModelStyle Style)
         {
             InitializeComponent();
 
@@ -156,18 +156,21 @@ namespace mview
         private void MinColorDefault_Click(object sender, EventArgs e)
         {
             boxMinimum.Text = m_propertyMinValue.ToString();
+            Style.MinValue = m_propertyMinValue;
+
             if (UpdateMode) return;
 
-            Style.MinValue = m_propertyMinValue;
+
             ApplyStyle(sender, e);
         }
 
         private void MaxColorDefault_Click(object sender, EventArgs e)
         {
             boxMaximum.Text = m_propertyMaxValue.ToString();
-            if (UpdateMode) return;
-
             Style.MaxValue = m_propertyMaxValue;
+
+            if (UpdateMode) return;
+            
             ApplyStyle(sender, e);
         }
 

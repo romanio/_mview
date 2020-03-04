@@ -78,15 +78,23 @@ namespace mview
             
         }
 
+        public void ApplyStyleData()
+        {
+            engine.SetStyle(style);
+            engine.grid.colorizer.SetMinimum(style.MinValue);
+            engine.grid.colorizer.SetMaximum(style.MaxValue);
+            engine.grid.StretchFactor = (float)style.StretchFactor;
+        }
+
+
         public void ApplyStyle()
         {
             engine.SetStyle(style);
             engine.grid.colorizer.SetMinimum(style.MinValue);
             engine.grid.colorizer.SetMaximum(style.MaxValue);
             engine.grid.StretchFactor = (float)style.StretchFactor;
-           
-            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
 
+            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
             engine.grid.RefreshGrid();
         }
 
@@ -302,9 +310,7 @@ namespace mview
             PropertyMinValue = ecl.INIT.GetArrayMin(name);
             PropertyMaxValue = ecl.INIT.GetArrayMax(name);
 
-
             // Расчет распределения свойства по категориям
-
             
             PropertyStatistic = new long[20];
 
@@ -324,14 +330,26 @@ namespace mview
 
             System.Diagnostics.Debug.WriteLine("... call Grid2D [GenerateGrid] from Form2DModel [SetStaticProperty = " + name + " ]");
 
-            engine.grid.GenerateGrid(ecl.INIT.GetValue);
-            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
         }
 
         string GridUnit = null;
         float PropertyMinValue = 0;
         float PropertyMaxValue = 1;
         long[] PropertyStatistic = null;
+
+        public void GenerateStaticGrid()
+        {
+
+            engine.grid.GenerateGrid(ecl.INIT.GetValue);
+            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
+        }
+
+
+        public void GenerateRestartGrid()
+        {
+            engine.grid.GenerateGrid(ecl.RESTART.GetValue);
+            engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
+        }
 
         public void SetDynamicProperty(string name)
         {
@@ -362,9 +380,6 @@ namespace mview
                 }
 
                 System.Diagnostics.Debug.WriteLine("... call Grid2D [GenerateGrid] from Form2DModel [SetDynamicProperty = " + name + " ]");
-
-                engine.grid.GenerateGrid(ecl.RESTART.GetValue);
-                engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
             }
         }
 

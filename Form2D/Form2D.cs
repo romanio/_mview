@@ -15,14 +15,14 @@ namespace mview
         Form2DModel model = null;
 
         UCSetFocusOn ucSetFocusOn = null;
-        SubFormOptions sfOptions = null;
+        Form2DOptions sfOptions = null;
 
 
         public Form2D(EclipseProject ecl)
         {
             InitializeComponent();
             model = new Form2DModel(ecl);
-            sfOptions = new SubFormOptions(model.style);
+            sfOptions = new Form2DOptions(model.style);
             sfOptions.ApplyStyle += new EventHandler(this.OnSubFormOptions);
             // 
 
@@ -150,6 +150,9 @@ namespace mview
                 sfOptions.PropertName = name;
                 sfOptions.UpdateMode = false;
 
+                model.ApplyStyleData();
+                model.GenerateStaticGrid();
+
                 glControlOnPaint(null, null);
             }
 
@@ -166,6 +169,10 @@ namespace mview
                 sfOptions.PropertyStatistic = model.GetPropertyStatistic();
                 sfOptions.PropertName = name;
                 sfOptions.UpdateMode = false;
+
+                model.ApplyStyleData();
+                model.GenerateRestartGrid();
+
 
                 glControlOnPaint(null, null);
             }

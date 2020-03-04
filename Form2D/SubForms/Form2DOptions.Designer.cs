@@ -1,6 +1,6 @@
 ﻿namespace mview
 {
-    partial class SubFormOptions
+    partial class Form2DOptions
     {
         /// <summary>
         /// Required designer variable.
@@ -307,7 +307,7 @@
             this.label22.TabIndex = 60;
             this.label22.Text = "Scale factor";
             // 
-            // SubFormOptions
+            // Form2DOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -316,7 +316,7 @@
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SubFormOptions";
+            this.Name = "Form2DOptions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "2D View Options";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SubFormOptions_FormClosing);

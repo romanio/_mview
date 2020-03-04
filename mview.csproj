@@ -62,11 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form2D\SubForms\SubFormOptions.cs">
+    <Compile Include="Form2D\SubForms\Form2DOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2D\SubForms\SubFormOptions.Designer.cs">
-      <DependentUpon>SubFormOptions.cs</DependentUpon>
+    <Compile Include="Form2D\SubForms\Form2DOptions.Designer.cs">
+      <DependentUpon>Form2DOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="Form2D\SubForms\UCSetFocusOn.cs">
       <SubType>UserControl</SubType>
@@ -148,8 +148,8 @@
     <EmbeddedResource Include="Charts\ChartOptions.resx">
       <DependentUpon>ChartOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2D\SubForms\SubFormOptions.resx">
-      <DependentUpon>SubFormOptions.cs</DependentUpon>
+    <EmbeddedResource Include="Form2D\SubForms\Form2DOptions.resx">
+      <DependentUpon>Form2DOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form2D\SubForms\UCSetFocusOn.resx">
       <DependentUpon>UCSetFocusOn.cs</DependentUpon>
