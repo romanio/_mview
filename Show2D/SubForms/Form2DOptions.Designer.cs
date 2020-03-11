@@ -67,7 +67,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(425, 429);
+            this.tabControl1.Size = new System.Drawing.Size(297, 429);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -82,7 +82,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(417, 403);
+            this.tabPage1.Size = new System.Drawing.Size(289, 403);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Colors";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -94,10 +94,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.plotView.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.plotView.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.plotView.Location = new System.Drawing.Point(6, 80);
+            this.plotView.Location = new System.Drawing.Point(6, 97);
             this.plotView.Name = "plotView";
             this.plotView.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView.Size = new System.Drawing.Size(405, 317);
+            this.plotView.Size = new System.Drawing.Size(277, 230);
             this.plotView.TabIndex = 72;
             this.plotView.Text = "plotHisto";
             this.plotView.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
@@ -173,7 +173,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(417, 403);
+            this.tabPage2.Size = new System.Drawing.Size(289, 403);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Grid";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -234,7 +234,7 @@
             this.tabPage3.Controls.Add(this.label22);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(417, 403);
+            this.tabPage3.Size = new System.Drawing.Size(289, 403);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Bubbles";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -244,7 +244,7 @@
             this.checkShowBubbles.AutoSize = true;
             this.checkShowBubbles.Checked = true;
             this.checkShowBubbles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowBubbles.Location = new System.Drawing.Point(24, 24);
+            this.checkShowBubbles.Location = new System.Drawing.Point(20, 18);
             this.checkShowBubbles.Name = "checkShowBubbles";
             this.checkShowBubbles.Size = new System.Drawing.Size(92, 17);
             this.checkShowBubbles.TabIndex = 56;
@@ -260,7 +260,7 @@
             this.boxBubbleMode.Items.AddRange(new object[] {
             "Simulation",
             "History"});
-            this.boxBubbleMode.Location = new System.Drawing.Point(127, 58);
+            this.boxBubbleMode.Location = new System.Drawing.Point(123, 52);
             this.boxBubbleMode.Name = "boxBubbleMode";
             this.boxBubbleMode.Size = new System.Drawing.Size(106, 21);
             this.boxBubbleMode.TabIndex = 58;
@@ -269,7 +269,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(25, 61);
+            this.label21.Location = new System.Drawing.Point(21, 55);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(91, 13);
             this.label21.TabIndex = 57;
@@ -277,7 +277,7 @@
             // 
             // numericScaleFactor
             // 
-            this.numericScaleFactor.Location = new System.Drawing.Point(136, 113);
+            this.numericScaleFactor.Location = new System.Drawing.Point(123, 96);
             this.numericScaleFactor.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -301,7 +301,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(21, 113);
+            this.label22.Location = new System.Drawing.Point(21, 98);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(64, 13);
             this.label22.TabIndex = 60;
@@ -311,7 +311,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(449, 453);
+            this.ClientSize = new System.Drawing.Size(321, 453);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MaximizeBox = false;

@@ -12,12 +12,30 @@ namespace mview
 {
     public partial class FormMain : Form
     {
-        FormMainModel model = new FormMainModel();
+        private readonly FormMainModel model = new FormMainModel();
+
+        // Sub forms
+
+        private readonly SubMainProject subProject = null;
+        
+        //
+
         NameOptions namesType = NameOptions.Well;
         string selectedPad = "(All)";
 
         ChartController chartController = new ChartController();
+        public FormMain()
+        {
+            InitializeComponent();
 
+            chartController.LoadSettings();
+
+            boxSetChartCount.SelectedIndex = 0;
+            boxNamesType.SelectedIndex = 2;
+
+            subProject = new SubMainProject(model);
+            subProject.ApplyStyle += new EventHandler(OnSubProjectUpdate);
+        }
         // Свойства управляемые из модели
 
         public string[] Names
@@ -77,15 +95,7 @@ namespace mview
             }
         }
 
-        public FormMain()
-        {
-            InitializeComponent();
-
-            chartController.LoadSettings();
-
-            boxSetChartCount.SelectedIndex = 0;
-            boxNamesType.SelectedIndex = 2;
-        }
+ 
 
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -94,6 +104,7 @@ namespace mview
             if (model.GetActiveProject() == null) return;
 
             UpdateData();
+
             panel1.Visible = false;
         }
 
@@ -229,12 +240,11 @@ namespace mview
                     item.SetEclipseProject(model.GetProjectManager());
                 }
 
-                gridGeneral.Rows.Clear();
+
                 listNames.Items.Clear();
             }
             else
             {
-
                 buttonModels.Text = model.GetActiveProjectName();
 
                 foreach (Chart item in tableLayoutPanel1.Controls)
@@ -296,20 +306,6 @@ namespace mview
 
         private void boxActiveProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = boxActiveProject.SelectedIndex;
-            var pm = model.GetProjectManager();
-
-            gridGeneral.Rows.Clear();
-            gridGeneral.Rows.Add("FILENAME", pm.projectList[index].ecl.FILENAME);
-            gridGeneral.Rows.Add("ROOT", pm.projectList[index].ecl.ROOT);
-            gridGeneral.Rows.Add("PATH", pm.projectList[index].ecl.PATH);
-
-            foreach (KeyValuePair<string, string> item in pm.projectList[index].ecl.FILES)
-            {
-                gridGeneral.Rows.Add(item.Key, item.Value);
-            }
-            pm.SetActiveProject(index);
-
             UpdateData();
         }
 
@@ -387,6 +383,23 @@ namespace mview
             }
 
             UpdateData();
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            subProject.UpdateSubForm();
+            subProject.Show();
+        }
+
+        private void OnSubProjectUpdate(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Form2D [OnSubFormOptions]");
+            UpdateData();
+        }
+
+        private void boxNewName_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -62,16 +62,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form2D\SubForms\Form2DOptions.cs">
+    <Compile Include="Show2D\SubForms\Form2DOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2D\SubForms\Form2DOptions.Designer.cs">
+    <Compile Include="Show2D\SubForms\Form2DOptions.Designer.cs">
       <DependentUpon>Form2DOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2D\SubForms\UCSetFocusOn.cs">
+    <Compile Include="Show2D\SubForms\UCSetFocusOn.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Form2D\SubForms\UCSetFocusOn.Designer.cs">
+    <Compile Include="Show2D\SubForms\UCSetFocusOn.Designer.cs">
       <DependentUpon>UCSetFocusOn.cs</DependentUpon>
     </Compile>
     <Compile Include="FormCrossPlots\FormCrossPlots.cs">
@@ -81,14 +81,20 @@
       <DependentUpon>FormCrossPlots.cs</DependentUpon>
     </Compile>
     <Compile Include="FormCrossPlots\FormCrossPlotsModel.cs" />
+    <Compile Include="Main\SubForms\SubMainProject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\SubForms\SubMainProject.Designer.cs">
+      <DependentUpon>SubMainProject.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormVirtualGroups.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormVirtualGroups.Designer.cs">
       <DependentUpon>FormVirtualGroups.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2D\BitmapRender.cs" />
-    <Compile Include="Form2D\Camera2D.cs" />
+    <Compile Include="Show2D\BitmapRender.cs" />
+    <Compile Include="Show2D\Camera2D.cs" />
     <Compile Include="Charts\Chart.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -103,16 +109,16 @@
     <Compile Include="Charts\ChartOptions.Designer.cs">
       <DependentUpon>ChartOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2D\Colorizer.cs" />
-    <Compile Include="Form2D\Engine2D.cs" />
+    <Compile Include="Show2D\Colorizer.cs" />
+    <Compile Include="Show2D\Engine2D.cs" />
     <Compile Include="ExportToExcel.cs" />
-    <Compile Include="Form2D\Form2D.cs">
+    <Compile Include="Show2D\Form2D.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2D\Form2D.Designer.cs">
+    <Compile Include="Show2D\Form2D.Designer.cs">
       <DependentUpon>Form2D.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2D\Form2DModel.cs" />
+    <Compile Include="Show2D\Form2DModel.cs" />
     <Compile Include="Form3DInfo\Form3DInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,14 +131,14 @@
     <Compile Include="FormDetails.Designer.cs">
       <DependentUpon>FormDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMain.cs">
+    <Compile Include="Main\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
+    <Compile Include="Main\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMainModel.cs" />
-    <Compile Include="Form2D\Grid2D.cs" />
+    <Compile Include="Main\FormMainModel.cs" />
+    <Compile Include="Show2D\Grid2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,19 +154,22 @@
     <EmbeddedResource Include="Charts\ChartOptions.resx">
       <DependentUpon>ChartOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2D\SubForms\Form2DOptions.resx">
+    <EmbeddedResource Include="Show2D\SubForms\Form2DOptions.resx">
       <DependentUpon>Form2DOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2D\SubForms\UCSetFocusOn.resx">
+    <EmbeddedResource Include="Show2D\SubForms\UCSetFocusOn.resx">
       <DependentUpon>UCSetFocusOn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormCrossPlots\FormCrossPlots.resx">
       <DependentUpon>FormCrossPlots.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Main\SubForms\SubMainProject.resx">
+      <DependentUpon>SubMainProject.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormVirtualGroups.resx">
       <DependentUpon>FormVirtualGroups.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2D\Form2D.resx">
+    <EmbeddedResource Include="Show2D\Form2D.resx">
       <DependentUpon>Form2D.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form3DInfo\Form3DInfo.resx">
@@ -169,7 +178,7 @@
     <EmbeddedResource Include="FormDetails.resx">
       <DependentUpon>FormDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
+    <EmbeddedResource Include="Main\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

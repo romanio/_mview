@@ -13,7 +13,6 @@ namespace mview
     public partial class Form2D : Form
     {
         Form2DModel model = null;
-
         UCSetFocusOn ucSetFocusOn = null;
         Form2DOptions sfOptions = null;
 

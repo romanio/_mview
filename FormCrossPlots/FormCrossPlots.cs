@@ -130,8 +130,9 @@ namespace mview
             string keyword = listKeywords.SelectedItem.ToString();
 
             //
-            var data = new List<Tuple<string, float, float>>();
+           // _ = new List<Tuple<string, float, float>>();
 
+            List<Tuple<string, float, float>> data;
             if (listGroups.SelectedItem.ToString() == "(All)")
             {
                 data = model.GetDataByKeywordAndDate(keyword, step);
@@ -296,8 +297,7 @@ namespace mview
                     ((CategoryAxis)plotHisto.Axes[0]).ItemsSource = new[] { "<" + FirstCond , FirstCond + "-" + SecondCond , ">" + SecondCond};
                 }
 
-                //
-                plotHisto.Series.Add(new ColumnSeries { });
+                plotHisto.Series.Add(new ColumnSeries {FillColor = OxyColor.FromArgb(255, 255, 120, 0)});
                 ((ColumnSeries)plotHisto.Series[0]).Items.Add(new ColumnItem { CategoryIndex = 0, Value = less10 });
                 ((ColumnSeries)plotHisto.Series[0]).Items.Add(new ColumnItem { CategoryIndex = 1, Value = over10 });
                 ((ColumnSeries)plotHisto.Series[0]).Items.Add(new ColumnItem { CategoryIndex = 2, Value = over20 });

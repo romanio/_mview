@@ -8,7 +8,7 @@ using Microsoft.Office.Interop.Excel;
 
 namespace mview
 {
-    class FormMainModel
+    public class FormMainModel
     {
         ProjectManager pm = new ProjectManager();
 

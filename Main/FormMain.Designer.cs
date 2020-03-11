@@ -62,7 +62,10 @@
             this.panelNameFilter = new System.Windows.Forms.Panel();
             this.listGroups = new System.Windows.Forms.ListBox();
             this.labelMin = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.menu.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).BeginInit();
             this.panelNameFilter.SuspendLayout();
@@ -177,6 +180,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(121, 68);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -253,7 +257,7 @@
             // 
             // buttonModels
             // 
-            this.buttonModels.Location = new System.Drawing.Point(12, 35);
+            this.buttonModels.Location = new System.Drawing.Point(590, 36);
             this.buttonModels.Name = "buttonModels";
             this.buttonModels.Size = new System.Drawing.Size(100, 24);
             this.buttonModels.TabIndex = 11;
@@ -270,7 +274,6 @@
             this.buttonChartOptions.Size = new System.Drawing.Size(100, 24);
             this.buttonChartOptions.TabIndex = 12;
             this.buttonChartOptions.Text = "Chart Options";
-            this.buttonChartOptions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonChartOptions.UseVisualStyleBackColor = true;
             this.buttonChartOptions.Click += new System.EventHandler(this.buttonChartOptions_Click);
             // 
@@ -282,7 +285,7 @@
             this.panel1.Controls.Add(this.boxActiveProject);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.gridGeneral);
-            this.panel1.Location = new System.Drawing.Point(12, 68);
+            this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(405, 341);
             this.panel1.TabIndex = 0;
@@ -302,11 +305,12 @@
             // 
             // boxNewName
             // 
-            this.boxNewName.Location = new System.Drawing.Point(106, 10);
+            this.boxNewName.Location = new System.Drawing.Point(109, 37);
             this.boxNewName.Name = "boxNewName";
             this.boxNewName.Size = new System.Drawing.Size(163, 21);
             this.boxNewName.TabIndex = 23;
             this.boxNewName.Visible = false;
+            this.boxNewName.TextChanged += new System.EventHandler(this.boxNewName_TextChanged);
             this.boxNewName.Leave += new System.EventHandler(this.boxNewName_Leave);
             // 
             // buttonRename
@@ -431,15 +435,42 @@
             this.labelMin.TabIndex = 62;
             this.labelMin.Text = "Group List";
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(510, 35);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 24);
+            this.button1.TabIndex = 26;
+            this.button1.Text = "Model List";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_2);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.IntegralHeight = false;
+            this.comboBox1.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "4"});
+            this.comboBox1.Location = new System.Drawing.Point(12, 38);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(100, 21);
+            this.comboBox1.TabIndex = 27;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(808, 653);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panelNameFilter);
             this.Controls.Add(this.bbWellFilter);
             this.Controls.Add(this.bbUpdate);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.buttonChartOptions);
             this.Controls.Add(this.buttonModels);
             this.Controls.Add(this.boxNamesType);
@@ -459,6 +490,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).EndInit();
@@ -505,6 +537,8 @@
         private System.Windows.Forms.Panel panelNameFilter;
         private System.Windows.Forms.ListBox listGroups;
         private System.Windows.Forms.Label labelMin;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 

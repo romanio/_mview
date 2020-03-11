@@ -57,7 +57,7 @@ namespace mview
                 TitleFontSize = 10,
                 LegendFontSize = 10,
                 LegendPosition = chartController.LegendPosition,
-               
+                
                 DefaultFontSize = 10
             };
 
@@ -292,6 +292,8 @@ namespace mview
    
             series_index = -1;
 
+            byte A = 255;
+
             for (int ip = 0; ip < selected_pm.Length; ++ip) // Цикл по всем выбранным проектам
             {
                 for (int iw = 0; iw < listKeywords.SelectedItems.Count; ++iw)
@@ -326,7 +328,8 @@ namespace mview
                             {
                                 if (tmp_style.LineColor.Name != "0") // Default value
                                 {
-                                    tmp_ls.Color = tmp_style.LineColor.ToOxyColor();
+                                    tmp_ls.Color = OxyColor.FromAColor(A, tmp_style.LineColor.ToOxyColor());
+                                    A -= (byte)40;
                                 }
 
                                 if (tmp_style.MarkerFillColor.Name != "0")
