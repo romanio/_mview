@@ -12,14 +12,15 @@ namespace mview
 {
     public partial class SubMainProject : Form
     {
-        FormMainModel model;
-        
-        public event EventHandler ApplyStyle;
+       // FormMainModel model;
+        private readonly ProjectManager pm = null;
 
-        public SubMainProject(FormMainModel model)
+        public event EventHandler UpdateData;
+
+        public SubMainProject(ProjectManager pm)
         {
             InitializeComponent();
-            this.model = model;
+            this.pm = pm;
         }
 
         public void UpdateSubForm()
@@ -28,12 +29,12 @@ namespace mview
             boxActiveProject.BeginUpdate();
             gridGeneral.Rows.Clear();
 
-            foreach (ProjectManagerItem item in model.GetProjectManager().projectList)
+            foreach (ProjectManagerItem item in pm.projectList)
             {
                 boxActiveProject.Items.Add(item.name);
             };
 
-            boxActiveProject.SelectedIndex = model.GetProjectManager().ActiveProjectIndex;
+            boxActiveProject.SelectedIndex = pm.ActiveProjectIndex;
             boxActiveProject.EndUpdate();
         }
 
@@ -46,7 +47,6 @@ namespace mview
         private void boxActiveProject_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = boxActiveProject.SelectedIndex;
-            var pm = model.GetProjectManager();
 
             gridGeneral.Rows.Clear();
             gridGeneral.Rows.Add("FILENAME", pm.projectList[index].ecl.FILENAME);
@@ -59,13 +59,14 @@ namespace mview
             }
             
             pm.SetActiveProject(index);
+            UpdateData(sender, e);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            model.GetProjectManager().DeleteActiveProject();
+            pm.DeleteActiveProject();
             UpdateSubForm();
-            ApplyStyle(sender, e);
+            UpdateData(sender, e);
         }
 
         private void buttonRename_Click(object sender, EventArgs e)
@@ -73,17 +74,17 @@ namespace mview
             if (boxNewName.Visible == false)
             {
                 boxNewName.Visible = true;
-                boxNewName.Text = model.GetProjectManager().projectList[boxActiveProject.SelectedIndex].name;
+                boxNewName.Text = pm.projectList[boxActiveProject.SelectedIndex].name;
                 boxNewName.Focus();
                 buttonRename.Text = "Set new name";
             }
             else
             {
                 boxNewName.Visible = false;
-                model.GetProjectManager().projectList[boxActiveProject.SelectedIndex].name = boxNewName.Text;
+                pm.projectList[boxActiveProject.SelectedIndex].name = boxNewName.Text;
                 buttonRename.Text = "Rename";
                 UpdateSubForm();
-                ApplyStyle(sender, e);
+                UpdateData(sender, e);
             }
         }
     }

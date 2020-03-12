@@ -14,15 +14,15 @@ namespace mview
     {
         Form2DModel model = null;
         UCSetFocusOn ucSetFocusOn = null;
-        Form2DOptions sfOptions = null;
+        Sub2DOptions subOptions = null;
 
 
         public Form2D(EclipseProject ecl)
         {
             InitializeComponent();
             model = new Form2DModel(ecl);
-            sfOptions = new Form2DOptions(model.style);
-            sfOptions.ApplyStyle += new EventHandler(this.OnSubFormOptions);
+            subOptions = new Sub2DOptions(model.style);
+            subOptions.UpdateData += new EventHandler(this.OnSubFormOptions);
             // 
 
             ucSetFocusOn = new UCSetFocusOn();
@@ -142,12 +142,12 @@ namespace mview
                 string name = treeProperties.SelectedNode.Text;
                 model.SetStaticProperty(name);
 
-                sfOptions.UpdateMode = true;
-                sfOptions.PropertyMaxValue = model.GetPropertyMaxValue();
-                sfOptions.PropertyMinValue = model.GetPropertyMinValue();
-                sfOptions.PropertyStatistic = model.GetPropertyStatistic();
-                sfOptions.PropertName = name;
-                sfOptions.UpdateMode = false;
+                subOptions.UpdateMode = true;
+                subOptions.PropertyMaxValue = model.GetPropertyMaxValue();
+                subOptions.PropertyMinValue = model.GetPropertyMinValue();
+                subOptions.PropertyStatistic = model.GetPropertyStatistic();
+                subOptions.PropertName = name;
+                subOptions.UpdateMode = false;
 
                 model.ApplyStyleData();
                 model.GenerateStaticGrid();
@@ -162,12 +162,12 @@ namespace mview
                 string name = treeProperties.SelectedNode.Text;
                 model.SetDynamicProperty(name);
 
-                sfOptions.UpdateMode = true;
-                sfOptions.PropertyMaxValue = model.GetPropertyMaxValue();
-                sfOptions.PropertyMinValue = model.GetPropertyMinValue();
-                sfOptions.PropertyStatistic = model.GetPropertyStatistic();
-                sfOptions.PropertName = name;
-                sfOptions.UpdateMode = false;
+                subOptions.UpdateMode = true;
+                subOptions.PropertyMaxValue = model.GetPropertyMaxValue();
+                subOptions.PropertyMinValue = model.GetPropertyMinValue();
+                subOptions.PropertyStatistic = model.GetPropertyStatistic();
+                subOptions.PropertName = name;
+                subOptions.UpdateMode = false;
 
                 model.ApplyStyleData();
                 model.GenerateRestartGrid();
@@ -223,7 +223,7 @@ namespace mview
         private void Form2DOnFormClosed(object sender, FormClosedEventArgs e)
         {
             model.OnUnload();
-            sfOptions.Close();
+            subOptions.Close();
         }
 
         private void boxXSlice_SelectedIndexChanged(object sender, EventArgs e)
@@ -258,11 +258,11 @@ namespace mview
 
         private void buttonChartOptions_Click(object sender, EventArgs e)
         {
-            sfOptions.boxMinimum.Text = model.style.MinValue.ToString();
-            sfOptions.boxMaximum.Text = model.style.MaxValue.ToString();
+            subOptions.boxMinimum.Text = model.style.MinValue.ToString();
+            subOptions.boxMaximum.Text = model.style.MaxValue.ToString();
 
-            sfOptions.Show();
-            sfOptions.Focus();
+            subOptions.Show();
+            subOptions.Focus();
         }
 
         private void bbSetFocusOn_Click(object sender, EventArgs e)

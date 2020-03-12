@@ -46,7 +46,7 @@
             this.button2.ForeColor = System.Drawing.Color.Red;
             this.button2.Location = new System.Drawing.Point(309, 333);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(118, 26);
+            this.button2.Size = new System.Drawing.Size(118, 24);
             this.button2.TabIndex = 24;
             this.button2.Text = "Delete";
             this.button2.UseVisualStyleBackColor = true;
@@ -62,9 +62,9 @@
             // 
             // buttonRename
             // 
-            this.buttonRename.Location = new System.Drawing.Point(309, 17);
+            this.buttonRename.Location = new System.Drawing.Point(309, 21);
             this.buttonRename.Name = "buttonRename";
-            this.buttonRename.Size = new System.Drawing.Size(118, 26);
+            this.buttonRename.Size = new System.Drawing.Size(118, 24);
             this.buttonRename.TabIndex = 22;
             this.buttonRename.Text = "Rename";
             this.buttonRename.UseVisualStyleBackColor = true;
@@ -85,9 +85,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 24);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 13);
+            this.label3.Size = new System.Drawing.Size(98, 13);
             this.label3.TabIndex = 18;
-            this.label3.Text = "Model Name";
+            this.label3.Text = "Active Model Name";
             // 
             // gridGeneral
             // 
@@ -141,7 +141,7 @@
             this.MinimizeBox = false;
             this.Name = "SubMainProject";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SubMainProject";
+            this.Text = "Models ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SubMainProject_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.gridGeneral)).EndInit();
             this.ResumeLayout(false);

@@ -1,6 +1,6 @@
 ﻿namespace mview
 {
-    partial class ChartOptions
+    partial class SubMainChartOptions
     {
         /// <summary>
         /// Required designer variable.
@@ -578,7 +578,7 @@
             // 
             this.buttonApplySeries.Location = new System.Drawing.Point(243, 448);
             this.buttonApplySeries.Name = "buttonApplySeries";
-            this.buttonApplySeries.Size = new System.Drawing.Size(124, 23);
+            this.buttonApplySeries.Size = new System.Drawing.Size(118, 24);
             this.buttonApplySeries.TabIndex = 28;
             this.buttonApplySeries.Text = "Apply style";
             this.buttonApplySeries.UseVisualStyleBackColor = true;
@@ -588,7 +588,7 @@
             // 
             this.colorDialog.AnyColor = true;
             // 
-            // ChartOptions
+            // SubMainChartOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -600,10 +600,11 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ChartOptions";
+            this.Name = "SubMainChartOptions";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chart Options";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SubMainChartOptions_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

@@ -12,9 +12,9 @@ namespace mview
 {
     public delegate void UpdateDataDelegate();
 
-    public partial class ChartOptions : Form
+    public partial class SubMainChartOptions : Form
     {
-        public event UpdateDataDelegate ApplyStyle;
+        public event EventHandler UpdateData;
 
         public string[] Keywords
         {
@@ -30,7 +30,7 @@ namespace mview
 
         ChartController chartController;
 
-        public ChartOptions(ChartController chartController)
+        public SubMainChartOptions(ChartController chartController)
         {
             InitializeComponent();
             this.chartController = chartController;
@@ -84,7 +84,7 @@ namespace mview
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ApplyStyle();
+            UpdateData(sender, e);
             Close();
         }
 
@@ -170,7 +170,7 @@ namespace mview
 
             chartController.UpdateStyle(seriesStyle);
 
-            ApplyStyle();
+            UpdateData(sender, e);
         }
 
         private void listKeywordsOnSelectedIndexChanged(object sender, EventArgs e)
@@ -288,6 +288,12 @@ namespace mview
                 buttonAxisYColor.BackColor = colorDialog.Color;
                 buttonAxisYColor.Text = "";
             }
+        }
+
+        private void SubMainChartOptions_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
         }
     }
 }

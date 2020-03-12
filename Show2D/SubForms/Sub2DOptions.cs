@@ -14,9 +14,9 @@ using OxyPlot.Axes;
 
 namespace mview
 {
-    public partial class Form2DOptions : Form
+    public partial class Sub2DOptions : Form
     {
-        public event EventHandler ApplyStyle;
+        public event EventHandler UpdateData;
 
         readonly PlotModel plotModel = null;
         
@@ -88,7 +88,7 @@ namespace mview
 
         readonly Form2DModelStyle Style;
 
-        public Form2DOptions(Form2DModelStyle Style)
+        public Sub2DOptions(Form2DModelStyle Style)
         {
             InitializeComponent();
 
@@ -161,7 +161,7 @@ namespace mview
             if (UpdateMode) return;
 
 
-            ApplyStyle(sender, e);
+            UpdateData(sender, e);
         }
 
         private void MaxColorDefault_Click(object sender, EventArgs e)
@@ -170,8 +170,8 @@ namespace mview
             Style.MaxValue = m_propertyMaxValue;
 
             if (UpdateMode) return;
-            
-            ApplyStyle(sender, e);
+
+            UpdateData(sender, e);
         }
 
         double value;
@@ -183,7 +183,7 @@ namespace mview
             {
                 Style.MinValue = value;
 
-               ApplyStyle(sender, e);
+                UpdateData(sender, e);
             }
         }
 
@@ -195,7 +195,7 @@ namespace mview
             {
                 Style.MaxValue = value;
 
-                ApplyStyle(sender, e);
+                UpdateData(sender, e);
             }
         }
 
@@ -204,7 +204,7 @@ namespace mview
             Style.StretchFactor = trackStratch.Value * 0.01;
             if (UpdateMode) return;
 
-            ApplyStyle(sender, e);
+            UpdateData(sender, e);
         }
 
         private void checkShowGridLines_CheckedChanged(object sender, EventArgs e)
@@ -212,7 +212,7 @@ namespace mview
             Style.ShowGridLines = checkShowGridLines.Checked;
             if (UpdateMode) return;
 
-            ApplyStyle(sender, e);
+            UpdateData(sender, e);
         }
 
         private void checkShowAllWell_CheckedChanged(object sender, EventArgs e)
@@ -220,7 +220,7 @@ namespace mview
             Style.ShowAllWelltrack = checkShowAllWell.Checked;
             
             if (UpdateMode) return;
-            ApplyStyle(sender, e);
+            UpdateData(sender, e);
         }
 
         private void checkShowBubbles_CheckedChanged(object sender, EventArgs e)
@@ -228,7 +228,7 @@ namespace mview
             Style.ShowBubbles = checkShowBubbles.Checked;
             if (UpdateMode) return;
 
-            ApplyStyle(sender, e);
+            UpdateData(sender, e);
         }
 
         private void boxBubbleMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -248,7 +248,7 @@ namespace mview
                     break;
             }
 
-            ApplyStyle(sender, e);
+            UpdateData(sender, e);
         }
 
         private void numericScaleFactor_ValueChanged(object sender, EventArgs e)
@@ -257,7 +257,7 @@ namespace mview
 
             Style.ScaleFactor = (double)numericScaleFactor.Value;
 
-            ApplyStyle(sender, e);
+            UpdateData(sender, e);
         }
     }
 }

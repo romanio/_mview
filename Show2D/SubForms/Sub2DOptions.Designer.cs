@@ -1,6 +1,6 @@
 ﻿namespace mview
 {
-    partial class Form2DOptions
+    partial class Sub2DOptions
     {
         /// <summary>
         /// Required designer variable.

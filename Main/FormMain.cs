@@ -17,13 +17,12 @@ namespace mview
         // Sub forms
 
         private readonly SubMainProject subProject = null;
-        
-        //
+        private readonly SubMainChartOptions subChartOptions = null;
 
         NameOptions namesType = NameOptions.Well;
         string selectedPad = "(All)";
 
-        ChartController chartController = new ChartController();
+        private readonly ChartController chartController = new ChartController();
         public FormMain()
         {
             InitializeComponent();
@@ -33,8 +32,12 @@ namespace mview
             boxSetChartCount.SelectedIndex = 0;
             boxNamesType.SelectedIndex = 2;
 
-            subProject = new SubMainProject(model);
-            subProject.ApplyStyle += new EventHandler(OnSubProjectUpdate);
+            subProject = new SubMainProject(model.GetProjectManager());
+            subProject.UpdateData += new EventHandler(OnSubProjectUpdate);
+
+            subChartOptions = new SubMainChartOptions(chartController);
+            subChartOptions.UpdateData += new EventHandler(OnSubChartOptionsUpdate);
+            //
         }
         // Свойства управляемые из модели
 
@@ -95,8 +98,6 @@ namespace mview
             }
         }
 
- 
-
         private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             model.OpenNewModel();
@@ -104,8 +105,6 @@ namespace mview
             if (model.GetActiveProject() == null) return;
 
             UpdateData();
-
-            panel1.Visible = false;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -207,27 +206,6 @@ namespace mview
             Names = model.GetNamesByType(namesType);
         }
 
-        void UpdateDataModels()
-        {
-            boxActiveProject.Items.Clear();
-            boxActiveProject.BeginUpdate();
-
-            foreach (ProjectManagerItem item in model.GetProjectManager().projectList)
-            {
-                boxActiveProject.Items.Add(item.name);
-            };
-
-            boxActiveProject.SelectedIndex = model.GetProjectManager().ActiveProjectIndex;
-            boxActiveProject.EndUpdate();
-        }
-
-        private void buttonOptions_Click(object sender, EventArgs e)
-        {
-            panel1.Visible = !panel1.Visible;
-
-
-            UpdateDataModels();
-        }
 
         void UpdateData()
         {
@@ -267,23 +245,13 @@ namespace mview
             model.ExportToExcel();
         }
 
-        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
+        private void FormMainOnFormClosed(object sender, FormClosedEventArgs e)
         {
             chartController.SaveSettings();
         }
 
-        private void buttonChartOptions_Click(object sender, EventArgs e)
-        {
-            ChartOptions tmp = new ChartOptions(chartController);
 
-            tmp.Left = buttonChartOptions.PointToScreen(Point.Empty).X;
-            tmp.Top = buttonChartOptions.PointToScreen(Point.Empty).Y;
-            tmp.ApplyStyle += OnChartApplyStyle;
-            tmp.Keywords = model.GetAllKeywords().OrderBy(c => c).ToArray();
-            tmp.Show();
-        }
-
-        private void OnChartApplyStyle()
+        private void OnSubChartOptionsUpdate(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("CHART OPTIONS : CHART APPLY STYLE");
             listNames_SelectedIndexChanged(null, null);
@@ -299,42 +267,6 @@ namespace mview
             model.Show3DView();
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            panel1.Visible = false;
-        }
-
-        private void boxActiveProject_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            UpdateData();
-        }
-
-        private void buttonRename_Click(object sender, EventArgs e)
-        {
-            if (boxNewName.Visible == false)
-            {
-                boxNewName.Visible = true;
-                boxNewName.Text = model.GetProjectManager().projectList[boxActiveProject.SelectedIndex].name;
-                boxNewName.Focus();
-            }
-            else
-            {
-                boxNewName.Visible = false;
-                model.GetProjectManager().projectList[boxActiveProject.SelectedIndex].name = boxNewName.Text;
-                UpdateDataModels();
-            }
-        }
-
-        private void boxNewName_Leave(object sender, EventArgs e)
-        {
-            buttonRename_Click(null, null);
-        }
-
-        private void bbUpdate_Click(object sender, EventArgs e)
-        {
-            model.UpdateActiveProject();
-            UpdateData();
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -400,6 +332,27 @@ namespace mview
         private void boxNewName_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        // События
+        private void buttonModelsOnClick(object sender, EventArgs e)
+        {
+                subProject.UpdateSubForm();
+                subProject.Focus();
+                subProject.Show();
+        }
+        private void buttonChartOptionsOnClick(object sender, EventArgs e)
+        {
+            subChartOptions.Left = buttonChartOptions.PointToScreen(Point.Empty).X;
+            subChartOptions.Top = buttonChartOptions.PointToScreen(Point.Empty).Y;
+            subChartOptions.Keywords = model.GetAllKeywords().OrderBy(c => c).ToArray();
+            subChartOptions.Focus();
+            subChartOptions.Show();
+        }
+        private void buttonUpdateOnClick(object sender, EventArgs e)
+        {
+            model.UpdateActiveProject();
+            UpdateData();
         }
     }
 }
