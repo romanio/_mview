@@ -18,10 +18,10 @@ namespace mview
 {
     public partial class Chart : UserControl
     {
-        ChartModel model = null;
-        PlotModel plotModel = null;
-        PlotModel specplotModel = null;
-        ChartController chartController = null;
+        private ChartModel model = null;
+        private PlotModel plotModel = null;
+        private PlotModel specplotModel = null;
+        private readonly ChartController chartController = null;
 
         bool edit_mode_keywords = false;
 
@@ -29,7 +29,7 @@ namespace mview
 
         public void SetEclipseProject(ProjectManager pm)
         {
-            model = new ChartModel(pm);
+            this.model = new ChartModel(pm);
 
             checkedProjectList.Items.Clear();
 

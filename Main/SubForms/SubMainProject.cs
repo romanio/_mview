@@ -12,7 +12,6 @@ namespace mview
 {
     public partial class SubMainProject : Form
     {
-       // FormMainModel model;
         private readonly ProjectManager pm = null;
 
         public event EventHandler UpdateData;
@@ -25,20 +24,32 @@ namespace mview
 
         public void UpdateSubForm()
         {
-            boxActiveProject.Items.Clear();
-            boxActiveProject.BeginUpdate();
             gridGeneral.Rows.Clear();
+
+            boxActiveProject.Items.Clear();
+            listboxProjectNames.Items.Clear();
+
+            boxActiveProject.BeginUpdate();
+            
 
             foreach (ProjectManagerItem item in pm.projectList)
             {
                 boxActiveProject.Items.Add(item.name);
+                listboxProjectNames.Items.Add(item.name);
             };
 
             boxActiveProject.SelectedIndex = pm.ActiveProjectIndex;
             boxActiveProject.EndUpdate();
+
+            if (pm.ActiveProjectIndex != -1)
+            {
+                listboxProjectNames.Items[pm.ActiveProjectIndex] = listboxProjectNames.Items[pm.ActiveProjectIndex] + " (ACTIVE)";
+                listboxProjectNames.SetItemChecked(pm.ActiveProjectIndex, true);
+              //  selected_pm = new int[] { pm.ActiveProjectIndex };
+            }
         }
 
-        private void SubMainProject_FormClosing(object sender, FormClosingEventArgs e)
+        private void SubMainProjectOnFormClosing(object sender, FormClosingEventArgs e)
         {
             Hide();
             e.Cancel = true;
@@ -69,7 +80,7 @@ namespace mview
             UpdateData(sender, e);
         }
 
-        private void buttonRename_Click(object sender, EventArgs e)
+        private void buttonRenameOnClick(object sender, EventArgs e)
         {
             if (boxNewName.Visible == false)
             {
@@ -86,6 +97,16 @@ namespace mview
                 UpdateSubForm();
                 UpdateData(sender, e);
             }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void boxNewName_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
