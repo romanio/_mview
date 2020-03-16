@@ -87,7 +87,7 @@
             this.boxActiveProject.Name = "boxActiveProject";
             this.boxActiveProject.Size = new System.Drawing.Size(163, 21);
             this.boxActiveProject.TabIndex = 19;
-            this.boxActiveProject.SelectedIndexChanged += new System.EventHandler(this.boxActiveProject_SelectedIndexChanged);
+            this.boxActiveProject.SelectedIndexChanged += new System.EventHandler(this.boxActiveProjectOnSelectedIndexChanged);
             // 
             // label3
             // 
@@ -150,6 +150,7 @@
             this.listboxProjectNames.Name = "listboxProjectNames";
             this.listboxProjectNames.Size = new System.Drawing.Size(292, 112);
             this.listboxProjectNames.TabIndex = 25;
+            this.listboxProjectNames.SelectedIndexChanged += new System.EventHandler(this.listboxProjectNamesOnSelectedIndexChanged);
             // 
             // label1
             // 

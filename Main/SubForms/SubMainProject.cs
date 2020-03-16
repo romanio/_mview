@@ -22,31 +22,36 @@ namespace mview
             this.pm = pm;
         }
 
+        public void UpdateSelectedProjects()
+        {
+            listboxProjectNames.Items.Clear();
+
+            foreach (ProjectManagerItem item in pm.projectList)
+            {
+                listboxProjectNames.Items.Add(item.name, item.selected);
+            };
+
+            if (pm.ActiveProjectIndex != -1)
+            {
+                listboxProjectNames.Items[pm.ActiveProjectIndex] = listboxProjectNames.Items[pm.ActiveProjectIndex] + " (ACTIVE)";
+            }
+        }
+
         public void UpdateSubForm()
         {
             gridGeneral.Rows.Clear();
-
             boxActiveProject.Items.Clear();
-            listboxProjectNames.Items.Clear();
-
             boxActiveProject.BeginUpdate();
-            
 
             foreach (ProjectManagerItem item in pm.projectList)
             {
                 boxActiveProject.Items.Add(item.name);
-                listboxProjectNames.Items.Add(item.name);
             };
 
             boxActiveProject.SelectedIndex = pm.ActiveProjectIndex;
             boxActiveProject.EndUpdate();
 
-            if (pm.ActiveProjectIndex != -1)
-            {
-                listboxProjectNames.Items[pm.ActiveProjectIndex] = listboxProjectNames.Items[pm.ActiveProjectIndex] + " (ACTIVE)";
-                listboxProjectNames.SetItemChecked(pm.ActiveProjectIndex, true);
-              //  selected_pm = new int[] { pm.ActiveProjectIndex };
-            }
+            UpdateSelectedProjects();
         }
 
         private void SubMainProjectOnFormClosing(object sender, FormClosingEventArgs e)
@@ -55,7 +60,7 @@ namespace mview
             e.Cancel = true;
         }
 
-        private void boxActiveProject_SelectedIndexChanged(object sender, EventArgs e)
+        private void boxActiveProjectOnSelectedIndexChanged(object sender, EventArgs e)
         {
             int index = boxActiveProject.SelectedIndex;
 
@@ -70,6 +75,7 @@ namespace mview
             }
             
             pm.SetActiveProject(index);
+            UpdateSelectedProjects();
             UpdateData(sender, e);
         }
 
@@ -107,6 +113,13 @@ namespace mview
         private void boxNewName_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void listboxProjectNamesOnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = listboxProjectNames.SelectedIndex;
+            pm.projectList[index].selected = listboxProjectNames.GetItemChecked(index);
+            UpdateData(sender, e);
         }
     }
 }

@@ -218,7 +218,6 @@ namespace mview
                     item.SetEclipseProject(model.GetProjectManager());
                 }
 
-
                 listNames.Items.Clear();
             }
             else
@@ -325,7 +324,7 @@ namespace mview
 
         private void OnSubProjectUpdate(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Form2D [OnSubFormOptions]");
+            System.Diagnostics.Debug.WriteLine("FormMain [OnSubProjectUpdate]");
             UpdateData();
         }
 

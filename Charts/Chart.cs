@@ -31,6 +31,16 @@ namespace mview
         {
             this.model = new ChartModel(pm);
 
+            List<int> tmp = new List<int>();
+
+            for (int iw = 0; iw < pm.projectList.Count; ++iw)
+            {
+                if (pm.projectList[iw].selected) tmp.Add(iw);
+                
+            }
+
+            selected_pm = tmp.ToArray();
+            /*
             checkedProjectList.Items.Clear();
 
             
@@ -45,6 +55,7 @@ namespace mview
                 checkedProjectList.SetItemChecked(pm.ActiveProjectIndex, true);
                 selected_pm = new int[] { pm.ActiveProjectIndex };
             }
+            */
         }
 
         public void InitChart()
@@ -456,6 +467,8 @@ namespace mview
 
             // Пользовательские вектора
           
+            /*
+             
             if (checkShowUserFunction.Checked)
             {
                 plotModel.Annotations.Clear();
@@ -493,6 +506,7 @@ namespace mview
                     }
                 }
             }
+            */
 
             plotModel.Axes[0].Reset();
             plotModel.Axes[1].Reset();
@@ -522,32 +536,13 @@ namespace mview
                 e.Value = model.GetParamAtIndex(selected_index[e.ColumnIndex - 1], e.RowIndex);
         }
 
-        private void buttonOptions_Click(object sender, EventArgs e)
+       private void buttonLoadUserFunction_Click(object sender, EventArgs e)
         {
-            panel1.Visible = true;
-        }
-
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            panel1.Visible = false;
-        }
-
-        private void checkedProjectList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selected_pm = new int[checkedProjectList.CheckedIndices.Count];
-
-            for (int iw = 0; iw < checkedProjectList.CheckedIndices.Count; ++iw)
-            {
-                selected_pm[iw] = checkedProjectList.CheckedIndices[iw];
-            }
-
-            UpdateVisibleElements();
-        }
-
-        private void buttonLoadUserFunction_Click(object sender, EventArgs e)
-        {
+            /*
+             
             chartController.LoadUserFunctions();
             checkShowUserFunction.Enabled = true;
+            */
         }
 
         private void checkShowUserFunction_CheckedChanged(object sender, EventArgs e)

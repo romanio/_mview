@@ -11,6 +11,7 @@ namespace mview
     {
         public EclipseProject ecl = new EclipseProject();
         public string name = null;
+        public bool selected = false;
     }
 
     public class VirtualGroupItem
@@ -35,6 +36,7 @@ namespace mview
                 var item = new ProjectManagerItem();
                 item.ecl.OpenData(fd.FileName);
                 item.name = item.ecl.ROOT;
+                item.selected = true;
 
                 projectList.Add(item);
 
