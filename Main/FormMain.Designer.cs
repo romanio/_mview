@@ -154,7 +154,7 @@
             this.listNames.Location = new System.Drawing.Point(12, 68);
             this.listNames.Name = "listNames";
             this.listNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listNames.Size = new System.Drawing.Size(118, 380);
+            this.listNames.Size = new System.Drawing.Size(108, 380);
             this.listNames.TabIndex = 3;
             this.listNames.SelectedIndexChanged += new System.EventHandler(this.listNames_SelectedIndexChanged);
             // 
@@ -166,11 +166,11 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(144, 68);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(126, 68);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(652, 552);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(670, 552);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // label1
@@ -236,7 +236,7 @@
             "Other"});
             this.boxNamesType.Location = new System.Drawing.Point(12, 508);
             this.boxNamesType.Name = "boxNamesType";
-            this.boxNamesType.Size = new System.Drawing.Size(118, 21);
+            this.boxNamesType.Size = new System.Drawing.Size(108, 21);
             this.boxNamesType.TabIndex = 10;
             this.boxNamesType.SelectedIndexChanged += new System.EventHandler(this.boxNamesType_SelectedIndexChanged);
             // 
@@ -244,7 +244,7 @@
             // 
             this.buttonModels.Location = new System.Drawing.Point(12, 35);
             this.buttonModels.Name = "buttonModels";
-            this.buttonModels.Size = new System.Drawing.Size(118, 24);
+            this.buttonModels.Size = new System.Drawing.Size(108, 24);
             this.buttonModels.TabIndex = 11;
             this.buttonModels.Text = "///";
             this.buttonModels.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -256,7 +256,7 @@
             this.buttonChartOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonChartOptions.Location = new System.Drawing.Point(400, 36);
             this.buttonChartOptions.Name = "buttonChartOptions";
-            this.buttonChartOptions.Size = new System.Drawing.Size(118, 24);
+            this.buttonChartOptions.Size = new System.Drawing.Size(110, 24);
             this.buttonChartOptions.TabIndex = 12;
             this.buttonChartOptions.Text = "Chart Options";
             this.buttonChartOptions.UseVisualStyleBackColor = true;
@@ -265,9 +265,9 @@
             // buttonUpdate
             // 
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpdate.Location = new System.Drawing.Point(678, 35);
+            this.buttonUpdate.Location = new System.Drawing.Point(706, 35);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(118, 24);
+            this.buttonUpdate.Size = new System.Drawing.Size(90, 24);
             this.buttonUpdate.TabIndex = 13;
             this.buttonUpdate.Text = "Update";
             this.buttonUpdate.UseVisualStyleBackColor = true;
@@ -278,7 +278,7 @@
             this.bbWellFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bbWellFilter.Location = new System.Drawing.Point(12, 596);
             this.bbWellFilter.Name = "bbWellFilter";
-            this.bbWellFilter.Size = new System.Drawing.Size(118, 24);
+            this.bbWellFilter.Size = new System.Drawing.Size(108, 24);
             this.bbWellFilter.TabIndex = 14;
             this.bbWellFilter.Text = "Filtered";
             this.bbWellFilter.UseVisualStyleBackColor = true;
@@ -289,7 +289,7 @@
             this.panelNameFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panelNameFilter.Controls.Add(this.listGroups);
             this.panelNameFilter.Controls.Add(this.labelMin);
-            this.panelNameFilter.Location = new System.Drawing.Point(12, 433);
+            this.panelNameFilter.Location = new System.Drawing.Point(13, 433);
             this.panelNameFilter.Name = "panelNameFilter";
             this.panelNameFilter.Size = new System.Drawing.Size(139, 157);
             this.panelNameFilter.TabIndex = 25;

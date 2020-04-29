@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -242,6 +243,12 @@ namespace mview.ECL
         public int RESTART_STEP;
         public float[] DATA = null;
 
+        // Векторное поле
+
+        public float[] FLOWI = null;
+        public float[] FLOWJ = null;
+
+
         public void ReadRestart(string filename, int step, bool read_compls)
         {
             FILENAME = filename;
@@ -471,6 +478,48 @@ namespace mview.ECL
             return DATA[index];
         }
 
+        public void ReadVectorFile()
+        {
+            // Проверка наличия массивов
+
+            if (Array.IndexOf(NAME[RESTART_STEP],"FLRWATI +") == -1)
+            {
+                System.Diagnostics.Debug.WriteLine("RSSPEC : Read Vector File Not Found");
+                return;
+            }
+
+            FileReader br = new FileReader();
+
+            Action<string> SetPosition = (name) =>
+            {
+                int index = Array.IndexOf(NAME[RESTART_STEP], name);
+
+                if (UNITS.Count != 0)
+                {
+                    GridUnit = UNITS[RESTART_STEP][index].ToString();
+                }
+
+                long pointer = POINTER[RESTART_STEP][index];
+                long pointerb = POINTERB[RESTART_STEP][index];
+
+
+                br.SetPosition(pointerb * 2147483648 + pointer);
+            };
+
+            br.OpenBinaryFile(FILENAME);
+            SetPosition("FLRWATI+");
+            br.ReadHeader();
+
+            FLOWI = br.ReadFloatList(br.header.count);
+
+            SetPosition("FLRWATJ+");
+            br.ReadHeader();
+
+            FLOWJ = br.ReadFloatList(br.header.count);
+
+            br.CloseBinaryFile();
+        }
     }
+
 
 }

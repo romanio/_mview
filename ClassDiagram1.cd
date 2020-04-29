@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="mview.Form2D">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGBAMIAAKEAQBACCACAwBBiABoIAAACQhUAAIVJAQA=</HashCode>
+      <FileName>Show2D\Form2D.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="mview.Form2DModel">
+    <Position X="2.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>CALABCRYiAIACgJgQIAABgACADBEAwBBAIAaAASQAAE=</HashCode>
+      <FileName>Show2D\Form2DModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="engine" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="mview.Engine2D">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>Ai6ABQQAAkIAIAQoQAAAAAACwAUEEAAkQIAAAgCQAAA=</HashCode>
+      <FileName>Show2D\Engine2D.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="camera" />
+      <Field Name="grid" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="mview.Camera2D">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAYAAAAAACIAAAAAAAQIABDACAAAA=</HashCode>
+      <FileName>Show2D\Camera2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="mview.Grid2D">
+    <Position X="8.75" Y="4.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QKABEAwAAAB4CAAAgEIABAAAhABFAgQKQAAAECgAIAE=</HashCode>
+      <FileName>Show2D\Grid2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

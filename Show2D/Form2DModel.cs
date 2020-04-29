@@ -19,10 +19,14 @@ namespace mview
         public bool ShowGridLines = true;
         public bool ShowAllWelltrack = true;
         public bool ShowBubbles = true;
+        public bool ShowNoFillColor = false;
+        public bool ShowVectorField = false;
+
         public BubbleMode BubbleMode = BubbleMode.Simulation;
         public double MinValue = 0;
         public double MaxValue = 1;
-        public double ScaleFactor = 100;
+        public double ScaleFactor = 30;
+        public double ZScale = 12;
         public double StretchFactor = 0;
     }
 
@@ -77,24 +81,27 @@ namespace mview
             ApplyStyle();
             
         }
-
         public void ApplyStyleData()
         {
             engine.SetStyle(style);
+
             engine.grid.colorizer.SetMinimum(style.MinValue);
             engine.grid.colorizer.SetMaximum(style.MaxValue);
             engine.grid.StretchFactor = (float)style.StretchFactor;
-        }
 
+        }
 
         public void ApplyStyle()
         {
             engine.SetStyle(style);
+
             engine.grid.colorizer.SetMinimum(style.MinValue);
             engine.grid.colorizer.SetMaximum(style.MaxValue);
             engine.grid.StretchFactor = (float)style.StretchFactor;
+            engine.camera.scale_z = (float)style.ZScale;
 
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
+
             engine.grid.RefreshGrid();
         }
 
@@ -219,6 +226,14 @@ namespace mview
             GenerateWellCoord();
         }
 
+        public void ReadVectorField()
+        {
+            if (style.ShowVectorField)
+            {
+                ecl.RESTART.ReadVectorFile();
+            }
+        }
+
         public List<string> GetStaticProperties()
         {
             var StaticProperties = new List<string>();
@@ -327,10 +342,7 @@ namespace mview
                         (int)((float)(ecl.INIT.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
                         ]++;
             }
-
-            System.Diagnostics.Debug.WriteLine("... call Grid2D [GenerateGrid] from Form2DModel [SetStaticProperty = " + name + " ]");
-
-        }
+       }
 
         string GridUnit = null;
         float PropertyMinValue = 0;
@@ -349,6 +361,7 @@ namespace mview
         {
             engine.grid.GenerateGrid(ecl.RESTART.GetValue);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
+            engine.grid.GenerateVectorFiled();
         }
 
         public void SetDynamicProperty(string name)
@@ -378,8 +391,6 @@ namespace mview
                             (int)((float)(ecl.RESTART.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
                             ]++;
                 }
-
-                System.Diagnostics.Debug.WriteLine("... call Grid2D [GenerateGrid] from Form2DModel [SetDynamicProperty = " + name + " ]");
             }
         }
 
@@ -436,6 +447,7 @@ namespace mview
         {
             engine.MouseWheel(e);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
+            engine.grid.GenerateVectorFiled();
         }
 
         public void MouseClick(MouseEventArgs e)

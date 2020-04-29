@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using OxyPlot;
 using OxyPlot.Series;
-using OxyPlot.WindowsForms;
 using OxyPlot.Axes;
 
 namespace mview
@@ -125,8 +119,11 @@ namespace mview
 
             checkShowGridLines.Checked = Style.ShowGridLines;
             checkShowBubbles.Checked = Style.ShowBubbles;
+            checkNoFillColor.Checked = Style.ShowNoFillColor;
+
             boxBubbleMode.SelectedIndex = 0;
             numericScaleFactor.Value = (decimal)Style.ScaleFactor;
+            numericZScale.Value = (decimal)Style.ZScale;
 
             boxMinimum.Text = Style.MinValue.ToString();
             boxMaximum.Text = Style.MaxValue.ToString();
@@ -159,7 +156,6 @@ namespace mview
             Style.MinValue = m_propertyMinValue;
 
             if (UpdateMode) return;
-
 
             UpdateData(sender, e);
         }
@@ -256,6 +252,24 @@ namespace mview
             if (UpdateMode) return;
 
             Style.ScaleFactor = (double)numericScaleFactor.Value;
+
+            UpdateData(sender, e);
+        }
+
+        private void numericZScale_ValueChanged(object sender, EventArgs e)
+        {
+            if (UpdateMode) return;
+
+            Style.ZScale = (double)numericZScale.Value;
+
+            UpdateData(sender, e);
+        }
+
+        private void checkNoFillColor_CheckedChanged(object sender, EventArgs e)
+        {
+            Style.ShowNoFillColor = checkNoFillColor.Checked;
+
+            if (UpdateMode) return;
 
             UpdateData(sender, e);
         }

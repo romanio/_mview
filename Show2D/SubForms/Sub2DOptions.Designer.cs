@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.plotView = new OxyPlot.WindowsForms.PlotView();
             this.MaxColorDefault = new System.Windows.Forms.Button();
             this.MinColorDefault = new System.Windows.Forms.Button();
@@ -37,55 +35,25 @@
             this.boxMinimum = new System.Windows.Forms.TextBox();
             this.labelMax = new System.Windows.Forms.Label();
             this.labelMin = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.numericZScale = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.trackStratch = new System.Windows.Forms.TrackBar();
             this.checkShowAllWell = new System.Windows.Forms.CheckBox();
             this.checkShowGridLines = new System.Windows.Forms.CheckBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.checkShowBubbles = new System.Windows.Forms.CheckBox();
             this.boxBubbleMode = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
             this.numericScaleFactor = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.checkNoFillColor = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.numericZScale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackStratch)).BeginInit();
-            this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericScaleFactor)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(297, 429);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.plotView);
-            this.tabPage1.Controls.Add(this.MaxColorDefault);
-            this.tabPage1.Controls.Add(this.MinColorDefault);
-            this.tabPage1.Controls.Add(this.boxMaximum);
-            this.tabPage1.Controls.Add(this.boxMinimum);
-            this.tabPage1.Controls.Add(this.labelMax);
-            this.tabPage1.Controls.Add(this.labelMin);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(289, 403);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Colors";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // plotView
             // 
@@ -94,10 +62,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.plotView.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.plotView.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.plotView.Location = new System.Drawing.Point(6, 97);
+            this.plotView.Location = new System.Drawing.Point(249, 489);
             this.plotView.Name = "plotView";
             this.plotView.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView.Size = new System.Drawing.Size(277, 230);
+            this.plotView.Size = new System.Drawing.Size(267, 138);
             this.plotView.TabIndex = 72;
             this.plotView.Text = "plotHisto";
             this.plotView.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
@@ -107,7 +75,7 @@
             // MaxColorDefault
             // 
             this.MaxColorDefault.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MaxColorDefault.Location = new System.Drawing.Point(161, 53);
+            this.MaxColorDefault.Location = new System.Drawing.Point(161, 93);
             this.MaxColorDefault.Name = "MaxColorDefault";
             this.MaxColorDefault.Size = new System.Drawing.Size(24, 21);
             this.MaxColorDefault.TabIndex = 71;
@@ -118,7 +86,7 @@
             // MinColorDefault
             // 
             this.MinColorDefault.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MinColorDefault.Location = new System.Drawing.Point(161, 20);
+            this.MinColorDefault.Location = new System.Drawing.Point(161, 60);
             this.MinColorDefault.Name = "MinColorDefault";
             this.MinColorDefault.Size = new System.Drawing.Size(24, 22);
             this.MinColorDefault.TabIndex = 70;
@@ -128,7 +96,7 @@
             // 
             // boxMaximum
             // 
-            this.boxMaximum.Location = new System.Drawing.Point(79, 53);
+            this.boxMaximum.Location = new System.Drawing.Point(79, 93);
             this.boxMaximum.Name = "boxMaximum";
             this.boxMaximum.Size = new System.Drawing.Size(76, 21);
             this.boxMaximum.TabIndex = 67;
@@ -138,7 +106,7 @@
             // 
             // boxMinimum
             // 
-            this.boxMinimum.Location = new System.Drawing.Point(79, 21);
+            this.boxMinimum.Location = new System.Drawing.Point(79, 61);
             this.boxMinimum.Name = "boxMinimum";
             this.boxMinimum.Size = new System.Drawing.Size(76, 21);
             this.boxMinimum.TabIndex = 66;
@@ -149,7 +117,7 @@
             // labelMax
             // 
             this.labelMax.AutoSize = true;
-            this.labelMax.Location = new System.Drawing.Point(25, 56);
+            this.labelMax.Location = new System.Drawing.Point(25, 96);
             this.labelMax.Name = "labelMax";
             this.labelMax.Size = new System.Drawing.Size(51, 13);
             this.labelMax.TabIndex = 69;
@@ -158,30 +126,48 @@
             // labelMin
             // 
             this.labelMin.AutoSize = true;
-            this.labelMin.Location = new System.Drawing.Point(26, 24);
+            this.labelMin.Location = new System.Drawing.Point(26, 64);
             this.labelMin.Name = "labelMin";
             this.labelMin.Size = new System.Drawing.Size(47, 13);
             this.labelMin.TabIndex = 68;
             this.labelMin.Text = "Minimum";
             // 
-            // tabPage2
+            // numericZScale
             // 
-            this.tabPage2.Controls.Add(this.label2);
-            this.tabPage2.Controls.Add(this.trackStratch);
-            this.tabPage2.Controls.Add(this.checkShowAllWell);
-            this.tabPage2.Controls.Add(this.checkShowGridLines);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(289, 403);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Grid";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.numericZScale.Location = new System.Drawing.Point(91, 354);
+            this.numericZScale.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericZScale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericZScale.Name = "numericZScale";
+            this.numericZScale.Size = new System.Drawing.Size(64, 21);
+            this.numericZScale.TabIndex = 70;
+            this.numericZScale.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+            this.numericZScale.ValueChanged += new System.EventHandler(this.numericZScale_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(25, 356);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 69;
+            this.label1.Text = "Z Scale";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 112);
+            this.label2.Location = new System.Drawing.Point(25, 402);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(74, 13);
             this.label2.TabIndex = 67;
@@ -189,8 +175,8 @@
             // 
             // trackStratch
             // 
-            this.trackStratch.BackColor = System.Drawing.SystemColors.Window;
-            this.trackStratch.Location = new System.Drawing.Point(20, 160);
+            this.trackStratch.BackColor = System.Drawing.Color.MintCream;
+            this.trackStratch.Location = new System.Drawing.Point(28, 439);
             this.trackStratch.Maximum = 100;
             this.trackStratch.Name = "trackStratch";
             this.trackStratch.Size = new System.Drawing.Size(178, 45);
@@ -204,7 +190,7 @@
             this.checkShowAllWell.AutoSize = true;
             this.checkShowAllWell.Checked = true;
             this.checkShowAllWell.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowAllWell.Location = new System.Drawing.Point(21, 63);
+            this.checkShowAllWell.Location = new System.Drawing.Point(28, 275);
             this.checkShowAllWell.Name = "checkShowAllWell";
             this.checkShowAllWell.Size = new System.Drawing.Size(113, 17);
             this.checkShowAllWell.TabIndex = 64;
@@ -217,7 +203,7 @@
             this.checkShowGridLines.AutoSize = true;
             this.checkShowGridLines.Checked = true;
             this.checkShowGridLines.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowGridLines.Location = new System.Drawing.Point(21, 22);
+            this.checkShowGridLines.Location = new System.Drawing.Point(28, 234);
             this.checkShowGridLines.Name = "checkShowGridLines";
             this.checkShowGridLines.Size = new System.Drawing.Size(97, 17);
             this.checkShowGridLines.TabIndex = 63;
@@ -225,26 +211,12 @@
             this.checkShowGridLines.UseVisualStyleBackColor = true;
             this.checkShowGridLines.CheckedChanged += new System.EventHandler(this.checkShowGridLines_CheckedChanged);
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.checkShowBubbles);
-            this.tabPage3.Controls.Add(this.boxBubbleMode);
-            this.tabPage3.Controls.Add(this.label21);
-            this.tabPage3.Controls.Add(this.numericScaleFactor);
-            this.tabPage3.Controls.Add(this.label22);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(289, 403);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Bubbles";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // checkShowBubbles
             // 
             this.checkShowBubbles.AutoSize = true;
             this.checkShowBubbles.Checked = true;
             this.checkShowBubbles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkShowBubbles.Location = new System.Drawing.Point(20, 18);
+            this.checkShowBubbles.Location = new System.Drawing.Point(212, 229);
             this.checkShowBubbles.Name = "checkShowBubbles";
             this.checkShowBubbles.Size = new System.Drawing.Size(92, 17);
             this.checkShowBubbles.TabIndex = 56;
@@ -260,7 +232,7 @@
             this.boxBubbleMode.Items.AddRange(new object[] {
             "Simulation",
             "History"});
-            this.boxBubbleMode.Location = new System.Drawing.Point(123, 52);
+            this.boxBubbleMode.Location = new System.Drawing.Point(315, 263);
             this.boxBubbleMode.Name = "boxBubbleMode";
             this.boxBubbleMode.Size = new System.Drawing.Size(106, 21);
             this.boxBubbleMode.TabIndex = 58;
@@ -269,7 +241,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(21, 55);
+            this.label21.Location = new System.Drawing.Point(213, 266);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(91, 13);
             this.label21.TabIndex = 57;
@@ -277,7 +249,7 @@
             // 
             // numericScaleFactor
             // 
-            this.numericScaleFactor.Location = new System.Drawing.Point(123, 96);
+            this.numericScaleFactor.Location = new System.Drawing.Point(315, 307);
             this.numericScaleFactor.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -301,43 +273,98 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(21, 98);
+            this.label22.Location = new System.Drawing.Point(213, 309);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(64, 13);
             this.label22.TabIndex = 60;
             this.label22.Text = "Scale factor";
             // 
-            // Form2DOptions
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(26, 18);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(37, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Colors";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(26, 198);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(26, 13);
+            this.label4.TabIndex = 73;
+            this.label4.Text = "Grid";
+            // 
+            // checkNoFillColor
+            // 
+            this.checkNoFillColor.AutoSize = true;
+            this.checkNoFillColor.Checked = true;
+            this.checkNoFillColor.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkNoFillColor.Location = new System.Drawing.Point(28, 311);
+            this.checkNoFillColor.Name = "checkNoFillColor";
+            this.checkNoFillColor.Size = new System.Drawing.Size(82, 17);
+            this.checkNoFillColor.TabIndex = 71;
+            this.checkNoFillColor.Text = "No Fill Color";
+            this.checkNoFillColor.UseVisualStyleBackColor = true;
+            this.checkNoFillColor.CheckedChanged += new System.EventHandler(this.checkNoFillColor_CheckedChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(214, 198);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 13);
+            this.label5.TabIndex = 74;
+            this.label5.Text = "Bubbles";
+            // 
+            // Sub2DOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(321, 453);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(496, 629);
+            this.Controls.Add(this.checkShowBubbles);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.boxBubbleMode);
+            this.Controls.Add(this.trackStratch);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.numericScaleFactor);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.numericZScale);
+            this.Controls.Add(this.checkNoFillColor);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.plotView);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.MaxColorDefault);
+            this.Controls.Add(this.checkShowAllWell);
+            this.Controls.Add(this.checkShowGridLines);
+            this.Controls.Add(this.MinColorDefault);
+            this.Controls.Add(this.labelMin);
+            this.Controls.Add(this.boxMaximum);
+            this.Controls.Add(this.labelMax);
+            this.Controls.Add(this.boxMinimum);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form2DOptions";
+            this.Name = "Sub2DOptions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "2D View Options";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SubFormOptions_FormClosing);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericZScale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackStratch)).EndInit();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericScaleFactor)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button MaxColorDefault;
         private System.Windows.Forms.Button MinColorDefault;
         public System.Windows.Forms.TextBox boxMaximum;
@@ -349,11 +376,16 @@
         public System.Windows.Forms.CheckBox checkShowGridLines;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TrackBar trackStratch;
-        private System.Windows.Forms.TabPage tabPage3;
         public System.Windows.Forms.CheckBox checkShowBubbles;
         public System.Windows.Forms.ComboBox boxBubbleMode;
         private System.Windows.Forms.Label label21;
         public System.Windows.Forms.NumericUpDown numericScaleFactor;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.NumericUpDown numericZScale;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        public System.Windows.Forms.CheckBox checkNoFillColor;
+        private System.Windows.Forms.Label label5;
     }
 }

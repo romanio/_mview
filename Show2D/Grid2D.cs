@@ -11,7 +11,6 @@ using System.Drawing;
 
 namespace mview
 {
-
     public class Grid2D
     {
         public List<WELLDATA> WELLS; // Опасная копия данных с рестарт файла
@@ -45,6 +44,68 @@ namespace mview
         public int YA = 0;
 
         public int welsID;
+        public int vectorID;
+
+        public void GenerateVectorFiled()
+        {
+            System.Diagnostics.Debug.WriteLine("Grid2D [GenerateVectorField]");
+
+            GL.NewList(vectorID, ListMode.Compile);
+
+            GL.LineWidth(2);
+            GL.Color3(Color.Black);
+
+            GL.Begin(PrimitiveType.Lines);
+
+            if (ecl.RESTART.FLOWI != null)
+            {
+                long cell_index = 0;
+                double FLOWI;
+                double FLOWJ;
+                double len;
+                double scale;
+
+                Cell CELL;
+                float XC, YC;
+
+                for (int X = 0; X < ecl.EGRID.NX; ++X)
+                    for (int Y = 0; Y < ecl.EGRID.NY; ++Y)
+                    {
+                        cell_index = ecl.INIT.GetActive(X, Y, ZA);
+
+                        if (cell_index > 0)
+                        {
+                            CELL = ecl.EGRID.GetCell(X, Y, ZA);
+                            XC = 0.5f * (CELL.TNW.X + CELL.TSE.X);
+                            YC = 0.5f * (CELL.TNW.Y + CELL.TSE.Y);
+
+                            GL.Vertex3(XC, YC, 0.2);
+
+                            FLOWI = ecl.RESTART.FLOWI[cell_index - 1];
+                            FLOWJ = ecl.RESTART.FLOWJ[cell_index - 1];
+
+                            len = Math.Sqrt(FLOWI * FLOWI + FLOWJ * FLOWJ);
+
+                            scale = len / 2;
+
+                            if (scale > 1)
+                            {
+                                FLOWI = FLOWI / scale;
+                                FLOWJ = FLOWJ / scale;
+                            }
+
+                            GL.Vertex3(XC + FLOWI, YC + FLOWJ, 0.3);
+                        }
+                    }
+            }
+                
+            GL.End();
+            GL.LineWidth(1);
+            GL.EndList();
+
+            System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
+        }
+
 
         public void GenerateWellDrawList(bool show_all)
         {

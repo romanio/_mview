@@ -20,6 +20,7 @@ namespace mview
         public Form2D(EclipseProject ecl)
         {
             InitializeComponent();
+
             model = new Form2DModel(ecl);
             subOptions = new Sub2DOptions(model.style);
             subOptions.UpdateData += new EventHandler(this.OnSubFormOptions);
@@ -31,6 +32,8 @@ namespace mview
 
             ucSetFocusOn.Visible = false;
             ucSetFocusOn.SelectedIndexChanged += new EventHandler(this.OnUCWellsSelected);
+
+            tabSliceControl.SelectedIndex = 2;
         }
 
         private void OnSubFormOptions(object sender, EventArgs e)
@@ -128,6 +131,7 @@ namespace mview
             System.Diagnostics.Debug.WriteLine("Form2D [BoxRestart SelectedIndexChanged]");
 
             model.ReadRestart(boxRestart.SelectedIndex);
+            model.ReadVectorField();
             treeProperties_AfterSelect(null, null);
         }
 

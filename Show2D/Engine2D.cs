@@ -8,6 +8,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Security.Principal;
 
 namespace mview
 {
@@ -177,7 +178,7 @@ namespace mview
         public void OnLoad()
         {
             System.Diagnostics.Debug.WriteLine("Engine [OnLoad]");
-
+         //   GL.Enable(EnableCap.PolygonSmooth);
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.PolygonOffsetFill);
             GL.ClearColor(Color.White);
@@ -186,7 +187,8 @@ namespace mview
 
             vboID = GL.GenBuffer();
             eboID = GL.GenBuffer();
-            grid.welsID = GL.GenLists(1);
+            grid.welsID = GL.GenLists(2);
+            grid.vectorID = grid.welsID + 1;
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vboID);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, eboID);
@@ -202,7 +204,7 @@ namespace mview
 
             GL.DeleteBuffer(vboID);
             GL.DeleteBuffer(eboID);
-            GL.DeleteLists(grid.welsID, 1);
+            GL.DeleteLists(grid.welsID, 2);
         }
 
         public int width, height; // Параметры окна вывода
@@ -238,10 +240,24 @@ namespace mview
 
         public void DrawWells()
         {
+            System.Diagnostics.Debug.WriteLine("Engine [DrawWells]");
+
             GL.CallList(grid.welsID);
 
             CoordConverter cordconv = new CoordConverter(this);
             cordconv.CurrentViewMode = CurrentViewMode;
+
+
+            /*
+            if (render != null)
+                render.Dispose(); // Удаляем старый рендер текста
+
+            render = new BitmapRender(width, height); // И объявляем новый
+    */        
+    render.Clear(Color.Transparent);
+           
+
+//            render.Clear(Color.Transparent);
 
             foreach (ECL.WELLDATA well in grid.ACTIVE_WELLS)
             {
@@ -251,6 +267,12 @@ namespace mview
                 }
             }
         }
+
+        public void DrawVectorField()
+        {
+            GL.CallList(grid.vectorID);
+        }
+
 
         public void DrawFrame() // Рамка вокруг модели
         {
@@ -308,13 +330,17 @@ namespace mview
                 render.Clear(Color.Transparent);
 
                 DrawWells();
+                DrawVectorField();
 
                 // Отрисовка ячеек
 
-                GL.PolygonOffset(+1, +1);
-                GL.EnableClientState(ArrayCap.ColorArray);
-                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-                GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
+                if (style.ShowNoFillColor == false)
+                {
+                    GL.PolygonOffset(+1, +1);
+                    GL.EnableClientState(ArrayCap.ColorArray);
+                    GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+                    GL.DrawElements(PrimitiveType.Quads, grid.element_count, DrawElementsType.UnsignedInt, 0);
+                }
 
                 // Отрисовка границ ячеек
 
@@ -422,30 +448,36 @@ namespace mview
                 }
             }
 
+
+
             DrawFrame();
 
-            // Вывод текста текстурой
-            GL.Enable(EnableCap.Texture2D);
-            GL.BindTexture(TextureTarget.Texture2D, render.Texture);
 
-            GL.LoadIdentity();
+            if (grid.element_count > 0)
+            {
+                // Вывод текста текстурой
 
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+                GL.Enable(EnableCap.Texture2D);
+                GL.BindTexture(TextureTarget.Texture2D, render.Texture);
 
-            GL.Begin(PrimitiveType.Quads);
-            GL.Color4(Color.White);
+                GL.LoadIdentity();
 
-            GL.TexCoord2(0, 1); GL.Vertex3(-0.5 * width, +0.5 * height, +0.3);
-            GL.TexCoord2(1, 1); GL.Vertex3(+0.5 * width, +0.5 * height, +0.3);
-            GL.TexCoord2(1, 0); GL.Vertex3(+0.5 * width, -0.5 * height, +0.3);
-            GL.TexCoord2(0, 0); GL.Vertex3(-0.5 * width, -0.5 * height, +0.3);
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
 
-            GL.End();
+                GL.Begin(PrimitiveType.Quads);
+                GL.Color4(Color.White);
 
-            GL.Disable(EnableCap.Blend);
-            GL.Disable(EnableCap.Texture2D);
-        
+                GL.TexCoord2(0, 1); GL.Vertex3(-0.5 * width, +0.5 * height, +0.3);
+                GL.TexCoord2(1, 1); GL.Vertex3(+0.5 * width, +0.5 * height, +0.3);
+                GL.TexCoord2(1, 0); GL.Vertex3(+0.5 * width, -0.5 * height, +0.3);
+                GL.TexCoord2(0, 0); GL.Vertex3(-0.5 * width, -0.5 * height, +0.3);
+
+                GL.End();
+
+                GL.Disable(EnableCap.Blend);
+                GL.Disable(EnableCap.Texture2D);
+            }
         }
 
         Form2DModelStyle style = new Form2DModelStyle()
@@ -453,6 +485,7 @@ namespace mview
             ShowBubbles = true,
             ShowGridLines = true,
             ShowAllWelltrack = true,
+            ShowNoFillColor = false,
             BubbleMode = BubbleMode.Simulation,
             ScaleFactor = 100
         };
