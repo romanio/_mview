@@ -181,6 +181,12 @@ namespace mview
                  select item.WELLNAME).ToArray();
          }
 
+        public ECL.WELLDATA GetWellData(string wellname)
+        {
+            return ecl.RESTART.WELLS.FirstOrDefault(c => c.WELLNAME == wellname);
+        }
+
+
         public void SetFocusOnWell(string wellname)
         {
             var well = engine.grid.WELLS.FirstOrDefault(c => c.WELLNAME == wellname);
@@ -220,11 +226,13 @@ namespace mview
             engine.grid.GenerateWellDrawList(true);
         }
 
+        
         public void ReadRestart(int step)
         {
             ecl.ReadRestart(step);
             GenerateWellCoord();
         }
+
 
         public void ReadVectorField()
         {
@@ -351,7 +359,6 @@ namespace mview
 
         public void GenerateStaticGrid()
         {
-
             engine.grid.GenerateGrid(ecl.INIT.GetValue);
             engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
         }

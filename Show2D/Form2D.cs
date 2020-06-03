@@ -13,9 +13,9 @@ namespace mview
     public partial class Form2D : Form
     {
         Form2DModel model = null;
-        UCSetFocusOn ucSetFocusOn = null;
         Sub2DOptions subOptions = null;
-
+        SubSetFocusOn subFocusOn = null;
+        SubWellModel subWellModel = null;
 
         public Form2D(EclipseProject ecl)
         {
@@ -24,16 +24,19 @@ namespace mview
             model = new Form2DModel(ecl);
             subOptions = new Sub2DOptions(model.style);
             subOptions.UpdateData += new EventHandler(this.OnSubFormOptions);
-            // 
 
-            ucSetFocusOn = new UCSetFocusOn();
-            this.Controls.Add(ucSetFocusOn);
-            ucSetFocusOn.BringToFront();
+            subFocusOn = new SubSetFocusOn(model.style);
+            subFocusOn.UpdateData += new EventHandler(this.OnSubFocusOn);
 
-            ucSetFocusOn.Visible = false;
-            ucSetFocusOn.SelectedIndexChanged += new EventHandler(this.OnUCWellsSelected);
+            subWellModel = new SubWellModel(model.style);
+            subWellModel.UpdateData += new EventHandler(this.OnSubWellModelUpdate);
 
             tabSliceControl.SelectedIndex = 2;
+        }
+
+        private void OnSubWellModelUpdate(object sender, EventArgs e)
+        {
+            subWellModel.WellData = model.GetWellData(((ListBox)sender).SelectedItem.ToString());
         }
 
         private void OnSubFormOptions(object sender, EventArgs e)
@@ -43,7 +46,7 @@ namespace mview
             glControlOnPaint(null, null);
         }
 
-        private void OnUCWellsSelected(object sender, EventArgs e)
+        private void OnSubFocusOn(object sender, EventArgs e)
         {
             model.SetFocusOnWell(((ListBox)sender).SelectedItem.ToString());
             glControl.SwapBuffers();
@@ -228,6 +231,8 @@ namespace mview
         {
             model.OnUnload();
             subOptions.Close();
+            subWellModel.Close();
+            subFocusOn.Close();
         }
 
         private void boxXSlice_SelectedIndexChanged(object sender, EventArgs e)
@@ -271,14 +276,11 @@ namespace mview
 
         private void bbSetFocusOn_Click(object sender, EventArgs e)
         {
-            ucSetFocusOn.Location = new Point(bbSetFocusOn.Location.X, bbSetFocusOn.Location.Y + bbSetFocusOn.Height + 8);
-            ucSetFocusOn.Visible = !ucSetFocusOn.Visible;
+            subFocusOn.listWells.Items.Clear();
+            subFocusOn.listWells.Items.AddRange(model.GetWellNames());
 
-            if (ucSetFocusOn.Visible)
-            {
-                ucSetFocusOn.listWells.Items.Clear();
-                ucSetFocusOn.listWells.Items.AddRange(model.GetWellNames());
-            }
+            subFocusOn.Show();
+            subFocusOn.Focus();
         }
 
         private void tabSliceControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -302,9 +304,15 @@ namespace mview
                 model.SetPosition(ViewMode.Z);
                 glControlOnPaint(null, null);
             }
+        }
 
-            
-           
+        private void bbWellModel_Click(object sender, EventArgs e)
+        {
+            subWellModel.listWells.Items.Clear();
+            subWellModel.listWells.Items.AddRange(model.GetWellNames());
+
+            subWellModel.Show();
+            subWellModel.Focus();
         }
     }
 }

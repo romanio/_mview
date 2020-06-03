@@ -44,18 +44,18 @@ namespace mview
                 ((CategoryAxis)plotModel.Axes[0]).ItemsSource = xvalues;
 
                 //
-                plotModel.Series.Add(new ColumnSeries { });
+                plotModel.Series.Add(new BarSeries { });
 
                 for (int iw = 0; iw < 20; ++iw)
                 {
-                    ((ColumnSeries)plotModel.Series[0]).Items.Add(new ColumnItem
+                    ((BarSeries)plotModel.Series[0]).Items.Add(new BarItem
                     {
                         CategoryIndex = iw,
                         Value = value[iw]
                     });
                 }
 
-                ((ColumnSeries)plotModel.Series[0]).FillColor = OxyColor.FromArgb(255, 255, 120, 0);
+                ((BarSeries)plotModel.Series[0]).FillColor = OxyColor.FromArgb(255, 255, 120, 0);
                 plotModel.Axes[0].Reset();
                 plotModel.Axes[1].Reset();
                 plotModel.InvalidatePlot(true);

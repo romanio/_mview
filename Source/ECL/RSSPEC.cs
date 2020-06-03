@@ -34,6 +34,7 @@ namespace mview.ECL
         public float S;
         public float Complex; // ln(R/Rw)+S
         public float H; // DZ * NTG
+        public float s38;
 
         public double Hw;
         public double OPR;
@@ -68,7 +69,7 @@ namespace mview.ECL
         public float WLPRH;
         public float REF_DEPTH;
         public float WEFA;
-        public float BHPH;
+        public float WBHPH;
         public double WOPR;
         public double WWPR;
         public double WLPR;
@@ -330,7 +331,7 @@ namespace mview.ECL
                         WELLS[iw].WLPRH = SWEL[iw * NSWELZ + 3];
                         WELLS[iw].REF_DEPTH = SWEL[iw * NSWELZ + 9];
                         WELLS[iw].WEFA = SWEL[iw * NSWELZ + 24];
-                        WELLS[iw].BHPH = SWEL[iw * NSWELZ + 68];
+                        WELLS[iw].WBHPH = SWEL[iw * NSWELZ + 68];
                     }
 
                     SetPosition("XWEL");
@@ -407,6 +408,7 @@ namespace mview.ECL
                                     S = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 4],
                                     Complex = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 6],
                                     H = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 31],
+                                    s38 = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 38],
 
                                     OPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 0],
                                     WPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 1],

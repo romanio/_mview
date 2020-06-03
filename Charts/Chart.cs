@@ -60,17 +60,20 @@ namespace mview
 
         public void InitChart()
         {
+           
             plotModel = new PlotModel
-            {
+            { 
                 Title = "(No wells yet)",
-                DefaultFont = "Tahoma",
-                TitleFontWeight = 2,
-                TitleFontSize = 10,
-                LegendFontSize = 10,
-                LegendPosition = chartController.LegendPosition,
+                DefaultFont = "Segoe UI",
+               
+                TitleFontSize = 12,
+                //OxyPlot.Legends. LegendFontSize = 10,
+                // LegendPosition = chartController.LegendPosition,
                 
-                DefaultFontSize = 10
+                DefaultFontSize = 11
             };
+
+  ;
 
             if (chartController.AxisX == "TIME")
             {
@@ -110,7 +113,7 @@ namespace mview
                 DefaultFont = "Tahoma",
                 TitleFontWeight = 2,
                 TitleFontSize = 10,
-                LegendFontSize = 10,
+                //LegendFontSize = 10,
                // LegendPosition = chartController.LegendPosition,
 
                 DefaultFontSize = 10
@@ -213,7 +216,7 @@ namespace mview
                     Title = "Sim",
                     LineStyle = OxyPlot.LineStyle.Solid,
                     StrokeThickness = 2,
-                    Smooth = false,
+                    //Smooth = false,
                     MarkerType =  OxyPlot.MarkerType.Circle,
                     MarkerSize = 3
                 });
@@ -228,7 +231,7 @@ namespace mview
                     Title = "Hist",
                     LineStyle = OxyPlot.LineStyle.Solid,
                     StrokeThickness = 2,
-                    Smooth = false,
+                    //Smooth = false,
                     MarkerType = OxyPlot.MarkerType.Circle,
                     MarkerSize = 3
                 });
@@ -330,7 +333,7 @@ namespace mview
                                 Title = listKeywords.SelectedItems[iw].ToString() + "." + model.GetName(selected_pm[ip]),
                                 LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
                                 StrokeThickness = tmp_style?.LineWidth ?? 1,
-                                Smooth = tmp_style?.LineSmooth ?? false,
+                                //Smooth = tmp_style?.LineSmooth ?? false,
                                 MarkerType = tmp_style?.MarkerType ?? OxyPlot.MarkerType.Circle,
                                 MarkerSize = tmp_style?.MarkerSize ?? 3,
                             };
@@ -369,7 +372,7 @@ namespace mview
                             Title = listKeywords.SelectedItems[iw].ToString() + ".av." +model.GetName(selected_pm[ip]),
                             LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
                             StrokeThickness = tmp_style?.LineWidth ?? 1,
-                            Smooth = tmp_style?.LineSmooth ?? false,
+                            //Smooth = tmp_style?.LineSmooth ?? false,
                             MarkerType = tmp_style?.MarkerType ?? OxyPlot.MarkerType.Circle,
                             MarkerSize = tmp_style?.MarkerSize ?? 3
                         };
@@ -422,7 +425,7 @@ namespace mview
                             Title = listKeywords.SelectedItems[iw].ToString() + ".sum." + model.GetName(selected_pm[ip]),
                             LineStyle = tmp_style?.LineStyle ?? OxyPlot.LineStyle.Solid,
                             StrokeThickness = tmp_style?.LineWidth ?? 1,
-                            Smooth = tmp_style?.LineSmooth ?? false,
+                            //Smooth = tmp_style?.LineSmooth ?? false,
                             MarkerType = tmp_style?.MarkerType ?? OxyPlot.MarkerType.Circle,
                             MarkerSize = tmp_style?.MarkerSize ?? 3
                         };

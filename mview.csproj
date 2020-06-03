@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>mview</RootNamespace>
     <AssemblyName>mview</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -62,17 +63,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Show2D\SubForms\SubWellModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Show2D\SubForms\SubWellModel.Designer.cs">
+      <DependentUpon>SubWellModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Show2D\SubForms\SubSetFocusOn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Show2D\SubForms\SubSetFocusOn.Designer.cs">
+      <DependentUpon>SubSetFocusOn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Show2D\SubForms\Sub2DOptions.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Show2D\SubForms\Sub2DOptions.Designer.cs">
       <DependentUpon>Sub2DOptions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Show2D\SubForms\UCSetFocusOn.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Show2D\SubForms\UCSetFocusOn.Designer.cs">
-      <DependentUpon>UCSetFocusOn.cs</DependentUpon>
     </Compile>
     <Compile Include="CrossPlots\FormCrossPlots.cs">
       <SubType>Form</SubType>
@@ -154,11 +161,14 @@
     <EmbeddedResource Include="Main\SubForms\SubMainChartOptions.resx">
       <DependentUpon>SubMainChartOptions.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Show2D\SubForms\SubWellModel.resx">
+      <DependentUpon>SubWellModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Show2D\SubForms\SubSetFocusOn.resx">
+      <DependentUpon>SubSetFocusOn.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Show2D\SubForms\Sub2DOptions.resx">
       <DependentUpon>Sub2DOptions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Show2D\SubForms\UCSetFocusOn.resx">
-      <DependentUpon>UCSetFocusOn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CrossPlots\FormCrossPlots.resx">
       <DependentUpon>FormCrossPlots.cs</DependentUpon>
@@ -189,6 +199,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">

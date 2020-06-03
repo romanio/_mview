@@ -1,6 +1,6 @@
 ﻿namespace mview
 {
-    partial class Sub2DOptions
+    partial class SubWellModel
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             this.plotView = new OxyPlot.WindowsForms.PlotView();
             this.MaxColorDefault = new System.Windows.Forms.Button();
             this.MinColorDefault = new System.Windows.Forms.Button();
@@ -53,12 +56,39 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.listWells = new System.Windows.Forms.ListBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.gridCommon = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.gridData = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.boxChartMode = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericZScale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackStratch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericScaleFactor)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridCommon)).BeginInit();
+            this.tabControl2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridData)).BeginInit();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // plotView
@@ -68,10 +98,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.plotView.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.plotView.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.plotView.Location = new System.Drawing.Point(6, 6);
+            this.plotView.Location = new System.Drawing.Point(129, 38);
             this.plotView.Name = "plotView";
             this.plotView.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView.Size = new System.Drawing.Size(492, 363);
+            this.plotView.Size = new System.Drawing.Size(305, 568);
             this.plotView.TabIndex = 72;
             this.plotView.Text = "plotHisto";
             this.plotView.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
@@ -87,7 +117,6 @@
             this.MaxColorDefault.TabIndex = 71;
             this.MaxColorDefault.Text = "D";
             this.MaxColorDefault.UseVisualStyleBackColor = true;
-            this.MaxColorDefault.Click += new System.EventHandler(this.MaxColorDefault_Click);
             // 
             // MinColorDefault
             // 
@@ -98,7 +127,6 @@
             this.MinColorDefault.TabIndex = 70;
             this.MinColorDefault.Text = "D";
             this.MinColorDefault.UseVisualStyleBackColor = true;
-            this.MinColorDefault.Click += new System.EventHandler(this.MinColorDefault_Click);
             // 
             // boxMaximum
             // 
@@ -108,7 +136,6 @@
             this.boxMaximum.TabIndex = 67;
             this.boxMaximum.Text = "1.0";
             this.boxMaximum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.boxMaximum.Validating += new System.ComponentModel.CancelEventHandler(this.boxMaximum_Validating);
             // 
             // boxMinimum
             // 
@@ -117,8 +144,6 @@
             this.boxMinimum.Size = new System.Drawing.Size(76, 21);
             this.boxMinimum.TabIndex = 66;
             this.boxMinimum.Text = "0.0";
-            this.boxMinimum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.boxMinimum.Validating += new System.ComponentModel.CancelEventHandler(this.boxMinimum_Validating);
             // 
             // labelMax
             // 
@@ -159,7 +184,6 @@
             0,
             0,
             0});
-            this.numericZScale.ValueChanged += new System.EventHandler(this.numericZScale_ValueChanged);
             // 
             // label1
             // 
@@ -189,7 +213,6 @@
             this.trackStratch.TabIndex = 66;
             this.trackStratch.TickFrequency = 4;
             this.trackStratch.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackStratch.Scroll += new System.EventHandler(this.trackStratch_Scroll);
             // 
             // checkShowAllWell
             // 
@@ -202,7 +225,6 @@
             this.checkShowAllWell.TabIndex = 64;
             this.checkShowAllWell.Text = "Show all well track";
             this.checkShowAllWell.UseVisualStyleBackColor = true;
-            this.checkShowAllWell.CheckedChanged += new System.EventHandler(this.checkShowAllWell_CheckedChanged);
             // 
             // checkShowGridLines
             // 
@@ -215,7 +237,6 @@
             this.checkShowGridLines.TabIndex = 63;
             this.checkShowGridLines.Text = "Show grid lines";
             this.checkShowGridLines.UseVisualStyleBackColor = true;
-            this.checkShowGridLines.CheckedChanged += new System.EventHandler(this.checkShowGridLines_CheckedChanged);
             // 
             // checkShowBubbles
             // 
@@ -228,7 +249,6 @@
             this.checkShowBubbles.TabIndex = 56;
             this.checkShowBubbles.Text = "Show bubbles";
             this.checkShowBubbles.UseVisualStyleBackColor = true;
-            this.checkShowBubbles.CheckedChanged += new System.EventHandler(this.checkShowBubbles_CheckedChanged);
             // 
             // boxBubbleMode
             // 
@@ -238,11 +258,10 @@
             this.boxBubbleMode.Items.AddRange(new object[] {
             "Simulation",
             "History"});
-            this.boxBubbleMode.Location = new System.Drawing.Point(126, 385);
+            this.boxBubbleMode.Location = new System.Drawing.Point(15, 498);
             this.boxBubbleMode.Name = "boxBubbleMode";
             this.boxBubbleMode.Size = new System.Drawing.Size(106, 21);
             this.boxBubbleMode.TabIndex = 58;
-            this.boxBubbleMode.SelectedIndexChanged += new System.EventHandler(this.boxBubbleMode_SelectedIndexChanged);
             // 
             // label21
             // 
@@ -274,7 +293,6 @@
             0,
             0,
             0});
-            this.numericScaleFactor.ValueChanged += new System.EventHandler(this.numericScaleFactor_ValueChanged);
             // 
             // label22
             // 
@@ -316,7 +334,6 @@
             this.checkNoFillColor.TabIndex = 71;
             this.checkNoFillColor.Text = "No Fill Color";
             this.checkNoFillColor.UseVisualStyleBackColor = true;
-            this.checkNoFillColor.CheckedChanged += new System.EventHandler(this.checkNoFillColor_CheckedChanged);
             // 
             // label5
             // 
@@ -335,10 +352,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Location = new System.Drawing.Point(22, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(512, 509);
+            this.tabControl1.Size = new System.Drawing.Size(439, 529);
             this.tabControl1.TabIndex = 75;
             // 
             // tabPage1
@@ -348,7 +365,6 @@
             this.tabPage1.Controls.Add(this.boxMinimum);
             this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.labelMax);
-            this.tabPage1.Controls.Add(this.boxBubbleMode);
             this.tabPage1.Controls.Add(this.boxMaximum);
             this.tabPage1.Controls.Add(this.label21);
             this.tabPage1.Controls.Add(this.trackStratch);
@@ -367,34 +383,269 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(504, 483);
+            this.tabPage1.Size = new System.Drawing.Size(431, 503);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Grid Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.plotView);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(504, 483);
+            this.tabPage2.Size = new System.Drawing.Size(377, 0);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Statistic";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // Sub2DOptions
+            // listWells
+            // 
+            this.listWells.FormattingEnabled = true;
+            this.listWells.Location = new System.Drawing.Point(12, 38);
+            this.listWells.Name = "listWells";
+            this.listWells.Size = new System.Drawing.Size(108, 420);
+            this.listWells.Sorted = true;
+            this.listWells.TabIndex = 79;
+            this.listWells.SelectedIndexChanged += new System.EventHandler(this.listWells_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 14);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(32, 13);
+            this.label6.TabIndex = 78;
+            this.label6.Text = "Wells";
+            // 
+            // gridCommon
+            // 
+            this.gridCommon.AllowUserToAddRows = false;
+            this.gridCommon.AllowUserToDeleteRows = false;
+            this.gridCommon.AllowUserToResizeRows = false;
+            this.gridCommon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridCommon.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridCommon.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridCommon.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2});
+            this.gridCommon.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.gridCommon.Location = new System.Drawing.Point(6, 7);
+            this.gridCommon.MultiSelect = false;
+            this.gridCommon.Name = "gridCommon";
+            this.gridCommon.ReadOnly = true;
+            this.gridCommon.RowHeadersVisible = false;
+            this.gridCommon.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.gridCommon.Size = new System.Drawing.Size(305, 500);
+            this.gridCommon.TabIndex = 81;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Key";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 80;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Value";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 300;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl2.Controls.Add(this.tabPage3);
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Controls.Add(this.tabPage5);
+            this.tabControl2.Location = new System.Drawing.Point(522, 38);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(325, 539);
+            this.tabControl2.TabIndex = 82;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.gridCommon);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(317, 513);
+            this.tabPage3.TabIndex = 0;
+            this.tabPage3.Text = "Common";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.gridData);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(317, 513);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "Completions";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // gridData
+            // 
+            this.gridData.AllowUserToAddRows = false;
+            this.gridData.AllowUserToDeleteRows = false;
+            this.gridData.AllowUserToResizeRows = false;
+            this.gridData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.gridData.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.Column3,
+            this.Column4,
+            this.Column5,
+            this.Column7,
+            this.Column6,
+            this.Column8,
+            this.Column9,
+            this.Column10});
+            this.gridData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.gridData.Location = new System.Drawing.Point(6, 6);
+            this.gridData.Name = "gridData";
+            this.gridData.RowHeadersVisible = false;
+            this.gridData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.gridData.Size = new System.Drawing.Size(380, 921);
+            this.gridData.TabIndex = 83;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle13;
+            this.dataGridViewTextBoxColumn1.HeaderText = "I";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 36;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle14;
+            this.dataGridViewTextBoxColumn2.HeaderText = "J";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 37;
+            // 
+            // Column3
+            // 
+            dataGridViewCellStyle15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.Column3.DefaultCellStyle = dataGridViewCellStyle15;
+            this.Column3.HeaderText = "K";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 38;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Depth";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 61;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "KH";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            this.Column5.Width = 45;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Column7";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            this.Column7.Width = 73;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "CF";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            this.Column6.Width = 45;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "complex";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            this.Column8.Width = 71;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "s38";
+            this.Column9.Name = "Column9";
+            this.Column9.Width = 49;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Hw";
+            this.Column10.Name = "Column10";
+            this.Column10.Width = 47;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.tabControl1);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(484, 513);
+            this.tabPage5.TabIndex = 2;
+            this.tabPage5.Text = "tabPage5";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // boxChartMode
+            // 
+            this.boxChartMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxChartMode.FormattingEnabled = true;
+            this.boxChartMode.IntegralHeight = false;
+            this.boxChartMode.Items.AddRange(new object[] {
+            "Pressure",
+            "Pressure Normalized",
+            "Liquid Production",
+            "Oil Production",
+            "Water Production",
+            "Water Cut",
+            "Connection Factor"});
+            this.boxChartMode.Location = new System.Drawing.Point(195, 11);
+            this.boxChartMode.Name = "boxChartMode";
+            this.boxChartMode.Size = new System.Drawing.Size(139, 21);
+            this.boxChartMode.TabIndex = 83;
+            this.boxChartMode.SelectedIndexChanged += new System.EventHandler(this.boxChartMode_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(126, 14);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(63, 13);
+            this.label7.TabIndex = 84;
+            this.label7.Text = "Chart Mode";
+            // 
+            // SubWellModel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 535);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(883, 618);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.boxChartMode);
+            this.Controls.Add(this.plotView);
+            this.Controls.Add(this.tabControl2);
+            this.Controls.Add(this.listWells);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.boxBubbleMode);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Sub2DOptions";
+            this.Name = "SubWellModel";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "2D View Options";
+            this.Text = "2D Well Model";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SubFormOptions_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.numericZScale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackStratch)).EndInit();
@@ -402,8 +653,14 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridCommon)).EndInit();
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridData)).EndInit();
+            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -433,5 +690,27 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        public System.Windows.Forms.ListBox listWells;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridView gridCommon;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.DataGridView gridData;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        public System.Windows.Forms.ComboBox boxChartMode;
+        private System.Windows.Forms.Label label7;
     }
 }

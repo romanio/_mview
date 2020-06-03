@@ -41,7 +41,8 @@ namespace mview
         public int AxisYWidth = 1;
         public System.Drawing.Color AxisYColor;
 
-        public OxyPlot.LegendPosition LegendPosition = LegendPosition.TopRight;
+       
+        public OxyPlot.Legends.LegendPosition LegendPosition = OxyPlot.Legends.LegendPosition.TopRight;
 
         public string AxisX = "TIME";
         public string AxisY = "Normal";
@@ -112,7 +113,7 @@ namespace mview
                     AxisYWidth = Int32.Parse(text.ReadLine());
                     AxisYColor = System.Drawing.Color.FromArgb(Int32.Parse(text.ReadLine()));
 
-                    LegendPosition = (LegendPosition)Enum.Parse(typeof(LegendPosition), text.ReadLine(), true);
+                    LegendPosition = (OxyPlot.Legends.LegendPosition)Enum.Parse(typeof(OxyPlot.Legends.LegendPosition), text.ReadLine(), true);
 
                     int count = Int32.Parse(text.ReadLine());
 

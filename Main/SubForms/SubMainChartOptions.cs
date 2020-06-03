@@ -55,7 +55,7 @@ namespace mview
             boxAxisYStyle.Items.AddRange(Enum.GetNames(typeof(OxyPlot.LineStyle)));
             boxAxisYStyle.SelectedIndex = boxAxisYStyle.FindString(chartController.AxisYStyle.ToString());
 
-            boxLegendPosition.Items.AddRange(Enum.GetNames(typeof(OxyPlot.LegendPosition)));
+            boxLegendPosition.Items.AddRange(Enum.GetNames(typeof(OxyPlot.Legends.LegendPosition)));
             boxLegendPosition.SelectedIndex = boxLegendPosition.FindString(chartController.LegendPosition.ToString());
 
             //
@@ -117,7 +117,7 @@ namespace mview
 
         private void buttonApplySeries_Click(object sender, EventArgs e)
         {
-            chartController.LegendPosition = (OxyPlot.LegendPosition)Enum.Parse(typeof(OxyPlot.LegendPosition), boxLegendPosition.Text, true);
+            chartController.LegendPosition = (OxyPlot.Legends.LegendPosition)Enum.Parse(typeof(OxyPlot.Legends.LegendPosition), boxLegendPosition.Text, true);
 
             chartController.AxisXStyle = (OxyPlot.LineStyle)Enum.Parse(typeof(OxyPlot.LineStyle), boxAxisXStyle.Text, true);
             chartController.AxisXWidth = Convert.ToInt32(numericAxisXWidth.Value);

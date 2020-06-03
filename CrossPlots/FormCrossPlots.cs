@@ -54,23 +54,24 @@ namespace mview
             plotModel = new PlotModel
             {
                 Title = "(No keyword)",
-                DefaultFont = "Tahoma",
-                TitleFontWeight = 2,
-                TitleFontSize = 10,
-                DefaultFontSize = 10
+                DefaultFont = "Segoe UI",
+                TitleFontSize = 12,
+                DefaultFontSize = 11
             };
 
             plotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
             {
                 Position = AxisPosition.Bottom,
-                Title = "Simualted"
+                Title = "Simualted",
+                AxisTitleDistance = 8
             });
 
 
             plotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
             {
                 Position = OxyPlot.Axes.AxisPosition.Left,
-                Title = "Historical"
+                Title = "Historical",
+                AxisTitleDistance = 8
             });
 
             plotView1.Model = plotModel;
@@ -78,23 +79,24 @@ namespace mview
 
             plotHisto = new PlotModel
             {
-                DefaultFont = "Tahoma",
+                DefaultFont = "Segoe UI",
                 TitleFontWeight = 2,
-                TitleFontSize = 10,
-                DefaultFontSize = 10,
+                TitleFontSize = 12,
+                DefaultFontSize = 11,
             };
 
-            plotHisto.Axes.Add(new OxyPlot.Axes.CategoryAxis
-            {
-                Position = AxisPosition.Bottom,
-                Title = "Relative Deviation",
-                ItemsSource = new[] { "<10%", "10-20%", ">20%" }
-            });
+            var categoryAxes = new OxyPlot.Axes.CategoryAxis { Position = AxisPosition.Left, AxisTitleDistance = 8 };
+            categoryAxes.Title = "Relative Deviation";
+            categoryAxes.Labels.Add("<10%");
+            categoryAxes.Labels.Add("10-20%");
+            categoryAxes.Labels.Add(">20%");
 
+            plotHisto.Axes.Add(categoryAxes);
 
             plotHisto.Axes.Add(new OxyPlot.Axes.LinearAxis
             {
-                Position = OxyPlot.Axes.AxisPosition.Left,
+                Position = OxyPlot.Axes.AxisPosition.Bottom,
+                AxisTitleDistance = 8,
                 Title = "Well count"
             });
 
@@ -297,11 +299,14 @@ namespace mview
                     ((CategoryAxis)plotHisto.Axes[0]).ItemsSource = new[] { "<" + FirstCond , FirstCond + "-" + SecondCond , ">" + SecondCond};
                 }
 
-                plotHisto.Series.Add(new ColumnSeries {FillColor = OxyColor.FromArgb(255, 255, 120, 0)});
-                ((ColumnSeries)plotHisto.Series[0]).Items.Add(new ColumnItem { CategoryIndex = 0, Value = less10 });
-                ((ColumnSeries)plotHisto.Series[0]).Items.Add(new ColumnItem { CategoryIndex = 1, Value = over10 });
-                ((ColumnSeries)plotHisto.Series[0]).Items.Add(new ColumnItem { CategoryIndex = 2, Value = over20 });
-             
+                plotHisto.Series.Add(new BarSeries 
+                {
+                    FillColor = OxyColor.FromArgb(255, 255, 120, 0),
+                });
+                
+                 ((BarSeries)plotHisto.Series[0]).Items.Add(new BarItem {Value = less10});
+                ((BarSeries)plotHisto.Series[0]).Items.Add(new BarItem { Value = over10});
+                ((BarSeries)plotHisto.Series[0]).Items.Add(new BarItem {Value = over20});
             }
 
             plotModel.InvalidatePlot(true);
