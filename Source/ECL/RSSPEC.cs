@@ -23,6 +23,8 @@ namespace mview.ECL
         public int I;
         public int J;
         public int K;
+        public int EQLNUM;
+
         public Cell Cell;
         public float XC;
         public float YC;
@@ -395,11 +397,23 @@ namespace mview.ECL
                         {
                             if (read_compls)
                             {
+                                /*
+                                if (WELLS[IW].WELLNAME == "1384" && IC == 0)
+                                {
+                                    for (int L = 0; L < NICONZ; ++L)
+                                    {
+                                        System.Diagnostics.Debug.WriteLine(L + "=" + ICON[IW * NICONZ * NCWMAX + IC * NICONZ + L]);
+                                    }
+                                }
+                                */
+
                                 WELLS[IW].COMPLS.Add(new COMPLDATA
                                 {
                                     I = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 1] - 1,
                                     J = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 2] - 1,
                                     K = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 3] - 1,
+
+                                    EQLNUM = NICONZ > 24 ? ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 23] : -1,
 
                                     CF = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 0],
                                     Depth = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 1],
@@ -422,7 +436,7 @@ namespace mview.ECL
                                     PIG = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 25],
                                     PRESS = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 34],
                                     SOIL = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 35]
-                                });
+                                });  ;
                             }
                             else
                             {
