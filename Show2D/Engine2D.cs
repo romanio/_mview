@@ -246,18 +246,8 @@ namespace mview
 
             CoordConverter cordconv = new CoordConverter(this);
             cordconv.CurrentViewMode = CurrentViewMode;
-
-
-            /*
-            if (render != null)
-                render.Dispose(); // Удаляем старый рендер текста
-
-            render = new BitmapRender(width, height); // И объявляем новый
-    */        
-    render.Clear(Color.Transparent);
-           
-
-//            render.Clear(Color.Transparent);
+        
+            render.Clear(Color.Transparent);
 
             foreach (ECL.WELLDATA well in grid.ACTIVE_WELLS)
             {

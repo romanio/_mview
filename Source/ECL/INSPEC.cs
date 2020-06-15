@@ -178,7 +178,30 @@ namespace mview.ECL
         public float[] DATA = null;
         public string GridUnit = null;
 
-        public void ReadGrid(string property)
+        public string GetUnit(string property)
+        {
+            string unit = null;
+            int INIT_STEP = 0;
+            int index = -1;
+
+            for (int iw = 0; iw < NAME.Count; ++iw)
+            {
+                index = Array.IndexOf(NAME[iw], property);
+                if (index > -1)
+                {
+                    INIT_STEP = iw;
+                    break;
+                }
+            }
+
+            if (UNITS.Count != 0)
+            {
+                unit = UNITS[INIT_STEP][index];
+            }
+            return unit;
+        }
+
+        public void ReadGrid(string property, ref float[] data)
         {
             FileReader br = new FileReader();
 
@@ -213,11 +236,11 @@ namespace mview.ECL
 
             if (br.header.type == "INTE")
             {
-                DATA = br.ReadIntListAsFloat();
+                data = br.ReadIntListAsFloat();
             }
             else
             {
-                DATA = br.ReadFloatList(br.header.count);
+                data = br.ReadFloatList(br.header.count);
             }
             //
             br.CloseBinaryFile();

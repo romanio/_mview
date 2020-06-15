@@ -30,13 +30,19 @@ namespace mview
 
             subWellModel = new SubWellModel(model.style);
             subWellModel.UpdateData += new EventHandler(this.OnSubWellModelUpdate);
+            subWellModel.UpdateLumpingMethod += new EventHandler(this.OnSubWellModelUpdateLumpingMethod);
 
             tabSliceControl.SelectedIndex = 2;
         }
 
+        private void OnSubWellModelUpdateLumpingMethod(object sender, EventArgs e)
+        {
+            model.UpdateLumpingMethod(((ComboBox)sender).SelectedItem.ToString());
+        }
+
         private void OnSubWellModelUpdate(object sender, EventArgs e)
         {
-            subWellModel.WellData = model.GetWellData(((ListBox)sender).SelectedItem.ToString());
+            subWellModel.WellData = model.GetWellData(sender.ToString());
         }
 
         private void OnSubFormOptions(object sender, EventArgs e)
@@ -309,6 +315,7 @@ namespace mview
         private void bbWellModel_Click(object sender, EventArgs e)
         {
             subWellModel.listWells.Items.Clear();
+            model.ReadWellData();
             subWellModel.listWells.Items.AddRange(model.GetWellNames());
 
             subWellModel.Show();

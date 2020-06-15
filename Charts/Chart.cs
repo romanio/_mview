@@ -40,23 +40,7 @@ namespace mview
             }
 
             selected_pm = tmp.ToArray();
-            /*
-            checkedProjectList.Items.Clear();
-
-            
-            foreach (ProjectManagerItem item in pm.projectList)
-            {
-                checkedProjectList.Items.Add(item.name);
-            }
-
-            if (pm.ActiveProjectIndex != -1)
-            {
-                checkedProjectList.Items[pm.ActiveProjectIndex] = checkedProjectList.Items[pm.ActiveProjectIndex] + " (ACTIVE)";
-                checkedProjectList.SetItemChecked(pm.ActiveProjectIndex, true);
-                selected_pm = new int[] { pm.ActiveProjectIndex };
-            }
-            */
-        }
+           }
 
         public void InitChart()
         {
@@ -160,7 +144,7 @@ namespace mview
 
         string[] selected_names = null;
 
-        public void UpdateSelectedNames(string[] names)
+        public void UpdateSelectedNames(string[] names, NameOptions type)
         {
             // Сохраним текущие выделенные слова
 
@@ -176,7 +160,7 @@ namespace mview
             listKeywords.BeginUpdate();
 
             listKeywords.Items.Clear();
-            listKeywords.Items.AddRange(model.GetKeywords(names[0]));
+            listKeywords.Items.AddRange(model.GetKeywords(names[0], type));
 
             // Восстановим выделенные слова
 

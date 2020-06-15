@@ -167,7 +167,7 @@ namespace mview
 
             foreach (Chart item in tableLayoutPanel1.Controls)
             {
-                item.UpdateSelectedNames(names.ToArray());
+                item.UpdateSelectedNames(names.ToArray(), namesType);
             }
         }
 
@@ -185,12 +185,15 @@ namespace mview
                     namesType = NameOptions.Well;
                     break;
                 case 3:
-                    namesType = NameOptions.Aquifer;
+                    namesType = NameOptions.Completion;
                     break;
                 case 4:
-                    namesType = NameOptions.Region;
+                    namesType = NameOptions.Aquifer;
                     break;
                 case 5:
+                    namesType = NameOptions.Region;
+                    break;
+                case 6:
                     namesType = NameOptions.Other;
                     break;
             }

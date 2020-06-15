@@ -181,6 +181,18 @@ namespace mview
                  select item.WELLNAME).ToArray();
          }
 
+        public void ReadWellData()
+        {
+            ecl.RESTART.ReadWellData();
+        }
+
+        public void UpdateLumpingMethod(string name)
+        {
+            ecl.UpdateLumpingMethod(name);
+        }
+
+
+
         public ECL.WELLDATA GetWellData(string wellname)
         {
             return ecl.RESTART.WELLS.FirstOrDefault(c => c.WELLNAME == wellname);
@@ -328,7 +340,8 @@ namespace mview
         {
             System.Diagnostics.Debug.WriteLine("Form2DModel [SetStaticProperty = " + name + " ]");
 
-            ecl.INIT.ReadGrid(name);
+            ecl.INIT.ReadGrid(name, ref ecl.INIT.DATA);
+
             GridUnit = ecl.INIT.GridUnit;
             PropertyMinValue = ecl.INIT.GetArrayMin(name);
             PropertyMaxValue = ecl.INIT.GetArrayMax(name);

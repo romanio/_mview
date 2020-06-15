@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -23,7 +24,9 @@ namespace mview.ECL
         public int I;
         public int J;
         public int K;
-        public int EQLNUM;
+        public int STATUS;
+        public int LUMPNUM;
+        public float WPIMULT = 1;
 
         public Cell Cell;
         public float XC;
@@ -225,7 +228,6 @@ namespace mview.ECL
             return -9999;
         }
 
-
         public int NX, NY, NZ; // Размер по X, Y, Z
         public int NACTIV; // Количество активных ячеек
         public int IPHS; // Индикатор фазы
@@ -252,7 +254,9 @@ namespace mview.ECL
         public float[] FLOWJ = null;
 
 
-        public void ReadRestart(string filename, int step, bool read_compls)
+        public void ReadRestart(string filename, int step)
+        // для чтения показателей по перфорациям, я все таки вынес в отдельную процедуру
+        // требуется редко, а читается постоянно 
         {
             FILENAME = filename;
             RESTART_STEP = step;
@@ -372,87 +376,122 @@ namespace mview.ECL
                     WELLS[iw].WELLNAME.Trim();
                 }
 
-
                 SetPosition("ICON");
                 br.ReadHeader();
                 int[] ICON = br.ReadIntList();
-                float[] SCON = null;
-                double[] XCON = null;
-
-                if (read_compls)
-                {
-                    SetPosition("SCON");
-                    br.ReadHeader();
-                    SCON = br.ReadFloatList(br.header.count);
-
-                    SetPosition("XCON");
-                    br.ReadHeader();
-                    XCON = br.ReadDoubleList();
-                }
 
                 for (int IW = 0; IW < NWELLS; ++IW) // Для всех скважин и для всех перфораций
                     for (int IC = 0; IC < NCWMAX; ++IC)
                     {
                         if (ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 0] != 0) // Если перфорация существует
                         {
-                            if (read_compls)
+                            WELLS[IW].COMPLS.Add(new COMPLDATA
                             {
-                                /*
-                                if (WELLS[IW].WELLNAME == "1384" && IC == 0)
-                                {
-                                    for (int L = 0; L < NICONZ; ++L)
-                                    {
-                                        System.Diagnostics.Debug.WriteLine(L + "=" + ICON[IW * NICONZ * NCWMAX + IC * NICONZ + L]);
-                                    }
-                                }
-                                */
-
-                                WELLS[IW].COMPLS.Add(new COMPLDATA
-                                {
-                                    I = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 1] - 1,
-                                    J = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 2] - 1,
-                                    K = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 3] - 1,
-
-                                    EQLNUM = NICONZ > 24 ? ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 23] : -1,
-
-                                    CF = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 0],
-                                    Depth = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 1],
-                                    D = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 2],
-                                    kh = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 3],
-                                    S = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 4],
-                                    Complex = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 6],
-                                    H = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 31],
-                                    s38 = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 38],
-
-                                    OPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 0],
-                                    WPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 1],
-                                    GPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 2],
-                                    OPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 3],
-                                    WPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 4],
-                                    GPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 5],
-                                    Hw = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 9],
-                                    PIO = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 23],
-                                    PIW = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 24],
-                                    PIG = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 25],
-                                    PRESS = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 34],
-                                    SOIL = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 35]
-                                });  ;
-                            }
-                            else
-                            {
-                                WELLS[IW].COMPLS.Add(new COMPLDATA
-                                {
-                                    I = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 1] - 1,
-                                    J = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 2] - 1,
-                                    K = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 3] - 1
-                                });
-                            }
+                                I = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 1] - 1,
+                                J = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 2] - 1,
+                                K = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 3] - 1,
+                                STATUS = ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 5]
+                            });
                         }
                     }
             }
      
             br.CloseBinaryFile();
         }
+
+        public void ReadWellData()
+        {
+             FileReader br = new FileReader();
+
+            Action<string> SetPosition = (name) =>
+            {
+                int index = Array.IndexOf(NAME[RESTART_STEP], name);
+                long pointer = POINTER[RESTART_STEP][index];
+                long pointerb = POINTERB[RESTART_STEP][index];
+                br.SetPosition(pointerb * 2147483648 + pointer);
+            };
+
+            //WELLS = new List<WELLDATA>();
+
+            br.OpenBinaryFile(FILENAME);
+            SetPosition("INTEHEAD");
+            br.ReadHeader();
+            int[] INTH = br.ReadIntList();
+            NX = INTH[8];
+            NY = INTH[9];
+            NZ = INTH[10];
+            NACTIV = INTH[11];
+            IPHS = INTH[14];
+            NWELLS = INTH[16];
+            NCWMAX = INTH[17];
+            NIWELZ = INTH[24];
+            NSWELZ = INTH[25];
+            NXWELZ = INTH[26];
+            NZWELZ = INTH[27];
+            NICONZ = INTH[32];
+            NSCONZ = INTH[33];
+            NXCONZ = INTH[34];
+
+            if (INTH[94] < 0) SIMTYPE = SIM_TYPE.OtherSim;
+            else
+            {
+                if (Enum.IsDefined(typeof(SIM_TYPE), INTH[94]))
+                {
+                    SIMTYPE = (SIM_TYPE)INTH[94];
+                }
+            }
+
+            if (WELLS.Count != 0)
+            {
+                if (SIMTYPE != SIM_TYPE.IX) // Интерсект не выгружает данные по скважинам  и перфорациям
+                {
+                    SetPosition("ICON");
+                    br.ReadHeader();
+                    int[] ICON = br.ReadIntList();
+
+                    SetPosition("SCON");
+                    br.ReadHeader();
+                    float[] SCON = br.ReadFloatList(br.header.count);
+
+                    SetPosition("XCON");
+                    br.ReadHeader();
+                    double[] XCON = br.ReadDoubleList();
+
+                    for (int IW = 0; IW < NWELLS; ++IW) // Для всех скважин и для всех перфораций
+                        for (int IC = 0; IC < NCWMAX; ++IC)
+                        {
+                            if (ICON[IW * NICONZ * NCWMAX + IC * NICONZ + 0] != 0) // Если перфорация существует
+                            {
+                                WELLS[IW].COMPLS[IC].CF = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 0];
+                                WELLS[IW].COMPLS[IC].Depth = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 1];
+                                WELLS[IW].COMPLS[IC].D = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 2];
+                                WELLS[IW].COMPLS[IC].kh = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 3];
+                                WELLS[IW].COMPLS[IC].S = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 4];
+                                WELLS[IW].COMPLS[IC].Complex = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 6];
+                                WELLS[IW].COMPLS[IC].H = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 31];
+                                WELLS[IW].COMPLS[IC].s38 = SCON[IW * NSCONZ * NCWMAX + IC * NSCONZ + 38];
+
+                                WELLS[IW].COMPLS[IC].OPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 0];
+                                WELLS[IW].COMPLS[IC].WPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 1];
+                                WELLS[IW].COMPLS[IC].GPR = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 2];
+                                WELLS[IW].COMPLS[IC].OPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 3];
+                                WELLS[IW].COMPLS[IC].WPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 4];
+                                WELLS[IW].COMPLS[IC].GPT = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 5];
+                                WELLS[IW].COMPLS[IC].Hw = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 9];
+                                WELLS[IW].COMPLS[IC].PIO = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 23];
+                                WELLS[IW].COMPLS[IC].PIW = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 24];
+                                WELLS[IW].COMPLS[IC].PIG = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 25];
+                                WELLS[IW].COMPLS[IC].PRESS = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 34];
+                                WELLS[IW].COMPLS[IC].SOIL = XCON[IW * NXCONZ * NCWMAX + IC * NXCONZ + 35];
+                            }
+                        }
+                }
+            }
+
+            br.CloseBinaryFile();
+        }
+
+
 
         public string GridUnit = null;
 

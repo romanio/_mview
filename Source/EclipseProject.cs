@@ -7,6 +7,9 @@ using mview.ECL;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.Resources;
+using System.Globalization;
 
 namespace mview
 {
@@ -59,6 +62,7 @@ namespace mview
 
         public void OpenData(string filename)
         {
+            // Настройка таймера, если загрузка происходит дольше 3 секунд, то показываем окно
             // Следует разобраться со структурой файлов в директории
 
             FILENAME = filename;
@@ -101,6 +105,7 @@ namespace mview
                 SUMMARY = new SMSPEC(FILES["SMSPEC"]);
                 ProceedSUMMARY();
 
+
                 if (FILES.ContainsKey("UNSMRY"))
                 {
                     SUMMARY.ReadUNSMRY(FILES["UNSMRY"]);
@@ -120,6 +125,7 @@ namespace mview
             {
                 INIT = new INSPEC(FILES["INSPEC"]);
             }
+
         }
 
         public void ReadEGRID()
@@ -137,6 +143,24 @@ namespace mview
                     EGRID = new EGRID(fd.FileName);
                 }
             }
+        }
+
+        public void UpdateLumpingMethod(string name)
+        {
+            float[] data = null;
+
+            INIT.ReadGrid(name, ref data);
+
+            for (int IW = 0; IW < RESTART.WELLS.Count; ++IW) // Для всех скважин и для всех перфораций
+                for (int IC = 0; IC < RESTART.WELLS[IW].COMPLS.Count; ++IC)
+                {
+                    long index = INIT.GetActive(
+                        RESTART.WELLS[IW].COMPLS[IC].I,
+                        RESTART.WELLS[IW].COMPLS[IC].J,
+                        RESTART.WELLS[IW].COMPLS[IC].K) - 1;
+
+                    RESTART.WELLS[IW].COMPLS[IC].LUMPNUM = (int)data[index];
+                }
         }
 
         public void ReadINIT()
@@ -158,7 +182,7 @@ namespace mview
                 string ext = ".X" + RESTART.REPORT[step].ToString().PadLeft(4, '0');
                 if (FILES.ContainsKey(ext))
                 {
-                    RESTART.ReadRestart(FILES[ext], step, true);
+                    RESTART.ReadRestart(FILES[ext], step);
                 }
             }
 
@@ -166,7 +190,7 @@ namespace mview
 
             if (FILES.ContainsKey("UNRST"))
             {
-                RESTART.ReadRestart(FILES["UNRST"], step, true);
+                RESTART.ReadRestart(FILES["UNRST"], step);
             }
         }
 
@@ -280,10 +304,39 @@ namespace mview
                     continue;
                 }
 
+                if (SUMMARY.KEYWORDS[iw].StartsWith("C"))
+                {
+                    System.Diagnostics.Debug.WriteLine(SUMMARY.NDIVX + ";" + SUMMARY.NDIVY + ";" + SUMMARY.NDIVZ);
+                    var index = SUMMARY.NUMS[iw] - 1;
+                    var K = (int)(index / (SUMMARY.NDIVX * SUMMARY.NDIVY)) + 1;
+                    var J = (int)(index - (K - 1) * SUMMARY.NDIVX * SUMMARY.NDIVY) / SUMMARY.NDIVX + 1;
+                    var I = (index - (K - 1) * SUMMARY.NDIVX * SUMMARY.NDIVY - (J - 1) * SUMMARY.NDIVX) + 1;
+
+                    if (SUMMARY.NUMS[iw] > 0)
+                    {
+                        temp.Add(new Vector
+                        {
+                            Type = NameOptions.Completion,
+                            Name = SUMMARY.WGNAMES[iw] + "[" + I + ";" + J + ";" + K + "]",
+                            Data = new List<VectorData>()
+                        {
+                            new VectorData
+                            {
+                                index = iw,
+                                keyword = SUMMARY.KEYWORDS[iw],
+                                unit = SUMMARY.WGUNITS?[iw]??"",
+                                measurement = SUMMARY.MEASRMNT?[iw]??""
+                            }
+                        }
+                        });
+                    };
+                    continue;
+                }
+
                 temp.Add(new Vector
                 {
                     Type = NameOptions.Other,
-                    Name = SUMMARY.WGNAMES[iw],
+                    Name = SUMMARY.WGNAMES[iw] + SUMMARY.NUMS[iw].ToString(),
                     Data = new List<VectorData>()
                         {
                             new VectorData

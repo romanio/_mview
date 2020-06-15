@@ -12,16 +12,16 @@ using OxyPlot.Legends;
 using mview.ECL;
 using System.Linq;
 using Microsoft.Office.Interop.Excel;
+using System.Text;
 
 namespace mview
 {
     public partial class SubWellModel : Form
     {
         public event EventHandler UpdateData;
+        public event EventHandler UpdateLumpingMethod;
 
         readonly PlotModel plotModel = null;
-        readonly PlotModel plotModelModi = null;
-
         ECL.WELLDATA m_welldata = null;
 
         public ECL.WELLDATA WellData
@@ -29,43 +29,83 @@ namespace mview
             set
             {
                 m_welldata = value;
-                UpdateForm();
             }
         }
 
+        bool IsLumped = false;
+
+       
         void UpdateForm()
         {
-            gridCommon.Rows.Clear();
-
-            gridCommon.Rows.Add("STATUS", m_welldata.WELLSTATUS);
-            gridCommon.Rows.Add("TYPE", m_welldata.WELLTYPE);
-            gridCommon.Rows.Add("GROUP", m_welldata.GROUPNUM);
-            gridCommon.Rows.Add("REF DEPTH", m_welldata.REF_DEPTH);
-            gridCommon.Rows.Add("WPI", m_welldata.WPI);
-            gridCommon.Rows.Add("WEFA", m_welldata.WEFA);
-            gridCommon.Rows.Add("LPR/LPRH", m_welldata.WLPR.ToString("N2") + " / " + m_welldata.WLPRH.ToString());
-            gridCommon.Rows.Add("OPR/OPRH", m_welldata.WOPR.ToString("N2") + " / " + m_welldata.WOPRH.ToString());
-            gridCommon.Rows.Add("BHP/BHPH", m_welldata.WBHP.ToString("N2") + " / " + m_welldata.WBHPH.ToString());
-
             gridData.Rows.Clear();
 
-            for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
+            if (IsLumped == false)
             {
-                int row = gridData.Rows.Add();
-                gridData[0, row].Value = m_welldata.COMPLS[iw].I + 1;
-                gridData[1, row].Value = m_welldata.COMPLS[iw].J + 1;
-                gridData[2, row].Value = m_welldata.COMPLS[iw].K + 1;
-                gridData[3, row].Value = m_welldata.COMPLS[iw].Depth;
+                for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
+                {
+                    int row = gridData.Rows.Add();
 
-                gridData[4, row].Value = m_welldata.COMPLS[iw].WPR + m_welldata.COMPLS[iw].OPR;
-                gridData[5, row].Value = m_welldata.COMPLS[iw].WPR / (m_welldata.COMPLS[iw].WPR + m_welldata.COMPLS[iw].OPR);
-                gridData[6, row].Value = m_welldata.COMPLS[iw].GPR / m_welldata.COMPLS[iw].OPR;
+                    gridData[0, row].Value = m_welldata.COMPLS[iw].I + 1;
+                    gridData[1, row].Value = m_welldata.COMPLS[iw].J + 1;
+                    gridData[2, row].Value = m_welldata.COMPLS[iw].K + 1;
+                    gridData[3, row].Value = m_welldata.COMPLS[iw].Depth;
 
-                gridData[7, row].Value = 1;
-                gridData[8, row].Value = iw;
+                    gridData[4, row].Value = m_welldata.COMPLS[iw].LUMPNUM;
+
+                    gridData[5, row].Value = m_welldata.COMPLS[iw].WPR + m_welldata.COMPLS[iw].OPR;
+                    gridData[6, row].Value = m_welldata.COMPLS[iw].WPR / (m_welldata.COMPLS[iw].WPR + m_welldata.COMPLS[iw].OPR);
+                    gridData[7, row].Value = m_welldata.COMPLS[iw].GPR / m_welldata.COMPLS[iw].OPR;
+
+                    gridData[8, row].Value = m_welldata.COMPLS[iw].WPIMULT;
+                    gridData[9, row].Value = iw;
+                }
             }
+            else
+            {
+                var lumped_zones = m_welldata.COMPLS.Select(c => c.LUMPNUM).Distinct().ToArray();
+                
+                for (int iw = 0; iw < lumped_zones.Length; ++iw)
+                {
+                    int row = gridData.Rows.Add();
 
-            plotModelModi.Series.Clear();
+                    gridData[3, row].Value = m_welldata.COMPLS.Where(c => c.LUMPNUM == lumped_zones[iw]).Average(c => c.Depth);
+                    gridData[4, row].Value = lumped_zones[iw];
+                    
+                    var wpr = m_welldata.COMPLS.Where(c => c.LUMPNUM == lumped_zones[iw]).Sum(c => c.WPR);
+                    var opr = m_welldata.COMPLS.Where(c => c.LUMPNUM == lumped_zones[iw]).Sum(c => c.OPR);
+                    var gpr = m_welldata.COMPLS.Where(c => c.LUMPNUM == lumped_zones[iw]).Sum(c => c.GPR);
+
+                    gridData[5, row].Value = wpr + opr;
+                    gridData[6, row].Value = wpr / (wpr + opr);
+                    gridData[7, row].Value = gpr / opr;
+
+                    gridData[9, row].Value = iw;
+                }
+            }
+        }
+
+        void UpdateCharts()
+        {
+            plotModel.Series.Clear();
+
+            plotModel.Series.Add(new RectangleBarSeries
+            {
+                StrokeThickness = 0,
+            });
+
+            plotModel.Series.Add(new RectangleBarSeries
+            {
+                StrokeThickness = 1,
+                StrokeColor = OxyColors.Black,
+                FillColor = OxyColors.Transparent
+            }); ; ;
+
+            plotModel.Series.Add(new RectangleBarSeries
+            {
+                StrokeThickness = 2,
+                StrokeColor = OxyColors.Black,
+                FillColor = OxyColors.Transparent
+            });
 
             switch (boxChartMode.SelectedIndex)
             {
@@ -74,105 +114,167 @@ namespace mview
                     plotModel.Axes[0].Title = "(P - Pw), bar";
                     plotModel.Axes[1].Title = "Depth, m";
 
-                    plotModel.Series.Clear();
-                    plotModel.Series.Add(new RectangleBarSeries
-                    {
-                        StrokeThickness = 1,
-                        StrokeColor = OxyColors.Black,
-                        FillColor = OxyColors.OrangeRed
-                    });
-
-                    DrawGraph((x) => x.PRESS - x.Hw - m_welldata.WBHP);
+                    ((RectangleBarSeries)plotModel.Series[0]).FillColor = OxyColors.OrangeRed;
+                    DrawGraph((x) => x.PRESS - x.Hw - m_welldata.WBHP, PDD_LIST);
 
                     break;
 
                 case 1: // Liquid production
+
                     plotModel.Axes[0].Title = "Liquid, m3/day";
                     plotModel.Axes[1].Title = "Depth, m";
+                    ((RectangleBarSeries)plotModel.Series[0]).FillColor = OxyColors.Aqua;
 
-                    plotModel.Series.Clear();
-                    plotModel.Series.Add(new RectangleBarSeries
-                    {
-                        StrokeThickness = 1,
-                        StrokeColor = OxyColors.Black,
-                        FillColor = OxyColors.Aqua
-                    });
-
-                    DrawGraph((x) => x.WPR + x.OPR);
-
+                    DrawGraph((x) => x.WPR + x.OPR, LIQ_LIST);
                     break;
 
                 case 2: // Oil production
                     plotModel.Axes[0].Title = "Oil, m3/day";
                     plotModel.Axes[1].Title = "Depth, m";
+                    ((RectangleBarSeries)plotModel.Series[0]).FillColor = OxyColors.Orange;
 
-                    plotModel.Series.Clear();
-                    plotModel.Series.Add(new RectangleBarSeries
-                    {
-                        StrokeThickness = 1,
-                        StrokeColor = OxyColors.Black,
-                        FillColor = OxyColors.Orange
-                    });
-
-                    DrawGraph((x) => x.OPR);
-
+                    DrawGraph((x) => x.OPR, OIL_LIST);
                     break;
 
                 case 3: // Water production
                     plotModel.Axes[0].Title = "Water, m3/day";
-
-
-                    plotModel.Series.Clear();
-                    plotModel.Series.Add(new RectangleBarSeries
-                    {
-                        StrokeThickness = 1,
-                        StrokeColor = OxyColors.Black,
-                        FillColor = OxyColors.BlueViolet
-                    });
-
-                    DrawGraph((x) => x.WPR);
-
+                    ((RectangleBarSeries)plotModel.Series[0]).FillColor = OxyColors.BlueViolet;
+                    
+                    DrawGraph((x) => x.WPR, WATER_LIST);
                     break;
 
                 case 4: // Water Cut
                     plotModel.Axes[0].Title = "Water Cut";
                     plotModel.Axes[1].Title = "Depth, m";
+                    ((RectangleBarSeries)plotModel.Series[0]).FillColor = OxyColors.CadetBlue;
 
-                    plotModel.Series.Clear();
-                    plotModel.Series.Add(new RectangleBarSeries
-                    {
-                        StrokeThickness = 1,
-                        StrokeColor = OxyColors.Black,
-                        FillColor = OxyColors.CadetBlue
-                    });
-
-                    DrawGraph((x) => x.WPR / (x.WPR + x.OPR));
-
+                    DrawGraph((x) => x.WPR / (x.WPR + x.OPR), WCUT_LIST);
                     break;
 
                 case 5: // Connection Factor
-                    plotModel.Axes[0].Title = "CF";
+                    plotModel.Axes[0].Title = "PI, m3/day/bar";
                     plotModel.Axes[1].Title = "Depth, m";
+                    ((RectangleBarSeries)plotModel.Series[0]).FillColor = OxyColors.Orange;
 
-                    plotModel.Series.Clear();
-                    plotModel.Series.Add(new RectangleBarSeries
-                    {
-                        StrokeThickness = 1,
-                        StrokeColor = OxyColors.Black,
-                        FillColor = OxyColors.Orange
-                    });
-
-                    DrawGraph((x) => x.CF);
-
+                    DrawGraph((x) => (x.OPR + x.WPR) / (x.PRESS - x.Hw - m_welldata.WBHP), CPI_LIST);
                     break;
             }
         }
 
-        void DrawGraph(Func<ECL.COMPLDATA, double> get_value)
-        {
-            double top, bottom;
-            plotModel.Annotations.Clear();
+        double[] CPI_LIST = null;
+        double[] CPI_INIT_LIST = null;
+        double[] LIQ_LIST = null;
+        double[] WATER_LIST = null;
+        double[] OIL_LIST = null;
+        double[] WCUT_LIST = null;
+        double[] PDD_LIST = null;
+        double[] Q_POT_LIST = null;
 
+        double[] LUMP_LIQ_LIST = null;
+        double[] LUMP_WATER_LIST = null;
+        double[] LUMP_OIL_LIST = null;
+        double[] LUMP_WCUT_LIST = null;
+        double[] LUMP_PDD_LIST = null;
+
+
+        double PI = 0;
+        double Q_POT = 0;
+        void UpdateModifications()
+        {
+            CPI_LIST = new double[m_welldata.COMPLNUM];
+            LIQ_LIST = new double[m_welldata.COMPLNUM];
+            WATER_LIST = new double[m_welldata.COMPLNUM];
+            OIL_LIST = new double[m_welldata.COMPLNUM];
+            WCUT_LIST = new double[m_welldata.COMPLNUM];
+            PDD_LIST = new double[m_welldata.COMPLNUM];
+            CPI_INIT_LIST = new double[m_welldata.COMPLNUM];
+            Q_POT_LIST = new double[m_welldata.COMPLNUM];
+
+            PI = 0;
+            Q_POT = 0;
+
+            for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
+            {
+                if (m_welldata.COMPLS[iw].STATUS == 1)
+                {
+                    double CPI =
+                        (m_welldata.COMPLS[iw].WPR + m_welldata.COMPLS[iw].OPR) /
+                        (m_welldata.COMPLS[iw].PRESS - m_welldata.WBHP - m_welldata.COMPLS[iw].Hw);
+
+                    CPI_INIT_LIST[iw] = CPI;
+
+                    CPI_LIST[iw] = CPI * m_welldata.COMPLS[iw].WPIMULT;
+                    PI = PI + CPI_LIST[iw];
+                    Q_POT_LIST[iw] = CPI_LIST[iw] * (m_welldata.COMPLS[iw].PRESS - m_welldata.COMPLS[iw].Hw);
+                    Q_POT = Q_POT + Q_POT_LIST[iw];
+                }
+            }
+
+            double BHP = (Q_POT - m_welldata.WLPR) / PI;
+            double LPR = 0;
+            double WPR = 0;
+
+            for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
+            {
+                if (m_welldata.COMPLS[iw].STATUS == 1)
+                {
+                    LIQ_LIST[iw] = CPI_LIST[iw] * (m_welldata.COMPLS[iw].PRESS - m_welldata.COMPLS[iw].Hw - BHP);
+                    WCUT_LIST[iw] = m_welldata.COMPLS[iw].WPR / (m_welldata.COMPLS[iw].WPR + m_welldata.COMPLS[iw].OPR);
+                    WATER_LIST[iw] = LIQ_LIST[iw] * WCUT_LIST[iw];
+                    OIL_LIST[iw] = LIQ_LIST[iw] - WATER_LIST[iw];
+
+                    PDD_LIST[iw] = m_welldata.COMPLS[iw].PRESS - m_welldata.COMPLS[iw].Hw - BHP;
+
+                    LPR = LPR + LIQ_LIST[iw];
+                    WPR = WPR + WATER_LIST[iw];
+                }
+            }
+
+            StringBuilder info = new StringBuilder("BHP/BHPH" + '\n' + BHP.ToString("N2") + "/" + m_welldata.WBHPH + '\n' +
+                "WCUT/WCUTH" + '\n' + (WPR / LPR).ToString("N3") + "/" + (m_welldata.WWPRH / m_welldata.WLPRH).ToString("N3") + "\n" +
+                "OPR/OPRH" + '\n' + (LPR - WPR).ToString("N1") + "/" + (m_welldata.WOPRH).ToString("N1") + '\n');
+
+            if (IsLumped)
+            {
+                var lumped_zones = m_welldata.COMPLS.Select(c => c.LUMPNUM).Distinct().ToArray();
+
+                for (int iw = 0; iw < lumped_zones.Length; ++iw)
+                {
+                    var wpr = m_welldata.COMPLS.Where(c => c.LUMPNUM == lumped_zones[iw]).Sum(c => c.WPR);
+                    var opr = m_welldata.COMPLS.Where(c => c.LUMPNUM == lumped_zones[iw]).Sum(c => c.OPR);
+                    var gpr = m_welldata.COMPLS.Where(c => c.LUMPNUM == lumped_zones[iw]).Sum(c => c.GPR);
+
+                    double oprm = 0;
+                    double wprm = 0;
+
+                    for (int C = 0; C < m_welldata.COMPLS.Count; ++C)
+                    {
+                        if (m_welldata.COMPLS[C].LUMPNUM == lumped_zones[iw])
+                        {
+                            oprm = oprm + OIL_LIST[C];
+                            wprm = wprm + WATER_LIST[C];
+                        }
+                    }
+
+                    info.Append('\n' + "LUMP " + lumped_zones[iw] + '\n');
+                    info.Append("LPR/LPRM" + '\n' + (opr + wpr).ToString("N2") +"/" + (oprm + wprm).ToString("N2") + '\n');
+                    info.Append("OPR/OPRM" + '\n' + (opr).ToString("N2") + "/" + oprm.ToString("N2") + '\n');
+                    info.Append("WCUT/WCUTM" + '\n' + (wpr/(opr + wpr)).ToString("N3") + "/" + (wprm/(oprm+wprm)).ToString("N3") + '\n');
+                }
+
+            }
+
+            plotModel.Legends[0].LegendFontSize = double.NaN;
+            plotModel.Legends[0].LegendTitle = info.ToString();
+
+            //
+        }
+
+
+        void DrawGraph(Func<ECL.COMPLDATA, double> get_value, double[] modi)
+        {
+            double top = 0;
+            double bottom = 0;
 
             switch (boxDepthMode.SelectedIndex)
             {
@@ -182,63 +284,37 @@ namespace mview
                 case 1: // // K-value
                     plotModel.Axes[1].Title = "K";
                     break;
-                case 2: // // Cell
-                    plotModel.Axes[1].Title = "Cell";
-                    break;
             }
 
-            if (boxDepthMode.SelectedIndex == 0 || boxDepthMode.SelectedIndex == 1)
+            for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
             {
-                for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
-                {
-                    double value = get_value(m_welldata.COMPLS[iw]);
+                double value = get_value(m_welldata.COMPLS[iw]);
 
-                    if (!Double.IsNaN(value))
+                if (!Double.IsNaN(value))
+                {
+                    switch (boxDepthMode.SelectedIndex)
                     {
-                        switch (boxDepthMode.SelectedIndex)
-                        {
-                            case 0: // Depth
-                                top = (m_welldata.COMPLS[iw].Cell.TSE.Z + m_welldata.COMPLS[iw].Cell.TSW.Z + m_welldata.COMPLS[iw].Cell.TNE.Z + m_welldata.COMPLS[iw].Cell.TNW.Z) / 4;
-                                bottom = (m_welldata.COMPLS[iw].Cell.BSE.Z + m_welldata.COMPLS[iw].Cell.BSW.Z + m_welldata.COMPLS[iw].Cell.BNE.Z + m_welldata.COMPLS[iw].Cell.BNW.Z) / 4;
-                                ((RectangleBarSeries)plotModel.Series[0]).Items.Add(new RectangleBarItem(0, top, value, bottom));
-                                break;
-                            case 1: // K-value
-                                top = (m_welldata.COMPLS[iw].K + 1) - 0.5;
-                                bottom = (m_welldata.COMPLS[iw].K + 1) + 0.5;
-                                ((RectangleBarSeries)plotModel.Series[0]).Items.Add(new RectangleBarItem(0, top, value, bottom));
-                                break;
-                        }
+                        case 0: // Depth 
+                            top = (m_welldata.COMPLS[iw].Cell.TSE.Z + m_welldata.COMPLS[iw].Cell.TSW.Z + m_welldata.COMPLS[iw].Cell.TNE.Z + m_welldata.COMPLS[iw].Cell.TNW.Z) / 4;
+                            bottom = (m_welldata.COMPLS[iw].Cell.BSE.Z + m_welldata.COMPLS[iw].Cell.BSW.Z + m_welldata.COMPLS[iw].Cell.BNE.Z + m_welldata.COMPLS[iw].Cell.BNW.Z) / 4;
+                            break;
+                        case 1: // K-value
+                            top = (m_welldata.COMPLS[iw].K + 1) - 0.5;
+                            bottom = (m_welldata.COMPLS[iw].K + 1) + 0.5;
+                            break;
                     }
+
+                    ((RectangleBarSeries)plotModel.Series[0]).Items.Add(new RectangleBarItem(0, top, value, bottom));
+                    ((RectangleBarSeries)plotModel.Series[1]).Items.Add(new RectangleBarItem(0, top, modi[iw], bottom));
+
+                    if (checkShowModiValue.Checked)
+                        ((RectangleBarSeries)plotModel.Series[1]).Items.Last().Title = modi[iw].ToString("N2");
+
+                    if (iw == SelectedCell)
+                        ((RectangleBarSeries)plotModel.Series[2]).Items.Add(new RectangleBarItem(0, top, modi[iw], bottom));
                 }
             }
-
-            if (boxDepthMode.SelectedIndex == 2) // Cell mode
-            {
-                var sorted_comp = m_welldata.COMPLS.OrderBy(c => c.K).ToArray();
-                for (int iw = 0; iw < sorted_comp.Length; ++iw)
-                {
-                    double value = get_value(sorted_comp[iw]);
-
-                    if (!Double.IsNaN(value))
-                    {
-                        top = (iw + 1) - 0.5;
-                        bottom = (iw + 1) + 0.5;
-
-                        ((RectangleBarSeries)plotModel.Series[0]).Items.Add(new RectangleBarItem(0, top, value, bottom));
-
-                        // Точки на графике
-
-                        plotModel.Annotations.Add(new OxyPlot.Annotations.TextAnnotation
-                        {
-                            FontSize = 10,
-                            Text = "[" + (sorted_comp[iw].I + 1) + "; " + (sorted_comp[iw].J + 1) + "; " + (sorted_comp[iw].K + 1) + "]",
-                            StrokeThickness = 0,
-                            TextPosition = new DataPoint(value * 1.1, (iw + 1) - 0.5)
-                        });
-                    }
-                }
-            }
-
+          
             plotModel.InvalidatePlot(true);
         }
 
@@ -248,7 +324,6 @@ namespace mview
             InitializeComponent();
 
             typeof(Control).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, gridData, new object[] { true });
-            typeof(Control).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, gridCommon, new object[] { true });
 
             plotModel = new PlotModel
             {
@@ -256,31 +331,11 @@ namespace mview
                 DefaultFontSize = 10,
             };
 
-            plotModelModi = new PlotModel
-            {
-                DefaultFont = "Segoe UI",
-                DefaultFontSize = 10,
-            };
-
-            plotModel.Legends.Add(new OxyPlot.Legends.Legend { LegendPosition = LegendPosition.RightTop, LegendFontSize = 8 });
-            plotModelModi.Legends.Add(new OxyPlot.Legends.Legend { LegendPosition = LegendPosition.RightTop, LegendFontSize = 8 });
-
-            plotModelModi.Axes.Add(new OxyPlot.Axes.LinearAxis
-            {
-                Title = "Value",
-                Position = AxisPosition.Bottom,
-                StringFormat = "N1",
-                MajorGridlineStyle = LineStyle.Dash
-            });
-
-            plotModelModi.Axes.Add(new OxyPlot.Axes.LinearAxis
-            {
-                Title = "Depth",
-                Position = OxyPlot.Axes.AxisPosition.Left,
-                EndPosition = 0,
-                StartPosition = 1,
-                AxisTitleDistance = 8,
-                MajorGridlineStyle = LineStyle.Dash
+            plotModel.Legends.Add(new OxyPlot.Legends.Legend {
+                LegendPosition = LegendPosition.RightTop,
+                LegendPlacement = LegendPlacement.Outside,
+                LegendFontSize = 8,
+                LegendBackground = OxyColors.White
             });
 
             plotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
@@ -304,12 +359,12 @@ namespace mview
 
 
             plotView.Model = plotModel;
-            plotViewModi.Model = plotModelModi;
 
             editVisualData = true;
 
             boxChartMode.SelectedIndex = 0;
             boxDepthMode.SelectedIndex = 0;
+            boxLumping.SelectedIndex = 0;
 
             editVisualData = false;
         }
@@ -329,13 +384,12 @@ namespace mview
         private void listWells_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listWells.SelectedItem == null) return;
-            UpdateData(sender, e);
-            UpdateForm();
 
-            if (m_welldata.COMPLNUM > 0)
-            {
-                gridData_CellEndEdit(null, new DataGridViewCellEventArgs(9, 0));
-            }
+            UpdateData(listWells.SelectedItem, e);
+
+            UpdateModifications();
+            UpdateForm();
+            UpdateCharts();
         }
 
         private void boxDepthMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -344,127 +398,48 @@ namespace mview
             UpdateForm();
         }
 
-        double[] modi_list = null;
-        double[] cpi_list = null;
-        double[] q_pot_list = null;
-        double[] liq_list = null; 
-        double[] water_list = null;
-        double PI = 0;
-        double Q_POT = 0;
         private void gridData_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            int modi_column = 8;
+            int id_column = 9;
+            int lump_column = 4;
+
             // Check value modi
-            string modi = gridData.Rows[e.RowIndex].Cells[7].Value.ToString();
-            double modi_value;
 
-            if (Double.TryParse(modi, out modi_value))
+            string modi = gridData.Rows[e.RowIndex].Cells[modi_column].Value.ToString();
+            int index = Convert.ToInt32(gridData.Rows[e.RowIndex].Cells[id_column].Value);
+            int lump = Convert.ToInt32(gridData.Rows[e.RowIndex].Cells[lump_column].Value);
+
+            float modi_value;
+
+            if (Single.TryParse(modi, out modi_value))
             {
-                plotModelModi.Series.Clear();
-                plotModelModi.Series.Add(new RectangleBarSeries
+                if (IsLumped == false)
                 {
-                    StrokeThickness = 1,
-                    StrokeColor = OxyColors.Black,
-                    FillColor = OxyColors.AliceBlue,
-                    Title = "LPR sim"
-                }); ;
-
-                plotModelModi.Series.Add(new RectangleBarSeries
+                    m_welldata.COMPLS[index].WPIMULT = modi_value;
+                }
+                else
                 {
-                    StrokeThickness = 1,
-                    StrokeColor = OxyColors.Black,
-                    FillColor = OxyColors.BlueViolet,
-                    Title = "LPR est"
-
-                }); ;
-
-                //plotModelModi.Series[1].MouseDown += SubWellModel_MouseDown;
-                //plotModelModi.Series[1].MouseMove += SubWellModel_MouseMove;
-                //plotModelModi.Series[1].MouseUp += SubWellModel_MouseUp;
-
-                // Calculation
-
-                modi_list = new double[m_welldata.COMPLNUM];
-                cpi_list = new double[m_welldata.COMPLNUM];
-                q_pot_list = new double[m_welldata.COMPLNUM];
-                liq_list = new double[m_welldata.COMPLNUM];
-                water_list = new double[m_welldata.COMPLNUM];
-
-                int index;
-
-                for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
-                {
-                    index = Convert.ToInt32(gridData.Rows[iw].Cells[8].Value);
-                    modi_list[index] = Convert.ToDouble(gridData.Rows[iw].Cells[7].Value);
+                    for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
+                        if (m_welldata.COMPLS[iw].LUMPNUM == lump) m_welldata.COMPLS[iw].WPIMULT = modi_value;
                 }
 
-                 PI = 0;
-                 double CPI = 0;
-
-                Q_POT = 0;
-                double CQ_POT = 0;
-                double BHP;
-
-                for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
-                {
-                    CPI =
-                    (m_welldata.COMPLS[iw].WPR + m_welldata.COMPLS[iw].OPR) /
-                    (m_welldata.COMPLS[iw].PRESS - m_welldata.WBHP - m_welldata.COMPLS[iw].Hw);
-
-                    cpi_list[iw] = CPI;
-
-                    CQ_POT = CPI * modi_list[iw] * (m_welldata.COMPLS[iw].PRESS - m_welldata.COMPLS[iw].Hw);
-
-                    q_pot_list[iw] = CQ_POT;
-
-                    PI = PI + CPI * modi_list[iw];
-
-                    Q_POT = Q_POT + CPI * modi_list[iw] * (m_welldata.COMPLS[iw].PRESS - m_welldata.COMPLS[iw].Hw);
-                }
-
-                BHP = (Q_POT - m_welldata.WLPR) / PI;
-
-
-
-                double LPR = 0;
-                double WPR = 0;
-                   
-
-                for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
-                {
-                    liq_list[iw] = cpi_list[iw] * modi_list[iw] * (m_welldata.COMPLS[iw].PRESS - m_welldata.COMPLS[iw].Hw - BHP);
-                    water_list[iw] = liq_list[iw] * m_welldata.COMPLS[iw].WPR / (m_welldata.COMPLS[iw].WPR + m_welldata.COMPLS[iw].OPR);
-
-                    LPR = LPR + liq_list[iw];
-                    WPR = WPR + water_list[iw];
-                }
-
-                plotModelModi.Legends[0].LegendFontSize = double.NaN;
-                plotModelModi.Legends[0].LegendTitle =
-                    "BHP/BHPH" + '\n' + BHP.ToString("N2") + "/" + m_welldata.WBHPH + '\n' +
-                    "WCUT/WCUTH" + '\n' + (WPR / LPR).ToString("N3") + "/" + (m_welldata.WWPRH / m_welldata.WLPRH).ToString("N3") + "\n" +
-                    "OPR/OPRH" + '\n' + (LPR - WPR).ToString("N1") + "/" + (m_welldata.WOPRH).ToString("N1");
-
-                //
-
-                double top, bottom, value;
-
-                for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
-                {
-                    value = m_welldata.COMPLS[iw].OPR + m_welldata.COMPLS[iw].WPR;
-                    top = (m_welldata.COMPLS[iw].Cell.TSE.Z + m_welldata.COMPLS[iw].Cell.TSW.Z + m_welldata.COMPLS[iw].Cell.TNE.Z + m_welldata.COMPLS[iw].Cell.TNW.Z) / 4;
-                    bottom = (m_welldata.COMPLS[iw].Cell.BSE.Z + m_welldata.COMPLS[iw].Cell.BSW.Z + m_welldata.COMPLS[iw].Cell.BNE.Z + m_welldata.COMPLS[iw].Cell.BNW.Z) / 4;
-         
-                    ((RectangleBarSeries)plotModelModi.Series[0]).Items.Add(new RectangleBarItem(0, top, value, bottom));
-                    ((RectangleBarSeries)plotModelModi.Series[1]).Items.Add(new RectangleBarItem(0, top, liq_list[iw], bottom));
-                }
-
-                plotModelModi.InvalidatePlot(true);
+                UpdateModifications();
+                UpdateCharts();
             }
             else
             {
-                gridData.Rows[e.RowIndex].Cells[7].Value = 1;
+                if (IsLumped == false)
+                {
+                    gridData.Rows[e.RowIndex].Cells[modi_column].Value = m_welldata.COMPLS[index].WPIMULT;
+                }
+                else
+                {
+                    gridData.Rows[e.RowIndex].Cells[modi_column].Value = 1;
+                }
             }
         }
+
 
         int index_nearest_bar = -1;
 
@@ -476,11 +451,23 @@ namespace mview
 
         void CalculateMultByLiquid(int index, double lpr)
         {
-            double Q_POT_W = Q_POT - q_pot_list[index];
-            double PI_W = PI - cpi_list[index];
+            // 
+            //
+            //
+            //
+            //
+            //
+            //
 
-            double CPI = cpi_list[index];
-            double C = (m_welldata.COMPLS[index].PRESS - m_welldata.COMPLS[index].Hw) - (CPI * m_welldata.COMPLS[index].PRESS + Q_POT_W - m_welldata.WLPR) / (PI_W + CPI);
+
+            int modi_column = 8;
+            int id_column = 9;
+
+            double Q_POT_W = Q_POT - Q_POT_LIST[index];
+            double PI_W = PI - CPI_INIT_LIST[index];
+
+            double CPI = CPI_INIT_LIST[index];
+            double  C = (m_welldata.COMPLS[index].PRESS - m_welldata.COMPLS[index].Hw) - (CPI * m_welldata.COMPLS[index].PRESS + Q_POT_W - m_welldata.WLPR) / (PI_W + CPI);
             double CN = lpr / C;
             double eps = 1;
 
@@ -497,20 +484,17 @@ namespace mview
 
             for (int iw = 0; iw < m_welldata.COMPLNUM; ++iw)
             {
-                int index_grid = Convert.ToInt32(gridData.Rows[iw].Cells[10].Value);
+                int index_grid = Convert.ToInt32(gridData.Rows[iw].Cells[id_column].Value);
 
                 if (index == index_grid)
                 {
-                    gridData.Rows[iw].Cells[9].Value = mult;
-
-                    gridData_CellEndEdit(null, new DataGridViewCellEventArgs(9, iw));                    
-                        break;
+                    gridData.Rows[iw].Cells[modi_column].Value = mult;
+                    m_welldata.COMPLS[index_grid].WPIMULT = (float)mult;
+                    UpdateModifications();
+                    UpdateCharts();
+                    break;
                 }
             }
-
-
-
-
         }
 
         private void SubWellModel_MouseMove(object sender, OxyMouseEventArgs e)
@@ -520,17 +504,14 @@ namespace mview
             if (index_nearest_bar >= 0)
             {
                 double X = ((RectangleBarSeries)sender).InverseTransform(e.Position).X;
-                System.Diagnostics.Debug.WriteLine("X = " + X + " X0 = " + ((RectangleBarSeries)sender).Items[index_nearest_bar].X0);
                 ((RectangleBarSeries)sender).Items[index_nearest_bar].X1 = X;
                 
-                CalculateMultByLiquid(index_nearest_bar, X);
+                //CalculateMultByLiquid(index_nearest_bar, X);
 
-                plotModelModi.InvalidatePlot(true);
+                plotModel.InvalidatePlot(true);
                 e.Handled = true;
             }
         }
-
-
 
         private void SubWellModel_MouseDown(object sender, OxyMouseDownEventArgs e)
         {
@@ -539,6 +520,39 @@ namespace mview
                 index_nearest_bar = (int)Math.Round(e.HitTestResult.Index);
                 e.Handled = true;
             }
+        }
+
+        private void boxLumping_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (editVisualData) return;
+
+            if (boxLumping.SelectedIndex != 0)
+            {
+                IsLumped = true;
+                UpdateLumpingMethod(sender, e);
+                UpdateModifications();
+            }
+            else
+            {
+                IsLumped = false;
+            }
+
+            UpdateForm();
+        }
+
+ 
+        int SelectedCell = -1;
+        private void gridData_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (editVisualData) return;
+
+            SelectedCell = Convert.ToInt32(gridData.Rows[e.RowIndex].Cells[9].Value);
+            UpdateCharts();
+        }
+
+        private void checkShowModiValue_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateCharts();
         }
     }
 }

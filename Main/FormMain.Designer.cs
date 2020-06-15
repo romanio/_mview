@@ -231,6 +231,7 @@
             "Field",
             "Group",
             "Well",
+            "Completions",
             "Aquifer",
             "Region",
             "Other"});

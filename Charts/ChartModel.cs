@@ -10,9 +10,9 @@ namespace mview
     {
         ProjectManager pm = null;
 
-        public string[] GetKeywords(string name)
+        public string[] GetKeywords(string name, NameOptions type)
         {
-            var tmp_name = pm.ActiveProject.VECTORS.FirstOrDefault(c => c.Name == name);
+            var tmp_name = pm.ActiveProject.VECTORS.FirstOrDefault(c => c.Name == name && c.Type == type );
             var tmp_data = tmp_name.Data.Select(c => c.keyword);
             return tmp_data.ToArray();
         }
