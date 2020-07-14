@@ -244,7 +244,7 @@ namespace mview.ECL
 
         // Разворачивание в человеческий вид содержимое рестарт файла
 
-        public List<WELLDATA> WELLS;
+        public List<WELLDATA> WELLS = new List<WELLDATA>();
         public int RESTART_STEP;
         public float[] DATA = null;
 

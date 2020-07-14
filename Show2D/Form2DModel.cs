@@ -190,9 +190,6 @@ namespace mview
         {
             ecl.UpdateLumpingMethod(name);
         }
-
-
-
         public ECL.WELLDATA GetWellData(string wellname)
         {
             return ecl.RESTART.WELLS.FirstOrDefault(c => c.WELLNAME == wellname);
