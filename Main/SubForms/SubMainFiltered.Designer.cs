@@ -1,6 +1,6 @@
 ﻿namespace mview
 {
-    partial class Form3DInfo
+    partial class SubMainFiltered
     {
         /// <summary>
         /// Required designer variable.
@@ -28,38 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.glControl1 = new OpenTK.GLControl();
+            this.listGroups = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
-            // glControl1
+            // listGroups
             // 
-            this.glControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.glControl1.BackColor = System.Drawing.Color.Black;
-            this.glControl1.Location = new System.Drawing.Point(12, 12);
-            this.glControl1.Name = "glControl1";
-            this.glControl1.Size = new System.Drawing.Size(508, 403);
-            this.glControl1.TabIndex = 0;
-            this.glControl1.VSync = false;
+            this.listGroups.FormattingEnabled = true;
+            this.listGroups.Location = new System.Drawing.Point(12, 12);
+            this.listGroups.Name = "listGroups";
+            this.listGroups.Size = new System.Drawing.Size(142, 290);
+            this.listGroups.Sorted = true;
+            this.listGroups.TabIndex = 77;
+            this.listGroups.SelectedIndexChanged += new System.EventHandler(this.listWells_SelectedIndexChanged);
             // 
-            // Form3DInfo
+            // SubMainFiltered
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 427);
-            this.Controls.Add(this.glControl1);
-            this.DoubleBuffered = true;
+            this.ClientSize = new System.Drawing.Size(166, 309);
+            this.Controls.Add(this.listGroups);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Name = "Form3DInfo";
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "SubMainFiltered";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form3DInfo";
+            this.Text = "Virtual Groups";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SubFormOptions_FormClosing);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private OpenTK.GLControl glControl1;
+        public System.Windows.Forms.ListBox listGroups;
     }
 }

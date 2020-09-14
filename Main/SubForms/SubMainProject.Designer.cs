@@ -67,7 +67,6 @@
             this.boxNewName.Size = new System.Drawing.Size(163, 21);
             this.boxNewName.TabIndex = 23;
             this.boxNewName.Visible = false;
-            this.boxNewName.TextChanged += new System.EventHandler(this.boxNewName_TextChanged);
             // 
             // buttonRename
             // 
@@ -97,7 +96,6 @@
             this.label3.Size = new System.Drawing.Size(98, 13);
             this.label3.TabIndex = 18;
             this.label3.Text = "Active Model Name";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // gridGeneral
             // 

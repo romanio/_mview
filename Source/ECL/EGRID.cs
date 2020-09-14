@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
@@ -25,42 +26,41 @@ namespace mview.ECL
         internal const int BLOCK_SIZE_LOG2 = 19;
 
         T[][] _elements;
-        ulong _length;
+        long _length;
   
-        public BigArray(ulong size)
+        public BigArray(long size)
         {
-            int numBlocks = (int)(size / BLOCK_SIZE);
-            if ((ulong)(numBlocks * BLOCK_SIZE) < size)
+            long numBlocks = (size / BLOCK_SIZE);
+            if ((numBlocks * BLOCK_SIZE) < size)
                 numBlocks++;
 
             _length = size;
             _elements = new T[numBlocks][];
 
-            for (int iw = 0; iw < (numBlocks - 1); iw++)
+            for (long iw = 0; iw < (numBlocks - 1); iw++)
                 _elements[iw] = new T[BLOCK_SIZE];
 
-            _elements[numBlocks - 1] = new T[size - (ulong)((numBlocks - 1) * BLOCK_SIZE)];
-            numBlocks++;
+            _elements[numBlocks - 1] = new T[size - (long)((numBlocks - 1) * BLOCK_SIZE)];
         }
 
-        public ulong Length
+        public long Length
         {
             get
             {
                 return _length;
             }
         }
-        public T this[ulong index]
+        public T this[long index]
         {
             get
             {
-                int blockNum = (int)(index >> BLOCK_SIZE_LOG2);
+                long blockNum = (index >> BLOCK_SIZE_LOG2);
                 int indexInBlock = (int)(index & (BLOCK_SIZE - 1));
                 return _elements[blockNum][indexInBlock];
             }
             set
             {
-                int blockNum = (int)(index >> BLOCK_SIZE_LOG2);
+                long blockNum = (index >> BLOCK_SIZE_LOG2);
                 int indexInBlock = (int)(index & (BLOCK_SIZE - 1));
                 _elements[blockNum][indexInBlock] = value;
             }
@@ -87,10 +87,13 @@ namespace mview.ECL
         public float[] COORD = null;
         public BigArray<float> ZCORN = null;
 
-        public EGRID(string filename)
+        public event EventHandler<string[]> UpdateData;
+        
+        public void ReadEGRID(string filename)
         {
             FileReader br = new FileReader();
             br.OpenBinaryFile(filename);
+            br.UpdateData += OnBinaryReaderUpdateData;
 
             System.Diagnostics.Debug.WriteLine("EGRID");
 
@@ -144,7 +147,16 @@ namespace mview.ECL
 
                 if (br.header.keyword == "ZCORN")
                 {
-                    ZCORN = br.ReadBigList((ulong)(8 * NX * NY * NZ));
+                    ZCORN = br.ReadBigList((long)(8 * NX * NY * NZ));
+
+   
+                    /*
+                    for (long it = 0; it < (long)(8 * NX * NY * NZ); it = it + 4)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ZCORN[it + 0] + "   " + ZCORN[it + 1] + "   " + ZCORN[it + 2] + "   " + ZCORN[it + 3]);
+                    }
+         */
+
                     continue;
                 }
 
@@ -180,7 +192,10 @@ namespace mview.ECL
             br.CloseBinaryFile();
         }
 
-
+        private void OnBinaryReaderUpdateData(object sender, string[] e)
+        {
+            UpdateData?.Invoke(sender, e);
+        }
 
 
         public Cell GetCell(int X, int Y, int Z)
@@ -196,15 +211,15 @@ namespace mview.ECL
 
             // Отметки глубин
 
-            CELL.TNW.Z = ZCORN[(ulong)(Z * NX * NY * 8 + Y * NX * 4 + 2 * X + 0)];
-            CELL.TNE.Z = ZCORN[(ulong)(Z * NX * NY * 8 + Y * NX * 4 + 2 * X + 1)];
-            CELL.TSW.Z = ZCORN[(ulong)(Z * NX * NY * 8 + Y * NX * 4 + 2 * X + NX * 2 + 0)];
-            CELL.TSE.Z = ZCORN[(ulong)(Z * NX * NY * 8 + Y * NX * 4 + 2 * X + NX * 2 + 1)];
+            CELL.TNW.Z = ZCORN[(long)(Z * NX * NY * 8 + Y * NX * 4 + 2 * X + 0)];
+            CELL.TNE.Z = ZCORN[(long)(Z * NX * NY * 8 + Y * NX * 4 + 2 * X + 1)];
+            CELL.TSW.Z = ZCORN[(long)(Z * NX * NY * 8 + Y * NX * 4 + 2 * X + NX * 2 + 0)];
+            CELL.TSE.Z = ZCORN[(long)(Z * NX * NY * 8 + Y * NX * 4 + 2 * X + NX * 2 + 1)];
 
-            CELL.BNW.Z = ZCORN[(ulong)(Z * NX * NY * 8 + Y * NX * 4 + NX * NY * 4 + 2 * X + 0)];
-            CELL.BNE.Z = ZCORN[(ulong)(Z * NX * NY * 8 + Y * NX * 4 + NX * NY * 4 + 2 * X + 1)];
-            CELL.BSW.Z = ZCORN[(ulong)(Z * NX * NY * 8 + Y * NX * 4 + NX * NY * 4 + 2 * X + NX * 2 + 0)];
-            CELL.BSE.Z = ZCORN[(ulong)(Z * NX * NY * 8 + Y * NX * 4 + NX * NY * 4 + 2 * X + NX * 2 + 1)];
+            CELL.BNW.Z = ZCORN[(long)(Z * NX * NY * 8 + Y * NX * 4 + NX * NY * 4 + 2 * X + 0)];
+            CELL.BNE.Z = ZCORN[(long)(Z * NX * NY * 8 + Y * NX * 4 + NX * NY * 4 + 2 * X + 1)];
+            CELL.BSW.Z = ZCORN[(long)(Z * NX * NY * 8 + Y * NX * 4 + NX * NY * 4 + 2 * X + NX * 2 + 0)];
+            CELL.BSE.Z = ZCORN[(long)(Z * NX * NY * 8 + Y * NX * 4 + NX * NY * 4 + 2 * X + NX * 2 + 1)];
 
             // Направляющая линия от TNW до BNW
 
@@ -231,7 +246,7 @@ namespace mview.ECL
             else
             {
                 FRAC = (CELL.TNW.Z - TOP.Z) / (BTM.Z - TOP.Z);
-                CELL.TNW.X =    TOP.X + FRAC * (BTM.X - TOP.X);
+                CELL.TNW.X = TOP.X + FRAC * (BTM.X - TOP.X);
                 CELL.TNW.Y = TOP.Y + FRAC * (BTM.Y - TOP.Y);
 
                 FRAC = (CELL.BNW.Z - TOP.Z) / (BTM.Z - TOP.Z);

@@ -10,7 +10,7 @@ namespace mview
 {
     public class FormMainModel
     {
-        ProjectManager pm = new ProjectManager();
+        private readonly ProjectManager pm = new ProjectManager();
 
         public void UpdateActiveProject()
         {
@@ -29,32 +29,32 @@ namespace mview
 
         public void ShowCrossPlots()
         {
-            FormCrossPlots tmp = new FormCrossPlots(pm);
+            var tmp = new FormCrossPlots(pm);
             tmp.Show();
         }
 
         public void ShowVirtualGroups()
         {
-            FormVirtualGroups tmp = new FormVirtualGroups(pm);
+            var tmp = new FormVirtualGroups(pm);
             tmp.Show();
         }
 
         public void Show2DView()
         {
-            Form2D tmp = new Form2D(pm.ActiveProject);
+            var tmp = new Form2D(pm.ActiveProject);
             tmp.Show();
         }
 
         public void Show3DView()
         {
-            Form3DInfo tmp = new Form3DInfo(pm.ActiveProject);
+            var tmp = new Form3D(pm.ActiveProject);
             tmp.Show();
         }
 
         public void ShowDetailForm()
         {
-            FormDetails fm = new FormDetails(pm.ActiveProject);
-            fm.ShowDialog();
+            var tmp = new FormDetails(pm.ActiveProject);
+            tmp.ShowDialog();
         }
 
         public string[] GetNamesFromVGroup(string selected_pad)
@@ -65,7 +65,6 @@ namespace mview
 
             return wells.ToArray();
         }
-
 
         public string[] GetVirtualGroups()
         {
@@ -87,12 +86,13 @@ namespace mview
         {
             // save to excel
 
-            var XL = new Microsoft.Office.Interop.Excel.Application();
-
-            XL.Visible = false;
-            XL.Interactive = false;
-            XL.ScreenUpdating = false;
-            XL.SheetsInNewWorkbook = 1;
+            var XL = new Microsoft.Office.Interop.Excel.Application
+            {
+                Visible = false,
+                Interactive = false,
+                ScreenUpdating = false,
+                SheetsInNewWorkbook = 1
+            };
 
             Workbook wb = XL.Workbooks.Add();
             Worksheet ws = XL.Worksheets[1];

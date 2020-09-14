@@ -50,11 +50,7 @@
             this.buttonChartOptions = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.bbWellFilter = new System.Windows.Forms.Button();
-            this.panelNameFilter = new System.Windows.Forms.Panel();
-            this.listGroups = new System.Windows.Forms.ListBox();
-            this.labelMin = new System.Windows.Forms.Label();
             this.menu.SuspendLayout();
-            this.panelNameFilter.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
@@ -78,7 +74,7 @@
             this.openModelToolStripMenuItem.Name = "openModelToolStripMenuItem";
             this.openModelToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
             this.openModelToolStripMenuItem.Text = "Open model";
-            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.openModelToolStripMenuItem_Click);
+            this.openModelToolStripMenuItem.Click += new System.EventHandler(this.OpenModelToolStripMenuItem_Click);
             // 
             // hMAssistentToolStripMenuItem
             // 
@@ -107,16 +103,16 @@
             // dViewToolStripMenuItem2
             // 
             this.dViewToolStripMenuItem2.Name = "dViewToolStripMenuItem2";
-            this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(141, 22);
-            this.dViewToolStripMenuItem2.Text = "Show 2D View";
+            this.dViewToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.dViewToolStripMenuItem2.Text = "2D View";
             this.dViewToolStripMenuItem2.Click += new System.EventHandler(this.dViewToolStripMenuItem2_Click);
             // 
             // dViewToolStripMenuItem3
             // 
-            this.dViewToolStripMenuItem3.Enabled = false;
             this.dViewToolStripMenuItem3.Name = "dViewToolStripMenuItem3";
-            this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(141, 22);
+            this.dViewToolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
             this.dViewToolStripMenuItem3.Text = "3D View";
+            this.dViewToolStripMenuItem3.Click += new System.EventHandler(this.dViewToolStripMenuItem3_Click);
             // 
             // optionalToolStripMenuItem
             // 
@@ -285,47 +281,11 @@
             this.bbWellFilter.UseVisualStyleBackColor = true;
             this.bbWellFilter.Click += new System.EventHandler(this.bbWellFilter_Click);
             // 
-            // panelNameFilter
-            // 
-            this.panelNameFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.panelNameFilter.Controls.Add(this.listGroups);
-            this.panelNameFilter.Controls.Add(this.labelMin);
-            this.panelNameFilter.Location = new System.Drawing.Point(13, 433);
-            this.panelNameFilter.Name = "panelNameFilter";
-            this.panelNameFilter.Size = new System.Drawing.Size(139, 157);
-            this.panelNameFilter.TabIndex = 25;
-            this.panelNameFilter.Visible = false;
-            // 
-            // listGroups
-            // 
-            this.listGroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.listGroups.FormattingEnabled = true;
-            this.listGroups.IntegralHeight = false;
-            this.listGroups.Location = new System.Drawing.Point(6, 30);
-            this.listGroups.Name = "listGroups";
-            this.listGroups.ScrollAlwaysVisible = true;
-            this.listGroups.Size = new System.Drawing.Size(120, 113);
-            this.listGroups.Sorted = true;
-            this.listGroups.TabIndex = 63;
-            this.listGroups.SelectedIndexChanged += new System.EventHandler(this.listGroups_SelectedIndexChanged);
-            // 
-            // labelMin
-            // 
-            this.labelMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelMin.AutoSize = true;
-            this.labelMin.Location = new System.Drawing.Point(3, 14);
-            this.labelMin.Name = "labelMin";
-            this.labelMin.Size = new System.Drawing.Size(55, 13);
-            this.labelMin.TabIndex = 62;
-            this.labelMin.Text = "Group List";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(808, 653);
-            this.Controls.Add(this.panelNameFilter);
             this.Controls.Add(this.bbWellFilter);
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonChartOptions);
@@ -347,8 +307,6 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMainOnFormClosed);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
-            this.panelNameFilter.ResumeLayout(false);
-            this.panelNameFilter.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -378,9 +336,6 @@
         private System.Windows.Forms.ToolStripMenuItem dViewToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem dViewToolStripMenuItem3;
         private System.Windows.Forms.Button bbWellFilter;
-        private System.Windows.Forms.Panel panelNameFilter;
-        private System.Windows.Forms.ListBox listGroups;
-        private System.Windows.Forms.Label labelMin;
     }
 }
 

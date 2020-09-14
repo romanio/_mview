@@ -341,6 +341,7 @@ namespace mview.ECL
                     }
 
                     SetPosition("XWEL");
+
                     br.ReadHeader();
 
                     double[] XWEL = br.ReadDoubleList();

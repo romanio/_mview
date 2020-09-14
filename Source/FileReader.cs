@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using mview.ECL;
+using System.Drawing;
 
 namespace mview
 {
@@ -23,6 +24,9 @@ namespace mview
 
         public long Length = 0;
         public long Position = 0;
+
+        //
+        public event EventHandler<string[]> UpdateData;
 
         public void OpenBinaryFile(string filename)
         {
@@ -55,6 +59,8 @@ namespace mview
             header.count = ReadInt32();
             header.type = ReadString(4);
             ReadBytes(4);
+
+            UpdateData?.Invoke(null, new string[] { header.keyword, (100 * Position / Length).ToString() });
         }
 
         public void SkipEclipseData()
@@ -120,32 +126,30 @@ namespace mview
             int index = 0;
             int block = header.count / 105;
             int mod = header.count - block * 105;
-            int count = 0;
-
-            int str_len = 8;
+            int stringLength = 8;
 
             if (header.type.StartsWith("C0"))
             {
-                str_len = Convert.ToInt32(header.type.Substring(2, header.type.Length - 2));
+                stringLength = Convert.ToInt32(header.type.Substring(2, header.type.Length - 2));
             }
 
             while (block > 0)
             {
-                count = ReadInt32();
+                ReadInt32();
                 for (int iw = 0; iw < 105; ++iw)
-                    list[index++] = ReadString(str_len).Trim();
-                count = ReadInt32();
+                    list[index++] = ReadString(stringLength).Trim();
+                ReadInt32();
                 block--;
             }
             if (mod > 0)
             {
-                count = ReadInt32();
+                ReadInt32();
                 while (mod > 0)
                 {
-                    list[index++] = ReadString(str_len).Trim();
+                    list[index++] = ReadString(stringLength).Trim();
                     mod--;
                 }
-                count = ReadInt32();
+                ReadInt32();
             }
             return list;
         }
@@ -192,14 +196,15 @@ namespace mview
             int block = header.count / 1000;
             int mod = header.count - block * 1000;
 
-            int buflen = 0;
-            if (block > 0)
-                buflen = (2 * 4 + 8000) * block;
-            if (mod > 0)
-                buflen += 2 * 4 + 8 * mod;
+            int bufferLength = 0;
 
-            byte[] nums = br.ReadBytes(buflen);
-            Position += buflen;
+            if (block > 0)
+                bufferLength = (2 * 4 + 8000) * block;
+            if (mod > 0)
+                bufferLength += 2 * 4 + 8 * mod;
+
+            byte[] nums = br.ReadBytes(bufferLength);
+            Position += bufferLength;
             ulong low, high, result;
 
             while (block > 0)
@@ -246,14 +251,14 @@ namespace mview
             int block = count / 1000;
             int mod = count - block * 1000;
 
-            int buflen = 0;
+            int bufferLength = 0;
             if (block > 0)
-                buflen = (2 * 4 + 4000) * block;
+                bufferLength = (2 * 4 + 4000) * block;
             if (mod > 0)
-                buflen += 2 * 4 + 4 * mod;
+                bufferLength += 2 * 4 + 4 * mod;
 
-            byte[] nums = br.ReadBytes(buflen);
-            Position += buflen;
+            byte[] nums = br.ReadBytes(bufferLength);
+            Position += bufferLength;
             int local;
 
             while (block > 0)
@@ -285,17 +290,17 @@ namespace mview
             return list;
         }
 
-        unsafe public ECL.BigArray<float> ReadBigList(ulong count)
+        unsafe public ECL.BigArray<float> ReadBigList(long count)
         {
             // Процедура аналогична ReadIntList
 
             BigArray<float> list = new BigArray<float>(count);
             byte[] nums_const = new byte[2 * 4 + 4000];
 
-            ulong index = 0;
-            int bindex = 0;
-            int block = (int)(count / 1000);
-            int mod = (int)(count - (ulong)(block * 1000));
+            long index = 0;
+            long bindex = 0;
+            long block = (count / 1000);
+            int mod = (int)(count - (long)(block * 1000));
 
             long buflen = 0;
             if (block > 0)
@@ -322,7 +327,7 @@ namespace mview
 
             if (mod > 0)
             {
-                br.ReadBytes(2 * 4 + 4 * mod);
+                nums_const = br.ReadBytes(2 * 4 + 4 * mod);
                 bindex = 4;
                 while (mod > 0)
                 {

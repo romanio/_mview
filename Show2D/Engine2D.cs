@@ -236,7 +236,7 @@ namespace mview
             render = new BitmapRender(width, height); // И объявляем новый
         }
 
-        Font WellsFont = new Font("Segoe Pro Cond", 11, FontStyle.Bold);
+        readonly Font WellsFont = new Font("Segoe Pro Cond", 11, FontStyle.Bold);
 
         public void DrawWells()
         {

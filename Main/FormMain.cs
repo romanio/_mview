@@ -18,11 +18,14 @@ namespace mview
 
         private readonly SubMainProject subProject = null;
         private readonly SubMainChartOptions subChartOptions = null;
+        private readonly SubMainFiltered subFiltered = null;
+
+        private readonly ChartController chartController = new ChartController();
 
         NameOptions namesType = NameOptions.Well;
         string selectedPad = "(All)";
 
-        private readonly ChartController chartController = new ChartController();
+
         public FormMain()
         {
             InitializeComponent();
@@ -37,8 +40,12 @@ namespace mview
 
             subChartOptions = new SubMainChartOptions(chartController);
             subChartOptions.UpdateData += new EventHandler(OnSubChartOptionsUpdate);
+
+            subFiltered = new SubMainFiltered(null);
+            subFiltered.UpdateData += SubFiltered_UpdateData;
             //
         }
+
         // Свойства управляемые из модели
 
         public string[] Names
@@ -98,7 +105,7 @@ namespace mview
             }
         }
 
-        private void openModelToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             model.OpenNewModel();
 
@@ -294,29 +301,12 @@ namespace mview
 
         private void bbWellFilter_Click(object sender, EventArgs e)
         {
-            panelNameFilter.Visible = !panelNameFilter.Visible;
+            subFiltered.listGroups.Items.Clear();
+            subFiltered.listGroups.Items.Add("(All)");
+            subFiltered.listGroups.Items.AddRange(model.GetVirtualGroups() ?? new string[] { });
 
-            listGroups.Items.Clear();
-            listGroups.Items.Add("(All)");
-            listGroups.Items.AddRange(model.GetVirtualGroups()??new string[] { });
-        }
-
-        private void listGroups_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listGroups.SelectedIndex == -1) return;
-
-            selectedPad = listGroups.SelectedItem.ToString();
-
-            if (selectedPad == "(All)")
-            {
-                bbWellFilter.ForeColor = Color.Black;
-            }
-            else
-            {
-                bbWellFilter.ForeColor = Color.Red;
-            }
-
-            UpdateData();
+            subFiltered.Show();
+            subFiltered.Focus();
         }
 
         private void button1_Click_2(object sender, EventArgs e)
@@ -329,11 +319,6 @@ namespace mview
         {
             System.Diagnostics.Debug.WriteLine("FormMain [OnSubProjectUpdate]");
             UpdateData();
-        }
-
-        private void boxNewName_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         // События
@@ -355,6 +340,27 @@ namespace mview
         {
             model.UpdateActiveProject();
             UpdateData();
+        }
+
+        private void SubFiltered_UpdateData(object sender, EventArgs e)
+        {
+            selectedPad = subFiltered.listGroups.SelectedItem.ToString();
+
+            if (selectedPad == "(All)")
+            {
+                bbWellFilter.ForeColor = Color.Black;
+            }
+            else
+            {
+                bbWellFilter.ForeColor = Color.Red;
+            }
+
+            UpdateData();
+        }
+
+        private void dViewToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            model.Show3DView();
         }
     }
 }

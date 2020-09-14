@@ -58,11 +58,17 @@ namespace mview
         public SMSPEC SUMMARY = null;
         public RSSPEC RESTART = null;
         public INSPEC INIT = null;
-        public EGRID EGRID = null;
+        public EGRID EGRID = new EGRID();
+
+        private readonly FormLoading FormLoading = new FormLoading();
 
         public void OpenData(string filename)
         {
             // Настройка таймера, если загрузка происходит дольше 3 секунд, то показываем окно
+
+            FormLoading.Show();
+            FormLoading.listBoxLog.Items.Clear();
+
             // Следует разобраться со структурой файлов в директории
 
             FILENAME = filename;
@@ -103,6 +109,11 @@ namespace mview
             if (FILES.ContainsKey("SMSPEC"))
             {
                 SUMMARY = new SMSPEC(FILES["SMSPEC"]);
+                SUMMARY.UpdateData += OnLoadingUpdateData;
+
+                FormLoading.listBoxLog.Items.Add("SMSPEC...");
+                Application.DoEvents();
+                
                 ProceedSUMMARY();
 
 
@@ -118,21 +129,39 @@ namespace mview
 
             if (FILES.ContainsKey("RSSPEC"))
             {
+                FormLoading.listBoxLog.Items.Add("RSSPEC...");
+                Application.DoEvents();
+
                 RESTART = new RSSPEC(FILES["RSSPEC"]);
             }
 
             if (FILES.ContainsKey("INSPEC"))
             {
+                FormLoading.listBoxLog.Items.Add("INSPEC...");
+                Application.DoEvents();
+
                 INIT = new INSPEC(FILES["INSPEC"]);
             }
 
+            FormLoading.Hide();
+        }
+
+        private void OnLoadingUpdateData(object sender, string[] e)
+        {
+            FormLoading.lbProgressText.Text = e[0];
+            FormLoading.progressBar.Value = Convert.ToInt32(e[1]);
+            Application.DoEvents();
         }
 
         public void ReadEGRID()
         {
+            FormLoading.Show();
+            FormLoading.listBoxLog.Items.Add("EGRID...");
+            EGRID.UpdateData += OnLoadingUpdateData;
+
             if (FILES.ContainsKey("EGRID"))
             {
-                EGRID = new EGRID(FILES["EGRID"]);
+                EGRID.ReadEGRID(FILES["EGRID"]);
             }
             else
             {
@@ -140,9 +169,12 @@ namespace mview
 
                 if (fd.ShowDialog() == DialogResult.OK)
                 {
-                    EGRID = new EGRID(fd.FileName);
+                    EGRID.ReadEGRID(fd.FileName);
                 }
             }
+
+            EGRID.UpdateData -= OnLoadingUpdateData;
+            FormLoading.Hide();
         }
 
         public void UpdateLumpingMethod(string name)

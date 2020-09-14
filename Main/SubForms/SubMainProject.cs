@@ -104,17 +104,6 @@ namespace mview
                 UpdateData(sender, e);
             }
         }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void boxNewName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void listboxProjectNamesOnSelectedIndexChanged(object sender, EventArgs e)
         {
             int index = listboxProjectNames.SelectedIndex;

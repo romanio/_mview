@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Static ");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Dynamic");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Static ");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Dynamic");
             this.label2 = new System.Windows.Forms.Label();
             this.boxRestart = new System.Windows.Forms.ComboBox();
             this.glControl = new OpenTK.GLControl();
@@ -81,7 +81,7 @@
             this.glControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.glControl.Location = new System.Drawing.Point(175, 38);
             this.glControl.Name = "glControl";
-            this.glControl.Size = new System.Drawing.Size(736, 650);
+            this.glControl.Size = new System.Drawing.Size(737, 651);
             this.glControl.TabIndex = 0;
             this.glControl.VSync = true;
             this.glControl.Load += new System.EventHandler(this.glControlOnLoad);
@@ -96,13 +96,13 @@
             this.treeProperties.HideSelection = false;
             this.treeProperties.Location = new System.Drawing.Point(15, 186);
             this.treeProperties.Name = "treeProperties";
-            treeNode5.Name = "Узел0";
-            treeNode5.Text = "Static ";
-            treeNode6.Name = "Узел1";
-            treeNode6.Text = "Dynamic";
+            treeNode1.Name = "Узел0";
+            treeNode1.Text = "Static ";
+            treeNode2.Name = "Узел1";
+            treeNode2.Text = "Dynamic";
             this.treeProperties.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
+            treeNode1,
+            treeNode2});
             this.treeProperties.Size = new System.Drawing.Size(150, 372);
             this.treeProperties.TabIndex = 0;
             this.treeProperties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeProperties_AfterSelect);
@@ -196,7 +196,7 @@
             // bbChartOptions
             // 
             this.bbChartOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbChartOptions.Location = new System.Drawing.Point(545, 6);
+            this.bbChartOptions.Location = new System.Drawing.Point(546, 6);
             this.bbChartOptions.Name = "bbChartOptions";
             this.bbChartOptions.Size = new System.Drawing.Size(118, 26);
             this.bbChartOptions.TabIndex = 49;
@@ -208,7 +208,7 @@
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(669, 6);
+            this.button1.Location = new System.Drawing.Point(670, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(118, 26);
             this.button1.TabIndex = 50;
@@ -227,7 +227,7 @@
             // bbSetFocusOn
             // 
             this.bbSetFocusOn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbSetFocusOn.Location = new System.Drawing.Point(421, 6);
+            this.bbSetFocusOn.Location = new System.Drawing.Point(422, 6);
             this.bbSetFocusOn.Name = "bbSetFocusOn";
             this.bbSetFocusOn.Size = new System.Drawing.Size(118, 26);
             this.bbSetFocusOn.TabIndex = 52;
@@ -238,7 +238,7 @@
             // bbWellModel
             // 
             this.bbWellModel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bbWellModel.Location = new System.Drawing.Point(793, 6);
+            this.bbWellModel.Location = new System.Drawing.Point(794, 6);
             this.bbWellModel.Name = "bbWellModel";
             this.bbWellModel.Size = new System.Drawing.Size(118, 26);
             this.bbWellModel.TabIndex = 53;
@@ -250,7 +250,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 700);
+            this.ClientSize = new System.Drawing.Size(924, 701);
             this.Controls.Add(this.bbWellModel);
             this.Controls.Add(this.bbSetFocusOn);
             this.Controls.Add(this.lbCellValue);

@@ -24,9 +24,12 @@ namespace mview.ECL
         public int TINDEX; // Индекс вектора TIME
         public int NTIME; // Количество временных шагов
 
+        public event EventHandler<string[]> UpdateData;
+
         public SMSPEC(string filename)
         {
             FileReader br = new FileReader();
+
             br.OpenBinaryFile(filename);
 
             while (br.Position < br.Length - 24)
@@ -128,9 +131,16 @@ namespace mview.ECL
             br.CloseBinaryFile();
         }
 
+        private void OnBinaryReaderUpdateData(object sender, string[] e)
+        {
+            UpdateData?.Invoke(sender, e);
+        }
+
         public void ReadUNSMRY(string filename)
         {
             FileReader br = new FileReader();
+            br.UpdateData += OnBinaryReaderUpdateData;
+
             br.OpenBinaryFile(filename);
             if (br.Length > 0)
             {

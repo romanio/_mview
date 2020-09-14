@@ -194,8 +194,6 @@ namespace mview
         {
             return ecl.RESTART.WELLS.FirstOrDefault(c => c.WELLNAME == wellname);
         }
-
-
         public void SetFocusOnWell(string wellname)
         {
             var well = engine.grid.WELLS.FirstOrDefault(c => c.WELLNAME == wellname);

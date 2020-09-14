@@ -69,6 +69,12 @@
     <Compile Include="FormLoading.Designer.cs">
       <DependentUpon>FormLoading.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main\SubForms\SubMainFiltered.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\SubForms\SubMainFiltered.Designer.cs">
+      <DependentUpon>SubMainFiltered.cs</DependentUpon>
+    </Compile>
     <Compile Include="Show2D\SubForms\SubWellModel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,11 +138,13 @@
       <DependentUpon>Form2D.cs</DependentUpon>
     </Compile>
     <Compile Include="Show2D\Form2DModel.cs" />
-    <Compile Include="Form3DInfo\Form3DInfo.cs">
+    <Compile Include="Show3D\Camera3D.cs" />
+    <Compile Include="Show3D\Engine3D.cs" />
+    <Compile Include="Show3D\Form3D.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form3DInfo\Form3DInfo.Designer.cs">
-      <DependentUpon>Form3DInfo.cs</DependentUpon>
+    <Compile Include="Show3D\Form3D.Designer.cs">
+      <DependentUpon>Form3D.cs</DependentUpon>
     </Compile>
     <Compile Include="FormDetails.cs">
       <SubType>Form</SubType>
@@ -155,6 +163,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Show3D\Form3DModel.cs" />
+    <Compile Include="Show3D\Grid3D.cs" />
+    <Compile Include="Show3D\TextRender.cs" />
     <Compile Include="Source\EclipseProject.cs" />
     <Compile Include="Source\ECL\EGRID.cs" />
     <Compile Include="Source\ECL\INSPEC.cs" />
@@ -169,6 +180,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main\SubForms\SubMainChartOptions.resx">
       <DependentUpon>SubMainChartOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main\SubForms\SubMainFiltered.resx">
+      <DependentUpon>SubMainFiltered.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Show2D\SubForms\SubWellModel.resx">
       <DependentUpon>SubWellModel.cs</DependentUpon>
@@ -191,8 +205,8 @@
     <EmbeddedResource Include="Show2D\Form2D.resx">
       <DependentUpon>Form2D.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form3DInfo\Form3DInfo.resx">
-      <DependentUpon>Form3DInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Show3D\Form3D.resx">
+      <DependentUpon>Form3D.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormDetails.resx">
       <DependentUpon>FormDetails.cs</DependentUpon>
@@ -226,6 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dll\" />
+    <Folder Include="Show3D\SubForms\" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
