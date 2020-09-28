@@ -133,7 +133,6 @@ namespace mview.ECL
                         break;
                     }
 
-                    System.Diagnostics.Debug.WriteLine(br.header.keyword);
                     br.SkipEclipseData();
                 }
             }

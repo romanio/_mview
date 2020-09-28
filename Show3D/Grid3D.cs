@@ -23,42 +23,210 @@ namespace mview
         public int NX;
         public int NY;
         public int NZ;
+        public List<WELLDATA> WELLS; // Опасная копия данных с рестарт файла
+        public List<WELLDATA> ACTIVE_WELLS; // Только те скважины, которые следует отображать
 
         Colorizer Colorizer = new Colorizer();
         public int ElementCount;
+        public int QuadCount;
 
-        public void GenerateGraphics(EclipseProject ecl, Func<long, float> GetValue, VisualFilter filter)
+        public int welsID;
+        public float Scale = 1;
+        public float ScaleZ = 1;
+        IntPtr VertexPointer;
+
+        public int VBO, EBO, EBOQuads;
+
+        readonly Cell[] Cells;
+
+        public Grid3D(EclipseProject ecl)
         {
-            Cell CELL;
+            System.Diagnostics.Debug.WriteLine("Grid3D.cs / void Grid3D()");
 
+            GL.EnableClientState(ArrayCap.VertexArray);
+            GL.EnableClientState(ArrayCap.ColorArray);
+
+            VBO = GL.GenBuffer();
+            EBO = GL.GenBuffer();
+            EBOQuads = GL.GenBuffer();
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+
+            Cells = new Cell[ecl.INIT.NACTIV];
+
+            for (int Z = 0; Z < ecl.INIT.NZ; ++Z)
+            {
+                for (int Y = 0; Y < ecl.INIT.NY; ++Y)
+                {
+                    for (int X = 0; X < ecl.INIT.NX; ++X)
+                    {
+                        long cell_index = ecl.INIT.GetActive(X, Y, Z);
+
+                        if (cell_index > 0)
+                        {
+                            Cells[cell_index - 1] = ecl.EGRID.GetCell(X, Y, Z);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void Unload()
+        {
+            GL.DeleteBuffer(VBO);
+            GL.DeleteBuffer(EBO);
+            GL.DeleteBuffer(EBOQuads);
+
+        }
+
+        public void GenerateVertexAndColors(EclipseProject ecl, Func<long, float> GetValue)
+        {
+            System.Diagnostics.Debug.WriteLine("Grid3D.cs / void GenerateVertexAndColors");
+
+
+            int ActiveCellCount = ecl.INIT.NACTIV;
+            int index = 0;
+            
             Colorizer.SetMinimum(0);
             Colorizer.SetMaximum(1);
 
-            GL.BufferData(
-                BufferTarget.ArrayBuffer,
-                (IntPtr)((ulong)ecl.INIT.NACTIV * sizeof(float) * 3 * 8 + (ulong)ecl.INIT.NACTIV * sizeof(byte) * 3 * 8), // Три координаты по float, 8 вершин и 
+            // Без обнуления буфферов, работает но очень медленно
+
+            GL.BufferData(BufferTarget.ArrayBuffer, IntPtr.Zero, IntPtr.Zero, BufferUsageHint.StaticDraw);
+
+            GL.BufferData(BufferTarget.ArrayBuffer,
+                (IntPtr)(ActiveCellCount * sizeof(float) * 3 * 8 + ActiveCellCount * sizeof(byte) * 3 * 8), // Три координаты по float, 8 вершин и 8 цветов
                 IntPtr.Zero,
                 BufferUsageHint.StaticDraw);
-
-            IntPtr VertexPtr = GL.MapBuffer(BufferTarget.ArrayBuffer, BufferAccess.WriteOnly);
-
-            GL.BufferData(
-                BufferTarget.ElementArrayBuffer,
-                (IntPtr)((ulong)ecl.INIT.NACTIV * sizeof(float) * 3 * 14),
-                IntPtr.Zero,
-                BufferUsageHint.StaticDraw);
-
-            System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
-            IntPtr ElementPtr = GL.MapBuffer(BufferTarget.ElementArrayBuffer, BufferAccess.WriteOnly);
 
             GL.VertexPointer(3, VertexPointerType.Float, 0, 0);
-            GL.ColorPointer(3, ColorPointerType.UnsignedByte, 0, ecl.INIT.NACTIV * sizeof(float) * 3 * 8);
+            GL.ColorPointer(3, ColorPointerType.UnsignedByte, 0, ActiveCellCount * sizeof(float) * 3 * 8);
 
+            VertexPointer = GL.MapBuffer(BufferTarget.ArrayBuffer, BufferAccess.WriteOnly);
+
+            unsafe
+            {
+                float* vertex_mem = (float*)VertexPointer;
+                byte* color_mem = (byte*)(VertexPointer + ActiveCellCount * sizeof(float) * 3 * 8);
+
+                for (int Z = 0; Z < ecl.INIT.NZ; ++Z)
+                {
+                    for (int Y = 0; Y < ecl.INIT.NY; ++Y)
+                    {
+                        for (int X = 0; X < ecl.INIT.NX; ++X)
+                        {
+                            long cell_index = ecl.INIT.GetActive(X, Y, Z);
+
+                            if (cell_index > 0)
+                            {
+                                var cell = Cells[cell_index - 1];
+                                var value = GetValue(cell_index - 1);
+                                var color = Colorizer.ColorByValue(value);
+                                index = 8 * 3 * ((int)cell_index - 1); 
+
+                                vertex_mem[index + 0] = cell.TNW.X;
+                                vertex_mem[index + 1] = cell.TNW.Y;
+                                vertex_mem[index + 2] = cell.TNW.Z;
+
+                                color_mem[index + 0] = color.R;
+                                color_mem[index + 1] = color.G;
+                                color_mem[index + 2] = color.B;
+
+                                index = index + 3;
+
+                                vertex_mem[index + 0] = cell.TSW.X;
+                                vertex_mem[index + 1] = cell.TSW.Y;
+                                vertex_mem[index + 2] = cell.TSW.Z;
+
+                                color_mem[index  + 0] = color.R;
+                                color_mem[index  + 1] = color.G;
+                                color_mem[index  + 2] = color.B;
+
+                                index = index + 3;
+
+                                vertex_mem[index + 0] = cell.TSE.X;
+                                vertex_mem[index + 1] = cell.TSE.Y;
+                                vertex_mem[index + 2] = cell.TSE.Z;
+
+                                color_mem[index  + 0] = color.R;
+                                color_mem[index  + 1] = color.G;
+                                color_mem[index  + 2] = color.B;
+
+                                index = index + 3;
+
+                                vertex_mem[index + 0] = cell.TNE.X;
+                                vertex_mem[index + 1] = cell.TNE.Y;
+                                vertex_mem[index + 2] = cell.TNE.Z;
+
+                                color_mem[index + 0] = color.R;
+                                color_mem[index + 1] = color.G;
+                                color_mem[index + 2] = color.B;
+
+                                index = index + 3;
+
+                                vertex_mem[index + 0] = cell.BNW.X;
+                                vertex_mem[index + 1] = cell.BNW.Y;
+                                vertex_mem[index + 2] = cell.BNW.Z;
+
+                                color_mem[index  + 0] = color.R;
+                                color_mem[index  + 1] = color.G;
+                                color_mem[index  + 2] = color.B;
+
+                                index = index + 3;
+
+                                vertex_mem[index + 0] = cell.BSW.X;
+                                vertex_mem[index + 1] = cell.BSW.Y;
+                                vertex_mem[index + 2] = cell.BSW.Z;
+
+
+                                color_mem[index + 0] = color.R;
+                                color_mem[index + 1] = color.G;
+                                color_mem[index + 2] = color.B;
+
+
+                                index = index + 3;
+
+                                vertex_mem[index + 0] = cell.BSE.X;
+                                vertex_mem[index + 1] = cell.BSE.Y;
+                                vertex_mem[index + 2] = cell.BSE.Z;
+
+
+                                color_mem[index  + 0] = color.R;
+                                color_mem[index  + 1] = color.G;
+                                color_mem[index  + 2] = color.B;
+
+                                index = index + 3;
+
+                                vertex_mem[index + 0] = cell.BNE.X;
+                                vertex_mem[index + 1] = cell.BNE.Y;
+                                vertex_mem[index + 2] = cell.BNE.Z;
+
+                                color_mem[index + 0] = color.R;
+                                color_mem[index + 1] = color.G;
+                                color_mem[index + 2] = color.B;
+
+                                
+                            }
+                        }
+                    }
+                }
+            }
+
+            GL.UnmapBuffer(BufferTarget.ArrayBuffer);
+        }
+
+        //
+
+        public void GenerateGraphics(EclipseProject ecl, Func<long, float> GetValue, VisualFilter filter)
+        {
+            System.Diagnostics.Debug.WriteLine("Grid3D.cs / void GenerateGraphics");
+
+            int ActiveCellCount = ecl.INIT.NACTIV;
             int index = 0;
-            float value = 0;
             int count = 0;
+            int qcount = 0;
             long cell_index = 0;
-            Color color;
 
             bool skip_right_face = false;
             bool skip_front_face = false;
@@ -75,22 +243,22 @@ namespace mview
 
             if (filter != null)
             {
-                int X_start = (filter.ICfrom.First) ? filter.ICfrom.Second - 1 : 0;
-                int X_end = (filter.ICto.First) ? filter.ICto.Second - 1 : ecl.INIT.NX;
+                int X_start = (filter.ICfrom.First) ? filter.ICfrom.Second : 0;
+                int X_end = (filter.ICto.First) ? filter.ICto.Second : ecl.INIT.NX - 1;
 
-                int Y_start = (filter.JCfrom.First) ? filter.JCfrom.Second - 1 : 0;
-                int Y_end = (filter.JCto.First) ? filter.JCto.Second - 1 : ecl.INIT.NY;
+                int Y_start = (filter.JCfrom.First) ? filter.JCfrom.Second  : 0;
+                int Y_end = (filter.JCto.First) ? filter.JCto.Second: ecl.INIT.NY - 1;
 
-                int Z_start = (filter.KCfrom.First) ? filter.KCfrom.Second - 1 : 0;
-                int Z_end = (filter.KCto.First) ? filter.KCto.Second - 1 : ecl.INIT.NZ;
+                int Z_start = (filter.KCfrom.First) ? filter.KCfrom.Second: 0;
+                int Z_end = (filter.KCto.First) ? filter.KCto.Second: ecl.INIT.NZ - 1;
 
-                for (int X = X_start; X < X_end; ++X)
+                for (int X = X_start; X <= X_end; ++X)
                     XSet.Add(X);
 
-                for (int Y = Y_start; Y < Y_end; ++Y)
+                for (int Y = Y_start; Y <= Y_end; ++Y)
                     YSet.Add(Y);
 
-                for (int Z = Z_start; Z < Z_end; ++Z)
+                for (int Z = Z_start; Z <= Z_end; ++Z)
                     ZSet.Add(Z);
 
             }
@@ -106,39 +274,43 @@ namespace mview
                     YSet.Add(Y);
                 }
 
-                                for (int Z = 0; Z < ecl.INIT.NZ; ++Z)
+                for (int Z = 0; Z < ecl.INIT.NZ; ++Z)
                 {
                     ZSet.Add(Z);
                 }
-
-
-               //ZSet.Add(0);
             }
+            
 
-            unsafe
+
+            int[] Indices = new int[ActiveCellCount * 3 * 16];
+            int[] Quades = new int[ActiveCellCount * 4 * 8];
+
+            for (int zindex = 0; zindex < ZSet.Count; ++zindex)
             {
-                float* vertex_mem = (float*)VertexPtr;
-                int* index_mem = (int*)ElementPtr;
-                byte* color_mem = (byte*)(VertexPtr + ecl.INIT.NACTIV * sizeof(float) * 3 * 8);
-
-                for (int zindex = 0; zindex < ZSet.Count; ++zindex)
+                for (int yindex = 0; yindex < YSet.Count; ++yindex)
                 {
-                    for (int yindex = 0; yindex < YSet.Count; ++yindex)
+                    for (int xindex = 0; xindex < XSet.Count; ++xindex)
                     {
-                        for (int xindex = 0; xindex < XSet.Count; ++xindex)
+                        cell_index = ecl.INIT.GetActive(XSet[xindex], YSet[yindex], ZSet[zindex]);
+
+                        if (cell_index > 0)
                         {
-                            cell_index = ecl.INIT.GetActive(XSet[xindex], YSet[yindex], ZSet[zindex]);
-                            
-                            if (cell_index > 0)
+                            var CELL = Cells[cell_index - 1];
+
+                            index = 8 * ((int)cell_index - 1);
+
+                            // Проверка соседей по X справа
+
+                            skip_right_face = false;
+                            skip_left_face = false;
+                            skip_front_face = false;
+                            skip_back_face = false;
+                            skip_bottom_face = false;
+                            skip_top_face = false;
+
+                            if (filter == null)
                             {
-                                CELL = ecl.EGRID.GetCell(XSet[xindex], YSet[yindex], ZSet[zindex]);
-
-                                value = GetValue(cell_index - 1);
-                                color = Colorizer.ColorByValue(value);
-
                                 // Проверка соседей по X справа
-
-                                skip_right_face = false;
 
                                 if (xindex < XSet.Count - 1) // Только не для последнего элемента
                                 {
@@ -146,23 +318,16 @@ namespace mview
 
                                     if (cell_index > 0)
                                     {
-                                        var NCELL = ecl.EGRID.GetCell(XSet[xindex + 1], YSet[yindex], ZSet[zindex]);
+                                        var NCELL = Cells[cell_index - 1];
 
-                                        // Если правая грань по X совпадает с левой гранью по X+1, не надо ничего рисовать
-
-                                        if ((CELL.TNE == NCELL.TNW) &&
+                                        skip_right_face =
+                                            ((CELL.TNE == NCELL.TNW) &&
                                             (CELL.TSE == NCELL.TSW) &&
                                             (CELL.BNE == NCELL.BNW) &&
-                                            (CELL.BSE == NCELL.BSW))
-                                        {
-                                            skip_right_face = true;
-                                        }
+                                            (CELL.BSE == NCELL.BSW));
                                     }
                                 }
-
                                 // Проверка соседей по X слева
-
-                                skip_left_face = false;
 
                                 if (xindex > 0)
                                 {
@@ -170,310 +335,316 @@ namespace mview
 
                                     if (cell_index > 0)
                                     {
-                                        var NCELL = ecl.EGRID.GetCell(XSet[xindex - 1], YSet[yindex], ZSet[zindex]);
+                                        var NCELL = Cells[cell_index - 1];
 
-                                        if ((CELL.TNW == NCELL.TNE) &&
+                                        skip_left_face =
+                                            ((CELL.TNW == NCELL.TNE) &&
                                             (CELL.TSW == NCELL.TSE) &&
                                             (CELL.BNW == NCELL.BNE) &&
-                                            (CELL.BSW == NCELL.BSE))
-                                        {
-                                            skip_left_face = true;
-                                        }
+                                            (CELL.BSW == NCELL.BSE));
+                                    }
+                                }
+                                // Проверка соседей по Y справа
+
+                                if (yindex < YSet.Count - 1)
+                                {
+                                    cell_index = ecl.INIT.GetActive(XSet[xindex], YSet[yindex + 1], ZSet[zindex]);
+
+                                    if (cell_index > 0)
+                                    {
+                                        var NCELL = Cells[cell_index - 1];
+
+                                        skip_front_face =
+                                            ((CELL.TSW == NCELL.TNW) &&
+                                             (CELL.TSE == NCELL.TNE) &&
+                                             (CELL.BSW == NCELL.BNW) &&
+                                             (CELL.BSE == NCELL.BNE));
                                     }
                                 }
 
-              
-                     // Проверка соседей по Y справа
-
-                     skip_front_face = false;
-
-                     if (yindex < YSet.Count - 1)
-                     {
-                         cell_index = ecl.INIT.GetActive(XSet[xindex], YSet[yindex + 1], ZSet[zindex]);
-                        if (cell_index > 0)
-                         {
-                             var NCELL = ecl.EGRID.GetCell(XSet[xindex], YSet[yindex + 1], ZSet[zindex]);
-
-
-                            if ((CELL.TSW == NCELL.TNW) &&
-                                 (CELL.TSE == NCELL.TNE) &&
-                                 (CELL.BSW == NCELL.BNW) &&
-                                 (CELL.BSE == NCELL.BNE))
-                             {
-                                 skip_front_face = true;
-                             }
-                         }
-                     }
-
-
                                 // Проверка соседей по Y слева
-
-                                skip_back_face = false;
 
                                 if (yindex > 0)
                                 {
                                     cell_index = ecl.INIT.GetActive(XSet[xindex], YSet[yindex - 1], ZSet[zindex]);
+
                                     if (cell_index > 0)
                                     {
-                                        var NCELL = ecl.EGRID.GetCell(XSet[xindex], YSet[yindex - 1], ZSet[zindex]);
+                                        var NCELL = Cells[cell_index - 1];
 
-                                        if ((CELL.TNW == NCELL.TSW) &&
+                                        skip_back_face =
+                                            ((CELL.TNW == NCELL.TSW) &&
                                             (CELL.TNE == NCELL.TSE) &&
                                             (CELL.BNW == NCELL.BSW) &&
-                                            (CELL.BNE == NCELL.BSE))
-                                        {
-                                            skip_back_face = true;
-                                        }
+                                            (CELL.BNE == NCELL.BSE));
                                     }
                                 }
 
                                 // Проверка соседей по Z снизу
 
-                         skip_bottom_face = false;
-
-                         if (zindex < ZSet.Count - 1)
+                                if (zindex < ZSet.Count - 1)
                                 {
-                             cell_index = ecl.INIT.GetActive(XSet[xindex], YSet[yindex], ZSet[zindex + 1]);
-                                    if (cell_index > 0)
-                             {
-                                 var NCELL = ecl.EGRID.GetCell(XSet[xindex], YSet[yindex], ZSet[zindex + 1]);
+                                    cell_index = ecl.INIT.GetActive(XSet[xindex], YSet[yindex], ZSet[zindex + 1]);
 
-                                        if ((CELL.BNW == NCELL.TNW) &&
-                                     (CELL.BNE == NCELL.TNE) &&
-                                     (CELL.BSW == NCELL.TSW) &&
-                                     (CELL.BSE == NCELL.TSE))
-                                 {
-                                     skip_bottom_face = true;
-                                 }
-                             }
-                         }
+                                    if (cell_index > 0)
+                                    {
+                                        var NCELL = Cells[cell_index - 1];
+
+                                        skip_bottom_face =
+                                            ((CELL.BNW == NCELL.TNW) &&
+                                            (CELL.BNE == NCELL.TNE) &&
+                                            (CELL.BSW == NCELL.TSW) &&
+                                            (CELL.BSE == NCELL.TSE));
+                                    }
+                                }
 
                                 // Проверка соседей по Z сверху
 
-                                skip_top_face = false;
+                                if (zindex > 0)
+                                {
+                                    cell_index = ecl.INIT.GetActive(XSet[xindex], YSet[yindex], ZSet[zindex - 1]);
 
-                         if (zindex > 0)
-                         {
-                             cell_index = ecl.INIT.GetActive(XSet[xindex], YSet[yindex], ZSet[zindex - 1]);
                                     if (cell_index > 0)
-                             {
-                                 var NCELL = ecl.EGRID.GetCell(XSet[xindex], YSet[yindex], ZSet[zindex - 1]);
+                                    {
+                                        var NCELL = Cells[cell_index - 1];
 
-                                        if ((CELL.TNW == NCELL.BNW) &&
-                                     (CELL.TNE == NCELL.BNE) &&
-                                     (CELL.TSW == NCELL.BSW) &&
-                                     (CELL.TSE == NCELL.BSE))
-                                 {
-                                     skip_top_face = true;
-                                 }
-                             }
-                         }
-
-                                // Debug
-                                //skip_right_face = false;
-                                //skip_top_face = false;
-
-                                //skip_back_face = false;
-                                //skip_front_face = false;
-
-                                //skip_left_face = false;
-                                //skip_bottom_face = false;
-
-                                // TSE----   TSW
-                                // TNE----   TNW
-                                // BNE----   BNW
-                                // TNW(0) .. TSW(1) ..  TSE(2) .. TNE(3) 
-                                // BNW(4) .. BSW(5) .. BSE(6) .. BNE(7)
-
-                                // Top face
-
-                                if (skip_top_face == false)
-                                {
-                                    index_mem[count++] = index + 2; // TSE - TNE - TSW
-                                    index_mem[count++] = index + 3;
-                                    index_mem[count++] = index + 1;
-
-                                    index_mem[count++] = index + 1; // TSW - TNE - TNW
-                                    index_mem[count++] = index + 3;
-                                    index_mem[count++] = index + 0;
+                                        skip_top_face =
+                                            ((CELL.TNW == NCELL.BNW) &&
+                                            (CELL.TNE == NCELL.BNE) &&
+                                            (CELL.TSW == NCELL.BSW) &&
+                                            (CELL.TSE == NCELL.BSE));
+                                    }
                                 }
-
-
-                                // Front face
-
-                                if (skip_back_face == false)
-                                {
-                                    index_mem[count++] = index + 3; // TNE - BNE - TNW
-                                    index_mem[count++] = index + 7;
-                                    index_mem[count++] = index + 0;
-
-                                    index_mem[count++] = index + 0; // TNW - BNE - BNW
-                                    index_mem[count++] = index + 7;
-                                    index_mem[count++] = index + 4;
-                                }
-
-                                // Right  face
-
-                                if (skip_right_face == false)
-                                {
-                                    index_mem[count++] = index + 2; // TSE - BSE - TNE
-                                    index_mem[count++] = index + 6;
-                                    index_mem[count++] = index + 3;
-
-                                    index_mem[count++] = index + 3; // TNE - BSE - BNE
-                                    index_mem[count++] = index + 6;
-                                    index_mem[count++] = index + 7;
-                                }
-
-
-                                // TSE----   TSW
-                                // TNE----   TNW
-                                // BNE----   BNW
-                                // TNW(0) .. TSW(1) ..  TSE(2) .. TNE(3) 
-                                // BNW(4) .. BSW(5) .. BSE(6) .. BNE(7)
-
-                                // Left face
-
-                                if (skip_left_face == false)
-                                {
-                                    index_mem[count++] = index + 0; // TNW - BNW - TSW
-                                    index_mem[count++] = index + 4;
-                                    index_mem[count++] = index + 1;
-
-                                    index_mem[count++] = index + 1; // TSW - BNW - BSW
-                                    index_mem[count++] = index + 4;
-                                    index_mem[count++] = index + 5;
-                                }
-
-                                // Front face
-
-                                if (skip_front_face == false)
-                                {
-                                    index_mem[count++] = index + 2; // TSE - TSW - BSE
-                                    index_mem[count++] = index + 1;
-                                    index_mem[count++] = index + 6;
-
-                                    index_mem[count++] = index + 6; // BSE - TSW - BSW
-                                    index_mem[count++] = index + 1;
-                                    index_mem[count++] = index + 5;
-                                }
-
-
-                                // TSE----   TSW
-                                // TNE----   TNW
-                                // BNE----   BNW
-                                // TNW(0) .. TSW(1) ..  TSE(2) .. TNE(3) 
-                                // BNW(4) .. BSW(5) .. BSE(6) .. BNE(7)
-
-                                // Bottom face
-
-                                if (skip_bottom_face == false)
-                                {
-
-                                    index_mem[count++] = index + 7; // BNE - BSW - BSE
-                                    index_mem[count++] = index + 6;
-                                    index_mem[count++] = index + 5;
-
-                                    index_mem[count++] = index + 5; // BSW - BNE - BNW
-                                    index_mem[count++] = index + 4;
-                                    index_mem[count++] = index + 7;
-                                }
-
-                                //count = count + pos;
-
-                                vertex_mem[index * 3 + 0] = CELL.TNW.X;
-                                vertex_mem[index * 3 + 1] = CELL.TNW.Y;
-                                vertex_mem[index * 3 + 2] = CELL.TNW.Z;
-
-                                color_mem[index * 3 + 0] = color.R;
-                                color_mem[index * 3 + 1] = color.G;
-                                color_mem[index * 3 + 2] = color.B;
-
-                                index++;
-
-                                vertex_mem[index * 3 + 0] = CELL.TSW.X;
-                                vertex_mem[index * 3 + 1] = CELL.TSW.Y;
-                                vertex_mem[index * 3 + 2] = CELL.TSW.Z;
-
-                                color_mem[index * 3 + 0] = color.R;
-                                color_mem[index * 3 + 1] = color.G;
-                                color_mem[index * 3 + 2] = color.B;
-
-                                index++;
-
-                                vertex_mem[index * 3 + 0] = CELL.TSE.X;
-                                vertex_mem[index * 3 + 1] = CELL.TSE.Y;
-                                vertex_mem[index * 3 + 2] = CELL.TSE.Z;
-
-                                color_mem[index * 3 + 0] = color.R;
-                                color_mem[index * 3 + 1] = color.G;
-                                color_mem[index * 3 + 2] = color.B;
-
-                                index++;
-
-                                vertex_mem[index * 3 + 0] = CELL.TNE.X;
-                                vertex_mem[index * 3 + 1] = CELL.TNE.Y;
-                                vertex_mem[index * 3 + 2] = CELL.TNE.Z;
-
-                                color_mem[index * 3 + 0] = color.R;
-                                color_mem[index * 3 + 1] = color.G;
-                                color_mem[index * 3 + 2] = color.B;
-
-                                index++;
-
-                                vertex_mem[index * 3 + 0] = CELL.BNW.X;
-                                vertex_mem[index * 3 + 1] = CELL.BNW.Y;
-                                vertex_mem[index * 3 + 2] = CELL.BNW.Z;
-
-
-                                color_mem[index * 3 + 0] = color.R;
-                                color_mem[index * 3 + 1] = color.G;
-                                color_mem[index * 3 + 2] = color.B;
-
-                                index++;
-
-                                vertex_mem[index * 3 + 0] = CELL.BSW.X;
-                                vertex_mem[index * 3 + 1] = CELL.BSW.Y;
-                                vertex_mem[index * 3 + 2] = CELL.BSW.Z;
-
-
-                                color_mem[index * 3 + 0] = color.R;
-                                color_mem[index * 3 + 1] = color.G;
-                                color_mem[index * 3 + 2] = color.B;
-
-
-                                index++;
-
-                                vertex_mem[index * 3 + 0] = CELL.BSE.X;
-                                vertex_mem[index * 3 + 1] = CELL.BSE.Y;
-                                vertex_mem[index * 3 + 2] = CELL.BSE.Z;
-
-
-                                color_mem[index * 3 + 0] = color.R;
-                                color_mem[index * 3 + 1] = color.G;
-                                color_mem[index * 3 + 2] = color.B;
-
-                                index++;
-
-                                vertex_mem[index * 3 + 0] = CELL.BNE.X;
-                                vertex_mem[index * 3 + 1] = CELL.BNE.Y;
-                                vertex_mem[index * 3 + 2] = CELL.BNE.Z;
-
-                                color_mem[index * 3 + 0] = color.R;
-                                color_mem[index * 3 + 1] = color.G;
-                                color_mem[index * 3 + 2] = color.B;
-
-                                index++;
-                                //
                             }
+                            
+                            // Схема наименования вершин
+                            //
+                            // TSE----   TSW
+                            // TNE----   TNW (передняя грань)
+                            //
+                            // BNE----   BNW (передняя грань)
+                            //
+                            // Порядок хранения вершин в буфере
+                            //
+                            // TNW(0) .. TSW(1) ..  TSE(2) .. TNE(3) 
+                            // BNW(4) .. BSW(5) .. BSE(6) .. BNE(7)
+
+                            if (skip_top_face == false) // Top face
+                            {
+                                Indices[count++] = index + 2; // TSE - TNE - TSW
+                                Indices[count++] = index + 3;
+                                Indices[count++] = index + 1;
+
+                                Indices[count++] = index + 1; // TSW - TNE - TNW
+                                Indices[count++] = index + 3;
+                                Indices[count++] = index + 0;
+
+                                Quades[qcount++] = index + 0; // TNW - TSW - TSE - TNE
+                                Quades[qcount++] = index + 1;
+                                Quades[qcount++] = index + 2;
+                                Quades[qcount++] = index + 3;
+                            }
+                            
+                            if (skip_back_face == false) // Front face
+                            {
+                                Indices[count++] = index + 3; // TNE - BNE - TNW
+                                Indices[count++] = index + 7;
+                                Indices[count++] = index + 0;
+
+                                Indices[count++] = index + 0; // TNW - BNE - BNW
+                                Indices[count++] = index + 7;
+                                Indices[count++] = index + 4;
+
+                                Quades[qcount++] = index + 3; // TNE - BNE - BNW - TNW
+                                Quades[qcount++] = index + 7;
+                                Quades[qcount++] = index + 4;
+                                Quades[qcount++] = index + 0;
+                            }
+
+                            // TSE----   TSW
+                            // TNE----   TNW (передняя грань)
+                            //
+                            // BNE----   BNW (передняя грань)
+                            //
+                            // Порядок хранения вершин в буфере
+                            //
+                            // TNW(0) .. TSW(1) ..  TSE(2) .. TNE(3) 
+                            // BNW(4) .. BSW(5) .. BSE(6) .. BNE(7)
+
+                            if (skip_right_face == false) // Right  face
+                            {
+                                Indices[count++] = index + 2; // TSE - BSE - TNE
+                                Indices[count++] = index + 6;
+                                Indices[count++] = index + 3;
+
+                                Indices[count++] = index + 3; // TNE - BSE - BNE
+                                Indices[count++] = index + 6;
+                                Indices[count++] = index + 7;
+                            }
+
+                            if (skip_left_face == false) // Left face
+                            {
+                                Indices[count++] = index + 0; // TNW - BNW - TSW
+                                Indices[count++] = index + 4;
+                                Indices[count++] = index + 1;
+
+                                Indices[count++] = index + 1; // TSW - BNW - BSW
+                                Indices[count++] = index + 4;
+                                Indices[count++] = index + 5;
+                            }
+
+                            if (skip_front_face == false) // Front face
+                            {
+                                Indices[count++] = index + 2; // TSE - TSW - BSE
+                                Indices[count++] = index + 1;
+                                Indices[count++] = index + 6;
+
+                                Indices[count++] = index + 6; // BSE - TSW - BSW
+                                Indices[count++] = index + 1;
+                                Indices[count++] = index + 5;
+                            }
+
+                            if (skip_bottom_face == false) // Bottom face
+                            {
+                                Indices[count++] = index + 7; // BNE - BSW - BSE
+                                Indices[count++] = index + 6;
+                                Indices[count++] = index + 5;
+
+                                Indices[count++] = index + 5; // BSW - BNE - BNW
+                                Indices[count++] = index + 4;
+                                Indices[count++] = index + 7;
+                            }
+
+                            index += 8;
                         }
                     }
                 }
             }
 
             ElementCount = count;
-            GL.UnmapBuffer(BufferTarget.ArrayBuffer);
-            GL.UnmapBuffer(BufferTarget.ElementArrayBuffer);
+            QuadCount = qcount;
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+
+            GL.BufferData(BufferTarget.ElementArrayBuffer, IntPtr.Zero, IntPtr.Zero, BufferUsageHint.StaticDraw);
+
+            GL.BufferData(
+                BufferTarget.ElementArrayBuffer,
+                (IntPtr)(ElementCount * sizeof(int)),
+                Indices,
+                BufferUsageHint.StaticDraw);
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBOQuads);
+
+            GL.BufferData(BufferTarget.ElementArrayBuffer, IntPtr.Zero, IntPtr.Zero, BufferUsageHint.StaticDraw);
+
+            GL.BufferData(
+                BufferTarget.ElementArrayBuffer,
+                (IntPtr)(qcount * sizeof(int)), // 16 треугольников
+                Quades,
+                BufferUsageHint.StaticDraw);
+
+            System.Diagnostics.Debug.WriteLine(GL.GetError().ToString());
+        }
+
+
+        public void GenerateWellDrawList(bool show_all)
+        {
+           System.Diagnostics.Debug.WriteLine("Grid3D.cs / void GenerateWellDrawList(bool show_all)");
+
+            if (WELLS == null) return;
+
+            ACTIVE_WELLS = new List<WELLDATA>();
+
+            float X = 0;
+            float Y = 0;
+            float Z = 0;
+
+           GL.NewList(welsID, ListMode.Compile);
+
+            // Отрисовываем в первую очеред точки
+
+            GL.PointSize(7);
+            GL.Color3(Color.IndianRed) ;
+            GL.Begin(PrimitiveType.Points);
+
+            foreach (ECL.WELLDATA well in WELLS)
+            {
+                foreach (ECL.COMPLDATA compl in well.COMPLS)
+                {
+                    // Решение о визуализации скважины
+
+                    X = 0.5f * (compl.Cell.TNW.X + compl.Cell.BSE.X);
+                    Y = 0.5f * (compl.Cell.TNW.Y + compl.Cell.BSE.Y);
+                    Z = 0.5f * (compl.Cell.TNW.Z + compl.Cell.BSE.Z);
+
+                    GL.Vertex3(X, Y, Z);
+                }
+            }
+
+            GL.End();
+
+            // Затем отрисовывем ствол скважины линиями
+
+            GL.Color3(Color.Black);
+            GL.LineWidth(3);
+            GL.Begin(PrimitiveType.Lines);
+
+            foreach (ECL.WELLDATA well in WELLS)
+            {
+                bool is_first_name = true;
+                float last_XC = 0;
+                float last_YC = 0;
+                float last_ZC = 0;
+
+                foreach (ECL.COMPLDATA compl in well.COMPLS)
+                {
+                    // Решение о визуализации скважины
+
+                    if (is_first_name) // Первая точка, начало траектории
+                    {
+                        X = 0.5f * (compl.Cell.TNW.X + compl.Cell.BSE.X);
+                        Y = 0.5f * (compl.Cell.TNW.Y + compl.Cell.BSE.Y);
+                        Z = 0.5f * (compl.Cell.TNW.Z + compl.Cell.BSE.Z);
+
+                        GL.Vertex3(X, Y, ZMINCOORD - 0.2 * (ZMAXCOORD - ZMINCOORD));
+                        GL.Vertex3(X, Y, Z);
+
+                        last_XC = X;
+                        last_YC = Y;
+                        last_ZC = Z;
+
+                        well.XC = X;
+                        well.YC = Y;
+                        well.ZC = (float)(ZMINCOORD - 0.2 * (ZMAXCOORD - ZMINCOORD));
+
+                        ACTIVE_WELLS.Add(well); // Сохранить в списке активных скважин
+
+                        is_first_name = false;
+                    }
+                    else
+                    {
+                        GL.Vertex3(last_XC, last_YC, last_ZC);
+
+                        X = 0.5f * (compl.Cell.TNW.X + compl.Cell.BSE.X);
+                        Y = 0.5f * (compl.Cell.TNW.Y + compl.Cell.BSE.Y);
+                        Z = 0.5f * (compl.Cell.TNW.Z + compl.Cell.BSE.Z);
+
+                        GL.Vertex3(X, Y, Z);
+
+                        last_XC = X;
+                        last_YC = Y;
+                        last_ZC = Z;
+                    }
+                }
+                is_first_name = true;
+            }
+
+
+            GL.End();
+            GL.LineWidth(1);
+
+            GL.EndList();
         }
     }
 }

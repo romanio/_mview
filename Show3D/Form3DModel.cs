@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,8 +54,7 @@ namespace mview
         {
             this.ecl = ecl;
             Engine = new Engine3D();
-            Engine.grid = new Grid3D();
-
+            
             if (ecl != null)
             {
                 ecl.ReadEGRID();
@@ -63,6 +63,9 @@ namespace mview
             if (ecl!= null && ecl.EGRID.FILEHEAD != null)
             {
                 ecl.ReadINIT();
+
+                Engine.grid = new Grid3D(ecl);
+
             }
         }
 
@@ -74,6 +77,7 @@ namespace mview
             {
                 ecl.INIT.ReadGrid("PORO", ref ecl.INIT.DATA);
                 SetMinMaxAndScaleFactor();
+                Engine.grid.GenerateVertexAndColors(ecl, ecl.INIT.GetValue);
                 Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
 
                 Engine.Camera.Scale = 0.004f;
@@ -110,7 +114,7 @@ namespace mview
 
         public void MouseClick(MouseEventArgs e)
         {
-            Engine.OnMouseClick(e);
+          //  Engine.OnMouseClick(e);
         }
 
         void SetMinMaxAndScaleFactor()// int width, int height)
@@ -153,5 +157,215 @@ namespace mview
             Engine.grid.ZC = (Engine.grid.ZMINCOORD + Engine.grid.ZMAXCOORD) * 0.5f;
 
         }
+
+        public List<string> GetStaticProperties()
+        {
+            var StaticProperties = new List<string>();
+
+            for (int iw = 0; iw < ecl.INIT.NAME.Count; ++iw)
+                for (int it = 0; it < ecl.INIT.NAME[iw].Length; ++it)
+                    if (ecl.INIT.NUMBER[iw][it] == ecl.INIT.NACTIV)
+                        StaticProperties.Add(ecl.INIT.NAME[iw][it]);
+
+            return StaticProperties;
+        }
+
+        public List<string> GetAllDinamicProperties()
+        {
+            var DynamicProperties = new List<string>();
+
+            for (int it = 0; it < ecl.RESTART.NAME.Count; ++it)
+            {
+                DynamicProperties.AddRange(GetDinamicProperties(it));
+            }
+
+            return DynamicProperties.Distinct().ToList();
+        }
+        public List<string> GetDinamicProperties(int istep) // Вектора могут быть разными на разных рестар файлах
+        {
+            var DynamicProperties = new List<string>();
+
+            for (int it = 0; it < ecl.RESTART.NAME[istep].Length; ++it)
+                if (ecl.RESTART.NUMBER[istep][it] == ecl.INIT.NACTIV)
+                    DynamicProperties.Add(ecl.RESTART.NAME[istep][it]);
+
+            return DynamicProperties;
+        }
+
+        public int GetNX()
+        {
+            return ecl.EGRID.NX;
+        }
+
+        public int GetNY()
+        {
+            return ecl.EGRID.NY;
+        }
+
+        public int GetNZ()
+        {
+            return ecl.EGRID.NZ;
+        }
+
+        public string[] GetRestartDates()
+        {
+            return
+                (from item in ecl.RESTART.DATE
+                 select item.ToString()).ToArray();
+        }
+
+        public void SetZA(int Z)
+        {
+            if (Z == -1)
+            {
+                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+            }
+            else
+            {
+                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { KCfrom = new Pair<bool, int>(true, Z), KCto = new Pair<bool, int>(true, Z) });
+            }
+        }
+
+        public void SetYA(int Y)
+        {
+            if (Y == -1)
+            {
+                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+
+            }
+            else
+            {
+                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { JCfrom = new Pair<bool, int>(true, Y), JCto = new Pair<bool, int>(true, Y) });
+            }
+        }
+
+
+        public void SetXA(int X)
+        {
+            if (X == -1)
+            {
+                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+
+            }
+            else
+            {
+                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { ICfrom = new Pair<bool, int>(true, X), ICto = new Pair<bool, int>(true, X) });
+            }
+        }
+
+        public void ReadRestart(int step)
+        {
+            ecl.ReadRestart(step);
+            GenerateWellCoord();
+        }
+
+        void GenerateWellCoord()
+        {
+            // Вспомогательный массив WCOORD содержит в себе
+            // перфорации скважин. Если скважина вскрывает ячейку, то в массив WCOORD
+            // записывается индекс скважины
+
+            foreach (ECL.WELLDATA well in ecl.RESTART.WELLS)
+            {
+                if (well.LGR == 0)
+                {
+                    foreach (ECL.COMPLDATA compl in well.COMPLS)
+                    {
+                        compl.Cell = ecl.EGRID.GetCell(compl.I, compl.J, compl.K);
+                    }
+                }
+            }
+
+            Engine.grid.WELLS = ecl.RESTART.WELLS; // Опасное создание указателя на существующий набор данных
+            Engine.grid.Scale = Engine.Camera.Scale;
+            Engine.grid.ScaleZ = Engine.Camera.Scale * 12;
+
+            Engine.grid.GenerateWellDrawList(true);
+        }
+
+        public void SetStaticProperty(string name)
+        {
+            ecl.INIT.ReadGrid(name, ref ecl.INIT.DATA);
+
+            GridUnit = ecl.INIT.GridUnit;
+            PropertyMinValue = ecl.INIT.GetArrayMin(name);
+            PropertyMaxValue = ecl.INIT.GetArrayMax(name);
+
+            // Расчет распределения свойства по категориям
+
+            PropertyStatistic = new long[20];
+
+            // Уникальный случай, когда минимум равен максимуму
+
+            if (PropertyMinValue == PropertyMaxValue)
+            {
+                PropertyStatistic[0] = 1;
+            }
+            else
+            {
+                for (int iw = 0; iw < ecl.INIT.DATA.Length; ++iw)
+                    PropertyStatistic[
+                        (int)((float)(ecl.INIT.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
+                        ]++;
+            }
+        }
+
+        string GridUnit = null;
+        float PropertyMinValue = 0;
+        float PropertyMaxValue = 1;
+        long[] PropertyStatistic = null;
+
+        public void GenerateStaticGrid()
+        {
+            Engine.grid.Scale = Engine.Camera.Scale;
+            Engine.grid.ScaleZ = Engine.Camera.Scale * 12;
+            
+            Engine.grid.GenerateVertexAndColors(ecl, ecl.INIT.GetValue);
+            Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+            Engine.grid.GenerateWellDrawList(true);
+        }
+
+
+        public void GenerateRestartGrid()
+        {
+            Engine.grid.Scale = Engine.Camera.Scale;
+            Engine.grid.ScaleZ = Engine.Camera.Scale * 12;
+
+            Engine.grid.GenerateVertexAndColors(ecl, ecl.RESTART.GetValue);
+            Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+            Engine.grid.GenerateWellDrawList(true);
+        }
+
+        public void SetDynamicProperty(string name)
+        {
+            System.Diagnostics.Debug.WriteLine("Form3DModel.cs / void SetDynamicProperty {0} ", name);
+
+            if (Array.IndexOf(ecl.RESTART.NAME[ecl.RESTART.RESTART_STEP], name) != -1)
+            {
+                ecl.RESTART.ReadGrid(name);
+
+                GridUnit = ecl.RESTART.GridUnit;
+                PropertyMinValue = ecl.RESTART.GetArrayMin(name);
+                PropertyMaxValue = ecl.RESTART.GetArrayMax(name);
+
+                PropertyStatistic = new long[20];
+
+                // Уникальный случай, когда минимум равен максимуму
+
+                if (PropertyMinValue == PropertyMaxValue)
+                {
+                    PropertyStatistic[0] = 1;
+                }
+                else
+                {
+                    for (int iw = 0; iw < ecl.RESTART.DATA.Length; ++iw)
+                        PropertyStatistic[
+                            (int)((float)(ecl.RESTART.DATA[iw] - PropertyMinValue) / (float)(PropertyMaxValue - PropertyMinValue) * 19)
+                            ]++;
+                }
+            }
+        }
     }
+
+
 }

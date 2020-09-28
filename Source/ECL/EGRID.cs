@@ -55,13 +55,13 @@ namespace mview.ECL
             get
             {
                 long blockNum = (index >> BLOCK_SIZE_LOG2);
-                int indexInBlock = (int)(index & (BLOCK_SIZE - 1));
+                long indexInBlock = (index & (BLOCK_SIZE - 1));
                 return _elements[blockNum][indexInBlock];
             }
             set
             {
                 long blockNum = (index >> BLOCK_SIZE_LOG2);
-                int indexInBlock = (int)(index & (BLOCK_SIZE - 1));
+                long indexInBlock = (index & (BLOCK_SIZE - 1));
                 _elements[blockNum][indexInBlock] = value;
             }
         }
@@ -94,8 +94,6 @@ namespace mview.ECL
             FileReader br = new FileReader();
             br.OpenBinaryFile(filename);
             br.UpdateData += OnBinaryReaderUpdateData;
-
-            System.Diagnostics.Debug.WriteLine("EGRID");
 
             while (br.Position < br.Length - 24)
             {
@@ -139,6 +137,11 @@ namespace mview.ECL
                     continue;
                 }
 
+                if (br.header.keyword == "ENDGRID") // Завершение чтения данных основной сетки и переход к LGR
+                {
+                    break;
+                }
+
                 if (br.header.keyword == "COORD")
                 {
                     COORD = br.ReadFloatList(6 * (NY + 1) * (NX + 1));
@@ -148,45 +151,15 @@ namespace mview.ECL
                 if (br.header.keyword == "ZCORN")
                 {
                     ZCORN = br.ReadBigList((long)(8 * NX * NY * NZ));
-
-   
-                    /*
-                    for (long it = 0; it < (long)(8 * NX * NY * NZ); it = it + 4)
-                    {
-                        System.Diagnostics.Debug.WriteLine(ZCORN[it + 0] + "   " + ZCORN[it + 1] + "   " + ZCORN[it + 2] + "   " + ZCORN[it + 3]);
-                    }
-         */
-
                     continue;
                 }
 
                 /*
-                
                 Несмотря на то, что EGRID хранит в себе ACTNUM, иногда так происходит
                 что EGRID подается на вход в модель и фактическое количество активных ячеек будет расчитано после
                 начала расчёта. Настоящий массив ACTNUM поэтому, хранится в INIT и толку от его чтения здесь нет никакого.
-
-                if (br.header.keyword == "ACTNUM")
-                {
-                    ACTNUM = br.ReadIntList();
-
-                    // Для сжатого формата хранения данных
-                    // требуется провести индексирования массива активных ячеек
-                    // ACTNUM сам по себе это "1" для активной ячейки и "0" для не активной
-
-                    int index = 1;
-                    for (int iw = 0; iw < ACTNUM.Length; ++iw)
-                        if (ACTNUM[iw] > 0) ACTNUM[iw] = index++;
-
-                    NACTIV = index - 1;
-
-                    // Теперь ACTNUM хранит ещё и индекс ячейки INDEX, который есть просто линейный порядковый номер
-                    // увеличенный на "1", так как надо сохранить нулевые значения в неактивных ячейках
-                    continue;
-                }
                 */
 
-                System.Diagnostics.Debug.WriteLine(br.header.keyword);
                 br.SkipEclipseData();
             }
             br.CloseBinaryFile();

@@ -64,6 +64,7 @@ namespace mview.ECL
         public int I;
         public int J;
         public int K;
+        public int LGR;
         public int COMPLNUM;
         public int GROUPNUM;
         public int WELLTYPE;
@@ -89,6 +90,7 @@ namespace mview.ECL
         public double WWITH;
         public float XC;
         public float YC;
+        public float ZC;
         public List<COMPLDATA> COMPLS = new List<COMPLDATA>();
     }
 
@@ -200,6 +202,7 @@ namespace mview.ECL
                     br.SkipEclipseData();
                 }
                 br.CloseBinaryFile();
+                
             }
         }
 
@@ -255,19 +258,24 @@ namespace mview.ECL
 
 
         public void ReadRestart(string filename, int step)
-        // для чтения показателей по перфорациям, я все таки вынес в отдельную процедуру
+       
+            // для чтения показателей по перфорациям, я все таки вынес в отдельную процедуру
         // требуется редко, а читается постоянно 
         {
             FILENAME = filename;
-            RESTART_STEP = step;
+
+            // Проверка на LGR
+            bool LGR = REPORT.Count != NAME.Count;
+
+            RESTART_STEP = LGR ? step * 2 : step;
 
             FileReader br = new FileReader();
-
+            
             Action<string> SetPosition = (name) =>
             {
-                int index = Array.IndexOf(NAME[step], name);
-                long pointer = POINTER[step][index];
-                long pointerb = POINTERB[step][index];
+                int index = Array.IndexOf(NAME[RESTART_STEP], name);
+                long pointer = POINTER[RESTART_STEP][index];
+                long pointerb = POINTERB[RESTART_STEP][index];
                 br.SetPosition(pointerb * 2147483648 + pointer);
             };
             
@@ -318,7 +326,8 @@ namespace mview.ECL
                         COMPLNUM = IWEL[iw * NIWELZ + 4],
                         GROUPNUM = IWEL[iw * NIWELZ + 5],
                         WELLTYPE = IWEL[iw * NIWELZ + 6],
-                        WELLSTATUS = IWEL[iw * NIWELZ + 10]
+                        WELLSTATUS = IWEL[iw * NIWELZ + 10],
+                        LGR = IWEL[iw * NIWELZ + 42]
                     });
                 }
 
@@ -336,8 +345,12 @@ namespace mview.ECL
                         WELLS[iw].WGPRH = SWEL[iw * NSWELZ + 2];
                         WELLS[iw].WLPRH = SWEL[iw * NSWELZ + 3];
                         WELLS[iw].REF_DEPTH = SWEL[iw * NSWELZ + 9];
-                        WELLS[iw].WEFA = SWEL[iw * NSWELZ + 24];
-                        WELLS[iw].WBHPH = SWEL[iw * NSWELZ + 68];
+
+                        if (NSWELZ > 10) // Навигатор NSWELS = 10
+                        {
+                            WELLS[iw].WEFA = SWEL[iw * NSWELZ + 24];
+                            WELLS[iw].WBHPH = SWEL[iw * NSWELZ + 68];
+                        }
                     }
 
                     SetPosition("XWEL");
@@ -533,6 +546,13 @@ namespace mview.ECL
         {
             return DATA[index];
         }
+
+
+        int GetNameIndex(string name, int LGR)
+        {
+            return 0;
+        }
+
 
         public void ReadVectorFile()
         {

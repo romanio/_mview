@@ -520,6 +520,19 @@ namespace mview
             NY = ecl.EGRID.NY;
             NZ = ecl.EGRID.NZ;
 
+            GL.BufferData(
+                BufferTarget.ArrayBuffer,
+                IntPtr.Zero, // Три координаты по float, 8 вершин и 8 цветов
+                IntPtr.Zero,
+                BufferUsageHint.StaticDraw);
+
+            GL.BufferData(
+                BufferTarget.ElementArrayBuffer,
+                IntPtr.Zero, // 16 треугольников
+                IntPtr.Zero,
+                BufferUsageHint.StaticDraw);
+
+
             if (CurrentViewMode == ViewMode.Z)
             {
                 GL.BufferData(

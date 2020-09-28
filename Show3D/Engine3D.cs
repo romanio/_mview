@@ -15,10 +15,11 @@ namespace mview
     {
         public Camera3D Camera = new Camera3D();
         public Grid3D grid = null;
-        int VBO, EBO;
 
         public void OnLoad()
         {
+            System.Diagnostics.Debug.WriteLine("Engine3D.cs / void OnLoad() ");
+
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.PolygonOffsetFill);
             
@@ -28,29 +29,25 @@ namespace mview
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.ClearColor(Color.White);
 
-            GL.EnableClientState(ArrayCap.VertexArray);
-            GL.EnableClientState(ArrayCap.ColorArray);
+            grid.welsID = GL.GenLists(2);
 
-            VBO = GL.GenBuffer();
-            EBO = GL.GenBuffer();
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
-
+            
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
         }
 
         public void OnUnload()
         {
-            GL.DeleteBuffer(VBO);
-            GL.DeleteBuffer(EBO);
+            grid.Unload();
+            GL.DeleteLists(grid.welsID, 2);
         }
 
         Vector3 m_start_vector = new Vector3();
         Vector3 m_end_vector = new Vector3();
         Vector3 m_delta_vector = new Vector3();
 
+#pragma warning disable CS0414 // The field 'Engine3D.IsLeftDrag' is assigned but its value is never used
         bool IsLeftDrag = false;
+#pragma warning restore CS0414 // The field 'Engine3D.IsLeftDrag' is assigned but its value is never used
         bool IsMidDrag = false;
         bool IsRightDrag = false;
 
@@ -112,6 +109,7 @@ namespace mview
                 {
                     IsRightDrag = false;
                     UpdateModelView();
+                   
                     OnPaint();
                 }
             }
@@ -121,11 +119,6 @@ namespace mview
         {
             Camera.Zoom(e.Delta);
             UpdateModelView();
-        }
-
-        public void OnMouseClick(MouseEventArgs e)
-        {
-
         }
 
         TextRender txt_render;
@@ -155,7 +148,6 @@ namespace mview
             }
             else
             {
-
                 GL.PolygonOffset(0, 0);
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 
@@ -183,7 +175,22 @@ namespace mview
 
             //
             txt_render.Clear(Color.Transparent);
-            txt_render.DrawString("Hello", Serif, Brushes.Black, new PointF(20, 20));
+
+
+            if (grid.ACTIVE_WELLS != null)
+            {
+                foreach (ECL.WELLDATA well in grid.ACTIVE_WELLS)
+                {
+                    if (well.COMPLS.Count > 0)
+                    {
+                        var coord = ConvertWorldToScreen(new Vector3((well.XC - grid.XC) * Camera.Scale, (well.YC - grid.YC) * Camera.Scale, (well.ZC - grid.ZC) * Camera.Scale * 12));
+                        txt_render.DrawString(well.WELLNAME, Serif, Brushes.Black, new PointF(coord.X, coord.Y));
+                    }
+                }
+            }
+
+            /*
+             * txt_render.DrawString("Hello", Serif, Brushes.Black, new PointF(20, 20));
             txt_render.DrawString("Hello", Serif, Brushes.Black, new PointF(0, 0));
             txt_render.DrawString("Hello", Serif, Brushes.Black, new PointF(40, 40));
 
@@ -194,6 +201,11 @@ namespace mview
             {
                 txt_render.DrawString("(0, 0, 0)", Serif, Brushes.Black, new PointF(pos_coord.X, pos_coord.Y));
             }
+
+            */
+
+
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, txt_render.Texture);
@@ -229,9 +241,15 @@ namespace mview
 
             GL.MatrixMode(MatrixMode.Modelview);
 
-            // Switch to 3D 
+            // Switch to 3D
         }
 
+        public void DrawWells()
+        {
+           GL.CallList(grid.welsID);
+
+
+        }
         public void RenderEasyCube(bool frame_mode)
         {
             GL.Begin(PrimitiveType.Quads);
@@ -297,25 +315,33 @@ namespace mview
 
         public void Render()
         {
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, grid.EBO);
+
             // Отрисовка ячеек
 
-
-           GL.PolygonOffset(+1, +1);
+            GL.PolygonOffset(+1, +1);
 
             GL.EnableClientState(ArrayCap.ColorArray);
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
             GL.DrawElements(PrimitiveType.Triangles, grid.ElementCount, DrawElementsType.UnsignedInt, 0);
 
 
-
             // Отрисовка границ
 
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, grid.EBOQuads);
 
             GL.PolygonOffset(0, 0);
             GL.DisableClientState(ArrayCap.ColorArray);
             GL.Color3(Color.Black);
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
-            GL.DrawElements(PrimitiveType.Triangles, grid.ElementCount, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Quads, grid.QuadCount, DrawElementsType.UnsignedInt, 0);
+
+            
+           // GL.Disable(EnableCap.DepthTest);
+            DrawWells();
+           // GL.Enable(EnableCap.DepthTest);
+            
         }
 
 
@@ -381,9 +407,6 @@ namespace mview
             GL.LineWidth(1);
         }
         */
-
-        EclipseProject ecl_ref = null;
-
         /*
         public void GenerateGraphics(ECLStructure.ECL ecl)
         {

@@ -222,9 +222,12 @@ namespace mview
 
             foreach(ECL.WELLDATA well in ecl.RESTART.WELLS)
             {
-                foreach (ECL.COMPLDATA compl in well.COMPLS)
+                if (well.LGR == 0)
                 {
-                    compl.Cell = ecl.EGRID.GetCell(compl.I, compl.J, compl.K);
+                    foreach (ECL.COMPLDATA compl in well.COMPLS)
+                    {
+                        compl.Cell = ecl.EGRID.GetCell(compl.I, compl.J, compl.K);
+                    }
                 }
             }
 
