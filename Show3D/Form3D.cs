@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,95 +13,80 @@ namespace mview
 {
     public partial class Form3D : Form
     {
-        private Form3DModel model = null;
-        private EclipseProject ecl = null;
+        ModelForm3D model = null;
+        EclipseProject ecl = null;
+        Sub3DFilter sub3DFilter = null;
 
         public Form3D(EclipseProject ecl)
         {
             InitializeComponent();
             this.ecl = ecl;
+
+            sub3DFilter = new Sub3DFilter();
+            sub3DFilter.UpdateData += Sub3DFilterOnUpdateData;
         }
 
-        bool editVisualData = false;
+        private void Sub3DFilterOnUpdateData(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         void UpdateVisual()
         {
-            editVisualData = true;
-
-            // Имена свойств из INIT файла
+            // Заполнение  статических и динамических свойств
 
             treeProperties.Nodes[0].Nodes.Clear();
             treeProperties.Nodes[1].Nodes.Clear();
 
-            var static_properties = model.GetStaticProperties();
-            var dynamic_properties = model.GetAllDinamicProperties();
+            var staticNodes = new List<TreeNode>();
 
-            treeProperties.BeginUpdate();
-            foreach (string item in static_properties)
+            foreach (string item in model.GetStaticProperties())
             {
-                treeProperties.Nodes[0].Nodes.Add(item);
+                staticNodes.Add(new TreeNode(item));
             }
-            foreach (string item in dynamic_properties)
+
+            treeProperties.Nodes[0].Nodes.AddRange(staticNodes.ToArray());
+
+            var dynamicNodes = new List<TreeNode>();
+
+            foreach (string item in model.GetAllDinamicProperties())
             {
-                treeProperties.Nodes[1].Nodes.Add(item);
+                dynamicNodes.Add(new TreeNode(item));
             }
-            treeProperties.EndUpdate();
+
+            treeProperties.Nodes[1].Nodes.AddRange(dynamicNodes.ToArray());
 
             // Список из всех доступных рестартов
 
             boxRestart.Items.Clear();
-
-            boxRestart.BeginUpdate();
             boxRestart.Items.AddRange(model.GetRestartDates());
-
-            boxRestart.EndUpdate();
 
             // Размерность по X, Y, Z
 
-            boxXSlice.Items.Clear();
-            boxXSlice.BeginUpdate();
-
-            boxXSlice.Items.Add("(all)");
-
+            var xSize = new List<object> { "all" };
+            
             for (int it = 0; it < model.GetNX(); ++it)
-                boxXSlice.Items.Add((it + 1).ToString());
+               xSize.Add((it + 1).ToString());
 
-            boxXSlice.SelectedIndex = 0;
-            boxXSlice.EndUpdate();
-
-            //
-
-            boxYSlice.Items.Clear();
-            boxYSlice.BeginUpdate();
-
-            boxYSlice.Items.Add("(all)");
+            var ySize = new List<object> { "all" };
 
             for (int it = 0; it < model.GetNY(); ++it)
-                boxYSlice.Items.Add((it + 1).ToString());
+                ySize.Add((it + 1).ToString());
 
-            boxYSlice.SelectedIndex = 0;
-            boxYSlice.EndUpdate();
-
-            //
-
-            boxZSlice.Items.Clear();
-            boxZSlice.BeginUpdate();
-
-            boxZSlice.Items.Add("(all)");
+            var zSize = new List<object> { "all" };
 
             for (int it = 0; it < model.GetNZ(); ++it)
-                boxZSlice.Items.Add((it + 1).ToString());
+                zSize.Add((it + 1).ToString());
 
-            if (boxRestart.Items.Count > 0)
-                boxRestart.SelectedIndex = 0;
 
-            boxZSlice.SelectedIndex = 0;
-            boxZSlice.EndUpdate();
+            boxXSlice.Items.Clear();
+            boxXSlice.Items.AddRange(xSize.ToArray());
 
-            //
+            boxYSlice.Items.Clear();
+            boxYSlice.Items.AddRange(ySize.ToArray());
 
-            editVisualData = false;
-
-            //tabSliceControl_SelectedIndexChanged(null, null);
+            boxZSlice.Items.Clear();
+            boxZSlice.Items.AddRange(zSize.ToArray());
         }
 
         // Всё что касается OpenGL
@@ -108,7 +94,7 @@ namespace mview
         private void glControlOnLoad(object sender, EventArgs e)
 
         {
-            model = new Form3DModel(ecl);
+            model = new ModelForm3D(ecl);
 
             UpdateVisual();
 
@@ -116,6 +102,11 @@ namespace mview
 
             glControlOnResize(null, null);
             glControl.MouseWheel += new MouseEventHandler(glControlOnMouseWheel);
+
+            boxXSlice.SelectedIndex = 0;
+            boxYSlice.SelectedIndex = 0;
+            boxZSlice.SelectedIndex = 0;
+
         }
 
         private void glControlOnMouseWheel(object sender, MouseEventArgs e)
@@ -140,94 +131,66 @@ namespace mview
         {
             model.MouseClick(e);
             glControlOnPaint(null, null);
-
-        //    var res = model.GetXYZVSelected();
-         //   lbCellValue.Text = String.Format("Cell [{0}, {1}, {2}] = {3}, {4}", res.Item1 + 1, res.Item2 + 1, res.Item3 + 1, res.Item4, model.GetGridUnit());
         }
 
         private void glControlOnResize(object sender, EventArgs e)
         {
-            if (model == null) return;
-
-            model.OnResize(glControl.Width, glControl.Height);
+            model?.OnResize(glControl.Width, glControl.Height);
             glControl.SwapBuffers();
         }
 
         private void boxZSlice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editVisualData) return;
-
             model.SetZA(boxZSlice.SelectedIndex - 1);
             glControlOnPaint(null, null);
         }
 
         private void boxXSlice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editVisualData) return;
-
             model.SetXA(boxXSlice.SelectedIndex - 1);
             glControlOnPaint(null, null);
         }
 
         private void boxYSlice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editVisualData) return;
-
             model.SetYA(boxYSlice.SelectedIndex - 1);
             glControlOnPaint(null, null);
         }
 
-        private void treeProperties_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TreePropertiesOnAfterSelect(object sender, TreeViewEventArgs e)
         {
             // Статические свойства
 
             if (treeProperties.SelectedNode?.Parent?.Index == 0)
             {
-                string name = treeProperties.SelectedNode.Text;
-                model.SetStaticProperty(name);
+                model.OnStaticPropertySelected(treeProperties.SelectedNode.Text);
+                //string name = treeProperties.SelectedNode.Text;
+                //model.SetStaticProperty(name);
 
-                /*
-                subOptions.UpdateMode = true;
-                subOptions.PropertyMaxValue = model.GetPropertyMaxValue();
-                subOptions.PropertyMinValue = model.GetPropertyMinValue();
-                subOptions.PropertyStatistic = model.GetPropertyStatistic();
-                subOptions.PropertName = name;
-                subOptions.UpdateMode = false;
+                //model.GenerateStaticGrid();
 
-                model.ApplyStyleData();
-                */
-
-                model.GenerateStaticGrid();
-
-                glControlOnPaint(null, null);
+                //glControlOnPaint(null, null);
             }
 
             // Динамические свойства
 
             if (treeProperties.SelectedNode?.Parent?.Index == 1)
             {
-                string name = treeProperties.SelectedNode.Text;
-                model.SetDynamicProperty(name);
-
-                /*
-                subOptions.UpdateMode = true;
-                subOptions.PropertyMaxValue = model.GetPropertyMaxValue();
-                subOptions.PropertyMinValue = model.GetPropertyMinValue();
-                subOptions.PropertyStatistic = model.GetPropertyStatistic();
-                subOptions.PropertName = name;
-                subOptions.UpdateMode = false;
-
-                model.ApplyStyleData();
-                */
-                model.GenerateRestartGrid();
+                model.OnDynamicPropertySelected(treeProperties.SelectedNode.Text);
+                
+                //model.SetDynamicProperty(name);
+                //model.GenerateRestartGrid();
 
 
-                glControlOnPaint(null, null);
+                //glControlOnPaint(null, null);
             }
         }
 
-        private void boxRestart_SelectedIndexChanged(object sender, EventArgs e)
+        private void BoxRestartOnSelectedIndexChanged(object sender, EventArgs e)
         {
+            model.OnRestartSelected(boxRestart.SelectedIndex);
+
+            /*
             if (editVisualData) return;
 
             System.Diagnostics.Debug.WriteLine("Form2D [BoxRestart SelectedIndexChanged]");
@@ -235,6 +198,13 @@ namespace mview
             model.ReadRestart(boxRestart.SelectedIndex);
 
             treeProperties_AfterSelect(null, null);
+            */
+        }
+
+        private void bbShowFilterOnClick(object sender, EventArgs e)
+        {
+            sub3DFilter.Show();
+            sub3DFilter.Focus();
         }
     }
 }

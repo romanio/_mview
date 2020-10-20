@@ -163,8 +163,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Show3D\Form3DModel.cs" />
+    <Compile Include="Show3D\ModelForm3D.cs" />
     <Compile Include="Show3D\Grid3D.cs" />
+    <Compile Include="Show3D\SubForms\Sub3DFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Show3D\SubForms\Sub3DFilter.Designer.cs">
+      <DependentUpon>Sub3DFilter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Show3D\TextRender.cs" />
     <Compile Include="Source\EclipseProject.cs" />
     <Compile Include="Source\ECL\EGRID.cs" />
@@ -224,6 +230,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Show3D\SubForms\Sub3DFilter.resx">
+      <DependentUpon>Sub3DFilter.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -240,7 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dll\" />
-    <Folder Include="Show3D\SubForms\" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">

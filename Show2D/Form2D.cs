@@ -13,9 +13,9 @@ namespace mview
     public partial class Form2D : Form
     {
         Form2DModel model = null;
-        Sub2DOptions subOptions = null;
-        SubSetFocusOn subFocusOn = null;
-        SubWellModel subWellModel = null;
+        private Sub2DOptions subOptions = null;
+        private SubSetFocusOn subFocusOn = null;
+        private SubWellModel subWellModel = null;
 
         public Form2D(EclipseProject ecl)
         {
@@ -23,14 +23,14 @@ namespace mview
 
             model = new Form2DModel(ecl);
             subOptions = new Sub2DOptions(model.style);
-            subOptions.UpdateData += new EventHandler(this.OnSubFormOptions);
+            subOptions.UpdateData += OnSubFormOptions;
 
             subFocusOn = new SubSetFocusOn(model.style);
-            subFocusOn.UpdateData += new EventHandler(this.OnSubFocusOn);
+            subFocusOn.UpdateData += OnSubFocusOn;
 
             subWellModel = new SubWellModel(model.style);
-            subWellModel.UpdateData += new EventHandler(this.OnSubWellModelUpdate);
-            subWellModel.UpdateLumpingMethod += new EventHandler(this.OnSubWellModelUpdateLumpingMethod);
+            subWellModel.UpdateData += OnSubWellModelUpdate;
+            subWellModel.UpdateLumpingMethod += OnSubWellModelUpdateLumpingMethod;
 
             tabSliceControl.SelectedIndex = 2;
         }

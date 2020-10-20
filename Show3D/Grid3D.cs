@@ -461,16 +461,6 @@ namespace mview
                                 Quades[qcount++] = index + 0;
                             }
 
-                            // TSE----   TSW
-                            // TNE----   TNW (передняя грань)
-                            //
-                            // BNE----   BNW (передняя грань)
-                            //
-                            // Порядок хранения вершин в буфере
-                            //
-                            // TNW(0) .. TSW(1) ..  TSE(2) .. TNE(3) 
-                            // BNW(4) .. BSW(5) .. BSE(6) .. BNE(7)
-
                             if (skip_right_face == false) // Right  face
                             {
                                 Indices[count++] = index + 2; // TSE - BSE - TNE
@@ -480,6 +470,11 @@ namespace mview
                                 Indices[count++] = index + 3; // TNE - BSE - BNE
                                 Indices[count++] = index + 6;
                                 Indices[count++] = index + 7;
+
+                                Quades[qcount++] = index + 2; // TSE - BSE - BNE - TNE
+                                Quades[qcount++] = index + 6;
+                                Quades[qcount++] = index + 7;
+                                Quades[qcount++] = index + 3;
                             }
 
                             if (skip_left_face == false) // Left face
@@ -491,9 +486,14 @@ namespace mview
                                 Indices[count++] = index + 1; // TSW - BNW - BSW
                                 Indices[count++] = index + 4;
                                 Indices[count++] = index + 5;
+
+                                Quades[qcount++] = index + 0; // TNW - BNW - BSW - TSW
+                                Quades[qcount++] = index + 4;
+                                Quades[qcount++] = index + 5;
+                                Quades[qcount++] = index + 1;
                             }
 
-                            if (skip_front_face == false) // Front face
+                            if (skip_front_face == false) // Back face
                             {
                                 Indices[count++] = index + 2; // TSE - TSW - BSE
                                 Indices[count++] = index + 1;
@@ -502,6 +502,11 @@ namespace mview
                                 Indices[count++] = index + 6; // BSE - TSW - BSW
                                 Indices[count++] = index + 1;
                                 Indices[count++] = index + 5;
+
+                                Quades[qcount++] = index + 2; // TSE - TSW - BSW - BSE
+                                Quades[qcount++] = index + 1;
+                                Quades[qcount++] = index + 5;
+                                Quades[qcount++] = index + 6;
                             }
 
                             if (skip_bottom_face == false) // Bottom face
@@ -510,9 +515,14 @@ namespace mview
                                 Indices[count++] = index + 6;
                                 Indices[count++] = index + 5;
 
-                                Indices[count++] = index + 5; // BSW - BNE - BNW
+                                Indices[count++] = index + 5; // BSW - BNW - BNE
                                 Indices[count++] = index + 4;
                                 Indices[count++] = index + 7;
+
+                                Quades[qcount++] = index + 4; // BNW - BNE - BSE - BSW
+                                Quades[qcount++] = index + 7;
+                                Quades[qcount++] = index + 6;
+                                Quades[qcount++] = index + 5;
                             }
 
                             index += 8;

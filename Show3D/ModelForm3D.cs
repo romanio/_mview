@@ -25,7 +25,6 @@ namespace mview
         public T First { get; set; }
         public U Second { get; set; }
     };
-
     public class VisualFilter
     {
         public Pair<bool, int> ICfrom = new Pair<bool, int>();
@@ -39,21 +38,20 @@ namespace mview
     }
 
 
-    public class Form3DModel
+    public class ModelForm3D
     {
         private readonly EclipseProject ecl = null;
-        public Engine3D Engine = null;
+        private Engine3D engine = null;
 
         public List<string> Wellnames { get; set; }
         public List<string> RestartDates { get; set; }
-        ///public List<WELLDATA> WellRestart { get; set; }
         public List<string> StaticProperties { get; set; }
         public List<string> DynamicProperties { get; set; }
 
-        public Form3DModel(EclipseProject ecl)
+        public ModelForm3D(EclipseProject ecl)
         {
             this.ecl = ecl;
-            Engine = new Engine3D();
+            engine = new Engine3D();
             
             if (ecl != null)
             {
@@ -64,52 +62,73 @@ namespace mview
             {
                 ecl.ReadINIT();
 
-                Engine.grid = new Grid3D(ecl);
+                engine.grid = new Grid3D(ecl);
 
             }
         }
 
+        //  GUI Logic
+
+        int restartStep = -1;
+        string staticProperyName = null;
+        string dynamicPropertyName = null;
+        
+        public void OnRestartSelected(int step)
+        {
+            this.restartStep = step;
+            System.Diagnostics.Debug.WriteLine(step);
+        }
+
+        public void OnStaticPropertySelected(string name)
+        {
+            staticProperyName = name;
+        }
+
+        public void OnDynamicPropertySelected(string name)
+        {
+            dynamicPropertyName = name;
+        }
+
+
         public void OnLoad()
         {
-            Engine.OnLoad();
+            engine.OnLoad();
 
             if (ecl != null && ecl.INIT.FILENAME != null)
             {
                 ecl.INIT.ReadGrid("PORO", ref ecl.INIT.DATA);
                 SetMinMaxAndScaleFactor();
-                Engine.grid.GenerateVertexAndColors(ecl, ecl.INIT.GetValue);
-                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+                engine.grid.GenerateVertexAndColors(ecl, ecl.INIT.GetValue);
+                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
 
-                Engine.Camera.Scale = 0.004f;
-                Engine.IsLoaded = true;
+                engine.Camera.Scale = 0.004f;
+                engine.IsLoaded = true;
             }
         }
 
         public void OnResize(int width, int height)
         {
-            Engine.OnResize(width, height);
+            engine.OnResize(width, height);
         }
 
         public void OnUnload()
         {
-            Engine.OnUnload();
+            engine.OnUnload();
         }
 
         public void OnPaint()
         {
-            Engine.OnPaint();
+            engine.OnPaint();
         }
 
         public void MouseMove(MouseEventArgs e)
         {
-            Engine.OnMouseMove(e);
+            engine.OnMouseMove(e);
         }
 
         public void MouseWheel(MouseEventArgs e)
         {
-            Engine.OnMouseWheel(e);
-           // engine.grid.GenerateWellDrawList(style.ShowAllWelltrack);
-            //engine.grid.GenerateVectorFiled();
+            engine.OnMouseWheel(e);
         }
 
         public void MouseClick(MouseEventArgs e)
@@ -133,8 +152,8 @@ namespace mview
                 ecl.EGRID.COORD[6 * (( ecl.EGRID.NX + 1) * ( ecl.EGRID.NY + 1) - 1) + 0]
             };
 
-            Engine.grid.XMINCOORD = XCORD.Min();
-            Engine.grid.XMAXCOORD = XCORD.Max();
+            engine.grid.XMINCOORD = XCORD.Min();
+            engine.grid.XMAXCOORD = XCORD.Max();
 
             // Координата Y четырех углов сетки
 
@@ -146,15 +165,15 @@ namespace mview
                  ecl.EGRID.COORD[6 * (( ecl.EGRID.NX + 1) * ( ecl.EGRID.NY + 1) - 1) + 1]
             };
 
-            Engine.grid.YMINCOORD = YCORD.Min();
-            Engine.grid.YMAXCOORD = YCORD.Max();
+            engine.grid.YMINCOORD = YCORD.Min();
+            engine.grid.YMAXCOORD = YCORD.Max();
 
-            Engine.grid.ZMAXCOORD = ecl.INIT.GetArrayMax("DEPTH");
-            Engine.grid.ZMINCOORD = ecl.INIT.GetArrayMin("DEPTH");
+            engine.grid.ZMAXCOORD = ecl.INIT.GetArrayMax("DEPTH");
+            engine.grid.ZMINCOORD = ecl.INIT.GetArrayMin("DEPTH");
 
-            Engine.grid.XC = (Engine.grid.XMINCOORD + Engine.grid.XMAXCOORD) * 0.5f;
-            Engine.grid.YC = (Engine.grid.YMINCOORD + Engine.grid.YMAXCOORD) * 0.5f;
-            Engine.grid.ZC = (Engine.grid.ZMINCOORD + Engine.grid.ZMAXCOORD) * 0.5f;
+            engine.grid.XC = (engine.grid.XMINCOORD + engine.grid.XMAXCOORD) * 0.5f;
+            engine.grid.YC = (engine.grid.YMINCOORD + engine.grid.YMAXCOORD) * 0.5f;
+            engine.grid.ZC = (engine.grid.ZMINCOORD + engine.grid.ZMAXCOORD) * 0.5f;
 
         }
 
@@ -218,11 +237,11 @@ namespace mview
         {
             if (Z == -1)
             {
-                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
             }
             else
             {
-                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { KCfrom = new Pair<bool, int>(true, Z), KCto = new Pair<bool, int>(true, Z) });
+                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { KCfrom = new Pair<bool, int>(true, Z), KCto = new Pair<bool, int>(true, Z) });
             }
         }
 
@@ -230,12 +249,12 @@ namespace mview
         {
             if (Y == -1)
             {
-                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
 
             }
             else
             {
-                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { JCfrom = new Pair<bool, int>(true, Y), JCto = new Pair<bool, int>(true, Y) });
+                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { JCfrom = new Pair<bool, int>(true, Y), JCto = new Pair<bool, int>(true, Y) });
             }
         }
 
@@ -244,12 +263,12 @@ namespace mview
         {
             if (X == -1)
             {
-                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
 
             }
             else
             {
-                Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { ICfrom = new Pair<bool, int>(true, X), ICto = new Pair<bool, int>(true, X) });
+                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { ICfrom = new Pair<bool, int>(true, X), ICto = new Pair<bool, int>(true, X) });
             }
         }
 
@@ -276,11 +295,11 @@ namespace mview
                 }
             }
 
-            Engine.grid.WELLS = ecl.RESTART.WELLS; // Опасное создание указателя на существующий набор данных
-            Engine.grid.Scale = Engine.Camera.Scale;
-            Engine.grid.ScaleZ = Engine.Camera.Scale * 12;
+            engine.grid.WELLS = ecl.RESTART.WELLS; // Опасное создание указателя на существующий набор данных
+            engine.grid.Scale = engine.Camera.Scale;
+            engine.grid.ScaleZ = engine.Camera.Scale * 12;
 
-            Engine.grid.GenerateWellDrawList(true);
+            engine.grid.GenerateWellDrawList(true);
         }
 
         public void SetStaticProperty(string name)
@@ -317,23 +336,23 @@ namespace mview
 
         public void GenerateStaticGrid()
         {
-            Engine.grid.Scale = Engine.Camera.Scale;
-            Engine.grid.ScaleZ = Engine.Camera.Scale * 12;
+            engine.grid.Scale = engine.Camera.Scale;
+            engine.grid.ScaleZ = engine.Camera.Scale * 12;
             
-            Engine.grid.GenerateVertexAndColors(ecl, ecl.INIT.GetValue);
-            Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
-            Engine.grid.GenerateWellDrawList(true);
+            engine.grid.GenerateVertexAndColors(ecl, ecl.INIT.GetValue);
+            engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+            engine.grid.GenerateWellDrawList(true);
         }
 
 
         public void GenerateRestartGrid()
         {
-            Engine.grid.Scale = Engine.Camera.Scale;
-            Engine.grid.ScaleZ = Engine.Camera.Scale * 12;
+            engine.grid.Scale = engine.Camera.Scale;
+            engine.grid.ScaleZ = engine.Camera.Scale * 12;
 
-            Engine.grid.GenerateVertexAndColors(ecl, ecl.RESTART.GetValue);
-            Engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
-            Engine.grid.GenerateWellDrawList(true);
+            engine.grid.GenerateVertexAndColors(ecl, ecl.RESTART.GetValue);
+            engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+            engine.grid.GenerateWellDrawList(true);
         }
 
         public void SetDynamicProperty(string name)

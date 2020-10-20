@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Static ");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Dynamic");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Static ");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Dynamic");
             this.glControl = new OpenTK.GLControl();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -48,7 +48,7 @@
             this.bbSetFocusOn = new System.Windows.Forms.Button();
             this.lbCellValue = new System.Windows.Forms.Label();
             this.bbChartOptions = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.bbShowFilter = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabSliceControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -174,7 +174,7 @@
             this.boxRestart.Name = "boxRestart";
             this.boxRestart.Size = new System.Drawing.Size(150, 21);
             this.boxRestart.TabIndex = 45;
-            this.boxRestart.SelectedIndexChanged += new System.EventHandler(this.boxRestart_SelectedIndexChanged);
+            this.boxRestart.SelectedIndexChanged += new System.EventHandler(this.BoxRestartOnSelectedIndexChanged);
             // 
             // label2
             // 
@@ -200,16 +200,16 @@
             this.treeProperties.HideSelection = false;
             this.treeProperties.Location = new System.Drawing.Point(16, 185);
             this.treeProperties.Name = "treeProperties";
-            treeNode3.Name = "Узел0";
-            treeNode3.Text = "Static ";
-            treeNode4.Name = "Узел1";
-            treeNode4.Text = "Dynamic";
+            treeNode1.Name = "Узел0";
+            treeNode1.Text = "Static ";
+            treeNode2.Name = "Узел1";
+            treeNode2.Text = "Dynamic";
             this.treeProperties.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode1,
+            treeNode2});
             this.treeProperties.Size = new System.Drawing.Size(150, 372);
             this.treeProperties.TabIndex = 43;
-            this.treeProperties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeProperties_AfterSelect);
+            this.treeProperties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreePropertiesOnAfterSelect);
             // 
             // bbWellModel
             // 
@@ -250,16 +250,16 @@
             this.bbChartOptions.Text = "Options";
             this.bbChartOptions.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // bbShowFilter
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(720, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(118, 26);
-            this.button1.TabIndex = 55;
-            this.button1.Text = "Filter [ON]";
-            this.button1.UseVisualStyleBackColor = true;
+            this.bbShowFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bbShowFilter.Location = new System.Drawing.Point(720, 12);
+            this.bbShowFilter.Name = "bbShowFilter";
+            this.bbShowFilter.Size = new System.Drawing.Size(118, 26);
+            this.bbShowFilter.TabIndex = 55;
+            this.bbShowFilter.Text = "Filter [ON]";
+            this.bbShowFilter.UseVisualStyleBackColor = true;
+            this.bbShowFilter.Click += new System.EventHandler(this.bbShowFilterOnClick);
             // 
             // Form3D
             // 
@@ -270,7 +270,7 @@
             this.Controls.Add(this.bbSetFocusOn);
             this.Controls.Add(this.lbCellValue);
             this.Controls.Add(this.bbChartOptions);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.bbShowFilter);
             this.Controls.Add(this.boxRestart);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -314,6 +314,6 @@
         private System.Windows.Forms.Button bbSetFocusOn;
         private System.Windows.Forms.Label lbCellValue;
         private System.Windows.Forms.Button bbChartOptions;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button bbShowFilter;
     }
 }
