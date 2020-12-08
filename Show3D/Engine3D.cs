@@ -15,7 +15,23 @@ namespace mview
     {
         public Camera3D Camera = new Camera3D();
         public Grid3D grid = null;
+        Vector3 m_start_vector = new Vector3();
+        Vector3 m_end_vector = new Vector3();
+        Vector3 m_delta_vector = new Vector3();
 
+        //bool IsLeftDrag = false;
+
+        bool IsMidDrag = false;
+        bool IsRightDrag = false;
+        TextRender txt_render;
+        Font Serif = new Font("Segoe Pro Cond", 12, FontStyle.Regular);
+        Matrix4 projection;
+        Matrix4 modelview = new Matrix4();
+
+        float _width;
+        float _height;
+
+        public bool IsLoaded = false;
         public void OnLoad()
         {
             System.Diagnostics.Debug.WriteLine("Engine3D.cs / void OnLoad() ");
@@ -40,16 +56,6 @@ namespace mview
             grid.Unload();
             GL.DeleteLists(grid.welsID, 2);
         }
-
-        Vector3 m_start_vector = new Vector3();
-        Vector3 m_end_vector = new Vector3();
-        Vector3 m_delta_vector = new Vector3();
-
-#pragma warning disable CS0414 // The field 'Engine3D.IsLeftDrag' is assigned but its value is never used
-        bool IsLeftDrag = false;
-#pragma warning restore CS0414 // The field 'Engine3D.IsLeftDrag' is assigned but its value is never used
-        bool IsMidDrag = false;
-        bool IsRightDrag = false;
 
         public void OnMouseMove(MouseEventArgs e)
         {
@@ -121,10 +127,6 @@ namespace mview
             UpdateModelView();
         }
 
-        TextRender txt_render;
-        Font Serif = new Font("Segoe Pro Cond", 12, FontStyle.Regular);
-
-
         public void OnPaint()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -188,22 +190,6 @@ namespace mview
                     }
                 }
             }
-
-            /*
-             * txt_render.DrawString("Hello", Serif, Brushes.Black, new PointF(20, 20));
-            txt_render.DrawString("Hello", Serif, Brushes.Black, new PointF(0, 0));
-            txt_render.DrawString("Hello", Serif, Brushes.Black, new PointF(40, 40));
-
-            Vector2 pos_coord = ConvertWorldToScreen(new Vector3(0, 0, 0));
-            
-           
-            if (pos_coord.X > 0 && pos_coord.Y > 0)
-            {
-                txt_render.DrawString("(0, 0, 0)", Serif, Brushes.Black, new PointF(pos_coord.X, pos_coord.Y));
-            }
-
-            */
-
 
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 
@@ -312,7 +298,6 @@ namespace mview
 
             GL.End();
         }
-
         public void Render()
         {
 
@@ -338,14 +323,11 @@ namespace mview
             GL.DrawElements(PrimitiveType.Quads, grid.QuadCount, DrawElementsType.UnsignedInt, 0);
 
             
-           // GL.Disable(EnableCap.DepthTest);
+          //  GL.Disable(EnableCap.DepthTest);
             DrawWells();
            // GL.Enable(EnableCap.DepthTest);
             
         }
-
-
-        public bool IsLoaded = false;
 
         /*
         public void SetGridModel(Grid3D grid)
@@ -420,11 +402,6 @@ namespace mview
         }
         */
 
-        Matrix4 projection;
-
-        float _width;
-        float _height;
-
         public void OnResize(int width, int height)
         {
             float aspect = (float)width / (float)height;
@@ -443,13 +420,11 @@ namespace mview
             if (txt_render != null) txt_render.Dispose();
             txt_render = new TextRender((int)_width, (int)_height);
         }
-
-        Matrix4 modelview = new Matrix4();
-
         void UpdateModelView()
         {
             modelview = Matrix4.LookAt(Camera.Position, Camera.Target, Camera.UpDirection);
             GL.LoadMatrix(ref modelview);
         }
+    
     }
 }

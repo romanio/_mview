@@ -179,6 +179,7 @@ namespace mview
 
         public void UpdateLumpingMethod(string name)
         {
+            /*
             float[] data = null;
 
             INIT.ReadGrid(name, ref data);
@@ -193,6 +194,7 @@ namespace mview
 
                     RESTART.WELLS[IW].COMPLS[IC].LUMPNUM = (int)data[index];
                 }
+            */
         }
 
         public void ReadINIT()

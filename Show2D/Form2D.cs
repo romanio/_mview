@@ -37,7 +37,7 @@ namespace mview
 
         private void OnSubWellModelUpdateLumpingMethod(object sender, EventArgs e)
         {
-            model.UpdateLumpingMethod(((ComboBox)sender).SelectedItem.ToString());
+            //model.UpdateLumpingMethod(((ComboBox)sender).SelectedItem.ToString());
         }
 
         private void OnSubWellModelUpdate(object sender, EventArgs e)

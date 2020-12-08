@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -37,28 +38,30 @@ namespace mview
         public Pair<bool, float> max = new Pair<bool, float>();
     }
 
+    public class GraphicFilterData
+    {
+        public bool UseIndexFilter;
 
-    public class ModelForm3D
+        public int IndexX = -1;
+        public int IndexY = -1;
+        public int IndexZ = -1;
+    }
+
+    public class Form3DModel
     {
         private readonly EclipseProject ecl = null;
         private Engine3D engine = null;
-
-        public List<string> Wellnames { get; set; }
-        public List<string> RestartDates { get; set; }
-        public List<string> StaticProperties { get; set; }
-        public List<string> DynamicProperties { get; set; }
-
-        public ModelForm3D(EclipseProject ecl)
+        public Form3DModel(EclipseProject ecl)
         {
             this.ecl = ecl;
             engine = new Engine3D();
-            
+
             if (ecl != null)
             {
                 ecl.ReadEGRID();
             }
 
-            if (ecl!= null && ecl.EGRID.FILEHEAD != null)
+            if (ecl != null && ecl.EGRID.FILEHEAD != null)
             {
                 ecl.ReadINIT();
 
@@ -69,26 +72,40 @@ namespace mview
 
         //  GUI Logic
 
-        int restartStep = -1;
-        string staticProperyName = null;
-        string dynamicPropertyName = null;
-        
+        private string uiStaticProperyName = null;
+        private string uiDynamicPropertyName = "PORO";
+
         public void OnRestartSelected(int step)
         {
-            this.restartStep = step;
-            System.Diagnostics.Debug.WriteLine(step);
+            ecl.ReadRestart(step);
+            GenerateWellCoord();
         }
 
         public void OnStaticPropertySelected(string name)
         {
-            staticProperyName = name;
+            uiStaticProperyName = name;
+            uiDynamicPropertyName = null;
+
+            SetStaticProperty(name);
+            GenerateStaticGrid();
         }
 
         public void OnDynamicPropertySelected(string name)
         {
-            dynamicPropertyName = name;
+            uiDynamicPropertyName = name;
+            uiStaticProperyName = null;
+
+            SetDynamicProperty(name);
+            GenerateDynamicGrid();
         }
 
+        public void OnSetGraphicFilter(GraphicFilterData filter)
+        {
+            engine.grid.GenerateGraphics(ecl, filter);
+        }
+    
+
+        // End GUI Logic
 
         public void OnLoad()
         {
@@ -96,10 +113,10 @@ namespace mview
 
             if (ecl != null && ecl.INIT.FILENAME != null)
             {
-                ecl.INIT.ReadGrid("PORO", ref ecl.INIT.DATA);
+                ecl.INIT.ReadGrid("PORO");
                 SetMinMaxAndScaleFactor();
                 engine.grid.GenerateVertexAndColors(ecl, ecl.INIT.GetValue);
-                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+                engine.grid.GenerateGraphics(ecl, new GraphicFilterData { UseIndexFilter = false});
 
                 engine.Camera.Scale = 0.004f;
                 engine.IsLoaded = true;
@@ -121,12 +138,12 @@ namespace mview
             engine.OnPaint();
         }
 
-        public void MouseMove(MouseEventArgs e)
+        public void OnMouseMove(MouseEventArgs e)
         {
             engine.OnMouseMove(e);
         }
 
-        public void MouseWheel(MouseEventArgs e)
+        public void OnMouseWheel(MouseEventArgs e)
         {
             engine.OnMouseWheel(e);
         }
@@ -200,13 +217,13 @@ namespace mview
 
             return DynamicProperties.Distinct().ToList();
         }
-        public List<string> GetDinamicProperties(int istep) // Вектора могут быть разными на разных рестар файлах
+        public List<string> GetDinamicProperties(int step) // Вектора могут быть разными на разных рестар файлах
         {
             var DynamicProperties = new List<string>();
 
-            for (int it = 0; it < ecl.RESTART.NAME[istep].Length; ++it)
-                if (ecl.RESTART.NUMBER[istep][it] == ecl.INIT.NACTIV)
-                    DynamicProperties.Add(ecl.RESTART.NAME[istep][it]);
+            for (int it = 0; it < ecl.RESTART.NAME[step].Length; ++it)
+                if (ecl.RESTART.NUMBER[step][it] == ecl.INIT.NACTIV)
+                    DynamicProperties.Add(ecl.RESTART.NAME[step][it]);
 
             return DynamicProperties;
         }
@@ -232,52 +249,6 @@ namespace mview
                 (from item in ecl.RESTART.DATE
                  select item.ToString()).ToArray();
         }
-
-        public void SetZA(int Z)
-        {
-            if (Z == -1)
-            {
-                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
-            }
-            else
-            {
-                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { KCfrom = new Pair<bool, int>(true, Z), KCto = new Pair<bool, int>(true, Z) });
-            }
-        }
-
-        public void SetYA(int Y)
-        {
-            if (Y == -1)
-            {
-                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
-
-            }
-            else
-            {
-                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { JCfrom = new Pair<bool, int>(true, Y), JCto = new Pair<bool, int>(true, Y) });
-            }
-        }
-
-
-        public void SetXA(int X)
-        {
-            if (X == -1)
-            {
-                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
-
-            }
-            else
-            {
-                engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, new VisualFilter { ICfrom = new Pair<bool, int>(true, X), ICto = new Pair<bool, int>(true, X) });
-            }
-        }
-
-        public void ReadRestart(int step)
-        {
-            ecl.ReadRestart(step);
-            GenerateWellCoord();
-        }
-
         void GenerateWellCoord()
         {
             // Вспомогательный массив WCOORD содержит в себе
@@ -304,7 +275,7 @@ namespace mview
 
         public void SetStaticProperty(string name)
         {
-            ecl.INIT.ReadGrid(name, ref ecl.INIT.DATA);
+            ecl.INIT.ReadGrid(name);
 
             GridUnit = ecl.INIT.GridUnit;
             PropertyMinValue = ecl.INIT.GetArrayMin(name);
@@ -340,18 +311,18 @@ namespace mview
             engine.grid.ScaleZ = engine.Camera.Scale * 12;
             
             engine.grid.GenerateVertexAndColors(ecl, ecl.INIT.GetValue);
-            engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+            OnSetGraphicFilter(new GraphicFilterData { UseIndexFilter = false });
             engine.grid.GenerateWellDrawList(true);
         }
 
 
-        public void GenerateRestartGrid()
+        public void GenerateDynamicGrid()
         {
             engine.grid.Scale = engine.Camera.Scale;
             engine.grid.ScaleZ = engine.Camera.Scale * 12;
 
             engine.grid.GenerateVertexAndColors(ecl, ecl.RESTART.GetValue);
-            engine.grid.GenerateGraphics(ecl, ecl.INIT.GetValue, null);
+            OnSetGraphicFilter(new GraphicFilterData { UseIndexFilter = false });
             engine.grid.GenerateWellDrawList(true);
         }
 

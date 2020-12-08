@@ -184,13 +184,11 @@ namespace mview
                                 color_mem[index + 1] = color.G;
                                 color_mem[index + 2] = color.B;
 
-
                                 index = index + 3;
 
                                 vertex_mem[index + 0] = cell.BSE.X;
                                 vertex_mem[index + 1] = cell.BSE.Y;
                                 vertex_mem[index + 2] = cell.BSE.Z;
-
 
                                 color_mem[index  + 0] = color.R;
                                 color_mem[index  + 1] = color.G;
@@ -206,7 +204,6 @@ namespace mview
                                 color_mem[index + 1] = color.G;
                                 color_mem[index + 2] = color.B;
 
-                                
                             }
                         }
                     }
@@ -218,11 +215,15 @@ namespace mview
 
         //
 
-        public void GenerateGraphics(EclipseProject ecl, Func<long, float> GetValue, VisualFilter filter)
+        // Формирует два буфера активных ячеек EBO с учетом примененного фильтра
+        // Цвета и координаты вершин назначаются void GenerateVertexAndColors
+        public void GenerateGraphics(EclipseProject ecl, GraphicFilterData filter)
         {
+            // 
             System.Diagnostics.Debug.WriteLine("Grid3D.cs / void GenerateGraphics");
 
             int ActiveCellCount = ecl.INIT.NACTIV;
+
             int index = 0;
             int count = 0;
             int qcount = 0;
@@ -241,46 +242,28 @@ namespace mview
             List<int> YSet = new List<int>();
             List<int> ZSet = new List<int>();
 
-            if (filter != null)
+            for (int X = 0; X < ecl.INIT.NX; ++X)
             {
-                int X_start = (filter.ICfrom.First) ? filter.ICfrom.Second : 0;
-                int X_end = (filter.ICto.First) ? filter.ICto.Second : ecl.INIT.NX - 1;
-
-                int Y_start = (filter.JCfrom.First) ? filter.JCfrom.Second  : 0;
-                int Y_end = (filter.JCto.First) ? filter.JCto.Second: ecl.INIT.NY - 1;
-
-                int Z_start = (filter.KCfrom.First) ? filter.KCfrom.Second: 0;
-                int Z_end = (filter.KCto.First) ? filter.KCto.Second: ecl.INIT.NZ - 1;
-
-                for (int X = X_start; X <= X_end; ++X)
-                    XSet.Add(X);
-
-                for (int Y = Y_start; Y <= Y_end; ++Y)
-                    YSet.Add(Y);
-
-                for (int Z = Z_start; Z <= Z_end; ++Z)
-                    ZSet.Add(Z);
-
+                XSet.Add(X);
             }
-            else // Если не используется фильтр, обычное индексирование
+
+            for (int Y = 0; Y < ecl.INIT.NY; ++Y)
             {
-                for (int X = 0; X < ecl.INIT.NX; ++X)
-                {
-                    XSet.Add(X);
-                }
-
-                for (int Y = 0; Y < ecl.INIT.NY; ++Y)
-                {
-                    YSet.Add(Y);
-                }
-
-                for (int Z = 0; Z < ecl.INIT.NZ; ++Z)
-                {
-                    ZSet.Add(Z);
-                }
+                YSet.Add(Y);
             }
-            
 
+            for (int Z = 0; Z < ecl.INIT.NZ; ++Z)
+            {
+                ZSet.Add(Z);
+            }
+
+            if (filter.UseIndexFilter)
+            {
+                if (filter.IndexX != -1) { XSet = new List<int>() { filter.IndexX }; };
+                if (filter.IndexY != -1) { YSet = new List<int>() { filter.IndexY }; };
+                if (filter.IndexZ != -1) { ZSet = new List<int>() { filter.IndexZ }; };
+            }
+                
 
             int[] Indices = new int[ActiveCellCount * 3 * 16];
             int[] Quades = new int[ActiveCellCount * 4 * 8];
@@ -617,7 +600,7 @@ namespace mview
                         Y = 0.5f * (compl.Cell.TNW.Y + compl.Cell.BSE.Y);
                         Z = 0.5f * (compl.Cell.TNW.Z + compl.Cell.BSE.Z);
 
-                        GL.Vertex3(X, Y, ZMINCOORD - 0.2 * (ZMAXCOORD - ZMINCOORD));
+                        GL.Vertex3(X, Y, ZMINCOORD - 1.2 * (ZMAXCOORD - ZMINCOORD));
                         GL.Vertex3(X, Y, Z);
 
                         last_XC = X;
@@ -626,7 +609,7 @@ namespace mview
 
                         well.XC = X;
                         well.YC = Y;
-                        well.ZC = (float)(ZMINCOORD - 0.2 * (ZMAXCOORD - ZMINCOORD));
+                        well.ZC = (float)(ZMINCOORD - 1.2 * (ZMAXCOORD - ZMINCOORD));
 
                         ACTIVE_WELLS.Add(well); // Сохранить в списке активных скважин
 

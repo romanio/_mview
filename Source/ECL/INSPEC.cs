@@ -19,6 +19,15 @@ namespace mview.ECL
 
         public string FILENAME = null;
 
+        public int NX, NY, NZ; // Размер по X, Y, Z
+        public int NACTIV; // Количество активных ячеек
+        public int IPHS; // Индикатор фазы
+
+        public float[] PORV = null;
+        public int[] ACTNUM = null;
+        public float[] DATA = null;
+        public string GridUnit = null;
+
         public INSPEC(string filename)
         {
             FileReader br = new FileReader();
@@ -83,13 +92,6 @@ namespace mview.ECL
                 br.CloseBinaryFile();
             }
         }
-
-        public int NX, NY, NZ; // Размер по X, Y, Z
-        public int NACTIV; // Количество активных ячеек
-        public int IPHS; // Индикатор фазы
-
-        public float[] PORV = null;
-        public int[] ACTNUM = null;
 
         public void ReadInit(string filename)
         {
@@ -173,10 +175,6 @@ namespace mview.ECL
         {
             return ACTNUM[X + NX * Y + Z * NX * NY];
         }
-
-        public float[] DATA = null;
-        public string GridUnit = null;
-
         public string GetUnit(string property)
         {
             string unit = null;
@@ -200,7 +198,7 @@ namespace mview.ECL
             return unit;
         }
 
-        public void ReadGrid(string property, ref float[] data)
+        public void ReadGrid(string property)
         {
             FileReader br = new FileReader();
 
@@ -235,11 +233,11 @@ namespace mview.ECL
 
             if (br.header.type == "INTE")
             {
-                data = br.ReadIntListAsFloat();
+                DATA = br.ReadIntListAsFloat();
             }
             else
             {
-                data = br.ReadFloatList(br.header.count);
+                DATA = br.ReadFloatList(br.header.count);
             }
             //
             br.CloseBinaryFile();

@@ -338,7 +338,7 @@ namespace mview
         {
             System.Diagnostics.Debug.WriteLine("Form2DModel [SetStaticProperty = " + name + " ]");
 
-            ecl.INIT.ReadGrid(name, ref ecl.INIT.DATA);
+            ecl.INIT.ReadGrid(name);
 
             GridUnit = ecl.INIT.GridUnit;
             PropertyMinValue = ecl.INIT.GetArrayMin(name);
